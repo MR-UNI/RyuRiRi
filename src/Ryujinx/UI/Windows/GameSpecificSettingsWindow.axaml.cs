@@ -29,6 +29,8 @@ namespace Ryujinx.Ava.UI.Windows
             ViewModel.CloseWindow += Close;
             ViewModel.SaveSettingsEvent += SaveSettings;
 
+            ViewModel.LocalGlobalInputSwitchEvent += ToggleLocalGlobalInput;
+
             InitializeComponent();
             Load();
         }
@@ -38,10 +40,14 @@ namespace Ryujinx.Ava.UI.Windows
             InputPage.InputView?.SaveCurrentProfile();
         }
 
+        public void ToggleLocalGlobalInput(bool enableConfigGlobal)
+        {
+            InputPage.InputView?.ToggleLocalGlobalInput(enableConfigGlobal);
+        }
 
         private void Load()
         {
-            Pages.Children.Clear();
+            Pages.Children.Clear();  
             NavPanel.SelectionChanged += NavPanelOnSelectionChanged;
             NavPanel.SelectedItem = NavPanel.MenuItems.ElementAt(0);
         }
@@ -92,6 +98,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {
+            Program.SetUseExtraConfig(false);
             InputPage.Dispose(); // You need to unload the gamepad settings, otherwise the controls will be blocked
             base.OnClosing(e);
         }

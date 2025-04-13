@@ -15,12 +15,13 @@ namespace Ryujinx.Ava.Systems.Configuration
     {
         public static void Initialize()
         {
-            if (Instance != null)
+            if (Instance != null || InstanceExtra!= null)
             {
                 throw new InvalidOperationException("Configuration is already initialized");
             }
 
             Instance = new ConfigurationState();
+            InstanceExtra= new ConfigurationState();
         }
 
         public ConfigurationFileFormat ToFileFormat()
@@ -54,6 +55,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                 SystemTimeZone = System.TimeZone,
                 SystemTimeOffset = System.SystemTimeOffset,
                 MatchSystemTime = System.MatchSystemTime,
+                UseInputGlobalConfig = System.UseInputGlobalConfig,
                 DockedMode = System.EnableDockedMode,
                 EnableDiscordIntegration = EnableDiscordIntegration,
                 UpdateCheckerType = UpdateCheckerType,
@@ -178,6 +180,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             System.Region.Value = Region.USA;
             System.TimeZone.Value = "UTC";
             System.SystemTimeOffset.Value = 0;
+            System.UseInputGlobalConfig.Value = false;
             System.EnableDockedMode.Value = true;
             EnableDiscordIntegration.Value = true;
             UpdateCheckerType.Value = UpdaterType.PromptAtStartup;

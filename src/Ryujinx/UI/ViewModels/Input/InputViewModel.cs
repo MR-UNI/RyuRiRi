@@ -84,6 +84,10 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public AvaloniaList<string> ProfilesList { get; set; }
         public AvaloniaList<string> DeviceList { get; set; }
 
+        public bool _useExtraConfig;
+
+        public bool _useGlobalInput;
+
         // XAML Flags
         public bool ShowSettings => _device > 0;
         public bool IsController => _device > 1;
@@ -290,11 +294,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public InputConfig Config { get; set; }
 
-        public InputViewModel(UserControl owner) : this()
+        public InputViewModel(UserControl owner, bool UseGlobalInput = false) : this()
         {
             if (Program.PreviewerDetached)
             {
                 _mainWindow = RyujinxApp.MainWindow;
+
+                _useExtraConfig = Program.UseExtraConfig;
 
                 AvaloniaKeyboardDriver = new AvaloniaKeyboardDriver(owner);
 
@@ -302,6 +308,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 _mainWindow.InputManager.GamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
 
                 _mainWindow.ViewModel.AppHost?.NpadManager.BlockInputUpdates();
+
+                _useGlobalInput = UseGlobalInput;
 
                 _isLoaded = false;
 
@@ -335,9 +343,18 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             PlayerIndexes.Add(new(PlayerIndex.Handheld, LocaleManager.Instance[LocaleKeys.ControllerSettingsHandheld]));
         }
 
+
+
         private void LoadConfiguration(InputConfig inputConfig = null)
         {
-            Config = inputConfig ?? ConfigurationState.Instance.Hid.InputConfig.Value.FirstOrDefault(inputConfig => inputConfig.PlayerIndex == _playerId);
+            if (_useGlobalInput && _useExtraConfig)
+            {
+                Config = inputConfig ?? ConfigurationState.InstanceExtra.Hid.InputConfig.Value.FirstOrDefault(inputConfig => inputConfig.PlayerIndex == _playerId);            
+            }
+            else
+            {
+                Config = inputConfig ?? ConfigurationState.Instance.Hid.InputConfig.Value.FirstOrDefault(inputConfig => inputConfig.PlayerIndex == _playerId);
+            }
 
             if (Config is StandardKeyboardInputConfig keyboardInputConfig)
             {
@@ -969,7 +986,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             List <InputConfig> newConfig = [];
 
-            newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
+            if (_useGlobalInput && _useExtraConfig)
+            {
+                newConfig.AddRange(ConfigurationState.InstanceExtra.Hid.InputConfig.Value);
+            }
+            else
+            {
+                newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
+            }
 
             newConfig.Remove(newConfig.FirstOrDefault(x => x == null));
 
@@ -1010,13 +1034,22 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 }
             }
 
-            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
-
             // Atomically replace and signal input change.
             // NOTE: Do not modify InputConfig.Value directly as other code depends on the on-change event.
-            ConfigurationState.Instance.Hid.InputConfig.Value = newConfig;
+            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
 
-            ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            if (_useGlobalInput && _useExtraConfig)
+            {
+                // In User Settings when "Use Global Input" is enabled, it saves global input to global setting
+                ConfigurationState.InstanceExtra.Hid.InputConfig.Value = newConfig;
+                ConfigurationState.InstanceExtra.ToFileFormat().SaveConfig(Program.GlobalConfigurationPath);
+            }
+            else
+            {
+                ConfigurationState.Instance.Hid.InputConfig.Value = newConfig;
+                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            }
+
         }
 
         public void NotifyChange(string property)

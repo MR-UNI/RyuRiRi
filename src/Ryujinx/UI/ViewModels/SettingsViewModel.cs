@@ -53,6 +53,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private bool _isVulkanAvailable = true;
         [ObservableProperty] private bool _gameListNeedsRefresh;
         private readonly List<string> _gpuIds = [];
+        public bool _useInputGlobalConfig;
         private int _graphicsBackendIndex;
         private int _scalingFilter;
         private int _scalingFilterLevel;
@@ -64,6 +65,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public event Action CloseWindow;
         public event Action SaveSettingsEvent;
+        public event Action<bool> LocalGlobalInputSwitchEvent;
         private int _networkInterfaceIndex;
         private int _multiplayerModeIndex;
         private string _ldnPassphrase;
@@ -83,6 +85,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public string GameId => _gameId;
         public bool IsGameTitleNotNull => !string.IsNullOrEmpty(GameTitle);
         public double PanelOpacity => IsGameTitleNotNull ? 0.5 : 1;
+
 
         public int ResolutionScale
         {
@@ -141,13 +144,26 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableDockedMode { get; set; }
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
-        public bool DisableInputWhenOutOfFocus { get; set; }
-        
+        public bool DisableInputWhenOutOfFocus { get; set; }        
         public int FocusLostActionType { get; set; }
-        
+
+        public bool EnableConfigGlobal
+        { 
+            get => _useInputGlobalConfig;
+            set
+            {
+                _useInputGlobalConfig = value;
+                LocalGlobalInputSwitchEvent?.Invoke(_useInputGlobalConfig);
+                OnPropertyChanged(nameof(PanelOpacityInput));
+                OnPropertyChanged();
+            }
+        }
+
+        public double PanelOpacityInput => EnableConfigGlobal ? 0.5 : 1;
+
         public VSyncMode VSyncMode
         {
-            get => _vSyncMode;
+            get => _vSyncMode;  
             set
             {
                 if (value is VSyncMode.Custom or VSyncMode.Switch or VSyncMode.Unbounded)
@@ -411,7 +427,16 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             if (enableToLoadCustomConfig) // During the game. If there is no user config, then load the global config window
             {
-                string gameDir = Program.GetDirGameUserConfig(gameId, false, true);
+                string gameDir = Program.GetDirGameUserConfig(gameId, true, true);
+
+                Program.SetUseExtraConfig(true);
+
+                if (ConfigurationFileFormat.TryLoad(Program.GlobalConfigurationPath, out ConfigurationFileFormat configurationFileFormatExtra))
+                {
+                    // Extra load global configuration for input setting and save global input setting with other global config
+                    ConfigurationState.InstanceExtra.Load(configurationFileFormatExtra, Program.GlobalConfigurationPath);
+                }
+
                 if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
                 {
                     ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);                 
@@ -551,9 +576,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public void LoadCurrentConfiguration()
+        public void LoadCurrentConfiguration(bool global = false)
         {
-            ConfigurationState config = ConfigurationState.Instance;
+            ConfigurationState config = global ? ConfigurationState.InstanceExtra: ConfigurationState.Instance;
 
             // User Interface
             EnableDiscordIntegration = config.EnableDiscordIntegration;
@@ -579,6 +604,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             };
 
             // Input
+            EnableConfigGlobal = config.System.UseInputGlobalConfig;
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
@@ -661,9 +687,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             LdnServer = config.Multiplayer.LdnServer;
         }
 
-        public void SaveSettings()
+        public void SaveSettings(bool global = false)
         {
-            ConfigurationState config = ConfigurationState.Instance;
+            ConfigurationState config = global ? ConfigurationState.InstanceExtra: ConfigurationState.Instance;
 
             // User Interface
             config.EnableDiscordIntegration.Value = EnableDiscordIntegration;
@@ -685,6 +711,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             };
 
             // Input
+            config.System.UseInputGlobalConfig.Value = EnableConfigGlobal;
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
@@ -797,11 +824,14 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private static void RevertIfNotSaved()
         {
-            // maybe this is an unnecessary check(all options need to be tested)
+            /*
+            maybe this is an unnecessary check(all options need to be tested)
             if (string.IsNullOrEmpty(Program.GlobalConfigurationPath))
             {
                 Program.ReloadConfig();
             }
+            */
+            Program.ReloadConfig();
         }
 
         public void ApplyButton()
