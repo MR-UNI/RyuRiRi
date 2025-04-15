@@ -20,6 +20,18 @@ SOURCE_REVISION_ID=$6
 CONFIGURATION=$7
 CANARY=$8
 
+if [[ "$(uname)" == "Darwin" ]]; then
+    echo "Clearing xattr on all dot undercsore files"
+    find "$BASE_DIR" -type f -name "._*" -exec sh -c '
+    for f; do
+        dir=$(dirname "$f")
+        base=$(basename "$f")
+        orig="$dir/${base#._}"
+        [ -f "$orig" ] && xattr -c "$orig" || true
+    done
+    ' sh {} +
+fi
+
 if [ "$CANARY" == "1" ]; then
   RELEASE_TAR_FILE_NAME=nogui-ryujinx-canary-$VERSION-macos_universal.tar
 elif [ "$VERSION" == "1.1.0" ]; then
