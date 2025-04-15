@@ -56,7 +56,27 @@
                                 SelectedIndex="{Binding PreferredGpuIndex}"
                                 ItemsSource="{Binding AvailableGpus}"/>
                     </StackPanel>
-                </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       ToolTip.Tip="{ext:Locale GraphicsBackendThreadingTooltip}"
+                                       Text="{ext:Locale SettingsTabGraphicsBackendMultithreading}"
+                                       Width="250" />
+                            <ComboBox Width="350"
+                                      HorizontalContentAlignment="Left"
+                                      ToolTip.Tip="{ext:Locale GalThreadingTooltip}"
+                                      SelectedIndex="{Binding GraphicsBackendMultithreadingIndex}">
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale CommonAuto}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale CommonOff}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale CommonOn}" />
+                                </ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
                 <Separator Height="1" />
                 <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGraphicsFeatures}" />
                 <StackPanel Margin="10,0,0,0" Orientation="Vertical" Spacing="10">
@@ -255,32 +275,7 @@
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Stretch"
-                    Orientation="Vertical"
-                    Spacing="10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center"
-                                   ToolTip.Tip="{ext:Locale GraphicsBackendThreadingTooltip}"
-                                   Text="{ext:Locale SettingsTabGraphicsBackendMultithreading}"
-                                   Width="250" />
-                        <ComboBox Width="350"
-                                  HorizontalContentAlignment="Left"
-                                  ToolTip.Tip="{ext:Locale GalThreadingTooltip}"
-                                  SelectedIndex="{Binding GraphicsBackendMultithreadingIndex}">
-                            <ComboBoxItem>
-                                <TextBlock Text="{ext:Locale CommonAuto}" />
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <TextBlock Text="{ext:Locale CommonOff}" />
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <TextBlock Text="{ext:Locale CommonOn}" />
-                            </ComboBoxItem>
-                        </ComboBox>
-                    </StackPanel>
-                </StackPanel>
+ 
                 <Separator Height="1" />
                 <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGraphicsDeveloperOptions}" />
                 <StackPanel
