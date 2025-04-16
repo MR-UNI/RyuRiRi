@@ -165,7 +165,11 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     Timestamp = ticks,
                 };
 
-                if (counter?.Invalid != true)
+                if (result <= 0)
+                {
+                    return;
+                }
+                else if (counter?.Invalid != true)
                 {
                     _channel.MemoryManager.Write(gpuVa, counterData);
                 }
