@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 69;
+        public const int CurrentVersion = 70;
 
         /// <summary>
         /// Version of the configuration file format
@@ -468,7 +468,12 @@ namespace Ryujinx.Ava.Systems.Configuration
         ///     The packed values of the enabled dirty hacks.
         /// </summary>
         public ulong[] DirtyHacks { get; set; }
-        
+
+        /// <summary>
+        /// Fixes Occlusion Culling in Games (test feature)
+        /// </summary>
+        public bool FixOcclusionCulling { get; set; }
+
         /// <summary>
         /// Loads a configuration file from disk
         /// </summary>

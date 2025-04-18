@@ -155,6 +155,8 @@ namespace Ryujinx.Ava.Systems.Configuration
             Multiplayer.DisableP2p.Value = cff.MultiplayerDisableP2p;
             Multiplayer.LdnPassphrase.Value = cff.MultiplayerLdnPassphrase;
             Multiplayer.LdnServer.Value = cff.LdnServer;
+
+            Tweaks.FixOcclusionCulling.Value = cff.FixOcclusionCulling;
             
             {
                 Hacks.ShowDirtyHacks.Value = cff.ShowDirtyHacks;
@@ -461,7 +463,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                         TurboModeWhileHeld = false
                     };
                 }),
-                (69, static cff => cff.SkipUserProfiles = false)
+                (69, static cff => cff.SkipUserProfiles = false),
+                (70, static cff => cff.FixOcclusionCulling = false)
             );
     }
 }

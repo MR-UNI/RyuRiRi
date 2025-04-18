@@ -165,11 +165,12 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     Timestamp = ticks,
                 };
 
-                if (result <= 0)
+                if (GraphicsConfig.FixOcclusionCulling && result <= 0)
                 {
                     return;
                 }
-                else if (counter?.Invalid != true)
+
+                if (counter?.Invalid != true)
                 {
                     _channel.MemoryManager.Write(gpuVa, counterData);
                 }

@@ -70,6 +70,9 @@ namespace Ryujinx.Ava.UI.Windows
                     case nameof(GraphicsPage):
                         NavPanel.Content = GraphicsPage;
                         break;
+                    case nameof(TweaksPage):
+                        NavPanel.Content = TweaksPage;
+                        break;
                     case nameof(AudioPage):
                         NavPanel.Content = AudioPage;
                         break;

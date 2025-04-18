@@ -644,6 +644,21 @@ namespace Ryujinx.Ava.Systems.Configuration
         }
 
         /// <summary>
+        /// Tweaks Section
+        /// </summary>
+        public class TweaksSection
+        {
+            /// <summary>
+            /// Enable or disable Fix Occlusion Culling
+            /// </summary>
+            public ReactiveObject<bool> FixOcclusionCulling { get; private set; }
+            public TweaksSection()
+            {
+                FixOcclusionCulling = new ReactiveObject<bool>();
+            }
+        }
+
+        /// <summary>
         /// Multiplayer configuration section
         /// </summary>
         public class MultiplayerSection
@@ -782,6 +797,11 @@ namespace Ryujinx.Ava.Systems.Configuration
         public GraphicsSection Graphics { get; private set; }
 
         /// <summary>
+        /// The Tweaks Section
+        /// </summary>
+        public TweaksSection Tweaks { get; private set; }
+
+        /// <summary>
         /// The Hid section
         /// </summary>
         public HidSection Hid { get; private set; }
@@ -842,6 +862,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             Logger = new LoggerSection();
             System = new SystemSection();
             Graphics = new GraphicsSection();
+            Tweaks = new TweaksSection();
             Hid = new HidSection();
             Multiplayer = new MultiplayerSection();
             Hacks = new HacksSection();
