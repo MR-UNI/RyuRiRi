@@ -76,7 +76,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <summary>
         /// Enables or disables fix occlusion culling.
         /// </summary>
-        public static bool DisableFixOcclusionCulling = true;
+        public static bool DisableFixOcclusionCulling = false;
     }
 #pragma warning restore CA2211
 }

@@ -321,7 +321,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                     },
                 }
             ];
-            Tweaks.DisableFixOcclusionCulling.Value = true;
+            Tweaks.DisableFixOcclusionCulling.Value = false;
         }
 
         private static GraphicsBackend DefaultGraphicsBackend()
