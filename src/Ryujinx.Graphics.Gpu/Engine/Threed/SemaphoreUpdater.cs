@@ -165,7 +165,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     Timestamp = ticks,
                 };
 
-                if (GraphicsConfig.FixOcclusionCulling && result <= 0)
+                if (!GraphicsConfig.DisableFixOcclusionCulling && result <= 0)
                 {
                     return;
                 }

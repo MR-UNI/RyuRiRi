@@ -569,7 +569,7 @@ namespace Ryujinx.Ava.UI.Windows
             GraphicsConfig.EnableShaderCache          = ConfigurationState.Instance.Graphics.EnableShaderCache;
             GraphicsConfig.EnableTextureRecompression = ConfigurationState.Instance.Graphics.EnableTextureRecompression;
             GraphicsConfig.EnableMacroHLE             = ConfigurationState.Instance.Graphics.EnableMacroHLE;
-            GraphicsConfig.FixOcclusionCulling        = ConfigurationState.Instance.Tweaks.FixOcclusionCulling;
+            GraphicsConfig.DisableFixOcclusionCulling        = ConfigurationState.Instance.Tweaks.DisableFixOcclusionCulling;
 #pragma warning restore IDE0055
         }
 

@@ -147,7 +147,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                 LdnServer = Multiplayer.LdnServer,
                 ShowDirtyHacks = Hacks.ShowDirtyHacks,
                 DirtyHacks = Hacks.EnabledHacks.Select(it => it.Pack()).ToArray(),
-                FixOcclusionCulling = Tweaks.FixOcclusionCulling,
+                DisableFixOcclusionCulling = Tweaks.DisableFixOcclusionCulling,
             };
 
             return configurationFile;
@@ -321,7 +321,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                     },
                 }
             ];
-            Tweaks.FixOcclusionCulling.Value = true;
+            Tweaks.DisableFixOcclusionCulling.Value = true;
         }
 
         private static GraphicsBackend DefaultGraphicsBackend()

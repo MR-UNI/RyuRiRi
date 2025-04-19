@@ -88,9 +88,6 @@ namespace Ryujinx.Ava.UI.Windows
                     case "GraphicsPage":
                         NavPanel.Content = GraphicsPage;
                         break;
-                    case "TweaksPage":
-                        NavPanel.Content = TweaksPage;
-                        break;
                     case "AudioPage":
                         NavPanel.Content = AudioPage;
                         break;

@@ -651,10 +651,10 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// <summary>
             /// Enable or disable Fix Occlusion Culling
             /// </summary>
-            public ReactiveObject<bool> FixOcclusionCulling { get; private set; }
+            public ReactiveObject<bool> DisableFixOcclusionCulling { get; private set; }
             public TweaksSection()
             {
-                FixOcclusionCulling = new ReactiveObject<bool>();
+                DisableFixOcclusionCulling = new ReactiveObject<bool>();
             }
         }
 

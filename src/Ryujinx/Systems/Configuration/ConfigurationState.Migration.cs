@@ -156,7 +156,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             Multiplayer.LdnPassphrase.Value = cff.MultiplayerLdnPassphrase;
             Multiplayer.LdnServer.Value = cff.LdnServer;
 
-            Tweaks.FixOcclusionCulling.Value = cff.FixOcclusionCulling;
+            Tweaks.DisableFixOcclusionCulling.Value = cff.DisableFixOcclusionCulling;
             
             {
                 Hacks.ShowDirtyHacks.Value = cff.ShowDirtyHacks;
@@ -464,7 +464,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                     };
                 }),
                 (69, static cff => cff.SkipUserProfiles = false),
-                (70, static cff => cff.FixOcclusionCulling = false)
+                (70, static cff => cff.DisableFixOcclusionCulling = false)
             );
     }
 }

@@ -43,7 +43,6 @@
             <settings:SettingsSystemView Name="SystemPage" />
             <settings:SettingsCPUView Name="CpuPage" />
             <settings:SettingsGraphicsView Name="GraphicsPage" />
-            <settings:SettingsTweaksView Name="TweaksPage" />
             <settings:SettingsAudioView Name="AudioPage" />
             <settings:SettingsNetworkView Name="NetworkPage" />
             <settings:SettingsLoggingView Name="LoggingPage" />
@@ -89,10 +88,6 @@
                     Content="{ext:Locale SettingsTabGraphics}"
                     Tag="GraphicsPage"
                     IconSource="Image" />
-                <ui:NavigationViewItem
-                    Content="{ext:Locale SettingsTabTweaks}"
-                    Tag="TweaksPage"
-                    IconSource="Repair" />
                 <ui:NavigationViewItem
                     Content="{ext:Locale SettingsTabAudio}"
                     IconSource="Audio"

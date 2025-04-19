@@ -383,7 +383,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public bool FixOcclusionCulling { get; set; }
+        public bool DisableFixOcclusionCulling { get; set; }
 
         public SettingsViewModel(
             VirtualFileSystem virtualFileSystem, 
@@ -663,7 +663,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             LdnServer = config.Multiplayer.LdnServer;
 
             // Tweaks
-            FixOcclusionCulling = config.Tweaks.FixOcclusionCulling.Value;
+            DisableFixOcclusionCulling = config.Tweaks.DisableFixOcclusionCulling.Value;
         }
 
         public void SaveSettings()
@@ -791,7 +791,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 DirtyHacks.NifmDisableIsAnyInternetRequestAccepted;
 
             // Tweaks
-            config.Tweaks.FixOcclusionCulling.Value = FixOcclusionCulling;
+            config.Tweaks.DisableFixOcclusionCulling.Value = DisableFixOcclusionCulling;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 

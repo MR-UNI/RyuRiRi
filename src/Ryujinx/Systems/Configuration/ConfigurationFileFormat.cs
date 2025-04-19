@@ -472,7 +472,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// <summary>
         /// Fixes Occlusion Culling in Games (test feature)
         /// </summary>
-        public bool FixOcclusionCulling { get; set; }
+        public bool DisableFixOcclusionCulling { get; set; }
 
         /// <summary>
         /// Loads a configuration file from disk

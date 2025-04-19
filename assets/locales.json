@@ -5998,87 +5998,12 @@
       }
     },
     {
-      "ID": "SettingsTabTweaks",
-      "Translations": {
-        "ar_SA": "باتشات",
-        "de_DE": "Tweaks",
-        "el_GR": "Patches",
-        "en_US": "Tweaks",
-        "es_ES": "Parches",
-        "fr_FR": "Patches",
-        "he_IL": "פאצ'ים",
-        "it_IT": "Tweaks",
-        "ja_JP": "パッチ",
-        "ko_KR": "패치",
-        "no_NO": "Patcher",
-        "pl_PL": "Tweak'i",
-        "pt_BR": "Patches",
-        "ru_RU": "Твики",
-        "sv_SE": "Patcher",
-        "th_TH": "แพตช์",
-        "tr_TR": "Tweaks",
-        "uk_UA": "Твіки",
-        "zh_CN": "补丁",
-        "zh_TW": "補丁"
-      }
-    },
-    {
-      "ID": "SettingsTabTweaksTitle",
-      "Translations": {
-        "ar_SA": "باتشات: تجارب وتحديثات",
-        "de_DE": "Tweaks: Experimente & Patches",
-        "el_GR": "Patches: Πειράματα & Διορθώσεις",
-        "en_US": "Tweaks: Experiments & Patches",
-        "es_ES": "Parches: Experimentos y Ajustes",
-        "fr_FR": "Patches : Expériences et Corrections",
-        "he_IL": "פאצ'ים: ניסויים ותיקונים",
-        "it_IT": "Tweaks: Esperimenti e Patch",
-        "ja_JP": "パッチ: 実験と修正",
-        "ko_KR": "패치: 실험 및 수정",
-        "no_NO": "Patcher: Eksperimenter og Utbedringer",
-        "pl_PL": "Tweak'i: Eksperymenty i Łatki",
-        "pt_BR": "Patches: Experimentos e Correções",
-        "ru_RU": "Твики: Эксперименты и Патчи",
-        "sv_SE": "Patcher: Experiment och Korrigeringar",
-        "th_TH": "แพตช์: การทดลองและการแก้ไข",
-        "tr_TR": "Tweaks: Deneyler ve Yamalar",
-        "uk_UA": "Твіки: Експерименти та Патчі",
-        "zh_CN": "补丁：实验与修复",
-        "zh_TW": "補丁：實驗與修復"
-      }
-    },
-    {
-      "ID": "SettingsTabTweaksDescription",
-      "Translations": {
-        "ar_SA": "تحذير! يجب تغيير هذه الخيارات فقط إذا كانت لعبتك لا تعمل بشكل صحيح.",
-        "de_DE": "Warnung! Diese Optionen sollten nur geändert werden, wenn dein Spiel nicht ordnungsgemäß funktioniert.",
-        "el_GR": "Προειδοποίηση! Αυτές οι ρυθμίσεις πρέπει να αλλάξουν μόνο αν το παιχνίδι σας δεν λειτουργεί σωστά.",
-        "en_US": "Warning! These options should only be changed if your game is not working properly.",
-        "es_ES": "Advertencia! Estas opciones deben cambiarse solo si tu juego no funciona correctamente.",
-        "fr_FR": "Avertissement! Ces options doivent être modifiées uniquement si votre jeu ne fonctionne pas correctement.",
-        "he_IL": "אזהרה! יש לשנות את האפשרויות הללו רק אם המשחק שלך לא פועל כראוי.",
-        "it_IT": "Avviso! Queste opzioni devono essere modificate solo se il tuo gioco non funziona correttamente.",
-        "ja_JP": "警告! ゲームが正常に動作しない場合にのみ、これらのオプションを変更してください。",
-        "ko_KR": "경고! 게임이 제대로 작동하지 않으면 이 옵션들을 변경해야 합니다.",
-        "no_NO": "Advarsel! Disse alternativene bør kun endres hvis spillet ditt ikke fungerer som det skal.",
-        "pl_PL": "Ostrzeżenie! Te opcje należy zmienić tylko wtedy, gdy twoja gra nie działa poprawnie.",
-        "pt_BR": "Aviso! Essas opções devem ser alteradas apenas se o seu jogo não estiver funcionando corretamente.",
-        "ru_RU": "Предупреждение! Эти параметры следует изменить только в случае, если ваша игра работает неправильно.",
-        "sv_SE": "Varning! Dessa alternativ bör endast ändras om ditt spel inte fungerar som det ska.",
-        "th_TH": "คำเตือน! ควรเปลี่ยนตัวเลือกเหล่านี้เฉพาะในกรณีที่เกมของคุณทำงานไม่ถูกต้อง.",
-        "tr_TR": "Uyarı! Bu seçenekler, oyununuz düzgün çalışmıyorsa yalnızca değiştirilmelidir.",
-        "uk_UA": "Попередження! Ці налаштування слід змінити лише в тому випадку, якщо ваша гра не працює належним чином.",
-        "zh_CN": "警告! 只有在游戏无法正常运行的情况下，请更改这些选项。",
-        "zh_TW": "警告! 只有當遊戲無法正常運行時，請更改這些選項。"
-      }
-    },
-    {
-      "ID": "FixOcclusionCulling",
+      "ID": "DisableFixOcclusionCulling",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
         "el_GR": "",
-        "en_US": "Fix Occlusion Culling - flickering of objects.",
+        "en_US": "Disable Fix Occlusion Culling - flickering of objects.",
         "es_ES": "",
         "fr_FR": "",
         "he_IL": "",
@@ -6098,7 +6023,7 @@
       }
     },
     {
-      "ID": "FixOcclusionCullingTooltip",
+      "ID": "DisableFixOcclusionCullingTooltip",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
