@@ -566,6 +566,9 @@ namespace ARMeilleure.Translation.PTC
         {
             if (AreCarriersEmpty() || ContainsBlacklistedFunctions())
             {
+                _infosStream.SetLength(0);
+                _relocsStream.SetLength(0);
+                _unwindInfosStream.SetLength(0);
                 return;
             }
 
