@@ -1,4 +1,7 @@
+using Humanizer;
 using Ryujinx.Graphics.GAL;
+using System.Net;
+using System;
 
 namespace Ryujinx.Graphics.Gpu.Engine.Threed
 {
@@ -159,16 +162,21 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             void resultHandler(object evt, ulong result)
             {
+
+                // This function fixes the Occlusion Calling. But as it was noticed, if you do not write data every time you call this function, then some games can simply hang.
+                // Maximum possible number was set, exceeding 4 gigabytes of memory, to avoid address conflicts and hypothetical game crashes.
+                if (!GraphicsConfig.DisableFixOcclusionCulling && result <= 0)
+                {
+                   
+                    result = 4294967297; // It works, but it's not safe.
+                    //return;  works but some games freeze (Alan Wake is work, but Disney Epic Mickey: Rebrushed is crash)
+                }
+
                 CounterData counterData = new()
                 {
                     Counter = result,
                     Timestamp = ticks,
                 };
-
-                if (!GraphicsConfig.DisableFixOcclusionCulling && result <= 0)
-                {
-                    return;
-                }
 
                 if (counter?.Invalid != true)
                 {
