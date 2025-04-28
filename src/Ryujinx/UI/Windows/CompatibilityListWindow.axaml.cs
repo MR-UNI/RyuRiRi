@@ -1,5 +1,6 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Avalonia.Interactivity;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.ViewModels;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Ryujinx.Ava.UI.Windows
         public static async Task Show(string titleId = null)
         {
             using CompatibilityViewModel compatWindow = new(RyujinxApp.MainWindow.ViewModel.ApplicationLibrary);
-            
+
             await ShowAsync(new CompatibilityListWindow
             {
                 DataContext = compatWindow,
@@ -41,6 +42,30 @@ namespace Ryujinx.Ava.UI.Windows
                 return;
         
             cvm.Search(searchBox.Text);
+        }
+
+        public void Sort_Name_Checked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioButton { Tag: string sortStrategy })
+            {
+                if (DataContext is not CompatibilityViewModel cvm)
+                           return;
+
+                 cvm.NameSorting(int.Parse(sortStrategy));
+            }
+
+        }
+
+        public void Sort_Status_Checked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioButton { Tag: string sortStrategy })
+            {
+                if (DataContext is not CompatibilityViewModel cvm)
+                    return;
+
+                cvm.StatusSorting(int.Parse(sortStrategy));
+            }
+
         }
     }
 }
