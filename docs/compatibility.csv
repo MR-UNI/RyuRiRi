@@ -601,6 +601,7 @@
 010060200A4BE000,"Brawlout",ldn-untested;online,playable,2021-06-04 17:35:35
 0100C1B00E1CA000,"Brawlout Demo",demo,playable,2021-02-13 22:46:53
 010022C016DC8000,"Breakout: Recharged",slow,ingame,2022-11-06 15:32:57
+010048A021C40000,"Breakout Beyond",,playable,2025-04-26 19:11:35
 01000AA013A5E000,"Breathedge",UE4;nvdec,playable,2021-05-06 15:44:28
 01003D50100F4000,"Breathing Fear",,playable,2020-07-14 15:12:29
 010026800BB06000,"Brick Breaker",nvdec;online,playable,2020-12-15 18:26:23
@@ -2028,6 +2029,7 @@
 0100628004BCE000,"Nights of Azure 2: Bride of the New Moon",crash;nvdec;regression,menus,2022-11-24 16:00:39
 010042300C4F6000,"Nightshade／百花百狼",nvdec,playable,2020-05-10 19:43:31
 0100AA0008736000,"Nihilumbra",,playable,2020-05-10 16:00:12
+01009FA01FF6C000,"Nikoderiko: The Magical World",gpu,ingame,2025-04-26 19:13:31
 0100D03003F0E000,"Nine Parchments",ldn-untested,playable,2022-08-07 12:32:08
 0100E2F014F46000,"NINJA GAIDEN Σ",nvdec,playable,2022-11-13 16:27:02
 0100696014F4A000,"NINJA GAIDEN Σ2",nvdec,playable,2024-07-31 21:53:48
