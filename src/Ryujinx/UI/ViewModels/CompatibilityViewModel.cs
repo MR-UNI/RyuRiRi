@@ -12,17 +12,17 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         private readonly ApplicationLibrary _appLibrary;
 
-        private int _NameSort = 0;
-        private int _StatusSort = 0;
+        private (int Name, int Status) _sorting;
 
-        public bool IsSortedByTitle { get; set; } = true;
-        public bool IsSortedByStatus { get; set; } = true;
+        public bool IsSortedByTitle => true;
+        public bool IsSortedByStatus => true;
 
-        public LocaleKeys IsStringPlayable { get; set; } = LocaleKeys.CompatibilityListPlayable;
-        public LocaleKeys IsStringInGame { get; set; } = LocaleKeys.CompatibilityListIngame;
-        public LocaleKeys IsStringMenus { get; set; } = LocaleKeys.CompatibilityListMenus;
-        public LocaleKeys IsStringBoots { get; set; } = LocaleKeys.CompatibilityListBoots;
-        public LocaleKeys IsStringNothing { get; set; } = LocaleKeys.CompatibilityListNothing;
+        // Avalonia takes names of status from these variables
+        public LocaleKeys IsStringPlayable => LocaleKeys.CompatibilityListPlayable;
+        public LocaleKeys IsStringInGame => LocaleKeys.CompatibilityListIngame;
+        public LocaleKeys IsStringMenus => LocaleKeys.CompatibilityListMenus;
+        public LocaleKeys IsStringBoots => LocaleKeys.CompatibilityListBoots;
+        public LocaleKeys IsStringNothing => LocaleKeys.CompatibilityListNothing;
 
         public string PlayableInfoText { get; set; }
         public string InGameInfoText { get; set; }
@@ -88,17 +88,17 @@ namespace Ryujinx.Ava.UI.ViewModels
         }
 
 
-        public void NameSorting(int NameSort = 0)
+        public void NameSorting(int nameSort = 0)
         {
-            _NameSort = NameSort;
+            _sorting.Name = nameSort;
             SortApply();
             OnPropertyChanged();
             OnPropertyChanged(nameof(SortName));
         }
 
-        public void StatusSorting(int StatusSort = 0)
+        public void StatusSorting(int statusSort = 0)
         {
-            _StatusSort = StatusSort;
+            _sorting.Status = statusSort;
             SortApply();
             OnPropertyChanged();
             OnPropertyChanged(nameof(SortName));
@@ -132,7 +132,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             try
             {
-                _currentEntries = ((_StatusSort, _NameSort) switch
+                _currentEntries = ((_sorting.Status, _sorting.Name) switch
                 {
                     (0, 0) => _currentEntries.OrderBy(x => _sortKeySelector(x) ?? string.Empty), // A - Z
                     (0, 1) => _currentEntries.OrderByDescending(x => _sortKeySelector(x) ?? string.Empty), // Z - A
@@ -156,7 +156,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             get
             {
-                return ( _NameSort) switch
+                return (_sorting.Name) switch
                 {
                     (0) => LocaleManager.Instance[LocaleKeys.GameListSortStatusNameAscending],
                     (1) => LocaleManager.Instance[LocaleKeys.GameListSortStatusNameDescending],
