@@ -49,11 +49,10 @@ namespace Ryujinx.Ava.UI.Windows
             if (sender is RadioButton { Tag: string sortStrategy })
             {
                 if (DataContext is not CompatibilityViewModel cvm)
-                           return;
+                    return;
 
                  cvm.NameSorting(int.Parse(sortStrategy));
             }
-
         }
 
         public void Sort_Status_Checked(object sender, RoutedEventArgs args)
@@ -65,7 +64,7 @@ namespace Ryujinx.Ava.UI.Windows
 
                 cvm.StatusSorting(int.Parse(sortStrategy));
             }
-
         }
+
     }
 }
