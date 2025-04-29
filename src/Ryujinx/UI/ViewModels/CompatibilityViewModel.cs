@@ -12,7 +12,7 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         private readonly ApplicationLibrary _appLibrary;
 
-        private (int Name, int Status) _sorting;
+        private (int Status, int Name) _sorting;
 
         public bool IsSortedByTitle => true;
         public bool IsSortedByStatus => true;
@@ -132,7 +132,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             try
             {
-                _currentEntries = ((_sorting.Status, _sorting.Name) switch
+                _currentEntries = (_sorting switch
                 {
                     (0, 0) => _currentEntries.OrderBy(x => _sortKeySelector(x) ?? string.Empty), // A - Z
                     (0, 1) => _currentEntries.OrderByDescending(x => _sortKeySelector(x) ?? string.Empty), // Z - A
