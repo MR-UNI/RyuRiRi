@@ -162,14 +162,22 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             void resultHandler(object evt, ulong result)
             {
+                /*
+                    This code is an attempt to work around the flickering problem caused by occlusion culling not working properly in some games.
+                    The problem is that with a zero result, for some reason, there are failures with the display of objects, for example the game Alan Wake where
+                    objects flicker very often
 
-                // This function fixes the Occlusion Calling. But as it was noticed, if you do not write data every time you call this function, then some games can simply hang.
-                // Maximum possible number was set, exceeding 4 gigabytes of memory, to avoid address conflicts and hypothetical game crashes.
-                if (!GraphicsConfig.DisableFixOcclusionCulling && result <= 0)
+                    Currently, the result is always incremented by one, and it seems that this does not cause any problems on previously tested games using this code
+                    This may just be a workaround, the cause may be in the Video Driver.
+                 
+                    Previously tested workaround:
+                    result = 4294967297; // It works, but it's not safe!
+                    return;  // works, but some games may freeze! (example: Alan Wake is work, but Disney Epic Mickey: Rebrushed is crash)
+                */
+
+                if (!GraphicsConfig.DisableFixOcclusionCulling)
                 {
-                   
-                    result = 4294967297; // It works, but it's not safe.
-                    //return;  works but some games freeze (Alan Wake is work, but Disney Epic Mickey: Rebrushed is crash)
+                    result++; // We just shift the result by one.          
                 }
 
                 CounterData counterData = new()
