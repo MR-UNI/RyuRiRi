@@ -60,9 +60,9 @@
                         </StackPanel>
                     </CheckBox>
                     <CheckBox IsChecked="{Binding DisableFixOcclusionCulling}"
-                        ToolTip.Tip="{ext:Locale DisableFixOcclusionCullingTooltip}">
+                        ToolTip.Tip="{Binding DirtyHacks.DisableFixOcclusionCullingTooltip}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{ext:Locale DisableFixOcclusionCulling}" />
+                            <TextBlock Text="Disable Occlusion Culling Fix - flickering of objects." />
                             <TextBlock Classes="DefaultDisable" Text="Default: disable" />
                         </StackPanel>
                     </CheckBox>
