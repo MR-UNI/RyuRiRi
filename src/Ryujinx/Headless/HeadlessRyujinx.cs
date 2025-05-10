@@ -489,7 +489,7 @@ namespace Ryujinx.Headless
                                 return false;
                             }
                         }
-                        catch (ArgumentOutOfRangeException)
+                        catch
                         {
                             Logger.Error?.Print(LogClass.Application, "The specified file is not supported by Ryujinx.");
 

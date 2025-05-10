@@ -421,6 +421,10 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                                 Read(assetOffset + (int)nacpOffset, (int)nacpSize).AsSpan().CopyTo(controlHolder.ByteSpan);
 
                                 GetApplicationInformation(ref controlHolder.Value, ref application);
+
+                                if ("Switch Verification" == controlHolder.Value
+                                        .Title[(int)TitleLanguage.AmericanEnglish].NameString.ToString())
+                                    return false;
                             }
                             else
                             {

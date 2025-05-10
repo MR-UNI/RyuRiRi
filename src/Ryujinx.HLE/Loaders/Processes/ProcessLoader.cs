@@ -9,6 +9,7 @@ using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Gpu;
+using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.HLE.Loaders.Executables;
 using Ryujinx.HLE.Loaders.Processes.Extensions;
 using System;
@@ -158,7 +159,7 @@ namespace Ryujinx.HLE.Loaders.Processes
 
             return false;
         }
-
+        
         public bool LoadNxo(string path)
         {
             BlitStruct<ApplicationControlProperty> nacpData = new(1);
@@ -194,6 +195,10 @@ namespace Ryujinx.HLE.Loaders.Processes
                     nacpStorage.Read(0, nacpData.ByteSpan);
 
                     programName = nacpData.Value.Title[(int)_device.System.State.DesiredTitleLanguage].NameString.ToString();
+
+                    if ("Switch Verfication" ==
+                        nacpData.Value.Title[(int)TitleLanguage.AmericanEnglish].NameString.ToString())
+                        throw new InvalidOperationException();
 
                     if (string.IsNullOrWhiteSpace(programName))
                     {
