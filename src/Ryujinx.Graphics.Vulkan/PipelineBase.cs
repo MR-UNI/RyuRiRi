@@ -1527,24 +1527,28 @@ namespace Ryujinx.Graphics.Vulkan
 
         private bool ChangeFeedbackLoop(FeedbackLoopAspects aspects)
         {
-            if (_feedbackLoop != aspects)
+            // AMD RDNA 3 GPUs only
+            if (Gd.IsAmdRdna3)
             {
-                if (Gd.Capabilities.SupportsDynamicAttachmentFeedbackLoop)
+                if (_feedbackLoop != aspects)
                 {
-                    DynamicState.SetFeedbackLoop(aspects);
-                }
-                else
-                {
-                    _newState.FeedbackLoopAspects = aspects;
-                }
+                    if (Gd.Capabilities.SupportsDynamicAttachmentFeedbackLoop)
+                    {
+                        DynamicState.SetFeedbackLoop(aspects);
+                    }
+                    else
+                    {
+                        _newState.FeedbackLoopAspects = aspects;
+                    }
 
-                _feedbackLoop = aspects;
+                    _feedbackLoop = aspects;
 
-                return true;
+                    return true;
+                }
             }
 
             return false;
-        }
+    }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool UpdateFeedbackLoop()
