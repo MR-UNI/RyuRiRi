@@ -25,17 +25,22 @@ namespace Ryujinx.Ava.UI.Helpers
                 return null;
             }
 
-            if (value is not XCITrimmerFileModel app)
+            if (value is not XCITrimmerFileModel model)
             {
                 return null;
             }
 
-            return app.PercentageProgress != null ? String.Empty :
-                app.ProcessingOutcome != OperationOutcome.Successful && app.ProcessingOutcome != OperationOutcome.Undetermined ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusFailedLabel] :
-                app.Trimmable & app.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusPartialLabel] :
-                app.Trimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusTrimmableLabel] :
-                app.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusUntrimmableLabel] :
+            return model.PercentageProgress != null ? String.Empty :
+                model.ProcessingOutcome != OperationOutcome.Successful && model.ProcessingOutcome != OperationOutcome.Undetermined ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusFailedLabel] :
+                model.Trimmable & model.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusPartialLabel] :
+                model.Trimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusTrimmableLabel] :
+                model.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusUntrimmableLabel] :
                 String.Empty;
+        }
+
+        public static string From(XCITrimmerFileModel model)
+        {
+            return (string)Instance.Convert(model, typeof(string), null, CultureInfo.CurrentUICulture) ?? String.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

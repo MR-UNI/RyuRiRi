@@ -10,6 +10,7 @@ using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using static Ryujinx.Common.Utilities.XCIFileTrimmer;
@@ -28,6 +29,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public enum SortField
         {
             Name,
+            Status,
             Saved
         }
 
@@ -246,6 +248,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 return string.IsNullOrWhiteSpace(_search)
                     || content.Name.ToLower().Contains(_search.ToLower())
+                    || XCITrimmerFileStatusConverter.From(content).ToLower().Contains(_search.ToLower())
                     || content.Path.ToLower().Contains(_search.ToLower());
             }
 
@@ -270,16 +273,22 @@ namespace Ryujinx.Ava.UI.ViewModels
                     case SortField.Name:
                         result = x.Name.CompareTo(y.Name);
                         break;
+                    case SortField.Status:
+                        result = XCITrimmerFileStatusConverter.From(x).CompareTo(XCITrimmerFileStatusConverter.From(y));
+                        break;
                     case SortField.Saved:
                         result = x.PotentialSavingsB.CompareTo(y.PotentialSavingsB);
                         break;
                 }
 
-                if (!_viewModel.SortingAscending)
-                    result = -result;
-
                 if (result == 0)
                     result = x.Path.CompareTo(y.Path);
+
+                if (result == 0)
+                    result = x.Name.CompareTo(y.Name);
+                
+                if (!_viewModel.SortingAscending)
+                    result = -result;
 
                 return result;
             }
@@ -467,6 +476,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return SortingField switch
                 {
                     SortField.Name => LocaleManager.Instance[LocaleKeys.XCITrimmerSortName],
+                    SortField.Status => LocaleManager.Instance[LocaleKeys.XCITrimmerSortStatus],
                     SortField.Saved => LocaleManager.Instance[LocaleKeys.XCITrimmerSortSaved],
                     _ => string.Empty,
                 };
@@ -487,6 +497,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => _sortField == SortField.Name;
         }
 
+        public bool IsSortedByStatus
+        {
+            get => _sortField == SortField.Status;
+        }
+        
         public bool IsSortedBySaved
         {
             get => _sortField == SortField.Saved;
