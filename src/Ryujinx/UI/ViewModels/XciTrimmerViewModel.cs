@@ -8,6 +8,7 @@ using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -269,9 +270,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (arg is XCITrimmerFileModel content)
             {
                 return string.IsNullOrWhiteSpace(_search)
-                    || content.Name.ToLower().Contains(_search.ToLower())
-                    || XCITrimmerFileStatusConverter.From(content).ToLower().Contains(_search.ToLower())
-                    || content.Path.ToLower().Contains(_search.ToLower());
+                       || content.Name.ContainsIgnoreCase(_search)
+                       || XCITrimmerFileStatusConverter.From(content).ContainsIgnoreCase(_search)
+                       || content.Path.ContainsIgnoreCase(_search);
             }
 
             return false;
@@ -293,10 +294,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 switch (_viewModel.SortingField)
                 {
                     case SortField.Name:
-                        result = x.Name.CompareTo(y.Name);
+                        result = String.Compare(x?.Name ?? String.Empty, y?.Name ?? String.Empty, StringComparison.OrdinalIgnoreCase);
                         break;
                     case SortField.Status:
-                        result = XCITrimmerFileStatusConverter.From(x).CompareTo(XCITrimmerFileStatusConverter.From(y));
+                        result = String.Compare(XCITrimmerFileStatusConverter.From(x), XCITrimmerFileStatusConverter.From(y), StringComparison.OrdinalIgnoreCase);
                         break;
                     case SortField.Saved:
                         result = x.PotentialSavingsB.CompareTo(y.PotentialSavingsB);
@@ -304,10 +305,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 }
 
                 if (result == 0)
-                    result = x.Path.CompareTo(y.Path);
+                    result = String.Compare(x?.Path ?? String.Empty, y?.Path ?? String.Empty, StringComparison.OrdinalIgnoreCase);
 
                 if (result == 0)
-                    result = x.Name.CompareTo(y.Name);
+                    result = String.Compare(x?.Name ?? String.Empty, y?.Name ?? String.Empty, StringComparison.OrdinalIgnoreCase);
                 
                 if (!_viewModel.SortingAscending)
                     result = -result;

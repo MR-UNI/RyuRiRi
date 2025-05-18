@@ -40,6 +40,8 @@ namespace Ryujinx.Ava.UI.Helpers
 
         public static string From(XCITrimmerFileModel model)
         {
+            if (model == null) return String.Empty;
+            
             return (string)Instance.Convert(model, typeof(string), null, CultureInfo.CurrentUICulture) ?? String.Empty;
         }
 
