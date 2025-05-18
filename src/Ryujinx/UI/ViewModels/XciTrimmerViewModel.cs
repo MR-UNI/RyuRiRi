@@ -10,7 +10,6 @@ using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using static Ryujinx.Common.Utilities.XCIFileTrimmer;
@@ -57,11 +56,34 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadXCIApplications()
         {
-            IEnumerable<ApplicationData> apps = ApplicationLibrary.Applications.Items
-                .Where(app => app.FileExtension == _FileExtXCI);
+            try
+            {
+                _mainWindowViewModel.StatusBarProgressStatusText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.StatusBarXCIFileScanning);
+                _mainWindowViewModel.StatusBarProgressStatusVisible = true;
+                _mainWindowViewModel.StatusBarProgressMaximum = 1;
+                _mainWindowViewModel.StatusBarProgressValue = 0;
+                _mainWindowViewModel.StatusBarVisible = true;
 
-            foreach (ApplicationData xciApp in apps)
-                AddOrUpdateXCITrimmerFile(CreateXCITrimmerFile(xciApp.Path));
+                IEnumerable<ApplicationData> apps = ApplicationLibrary.Applications.Items
+                    .Where(app => app.FileExtension == _FileExtXCI).ToArray();
+
+                _mainWindowViewModel.StatusBarProgressMaximum = apps.Count();
+                _mainWindowViewModel.StatusBarProgressValue = 0;
+
+                int appsProcessed = 0;
+                foreach (ApplicationData xciApp in apps)
+                {
+                    AddOrUpdateXCITrimmerFile(CreateXCITrimmerFile(xciApp.Path));
+                    _mainWindowViewModel.StatusBarProgressValue = ++appsProcessed;
+                    Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render).Wait();
+                }
+            }
+            finally
+            {
+                _mainWindowViewModel.StatusBarProgressStatusVisible = false;
+                _mainWindowViewModel.StatusBarProgressStatusText = string.Empty;
+                _mainWindowViewModel.StatusBarVisible = false;                
+            }
 
             ApplicationsChanged();
         }

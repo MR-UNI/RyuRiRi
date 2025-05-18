@@ -1845,7 +1845,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public async void ProcessTrimResult(String filename, XCIFileTrimmer.OperationOutcome operationOutcome)
+        public async Task ProcessTrimResult(String filename, XCIFileTrimmer.OperationOutcome operationOutcome)
         {
             string notifyUser = operationOutcome.ToLocalisedText();
 
