@@ -86,7 +86,7 @@
                     Classes="withCheckbox"
                     Padding="0"
                     Icon="{ext:Icon fa-solid fa-expand}"
-                    InputGesture="F11">
+                    InputGesture="{OnPlatform Default='F11', macOS='ctrl+cmd+F'}">
                 </MenuItem>
                 <MenuItem
                     Padding="0"
