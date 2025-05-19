@@ -29,18 +29,5 @@ namespace Ryujinx.Ava.UI.Windows
             FlushControls.IsVisible = !ConfigurationState.Instance.ShowOldUI;
             NormalControls.IsVisible = ConfigurationState.Instance.ShowOldUI;
         }
-
-        // ReSharper disable once UnusedMember.Local
-        // its referenced in the axaml but rider keeps yelling at me that its unused so
-        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (DataContext is not CompatibilityViewModel cvm)
-                return;
-
-            if (sender is not TextBox searchBox)
-                return;
-        
-            cvm.Search(searchBox.Text);
-        }
     }
 }

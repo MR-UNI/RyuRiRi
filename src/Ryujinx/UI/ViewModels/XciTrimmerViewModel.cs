@@ -44,6 +44,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private MainWindowViewModel _mainWindowViewModel;
         private CancellationTokenSource _cancellationTokenSource;
         private string _search;
+        private Timer _searchTimer;
         private ProcessingMode _processingMode;
         private SortField _sortField = SortField.Name;
         private bool _sortAscending = true;
@@ -478,7 +479,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             set
             {
                 _search = value;
-                FilteringChanged();
+                _searchTimer?.Dispose();
+                _searchTimer = new Timer(_ =>
+                {
+                    FilteringChanged();
+                    _searchTimer.Dispose();
+                    _searchTimer = null;
+                }, null, 250, 0);
             }
         }
 

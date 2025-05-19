@@ -4,12 +4,15 @@ using Ryujinx.Ava.Systems.AppLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
     public class CompatibilityViewModel : BaseModel, IDisposable
     {
         private readonly ApplicationLibrary _appLibrary;
+        private string _search;
+        private Timer _searchTimer;
 
         private IEnumerable<CompatibilityEntry> _currentEntries = CompatibilityDatabase.Entries;
         private string[] _ownedGameTitleIds = [];
@@ -54,7 +57,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public void Search(string searchTerm)
+        private void UpdateSearch(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm))
             {
@@ -64,6 +67,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             SetEntries(CompatibilityDatabase.Entries.Where(x =>
                 x.GameName.ContainsIgnoreCase(searchTerm)
+                || x.FormattedIssueLabels.ContainsIgnoreCase(searchTerm)
+                || x.LocalizedStatus.ContainsIgnoreCase(searchTerm)
+                || x.LocalizedStatusDescription.ContainsIgnoreCase(searchTerm)
                 || x.TitleId.Check(tid => tid.ContainsIgnoreCase(searchTerm))));
         }
 
@@ -74,5 +80,21 @@ namespace Ryujinx.Ava.UI.ViewModels
 #pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(CurrentEntries));
         }
+        
+        public string Search
+        {
+            get => _search;
+            set
+            {
+                _search = value;
+                _searchTimer?.Dispose();
+                _searchTimer = new Timer(_ =>
+                {
+                    UpdateSearch(_search);
+                    _searchTimer.Dispose();
+                    _searchTimer = null;
+                }, null, 250, 0);
+            }
+        }        
     }
 }
