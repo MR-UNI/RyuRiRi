@@ -76,8 +76,13 @@ namespace Ryujinx.Ava.UI.ViewModels
                 foreach (ApplicationData xciApp in apps)
                 {
                     AddOrUpdateXCITrimmerFile(CreateXCITrimmerFile(xciApp.Path));
-                    _mainWindowViewModel.StatusBarProgressValue = ++appsProcessed;
-                    Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render).Wait();
+                    
+                    if (appsProcessed % 50 == 0)
+                    {
+                        _mainWindowViewModel.StatusBarProgressValue = appsProcessed;
+                        Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render).Wait();
+                    }
+                    appsProcessed++;
                 }
             }
             finally
