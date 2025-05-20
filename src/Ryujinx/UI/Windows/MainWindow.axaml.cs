@@ -717,6 +717,8 @@ namespace Ryujinx.Ava.UI.Windows
 
                     ShowNewContentAddedDialog(dlcLoaded, dlcRemoved, updatesLoaded, updatesRemoved);
                 }
+                
+                Executor.ExecuteBackgroundAsync(ApplicationLibrary.RefreshTotalTimePlayedAsync);
 
                 _isLoading = false;
             })

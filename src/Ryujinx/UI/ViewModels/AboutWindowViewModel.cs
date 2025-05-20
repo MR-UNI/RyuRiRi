@@ -24,8 +24,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             Version = RyujinxApp.FullAppName + "\n" + Program.Version;
             UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value);
 
-            GitLabLogo = LoadBitmap("resm:Ryujinx.Assets.UIImages.Logo_GitLab.png?assembly=Ryujinx");
-
             RyujinxApp.ThemeChanged += Ryujinx_ThemeChanged;
         }
 
@@ -43,6 +41,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             string themeName = isDarkTheme ? "Dark" : "Light";
             
             DiscordLogo = LoadBitmap(LogoPathFormat.Format("Discord", themeName));
+            GitLabLogo = LoadBitmap(LogoPathFormat.Format("GitLab", themeName));
         }
 
         private static Bitmap LoadBitmap(string uri) => new(Avalonia.Platform.AssetLoader.Open(new Uri(uri)));

@@ -25,6 +25,7 @@ using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
@@ -112,6 +113,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 await Updater.BeginUpdateAsync(true);
         });
         
+        private bool _showTotalTimePlayed;
         private bool _showLoadProgress;
         private bool _isGameRunning;
         private bool _isAmiiboRequested;
@@ -197,6 +199,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if DEBUG
             topLevel.AttachDevTools(new KeyGesture(Avalonia.Input.Key.F12, KeyModifiers.Control));
 #endif
+            
+            Window.ApplicationLibrary.TotalTimePlayedRecalculated += TotalTimePlayed_Recalculated;
         }
 
         #region Properties
@@ -297,6 +301,24 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ShowFirmwareStatus));
+            }
+        }
+
+        private void TotalTimePlayed_Recalculated(Optional<TimeSpan> ts)
+        {
+            ShowTotalTimePlayed = ts.HasValue;
+
+            if (ts.HasValue)
+                LocaleManager.Instance.SetDynamicValues(LocaleKeys.GameListLabelTotalTimePlayed, ValueFormatUtils.FormatTimeSpan(ts.Value));
+        }
+
+        public bool ShowTotalTimePlayed
+        {
+            get => _showTotalTimePlayed && EnableNonGameRunningControls;
+            set
+            {
+                _showTotalTimePlayed = value;
+                OnPropertyChanged();
             }
         }
         

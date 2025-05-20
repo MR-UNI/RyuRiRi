@@ -51,6 +51,26 @@ namespace Ryujinx.Ava.Systems.AppLibrary
         public readonly IObservableCache<(TitleUpdateModel TitleUpdate, bool IsSelected), TitleUpdateModel> TitleUpdates;
         public readonly IObservableCache<(DownloadableContentModel Dlc, bool IsEnabled), DownloadableContentModel> DownloadableContents;
 
+        private Gommon.Optional<TimeSpan> _totalTimePlayed;
+
+        public Gommon.Optional<TimeSpan> TotalTimePlayed
+        {
+            get => _totalTimePlayed;
+            private set
+            {
+                _totalTimePlayed = value;
+                _totalTimePlayedChanged.Call(value);
+            }
+        }
+
+        public event Action<Gommon.Optional<TimeSpan>> TotalTimePlayedRecalculated
+        {
+            add => _totalTimePlayedChanged.Add(value);
+            remove => _totalTimePlayedChanged.Remove(value);
+        }
+
+        private readonly Event<Gommon.Optional<TimeSpan>> _totalTimePlayedChanged = new();
+
         private readonly byte[] _nspIcon;
         private readonly byte[] _xciIcon;
         private readonly byte[] _ncaIcon;
@@ -823,6 +843,22 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                 _cancellationToken.Dispose();
                 _cancellationToken = null;
             }
+        }
+
+        public Task RefreshTotalTimePlayedAsync()
+        {
+            TotalTimePlayed = Gommon.Optional<TimeSpan>.None;
+            
+            TimeSpan temporary = TimeSpan.Zero;
+            
+            foreach (var installedApplication in Applications.Items)
+            {
+                temporary += LoadAndSaveMetaData(installedApplication.IdString).TimePlayed;
+            }
+
+            TotalTimePlayed = temporary;
+
+            return Task.CompletedTask;
         }
 
         public async Task RefreshLdn()
