@@ -791,7 +791,7 @@ namespace Ryujinx.HLE.HOS
             {
                 string buildId = p switch
                 {
-                    NsoExecutable nso => Convert.ToHexString(nso.BuildId.ItemsRo.ToArray()).TrimEnd('0'),
+                    NsoExecutable nso => Convert.ToHexString(nso.BuildId).TrimEnd('0'),
                     NroExecutable nro => Convert.ToHexString(nro.Header.BuildId).TrimEnd('0'),
                     _ => string.Empty,
                 };

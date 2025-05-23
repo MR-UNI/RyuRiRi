@@ -6,7 +6,6 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 using Button = Avalonia.Controls.Button;
@@ -18,9 +17,6 @@ namespace Ryujinx.Ava.UI.Views.Dialog
         public AboutView()
         {
             InitializeComponent();
-
-            GitRepoButton.Tag =
-                $"https://git.ryujinx.app/{ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelSourceRepo}";
         }
 
         public static async Task Show()

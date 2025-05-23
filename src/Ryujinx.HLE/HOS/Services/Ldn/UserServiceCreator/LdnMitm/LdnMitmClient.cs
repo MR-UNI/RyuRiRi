@@ -85,7 +85,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
             _lanDiscovery.SetAdvertiseData(data);
         }
 
-        public void SetGameVersion(byte[] versionString)
+        public void SetGameVersion(ReadOnlySpan<byte> versionString)
         {
             // NOTE: This method is not implemented in ldn_mitm
             Logger.Stub?.PrintMsg(LogClass.ServiceLdn, "LdnMitmClient SetGameVersion");

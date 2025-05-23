@@ -258,7 +258,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             {
                 buildIds[i] = (executables[i] switch
                 {
-                    NsoExecutable nso => Convert.ToHexString(nso.BuildId.ItemsRo.ToArray()),
+                    NsoExecutable nso => Convert.ToHexString(nso.BuildId),
                     NroExecutable nro => Convert.ToHexString(nro.Header.BuildId),
                     _ => string.Empty
                 }).ToUpper();

@@ -29,7 +29,7 @@
             Margin="5"
             VerticalAlignment="Center"
             IsVisible="{Binding EnableNonGameRunningControls}">
-            <Grid Margin="0" ColumnDefinitions="Auto,Auto,Auto,*">
+            <Grid Margin="0" ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,*">
                 <Button
                     Width="25"
                     Height="25"
@@ -68,6 +68,14 @@
                     IsVisible="{Binding StatusBarVisible}"
                     Maximum="{Binding StatusBarProgressMaximum}"
                     Value="{Binding StatusBarProgressValue}" />
+                <controls:MiniVerticalSeparator Grid.Column="4" IsVisible="{Binding ShowTotalTimePlayed}" />
+                <TextBlock 
+                    Grid.Column="5"
+                    Margin="5,0,5,0"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding ShowTotalTimePlayed}"
+                    Text="{ext:Locale GameListLabelTotalTimePlayed}">
+                </TextBlock>
             </Grid>
         </StackPanel>
         <StackPanel

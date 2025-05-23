@@ -753,17 +753,9 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         public ResultCode OpenCloudBackupWorkStorageFileSystem(ServiceCtx context)
         {
             CloudBackupWorkStorageId storageId = (CloudBackupWorkStorageId)context.RequestData.ReadInt32();
-            using SharedRef<IFileSystem> fileSystem = new();
-
-            Result result = _baseFileSystemProxy.Get.OpenCloudBackupWorkStorageFileSystem(ref fileSystem.Ref, storageId);
-            if (result.IsFailure())
-            {
-                return (ResultCode)result.Value;
-            }
-
-            MakeObject(context, new FileSystemProxy.IFileSystem(ref fileSystem.Ref));
-
-            return ResultCode.Success;
+            
+            Logger.Stub?.PrintStub(LogClass.ServiceFs, new { storageId });
+            throw new NotImplementedException(); // reimplementing behavior from LibHac 0.19.0
         }
 
         [CommandCmif(130)]
@@ -1028,7 +1020,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         {
             ref readonly FspPath path = ref FileSystemProxyHelper.GetFspPath(context);
 
-            Result result = _baseFileSystemProxy.Get.GetRightsIdByPath(out RightsId rightsId, in path);
+            Result result = _baseFileSystemProxy.Get.GetRightsIdAndKeyGenerationByPath(out RightsId rightsId, out _, in path, ContentAttributes.None);
             if (result.IsFailure())
             {
                 return (ResultCode)result.Value;
@@ -1044,7 +1036,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         {
             ref readonly FspPath path = ref FileSystemProxyHelper.GetFspPath(context);
 
-            Result result = _baseFileSystemProxy.Get.GetRightsIdAndKeyGenerationByPath(out RightsId rightsId, out byte keyGeneration, in path);
+            Result result = _baseFileSystemProxy.Get.GetRightsIdAndKeyGenerationByPath(out RightsId rightsId, out byte keyGeneration, in path, ContentAttributes.None);
             if (result.IsFailure())
             {
                 return (ResultCode)result.Value;
@@ -1240,8 +1232,10 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         {
             BisPartitionId partitionId = (BisPartitionId)context.RequestData.ReadInt32();
             ref readonly FspPath path = ref FileSystemProxyHelper.GetFspPath(context);
-
-            return (ResultCode)_baseFileSystemProxy.Get.SetBisRootForHost(partitionId, in path).Value;
+            
+            Logger.Stub?.PrintStub(LogClass.ServiceFs, new { partitionId, path });
+            
+            throw new NotImplementedException(); // reimplementing behavior from LibHac 0.19.0
         }
 
         [CommandCmif(1001)]

@@ -17,7 +17,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
         NetworkError ConnectPrivate(ConnectPrivateRequest request);
         ResultCode Reject(DisconnectReason disconnectReason, uint nodeId);
         NetworkInfo[] Scan(ushort channel, ScanFilter scanFilter);
-        void SetGameVersion(byte[] versionString);
+        void SetGameVersion(ReadOnlySpan<byte> versionString);
         void SetStationAcceptPolicy(AcceptPolicy acceptPolicy);
         void SetAdvertiseData(byte[] data);
         bool CreateNetwork(CreateAccessPointRequest request, byte[] advertiseData);

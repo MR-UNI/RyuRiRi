@@ -221,7 +221,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
             NsoReader reader = new();
             reader.Initialize(nsoFile.Release().AsStorage().AsFile(OpenMode.Read)).ThrowIfFailure();
 
-            return Convert.ToHexString(reader.Header.ModuleId.ItemsRo.ToArray()).Replace("-", string.Empty).ToUpper()[..16];
+            return Convert.ToHexString(reader.Header.ModuleId).Replace("-", string.Empty).ToUpper()[..16];
         }
     }
 }

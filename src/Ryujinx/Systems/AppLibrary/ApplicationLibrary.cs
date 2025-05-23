@@ -51,6 +51,26 @@ namespace Ryujinx.Ava.Systems.AppLibrary
         public readonly IObservableCache<(TitleUpdateModel TitleUpdate, bool IsSelected), TitleUpdateModel> TitleUpdates;
         public readonly IObservableCache<(DownloadableContentModel Dlc, bool IsEnabled), DownloadableContentModel> DownloadableContents;
 
+        private Gommon.Optional<TimeSpan> _totalTimePlayed;
+
+        public Gommon.Optional<TimeSpan> TotalTimePlayed
+        {
+            get => _totalTimePlayed;
+            private set
+            {
+                _totalTimePlayed = value;
+                _totalTimePlayedChanged.Call(value);
+            }
+        }
+
+        public event Action<Gommon.Optional<TimeSpan>> TotalTimePlayedRecalculated
+        {
+            add => _totalTimePlayedChanged.Add(value);
+            remove => _totalTimePlayedChanged.Remove(value);
+        }
+
+        private readonly Event<Gommon.Optional<TimeSpan>> _totalTimePlayedChanged = new();
+
         private readonly byte[] _nspIcon;
         private readonly byte[] _xciIcon;
         private readonly byte[] _ncaIcon;
@@ -421,6 +441,10 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                                 Read(assetOffset + (int)nacpOffset, (int)nacpSize).AsSpan().CopyTo(controlHolder.ByteSpan);
 
                                 GetApplicationInformation(ref controlHolder.Value, ref application);
+
+                                if ("Switch Verification" == controlHolder.Value
+                                        .Title[(int)TitleLanguage.AmericanEnglish].NameString.ToString())
+                                    return false;
                             }
                             else
                             {
@@ -819,6 +843,22 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                 _cancellationToken.Dispose();
                 _cancellationToken = null;
             }
+        }
+
+        public Task RefreshTotalTimePlayedAsync()
+        {
+            TotalTimePlayed = Gommon.Optional<TimeSpan>.None;
+            
+            TimeSpan temporary = TimeSpan.Zero;
+            
+            foreach (var installedApplication in Applications.Items)
+            {
+                temporary += LoadAndSaveMetaData(installedApplication.IdString).TimePlayed;
+            }
+
+            TotalTimePlayed = temporary;
+
+            return Task.CompletedTask;
         }
 
         public async Task RefreshLdn()
@@ -1363,7 +1403,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
         {
             _ = Enum.TryParse(DesiredLanguage.ToString(), out TitleLanguage desiredTitleLanguage);
 
-            if (controlData.Title.ItemsRo.Length > (int)desiredTitleLanguage)
+            if (controlData.Title.Length > (int)desiredTitleLanguage)
             {
                 data.Name = controlData.Title[(int)desiredTitleLanguage].NameString.ToString();
                 data.Developer = controlData.Title[(int)desiredTitleLanguage].PublisherString.ToString();
@@ -1376,7 +1416,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
             if (string.IsNullOrWhiteSpace(data.Name))
             {
-                foreach (ref readonly ApplicationControlProperty.ApplicationTitle controlTitle in controlData.Title.ItemsRo)
+                foreach (ref readonly ApplicationControlProperty.ApplicationTitle controlTitle in controlData.Title)
                 {
                     if (!controlTitle.NameString.IsEmpty())
                     {
@@ -1389,7 +1429,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
             if (string.IsNullOrWhiteSpace(data.Developer))
             {
-                foreach (ref readonly ApplicationControlProperty.ApplicationTitle controlTitle in controlData.Title.ItemsRo)
+                foreach (ref readonly ApplicationControlProperty.ApplicationTitle controlTitle in controlData.Title)
                 {
                     if (!controlTitle.PublisherString.IsEmpty())
                     {

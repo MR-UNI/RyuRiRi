@@ -23,7 +23,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
             LibHac.Common.FixedArrays.Array8<ulong> communicationId = acp.LocalCommunicationId;
 
             return new Array(receivedData.Where(game =>
-                communicationId.Items.Contains(game.TitleId.ToULong())
+                communicationId.AsReadOnlySpan().Contains(game.TitleId.ToULong())
             ));
         }
 

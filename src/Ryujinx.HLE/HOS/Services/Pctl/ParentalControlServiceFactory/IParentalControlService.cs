@@ -55,7 +55,13 @@ namespace Ryujinx.HLE.HOS.Services.Pctl.ParentalControlServiceFactory
                         _titleId = titleId;
 
                         // TODO: Call nn::arp::GetApplicationControlProperty here when implemented, if it return ResultCode.Success we assign fields.
-                        _ratingAge = Array.ConvertAll(context.Device.Processes.ActiveApplication.ApplicationControlProperties.RatingAge.ItemsRo.ToArray(), Convert.ToInt32);
+                        _ratingAge = new int[context.Device.Processes.ActiveApplication.ApplicationControlProperties.RatingAge.Length];
+
+                        for (int i = 0; i < _ratingAge.Length; i++)
+                        {
+                            _ratingAge[i] = Convert.ToInt32(context.Device.Processes.ActiveApplication.ApplicationControlProperties.RatingAge[i]);
+                        }
+                        
                         _parentalControlFlag = context.Device.Processes.ActiveApplication.ApplicationControlProperties.ParentalControlFlag;
                     }
                 }

@@ -91,7 +91,13 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
                 if (string.IsNullOrWhiteSpace(programName))
                 {
-                    programName = Array.Find(nacpData.Value.Title.ItemsRo.ToArray(), x => x.Name[0] != 0).NameString.ToString();
+                    foreach (ApplicationControlProperty.ApplicationTitle appTitle in nacpData.Value.Title)
+                    {
+                        if (appTitle.Name[0] != 0)
+                            continue;
+
+                        programName = appTitle.NameString.ToString();
+                    }
                 }
             }
 

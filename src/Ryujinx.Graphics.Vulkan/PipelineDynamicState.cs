@@ -1,6 +1,7 @@
 using Ryujinx.Common.Memory;
 using Silk.NET.Vulkan;
 using Silk.NET.Vulkan.Extensions.EXT;
+using System;
 
 namespace Ryujinx.Graphics.Vulkan
 {
@@ -27,6 +28,7 @@ namespace Ryujinx.Graphics.Vulkan
         public uint ViewportsCount;
         public Array16<Viewport> Viewports;
 
+        [Flags]
         private enum DirtyFlags
         {
             None = 0,
@@ -190,14 +192,14 @@ namespace Ryujinx.Graphics.Vulkan
 
         private readonly void RecordFeedbackLoop(ExtAttachmentFeedbackLoopDynamicState api, CommandBuffer commandBuffer)
         {
-            ImageAspectFlags aspects = (_feedbackLoopAspects & FeedbackLoopAspects.Color) != 0 ? ImageAspectFlags.ColorBit : 0;
+                ImageAspectFlags aspects = (_feedbackLoopAspects & FeedbackLoopAspects.Color) != 0 ? ImageAspectFlags.ColorBit : 0;
 
-            if ((_feedbackLoopAspects & FeedbackLoopAspects.Depth) != 0)
-            {
-                aspects |= ImageAspectFlags.DepthBit | ImageAspectFlags.StencilBit;
-            }
+                if ((_feedbackLoopAspects & FeedbackLoopAspects.Depth) != 0)
+                {
+                    aspects |= ImageAspectFlags.DepthBit | ImageAspectFlags.StencilBit;
+                }
 
-            api.CmdSetAttachmentFeedbackLoopEnable(commandBuffer, aspects);
+                api.CmdSetAttachmentFeedbackLoopEnable(commandBuffer, aspects);
         }
     }
 }
