@@ -9,6 +9,11 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
     {
         public static void RunPass(TransformContext context)
         {
+            for (int blkIndex = 0; blkIndex < context.Blocks.Length; blkIndex++)
+            {
+                XmadOptimizer.RunPass(context.Blocks[blkIndex]);
+            }
+
             RunOptimizationPasses(context.Blocks, context.ResourceManager);
 
             // TODO: Some of those are not optimizations and shouldn't be here.
@@ -355,7 +360,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             operation.TurnIntoCopy(attrMulLhs);
         }
 
-        private static void RemoveNode(BasicBlock block, LinkedListNode<INode> llNode)
+        public static void RemoveNode(BasicBlock block, LinkedListNode<INode> llNode)
         {
             // Remove a node from the nodes list, and also remove itself
             // from all the use lists on the operands that this node uses.
