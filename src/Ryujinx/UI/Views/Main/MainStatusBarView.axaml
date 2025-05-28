@@ -249,7 +249,14 @@
                 IsVisible="{Binding !ShowLoadProgress}"
                 Text="{Binding GameStatusText}"
                 TextAlignment="Start" />
-            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator>
+                <controls:MiniVerticalSeparator.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!ShowLoadProgress"/>
+                        <Binding Path="!IsPaused"/>
+                    </MultiBinding>
+                </controls:MiniVerticalSeparator.IsVisible>
+            </controls:MiniVerticalSeparator>
             <TextBlock
                 Margin="5,0,5,0"
                 HorizontalAlignment="Left"

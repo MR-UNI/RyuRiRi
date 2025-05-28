@@ -193,6 +193,9 @@ namespace Ryujinx.Headless
         
         [Option("use-main-config", Required = false, Default = false, HelpText = "Use the settings from what was configured via the UI.")]
         public bool InheritConfig { get; set; }
+        
+        [Option("disable-main-input-config", Required = false, Default = false, HelpText = "Do not use the input-related settings from what was configured via the UI.")]
+        public bool DisableMainInputConfig { get; set; }
 
         [Option("root-data-dir", Required = false, HelpText = "Set the custom folder path for Ryujinx data.")]
         public string BaseDataDir { get; set; }

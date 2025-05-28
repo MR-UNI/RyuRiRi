@@ -157,8 +157,8 @@ namespace Ryujinx.Ava.Systems.Configuration
             Multiplayer.LdnServer.Value = cff.LdnServer;
             
             {
-                Hacks.ShowDirtyHacks.Value = cff.ShowDirtyHacks;
-                
+                Hacks.ShowDirtyHacks.Value = shouldLoadFromFile ? cff.ShowDirtyHacks: Hacks.ShowDirtyHacks.Value; // Get from global config only
+
                 DirtyHacks hacks = new (cff.DirtyHacks ?? []);
 
                 Hacks.Xc2MenuSoftlockFix.Value = hacks.IsEnabled(DirtyHack.Xc2MenuSoftlockFix);

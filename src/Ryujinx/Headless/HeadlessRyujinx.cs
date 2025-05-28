@@ -165,10 +165,8 @@ namespace Ryujinx.Headless
             
             ReloadConfig();
 
-            if (option.InheritConfig)
-            {
+            if (!option.DisableMainInputConfig)
                 option.InheritMainConfigInput(originalArgs, ConfigurationState.Instance);
-            }
             
             _virtualFileSystem = VirtualFileSystem.CreateInstance();
             _libHacHorizonManager = new LibHacHorizonManager();

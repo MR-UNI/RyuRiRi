@@ -1116,8 +1116,8 @@ namespace Ryujinx.Ava.Systems
                 LocaleManager.Instance[LocaleKeys.VolumeShort] + $": {(int)(Device.GetVolume() * 100)}%",
                 dockedMode,
                 ConfigurationState.Instance.Graphics.AspectRatio.Value.ToText(),
-                FormatGameFrameRate(),
-                Device.Statistics.FormatFifoPercent(),
+                Device.System.IsPaused ? LocaleManager.GetUnformatted(LocaleKeys.Paused) : FormatGameFrameRate(),
+                Device.System.IsPaused ? string.Empty : Device.Statistics.FormatFifoPercent(),
                 _displayCount));
         }
 
