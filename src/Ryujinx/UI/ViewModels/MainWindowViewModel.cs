@@ -1578,10 +1578,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
             string BackendThreadingInit = Program.BackendThreadingArg;
 
-            if (BackendThreadingInit is null)
-            {
-                BackendThreadingInit = ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
-            }
+            BackendThreadingInit ??= ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
             
             // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
             string idGame = application.IdBaseString;
