@@ -45,13 +45,19 @@
                                     Orientation="Vertical">
                                     <StackPanel>
                                         <RadioButton
-                                            Checked="Sort_Checked"
+                                            IsCheckedChanged="Sort_Checked"
                                             Content="{ext:Locale XCITrimmerSortName}"
                                             GroupName="Sort"
                                             IsChecked="{Binding IsSortedByName, Mode=OneTime}"
                                             Tag="Name" />
                                         <RadioButton
-                                            Checked="Sort_Checked"
+                                            IsCheckedChanged="Sort_Checked"
+                                            Content="{ext:Locale XCITrimmerSortStatus}"
+                                            GroupName="Sort"
+                                            IsChecked="{Binding IsSortedByStatus, Mode=OneTime}"
+                                            Tag="Status" />
+                                        <RadioButton
+                                            IsCheckedChanged="Sort_Checked"
                                             Content="{ext:Locale XCITrimmerSortSaved}"
                                             GroupName="Sort"
                                             IsChecked="{Binding IsSortedBySaved, Mode=OneTime}"
@@ -67,13 +73,13 @@
                                         <Separator Height="0" HorizontalAlignment="Stretch" />
                                     </Border>
                                     <RadioButton
-                                        Checked="Order_Checked"
+                                        IsCheckedChanged="Order_Checked"
                                         Content="{ext:Locale OrderAscending}"
                                         GroupName="Order"
                                         IsChecked="{Binding SortingAscending, Mode=OneTime}"
                                         Tag="Ascending" />
                                     <RadioButton
-                                        Checked="Order_Checked"
+                                        IsCheckedChanged="Order_Checked"
                                         Content="{ext:Locale OrderDescending}"
                                         GroupName="Order"
                                         IsChecked="{Binding !SortingAscending, Mode=OneTime}"
@@ -151,7 +157,7 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         CornerRadius="5"
-                                        IsVisible="{Binding $parent[UserControl].((viewModels:XciTrimmerViewModel)DataContext).Processing}"
+                                        IsVisible="{Binding $parent[UserControl].((viewModels:XciTrimmerViewModel)DataContext).Processing, FallbackValue=False}"
                                         Maximum="100"
                                         Minimum="0"
                                         Value="{Binding PercentageProgress}" />

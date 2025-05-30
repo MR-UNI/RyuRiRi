@@ -23,12 +23,12 @@
                 Grid.Column="0"
                 Margin="15, 0, 7, 0"
                 ToolTip.Tip="{ext:WindowTitle CompatibilityListTitle, False}"/>
-            <TextBox Name="SearchBoxFlush" Grid.Column="1" Margin="0, 5, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermarkWithCount}" TextChanged="TextBox_OnTextChanged" />
+            <TextBox Name="SearchBoxFlush" Grid.Column="1" Margin="0, 5, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermarkWithCount}" Text="{Binding Search}" />
             <CheckBox Grid.Column="2" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
             <TextBlock Grid.Column="3" Padding="0, 0, 138, 0" Margin="-10, 0, 18, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
         </Grid>
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Name="NormalControls">
-            <TextBox Name="SearchBoxNormal" Grid.Column="0" Margin="15, 0, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
+            <TextBox Name="SearchBoxNormal" Grid.Column="0" Margin="15, 0, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" Text="{Binding Search}" />
             <CheckBox Grid.Column="1" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
             <TextBlock Grid.Column="2" Padding="0, 0, 1, 0" Margin="-10, 0, 18, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
         </Grid>

@@ -142,7 +142,6 @@ namespace Ryujinx.Common.Utilities
         {
             Log = log;
             Filename = path;
-            ReadHeader();
         }
 
         public void CheckFreeSpace(CancellationToken? cancelToken = null)
@@ -435,7 +434,6 @@ namespace Ryujinx.Common.Utilities
                 _binaryReader.Close();
             _binaryReader = null;
             _fileStream = null;
-            GC.Collect();
         }
 
         private void ReadHeader()

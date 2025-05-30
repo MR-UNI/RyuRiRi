@@ -8,6 +8,7 @@ using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public enum SortField
         {
             Name,
+            Status,
             Saved
         }
 
@@ -42,6 +44,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private MainWindowViewModel _mainWindowViewModel;
         private CancellationTokenSource _cancellationTokenSource;
         private string _search;
+        private Timer _searchTimer;
         private ProcessingMode _processingMode;
         private SortField _sortField = SortField.Name;
         private bool _sortAscending = true;
@@ -55,11 +58,39 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadXCIApplications()
         {
-            IEnumerable<ApplicationData> apps = ApplicationLibrary.Applications.Items
-                .Where(app => app.FileExtension == _FileExtXCI);
+            try
+            {
+                _mainWindowViewModel.StatusBarProgressStatusText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.StatusBarXCIFileScanning);
+                _mainWindowViewModel.StatusBarProgressStatusVisible = true;
+                _mainWindowViewModel.StatusBarProgressMaximum = 1;
+                _mainWindowViewModel.StatusBarProgressValue = 0;
+                _mainWindowViewModel.StatusBarVisible = true;
 
-            foreach (ApplicationData xciApp in apps)
-                AddOrUpdateXCITrimmerFile(CreateXCITrimmerFile(xciApp.Path));
+                IEnumerable<ApplicationData> apps = ApplicationLibrary.Applications.Items
+                    .Where(app => app.FileExtension == _FileExtXCI).ToArray();
+
+                _mainWindowViewModel.StatusBarProgressMaximum = apps.Count();
+                _mainWindowViewModel.StatusBarProgressValue = 0;
+
+                int appsProcessed = 0;
+                foreach (ApplicationData xciApp in apps)
+                {
+                    AddOrUpdateXCITrimmerFile(CreateXCITrimmerFile(xciApp.Path));
+                    
+                    if (appsProcessed % 50 == 0)
+                    {
+                        _mainWindowViewModel.StatusBarProgressValue = appsProcessed;
+                        Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render).Wait();
+                    }
+                    appsProcessed++;
+                }
+            }
+            finally
+            {
+                _mainWindowViewModel.StatusBarProgressStatusVisible = false;
+                _mainWindowViewModel.StatusBarProgressStatusText = string.Empty;
+                _mainWindowViewModel.StatusBarVisible = false;                
+            }
 
             ApplicationsChanged();
         }
@@ -245,8 +276,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (arg is XCITrimmerFileModel content)
             {
                 return string.IsNullOrWhiteSpace(_search)
-                    || content.Name.ToLower().Contains(_search.ToLower())
-                    || content.Path.ToLower().Contains(_search.ToLower());
+                       || content.Name.ContainsIgnoreCase(_search)
+                       || XCITrimmerFileStatusConverter.From(content).ContainsIgnoreCase(_search)
+                       || content.Path.ContainsIgnoreCase(_search);
             }
 
             return false;
@@ -268,18 +300,24 @@ namespace Ryujinx.Ava.UI.ViewModels
                 switch (_viewModel.SortingField)
                 {
                     case SortField.Name:
-                        result = x.Name.CompareTo(y.Name);
+                        result = String.Compare(x?.Name ?? String.Empty, y?.Name ?? String.Empty, StringComparison.OrdinalIgnoreCase);
+                        break;
+                    case SortField.Status:
+                        result = String.Compare(XCITrimmerFileStatusConverter.From(x), XCITrimmerFileStatusConverter.From(y), StringComparison.OrdinalIgnoreCase);
                         break;
                     case SortField.Saved:
                         result = x.PotentialSavingsB.CompareTo(y.PotentialSavingsB);
                         break;
                 }
 
-                if (!_viewModel.SortingAscending)
-                    result = -result;
+                if (result == 0)
+                    result = String.Compare(x?.Path ?? String.Empty, y?.Path ?? String.Empty, StringComparison.OrdinalIgnoreCase);
 
                 if (result == 0)
-                    result = x.Path.CompareTo(y.Path);
+                    result = String.Compare(x?.Name ?? String.Empty, y?.Name ?? String.Empty, StringComparison.OrdinalIgnoreCase);
+                
+                if (!_viewModel.SortingAscending)
+                    result = -result;
 
                 return result;
             }
@@ -446,7 +484,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             set
             {
                 _search = value;
-                FilteringChanged();
+                _searchTimer?.Dispose();
+                _searchTimer = new Timer(_ =>
+                {
+                    FilteringChanged();
+                    _searchTimer.Dispose();
+                    _searchTimer = null;
+                }, null, 250, 0);
             }
         }
 
@@ -467,6 +511,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return SortingField switch
                 {
                     SortField.Name => LocaleManager.Instance[LocaleKeys.XCITrimmerSortName],
+                    SortField.Status => LocaleManager.Instance[LocaleKeys.XCITrimmerSortStatus],
                     SortField.Saved => LocaleManager.Instance[LocaleKeys.XCITrimmerSortSaved],
                     _ => string.Empty,
                 };
@@ -487,6 +532,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => _sortField == SortField.Name;
         }
 
+        public bool IsSortedByStatus
+        {
+            get => _sortField == SortField.Status;
+        }
+        
         public bool IsSortedBySaved
         {
             get => _sortField == SortField.Saved;

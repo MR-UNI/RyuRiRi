@@ -62,14 +62,28 @@ namespace Ryujinx.Ava.UI.Views.Dialog
 
         public void Sort_Checked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioButton { Tag: string sortField })
+            if (sender is not RadioButton { Tag: string sortField, IsChecked: { } isChecked })
+            {
+                return;
+            }
+
+            if (isChecked)
+            {
                 ViewModel.SortingField = Enum.Parse<XciTrimmerViewModel.SortField>(sortField);
+            }
         }
 
         public void Order_Checked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioButton { Tag: string sortOrder })
+            if (sender is not RadioButton { Tag: string sortOrder, IsChecked: { } isChecked })
+            {
+                return;
+            }
+
+            if (isChecked)
+            {
                 ViewModel.SortingAscending = sortOrder is "Ascending";
+            }
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
