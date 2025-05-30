@@ -29,12 +29,12 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
             byte[] initialCounter = new byte[16];
 
-            const int totalPages = 135;
-            const int pageSize = 4;
-            const int totalBytes = totalPages * pageSize;
-
             if (fileBytes.Length == 532)
             {
+                int totalPages = 135;
+                int pageSize = 4;
+                int totalBytes = totalPages * pageSize;
+
                 // add 8 bytes to the end of the file
                 byte[] newFileBytes = new byte[totalBytes];
                 Array.Copy(fileBytes, newFileBytes, fileBytes.Length);

@@ -25,7 +25,7 @@ namespace Ryujinx.HLE.HOS.Services
         // not large enough.
         private const int PointerBufferSize = 0x8000;
 
-        private static uint[] _defaultCapabilities => [
+        private static uint[] DefaultCapabilities => [
             (((uint)KScheduler.CpuCoresCount - 1) << 24) + (((uint)KScheduler.CpuCoresCount - 1) << 16) + 0x63F7u,
             0x1FFFFFCF,
             0x207FFFEF,
@@ -81,7 +81,7 @@ namespace Ryujinx.HLE.HOS.Services
 
             ProcessCreationInfo creationInfo = new("Service", 1, 0, 0x8000000, 1, Flags, 0, 0);
 
-            KernelStatic.StartInitialProcess(context, creationInfo, _defaultCapabilities, 44, Main);
+            KernelStatic.StartInitialProcess(context, creationInfo, DefaultCapabilities, 44, Main);
         }
 
         private void AddPort(int serverPortHandle, Func<IpcService> objectFactory)
