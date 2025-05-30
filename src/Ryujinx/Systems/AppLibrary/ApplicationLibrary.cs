@@ -1556,7 +1556,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                         if (!savedUpdateLookup.Contains(update))
                         {
                             bool shouldSelect = false;
-                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Item1.Version < update.Version)
+                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Update.Version < update.Version)
                             {
                                 shouldSelect = true;
                                 if (selectedUpdate.HasValue)

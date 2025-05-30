@@ -573,7 +573,7 @@ namespace Ryujinx.HLE.FileSystem
             {
                 Nca nca = new(_virtualFileSystem.KeySet, OpenPossibleFragmentedFile(filesystem, entry.FullPath, OpenMode.Read).AsStorage());
 
-                SaveNca(nca, entry.Name.Remove(entry.Name.IndexOf('.')), temporaryDirectory);
+                SaveNca(nca, entry.Name[..entry.Name.IndexOf('.')], temporaryDirectory);
             }
         }
 

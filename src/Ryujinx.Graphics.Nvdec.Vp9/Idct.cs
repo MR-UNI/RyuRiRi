@@ -54,8 +54,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 4; ++i)
             {
                 _iht4[txType].Rows(input, outptr);
-                input = input.Slice(4);
-                outptr = outptr.Slice(4);
+                input = input[4..];
+                outptr = outptr[4..];
             }
 
             // Inverse transform column vectors
@@ -95,8 +95,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 8; ++i)
             {
                 ht.Rows(input, outptr);
-                input = input.Slice(8);
-                outptr = outptr.Slice(8);
+                input = input[8..];
+                outptr = outptr[8..];
             }
 
             // Inverse transform column vectors
@@ -136,8 +136,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 16; ++i)
             {
                 ht.Rows(input, outptr);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Columns
@@ -305,8 +305,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 4; ++i)
             {
                 _highbdIht4[txType].Rows(input, outptr, bd);
-                input = input.Slice(4);
-                outptr = outptr.Slice(4);
+                input = input[4..];
+                outptr = outptr[4..];
             }
 
             // Inverse transform column vectors.
@@ -346,8 +346,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 8; ++i)
             {
                 ht.Rows(input, outptr, bd);
-                input = input.Slice(8);
-                outptr = output.Slice(8);
+                input = input[8..];
+                outptr = output[8..];
             }
 
             // Inverse transform column vectors.
@@ -388,8 +388,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             for (int i = 0; i < 16; ++i)
             {
                 ht.Rows(input, outptr, bd);
-                input = input.Slice(16);
-                outptr = output.Slice(16);
+                input = input[16..];
+                outptr = output[16..];
             }
 
             // Columns

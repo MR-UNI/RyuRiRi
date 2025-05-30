@@ -296,7 +296,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             Entropy.CopyProbs(ref fc.CompInterProb, _defaultCompInterP);
             Entropy.CopyProbs(ref fc.CompRefProb, _defaultCompRefP);
             Entropy.CopyProbs(ref fc.SingleRefProb, _defaultSingleRefP);
-            Entropy.CopyProbs(ref fc.Tx32x32Prob, _defaultTxProbs.AsSpan().Slice(0, 6));
+            Entropy.CopyProbs(ref fc.Tx32x32Prob, _defaultTxProbs.AsSpan()[..6]);
             Entropy.CopyProbs(ref fc.Tx16x16Prob, _defaultTxProbs.AsSpan().Slice(6, 4));
             Entropy.CopyProbs(ref fc.Tx8x8Prob, _defaultTxProbs.AsSpan().Slice(10, 2));
             Entropy.CopyProbs(ref fc.SkipProb, _defaultSkipProbs);

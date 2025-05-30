@@ -60,7 +60,7 @@ namespace Ryujinx.Input.SDL2
             }
 
             // Remove the first 4 char of the guid (CRC part) to make it stable
-            string guidString = "0000" + guid.ToString().Substring(4);
+            string guidString = $"0000{guid.ToString()[4..]}";
 
             string id;
 
