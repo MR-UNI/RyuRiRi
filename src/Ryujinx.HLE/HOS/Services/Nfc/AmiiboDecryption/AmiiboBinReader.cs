@@ -340,18 +340,18 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
         public static bool HasAmiiboKeyFile => File.Exists(GetKeyRetailBinPath());
 
         
-        public static DateTime DateTimeFromTag(ushort value)
+        public static DateTime DateTimeFromTag(ushort dateTimeTag)
         {
             try
             {
-                int day = value & 0x1F;
-                int month = (value >> 5) & 0x0F;
-                int year = (value >> 9) & 0x7F;
+                int day = dateTimeTag & 0x1F;
+                int month = (dateTimeTag >> 5) & 0x0F;
+                int year = (dateTimeTag >> 9) & 0x7F;
 
                 if (day == 0 || month == 0 || month > 12 || day > DateTime.DaysInMonth(2000 + year, month))
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(dateTimeTag), "Invalid date in tag.");
 
-                return new DateTime(2000 + year, month, day);
+				return new DateTime(2000 + year, month, day);
             }
             catch
             {
