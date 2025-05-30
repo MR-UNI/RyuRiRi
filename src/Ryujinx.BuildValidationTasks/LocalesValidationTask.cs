@@ -9,6 +9,13 @@ namespace Ryujinx.BuildValidationTasks
 {
     public class LocalesValidationTask : IValidationTask
     {
+		static readonly JsonSerializerOptions _jsonOptions = new()
+		{
+			WriteIndented = true,
+			NewLine = "\n",
+			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+		};
+		
         public LocalesValidationTask() { }
 
         public bool Execute(string projectPath, bool isGitRunner)
@@ -81,14 +88,7 @@ namespace Ryujinx.BuildValidationTasks
             if (isGitRunner && encounteredIssue)
                 throw new JsonException("1 or more locales are invalid!");
 
-            JsonSerializerOptions jsonOptions = new()
-            {
-                WriteIndented = true,
-                NewLine = "\n",
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            };
-
-            string jsonString = JsonSerializer.Serialize(json, jsonOptions);
+            string jsonString = JsonSerializer.Serialize(json, _jsonOptions);
 
             using (StreamWriter sw = new(path))
             {
