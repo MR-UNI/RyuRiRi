@@ -683,11 +683,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public void SetupTileInfo(ref ReadBitBuffer rb)
         {
-            int minLog2TileCols = 0, maxLog2TileCols = 0, maxOnes;
-            TileInfo.GetTileNBits(MiCols, out minLog2TileCols, out maxLog2TileCols);
+            TileInfo.GetTileNBits(MiCols, out int minLog2TileCols, out int maxLog2TileCols);
 
             // columns
-            maxOnes = maxLog2TileCols - minLog2TileCols;
+            int maxOnes = maxLog2TileCols - minLog2TileCols;
             Log2TileCols = minLog2TileCols;
             while (maxOnes-- != 0 && rb.ReadBit() != 0)
             {

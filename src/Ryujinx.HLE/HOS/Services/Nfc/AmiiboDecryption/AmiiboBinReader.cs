@@ -27,8 +27,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 return new VirtualAmiiboFile();
             }
 
-            byte[] initialCounter = new byte[16];
-
             if (fileBytes.Length == 532)
             {
                 int totalPages = 135;
@@ -54,7 +52,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             byte[] writeCounter = new byte[2];
             byte[] appId = new byte[8];
             byte[] settingsBytes = new byte[2];
-            byte formData = 0;
             byte[] applicationAreas = new byte[216];
             byte[] dataFull = amiiboDump.GetData();
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Data Full Length: {dataFull.Length}");
@@ -94,7 +91,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                         // Bytes 0 and 1 are amiibo ID, byte 2 is set ID, byte 3 is form data
                         Array.Copy(pageData, 0, amiiboID, 0, 2);
                         setID[0] = pageData[2];
-                        formData = pageData[3];
                         break;
                     case 64:
                     case 65:

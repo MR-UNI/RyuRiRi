@@ -36,10 +36,9 @@ namespace Ryujinx.Ava.Systems
 
             if (shouldRestart)
             {
-                List<string> arguments = CommandLineState.Arguments.ToList();
                 string executableDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-                var dialogTask = taskDialog.ShowAsync(true);
+                _ = taskDialog.ShowAsync(true);
                 await Task.Delay(500);
 
                 // Find the process name.

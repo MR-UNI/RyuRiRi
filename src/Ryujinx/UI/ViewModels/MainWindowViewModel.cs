@@ -1574,8 +1574,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool InitializeUserConfig(ApplicationData application)
         {
-            // Code where conditions will be met before loading the user configuration (Global Config)      
-            BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
+            // Code where conditions will be met before loading the user configuration (Global Config)
             string BackendThreadingInit = Program.BackendThreadingArg;
 
             BackendThreadingInit ??= ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();

@@ -279,9 +279,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             ArrayPtr<byte> dataStart = data;
             CodecErr res;
             Array8<uint> frameSizes = new();
-            int frameCount = 0;
 
-            res = Decoder.ParseSuperframeIndex(data, (ulong)data.Length, ref frameSizes, out frameCount);
+            res = Decoder.ParseSuperframeIndex(data, (ulong)data.Length, ref frameSizes, out int frameCount);
             if (res != CodecErr.Ok)
             {
                 return res;

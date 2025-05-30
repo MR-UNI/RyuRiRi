@@ -119,7 +119,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             VpxGetFrameBufferCbFnT cb,
             Ptr<InternalFrameBufferList> cbPriv)
         {
-            int byteAlign = byteAlignment == 0 ? 1 : byteAlignment; // TODO: Is it safe to ignore the alignment?
             int alignedWidth = (width + 7) & ~7;
             int alignedHeight = (height + 7) & ~7;
             int yStride = (alignedWidth + (2 * border) + 31) & ~31;
@@ -134,8 +133,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 ((ulong)(uvHeight + (2 * uvBorderH)) * (ulong)uvStride) + (ulong)byteAlignment;
 
             ulong frameSize = (ulong)(1 + (useHighbitdepth ? 1 : 0)) * (yplaneSize + (2 * uvplaneSize));
-
-            ArrayPtr<byte> buf = ArrayPtr<byte>.Null;
 
             // frame_size is stored in buffer_alloc_sz, which is an int. If it won't
             // fit, fail early.
@@ -211,7 +208,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             SubsamplingX = ssX;
             SubsamplingY = ssY;
 
-            buf = BufferAlloc;
+            ArrayPtr<byte> buf = BufferAlloc;
             if (useHighbitdepth)
             {
                 // Store uint16 addresses when using 16bit framebuffers

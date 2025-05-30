@@ -1034,7 +1034,7 @@ namespace Ryujinx.HLE.FileSystem
                 string fileName = Path.GetFileName(filePath);
                 string[] lines = File.ReadAllLines(filePath);
 
-                bool verified = false;
+                bool verified;
                 switch (fileName)
                 {
                     case "prod.keys":
