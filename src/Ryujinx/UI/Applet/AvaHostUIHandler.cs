@@ -179,11 +179,13 @@ namespace Ryujinx.Ava.UI.Applet
                 try
                 {
                     _parent.ViewModel.AppHost.NpadManager.BlockInputUpdates();
-                    SoftwareKeyboardUIArgs args = new();
-                    args.KeyboardMode = KeyboardMode.Default;
-                    args.InitialText = "Ryujinx";
-                    args.StringLengthMin = 1;
-                    args.StringLengthMax = 25;
+                    SoftwareKeyboardUIArgs args = new()
+                    {
+                        KeyboardMode = KeyboardMode.Default,
+                        InitialText = "Ryujinx",
+                        StringLengthMin = 1,
+                        StringLengthMax = 25
+                    };
                     (UserResult result, string userInput) =
                         await SwkbdAppletDialog.ShowInputDialog(LocaleManager.Instance[LocaleKeys.CabinetDialog], args);
                     if (result == UserResult.Ok)
