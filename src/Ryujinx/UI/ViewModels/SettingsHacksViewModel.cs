@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Gommon;
 using Ryujinx.Ava.Systems.Configuration;
 
@@ -38,6 +38,15 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .AppendLine();
 
             sb.Append("Lets DOOM 2016 go in game.");
+        });
+
+        public static string DisableFixOcclusionCullingTooltip { get; } = Lambda.String(sb =>
+        {
+            sb.AppendLine(
+                    "Eliminates visual artifacts in the form of chaotic flickering of objects on the screen.")
+                .AppendLine();
+
+            sb.Append("The solution is relevant for games where such an effect is observed (for example, Alan Wake).");
         });
     }
 }

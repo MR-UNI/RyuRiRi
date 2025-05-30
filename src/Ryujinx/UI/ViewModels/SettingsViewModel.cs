@@ -383,6 +383,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public bool DisableFixOcclusionCulling { get; set; }
+
         public SettingsViewModel(
             VirtualFileSystem virtualFileSystem, 
             ContentManager contentManager,
@@ -659,6 +661,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             DisableP2P = config.Multiplayer.DisableP2p;
             LdnPassphrase = config.Multiplayer.LdnPassphrase;
             LdnServer = config.Multiplayer.LdnServer;
+
+            // Tweaks
+            DisableFixOcclusionCulling = config.Tweaks.DisableFixOcclusionCulling.Value;
         }
 
         public void SaveSettings()
@@ -784,6 +789,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
             config.Hacks.DisableNifmIsAnyInternetRequestAccepted.Value =
                 DirtyHacks.NifmDisableIsAnyInternetRequestAccepted;
+
+            // Tweaks
+            config.Tweaks.DisableFixOcclusionCulling.Value = DisableFixOcclusionCulling;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 

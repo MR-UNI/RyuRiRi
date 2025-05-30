@@ -72,6 +72,11 @@ namespace Ryujinx.Graphics.Gpu
         /// Enables or disables color space passthrough, if available.
         /// </summary>
         public static bool EnableColorSpacePassthrough = false;
+
+        /// <summary>
+        /// Enables or disables fix occlusion culling.
+        /// </summary>
+        public static bool DisableFixOcclusionCulling = false;
     }
 #pragma warning restore CA2211
 }
