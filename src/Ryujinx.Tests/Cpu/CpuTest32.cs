@@ -13,8 +13,8 @@ namespace Ryujinx.Tests.Cpu
     public class CpuTest32
     {
         protected static readonly uint Size = (uint)MemoryBlock.GetPageSize();
-        protected static uint CodeBaseAddress = Size;
-        protected static uint DataBaseAddress = CodeBaseAddress + Size;
+        protected static uint CodeBaseAddress { get; set; } = Size;
+        protected static uint DataBaseAddress { get; set; } = CodeBaseAddress + Size;
         private uint _currAddress;
 
         private MemoryBlock _ram;
