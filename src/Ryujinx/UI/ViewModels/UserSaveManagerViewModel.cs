@@ -43,10 +43,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .Bind(out ReadOnlyObservableCollection<SaveModel> view).AsObservableList();
 
-#pragma warning disable MVVMTK0034
             _views.Clear();
             _views.AddRange(view);
-#pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(Views));
         }
 

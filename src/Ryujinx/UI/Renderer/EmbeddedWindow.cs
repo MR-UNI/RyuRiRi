@@ -215,11 +215,9 @@ namespace Ryujinx.Ava.UI.Renderer
         }
 
         [SupportedOSPlatform("macos")]
-#pragma warning disable CA1822 // Mark member as static
         void DestroyMacOS()
         {
             // TODO
         }
-#pragma warning restore CA1822
     }
 }

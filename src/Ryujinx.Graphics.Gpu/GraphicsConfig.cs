@@ -1,6 +1,5 @@
 namespace Ryujinx.Graphics.Gpu
 {
-#pragma warning disable CA2211 // Non-constant fields should not be visible
     /// <summary>
     /// General GPU and graphics configuration.
     /// </summary>
@@ -73,5 +72,4 @@ namespace Ryujinx.Graphics.Gpu
         /// </summary>
         public static bool EnableColorSpacePassthrough = false;
     }
-#pragma warning restore CA2211
 }

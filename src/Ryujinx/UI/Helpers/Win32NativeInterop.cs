@@ -28,7 +28,6 @@ namespace Ryujinx.Ava.UI.Helpers
             IdcArrow = 32512,
         }
 
-        [SuppressMessage("Design", "CA1069: Enums values should not be duplicated")]
         public enum WindowsMessages : uint
         {
             NcHitTest = 0x0084,

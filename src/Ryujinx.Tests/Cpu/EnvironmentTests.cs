@@ -12,9 +12,7 @@ namespace Ryujinx.Tests.Cpu
 {
     internal class EnvironmentTests
     {
-#pragma warning disable IDE0052 // Remove unread private member
         private static Translator _translator;
-#pragma warning restore IDE0052
 
         private static void EnsureTranslator()
         {

@@ -131,10 +131,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Filter(Filter)
                 .Bind(out ReadOnlyObservableCollection<ModModel> view).AsObservableList();
 
-#pragma warning disable MVVMTK0034 // Event to update is fired below
             _views.Clear();
             _views.AddRange(view);
-#pragma warning restore MVVMTK0034
 
             SelectedMods = new(Views.Where(x => x.Enabled));
 

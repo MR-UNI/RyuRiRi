@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Ava.Systems;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System;
@@ -69,9 +69,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void SetEntries(IEnumerable<CompatibilityEntry> entries)
         {
-#pragma warning disable MVVMTK0034
             _currentEntries = entries.ToList();
-#pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(CurrentEntries));
         }
     }

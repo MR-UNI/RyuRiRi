@@ -4,9 +4,7 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService.ApplicationDisplayService
 {
     class ISystemDisplayService : IpcService
     {
-#pragma warning disable IDE0052 // Remove unread private member
         private readonly IApplicationDisplayService _applicationDisplayService;
-#pragma warning restore IDE0052
 
         public ISystemDisplayService(IApplicationDisplayService applicationDisplayService)
         {

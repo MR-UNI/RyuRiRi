@@ -180,7 +180,6 @@ namespace Ryujinx.HLE.HOS.Services.Pctl.ParentalControlServiceFactory
 
 #pragma warning disable // Remove unnecessary value assignment
             bool stereoVisionRestriction = false;
-#pragma warning restore IDE0059
 
             if (_stereoVisionRestrictionConfigurable)
             {

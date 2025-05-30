@@ -8,7 +8,6 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 {
     abstract class ProfanityFilterBase
     {
-#pragma warning disable IDE0230 // Use UTF-8 string literal
         private static readonly byte[][] _wordSeparators =
         [
             [0x0D],
@@ -92,7 +91,6 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
             [0xEF, 0xBC, 0x8D],
             [0xEF, 0xBC, 0xBD]
         ];
-#pragma warning restore IDE0230
 
         private enum SignFilterStep
         {
