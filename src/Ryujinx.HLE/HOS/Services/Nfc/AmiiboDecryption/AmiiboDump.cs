@@ -136,7 +136,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         private void DeriveKeysAndCipher()
         {
-            byte[] discard;
             // Derive HMAC Tag Key
             this.hmacTagKey = DeriveKey(this.tagMasterKey, false, out _, out _);
 
