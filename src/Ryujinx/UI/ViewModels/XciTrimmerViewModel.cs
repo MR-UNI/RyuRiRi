@@ -36,10 +36,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         private readonly Ryujinx.Common.Logging.XCIFileTrimmerLog _logger;
         private ApplicationLibrary ApplicationLibrary => _mainWindowViewModel.ApplicationLibrary;
         private Optional<XCITrimmerFileModel> _processingApplication = null;
-        private AvaloniaList<XCITrimmerFileModel> _allXCIFiles = [];
+        private readonly AvaloniaList<XCITrimmerFileModel> _allXCIFiles = [];
         private AvaloniaList<XCITrimmerFileModel> _selectedXCIFiles = [];
-        private AvaloniaList<XCITrimmerFileModel> _displayedXCIFiles = [];
-        private MainWindowViewModel _mainWindowViewModel;
+        private readonly AvaloniaList<XCITrimmerFileModel> _displayedXCIFiles = [];
+        private readonly MainWindowViewModel _mainWindowViewModel;
         private CancellationTokenSource _cancellationTokenSource;
         private string _search;
         private ProcessingMode _processingMode;
@@ -254,7 +254,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private class CompareXCITrimmerFiles : IComparer<XCITrimmerFileModel>
         {
-            private XciTrimmerViewModel _viewModel;
+            private readonly XciTrimmerViewModel _viewModel;
 
             public CompareXCITrimmerFiles(XciTrimmerViewModel ViewModel)
             {

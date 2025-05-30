@@ -155,9 +155,9 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
         public unsafe struct ReturnValueForAmiiboSettings
         {
             public byte AmiiboSettingsReturnFlag;
-            private byte Padding1;
-            private byte Padding2;
-            private byte Padding3;
+            private readonly byte Padding1;
+            private readonly byte Padding2;
+            private readonly byte Padding3;
             public DeviceHandle DeviceHandle;
             public TagInfo TagInfo;
             public RegisterInfo RegisterInfo;

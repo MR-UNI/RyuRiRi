@@ -400,6 +400,8 @@ namespace Ryujinx.Tests.Memory
             Assert.AreEqual(singlePages[2], combinedHandles.ElementAt(10));
         }
 
+        static readonly bool[] _expectedPagesModified = [true, false, false];
+
         [Test]
         public void PreciseAction()
         {
@@ -437,7 +439,7 @@ namespace Ryujinx.Tests.Memory
             Assert.IsTrue(actionTriggered); // Action triggered.
 
             // Precise writes are ignored on two later handles due to the action returning true.
-            Assert.AreEqual(pagesModified, new bool[] { true, false, false });
+            Assert.AreEqual(pagesModified, _expectedPagesModified);
         }
     }
 }

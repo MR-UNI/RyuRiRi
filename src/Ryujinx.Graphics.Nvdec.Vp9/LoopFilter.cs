@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 _curSbCol.AsSpan().Fill(-1);
             }
 
-            public void SyncRead(int r, int c)
+            public readonly void SyncRead(int r, int c)
             {
                 if (_curSbCol == null)
                 {
@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
             }
 
-            public void SyncWrite(int r, int c, int sbCols)
+            public readonly void SyncWrite(int r, int c, int sbCols)
             {
                 if (_curSbCol == null)
                 {

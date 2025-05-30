@@ -24,7 +24,7 @@ namespace ARMeilleure.Translation.Cache
 
         private static JitCacheInvalidation _jitCacheInvalidator;
 
-        private static List<CacheMemoryAllocator> _cacheAllocators = [];
+        private static readonly List<CacheMemoryAllocator> _cacheAllocators = [];
 
         private static readonly List<CacheEntry> _cacheEntries = [];
 

@@ -16,7 +16,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             return data > max ? max : data;
         }
 
-        public ulong BytesRead()
+        public readonly ulong BytesRead()
         {
             return (BitOffset + 7) >> 3;
         }

@@ -26,7 +26,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public readonly unsafe Plane UPlane => new((nint)UBuffer.ToPointer(), UBuffer.Length);
         public readonly unsafe Plane VPlane => new((nint)VBuffer.ToPointer(), VBuffer.Length);
 
-        public FrameField Field => FrameField.Progressive;
+        public readonly FrameField Field => FrameField.Progressive;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -43,10 +43,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public int FrameSize { get; private set; }
         public int Border { get; private set; }
 
-        public int YCropWidth => Width;
-        public int YCropHeight => Height;
-        public int UvCropWidth => UvWidth;
-        public int UvCropHeight => UvHeight;
+        public readonly int YCropWidth => Width;
+        public readonly int YCropHeight => Height;
+        public readonly int UvCropWidth => UvWidth;
+        public readonly int UvCropHeight => UvHeight;
 
         public ArrayPtr<byte> BufferAlloc;
         public int BufferAllocSz;
@@ -231,7 +231,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return 0;
         }
 
-        public void Dispose()
+        public readonly void Dispose()
         {
             Marshal.FreeHGlobal(_pointer);
         }

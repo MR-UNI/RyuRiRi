@@ -7,11 +7,11 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 {
     public class AmiiboDump
     {
-        private AmiiboMasterKey dataMasterKey;
-        private AmiiboMasterKey tagMasterKey;
+        private readonly AmiiboMasterKey dataMasterKey;
+        private readonly AmiiboMasterKey tagMasterKey;
 
         private bool isLocked;
-        private byte[] data;
+        private readonly byte[] data;
         private byte[] hmacTagKey;
         private byte[] hmacDataKey;
         private byte[] aesKey;

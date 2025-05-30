@@ -72,10 +72,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public SettingsHacksViewModel DirtyHacks { get; }
 
         private readonly bool _isGameRunning;
-        private Bitmap _gameIcon;
-        private string _gameTitle;
-        private string _gamePath;
-        private string _gameId;
+        private readonly Bitmap _gameIcon;
+        private readonly string _gameTitle;
+        private readonly string _gamePath;
+        private readonly string _gameId;
         public bool IsGameRunning => _isGameRunning;
         public Bitmap GameIcon => _gameIcon;
         public string GamePath => _gamePath;

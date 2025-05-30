@@ -148,7 +148,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public ArrayPtr<sbyte> AboveSegContext;
         public ArrayPtr<sbyte> AboveContext;
 
-        public bool FrameIsIntraOnly()
+        public readonly bool FrameIsIntraOnly()
         {
             return FrameType == FrameType.KeyFrame || IntraOnly;
         }
@@ -166,12 +166,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return false;
         }
 
-        public ref Surface GetFrameNewBuffer()
+        public readonly ref Surface GetFrameNewBuffer()
         {
             return ref BufferPool.Value.FrameBufs[NewFbIdx].Buf;
         }
 
-        public int GetFreeFb()
+        public readonly int GetFreeFb()
         {
             ref Array12<RefCntBuffer> frameBufs = ref BufferPool.Value.FrameBufs;
 
@@ -233,7 +233,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 allocator.Allocate<TileWorkerData>((tileCols * tileRows) + (maxThreads > 1 ? maxThreads : 0));
         }
 
-        public void FreeTileWorkerData(MemoryAllocator allocator)
+        public readonly void FreeTileWorkerData(MemoryAllocator allocator)
         {
             allocator.Free(TileWorkerData);
         }
@@ -357,7 +357,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        private void SetPartitionProbs(ref MacroBlockD xd)
+        private readonly void SetPartitionProbs(ref MacroBlockD xd)
         {
             xd.PartitionProbs = FrameIsIntraOnly()
                 ? new ArrayPtr<Array3<byte>>(ref Fc.Value.KfPartitionProb[0], 16)
@@ -489,7 +489,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public void InitMvProbs()
+        public readonly void InitMvProbs()
         {
             Fc.Value.Joints[0] = 32;
             Fc.Value.Joints[1] = 64;
@@ -987,7 +987,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public void DefaultCoefProbs()
+        public readonly void DefaultCoefProbs()
         {
             Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx4X4], Entropy.DefaultCoefProbs4X4);
             Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx8X8], Entropy.DefaultCoefProbs8X8);

@@ -11,7 +11,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private delegate void HighbdTransform1D(ReadOnlySpan<int> input, Span<int> output, int bd);
 
-        private struct Transform2D
+        private readonly struct Transform2D
         {
             public readonly Transform1D Cols; // Vertical and horizontal
             public readonly Transform1D Rows; // Vertical and horizontal
@@ -23,7 +23,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private struct HighbdTransform2D
+        private readonly struct HighbdTransform2D
         {
             public readonly HighbdTransform1D Cols; // Vertical and horizontal
             public readonly HighbdTransform1D Rows; // Vertical and horizontal
