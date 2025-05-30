@@ -205,7 +205,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
             if (_currentAssigner != null)
             {
-                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                Dictionary<string, Action> buttonActions = new()
                 {
                     { "ButtonZl", () => ViewModel.Config.ButtonZl = Key.Unbound },
                     { "ButtonL", () => ViewModel.Config.ButtonL = Key.Unbound },

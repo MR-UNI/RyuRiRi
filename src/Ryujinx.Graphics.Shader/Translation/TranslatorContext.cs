@@ -385,7 +385,7 @@ namespace Ryujinx.Graphics.Shader.Translation
             {
                 StructureType tfeDataStruct = new(new StructureField[]
                 {
-                    new StructureField(AggregateType.Array | AggregateType.U32, "data", 0)
+                    new(AggregateType.Array | AggregateType.U32, "data", 0)
                 });
 
                 for (int i = 0; i < ResourceReservations.TfeBuffersCount; i++)
@@ -404,7 +404,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 StructureType vertexOutputStruct = new(new StructureField[]
                 {
-                    new StructureField(AggregateType.Array | AggregateType.FP32, "data", 0)
+                    new(AggregateType.Array | AggregateType.FP32, "data", 0)
                 });
 
                 int vertexOutputSbBinding = resourceManager.Reservations.VertexOutputStorageBufferBinding;
@@ -441,7 +441,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                     StructureType geometryIbOutputStruct = new(new StructureField[]
                     {
-                        new StructureField(AggregateType.Array | AggregateType.U32, "data", 0)
+                        new(AggregateType.Array | AggregateType.U32, "data", 0)
                     });
 
                     int geometryIbOutputSbBinding = resourceManager.Reservations.GeometryIndexOutputStorageBufferBinding;
@@ -501,7 +501,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             StructureType vertexInputStruct = new(new StructureField[]
             {
-                new StructureField(AggregateType.Array | AggregateType.FP32, "data", 0)
+                new(AggregateType.Array | AggregateType.FP32, "data", 0)
             });
 
             int vertexDataSbBinding = reservations.VertexOutputStorageBufferBinding;

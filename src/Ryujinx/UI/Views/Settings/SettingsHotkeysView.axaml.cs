@@ -69,7 +69,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
 
             if (_currentAssigner != null)
             {
-                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                Dictionary<string, Action> buttonActions = new()
                 {
                     { "ToggleVSyncMode", () => viewModel.KeyboardHotkey.ToggleVSyncMode = Key.Unbound },
                     { "Screenshot", () => viewModel.KeyboardHotkey.Screenshot = Key.Unbound },

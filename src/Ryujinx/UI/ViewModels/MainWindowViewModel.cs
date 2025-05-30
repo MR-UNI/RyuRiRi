@@ -1592,7 +1592,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() != BackendThreadingInit)
             {
 
-                List<string> Arguments = new List<string>
+                List<string> Arguments = new()
                 {
                     "--bt", ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() // BackendThreading
                 };
