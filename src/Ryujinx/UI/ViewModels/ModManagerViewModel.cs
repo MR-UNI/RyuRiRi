@@ -145,7 +145,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is ModModel content)
             {
-                return string.IsNullOrWhiteSpace(_search) || content.Name.ToLower().Contains(_search.ToLower());
+                return string.IsNullOrWhiteSpace(_search) || content.Name.Contains(_search, StringComparison.OrdinalIgnoreCase);
             }
 
             return false;

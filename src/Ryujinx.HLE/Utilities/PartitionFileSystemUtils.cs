@@ -16,7 +16,7 @@ namespace Ryujinx.HLE.Utilities
 
             IFileSystem partitionFileSystem;
 
-            if (Path.GetExtension(path).ToLower() == ".xci")
+            if (Path.GetExtension(path).Equals(".xci", System.StringComparison.OrdinalIgnoreCase))
             {
                 partitionFileSystem = new Xci(fileSystem.KeySet, file.AsStorage()).OpenPartition(XciPartitionType.Secure);
             }

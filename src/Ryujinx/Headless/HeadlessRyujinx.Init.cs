@@ -295,7 +295,7 @@ namespace Ryujinx.Headless
 
                     foreach (DeviceInfo device in devices)
                     {
-                        if (device.Vendor.ToLowerInvariant() == preferredGpuVendor)
+                        if (device.Vendor.Equals(preferredGpuVendor, StringComparison.OrdinalIgnoreCase))
                         {
                             preferredGpuId = device.Id;
                             break;

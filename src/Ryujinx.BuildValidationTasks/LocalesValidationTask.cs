@@ -8,7 +8,7 @@ using System.Text.Encodings.Web;
 namespace Ryujinx.BuildValidationTasks
 {
     public class LocalesValidationTask : IValidationTask
-    {
+	{
 		static readonly JsonSerializerOptions _jsonOptions = new()
 		{
 			WriteIndented = true,

@@ -52,7 +52,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is SaveModel save)
             {
-                return string.IsNullOrWhiteSpace(Search) || save.Title.ToLower().Contains(Search.ToLower());
+                return string.IsNullOrWhiteSpace(Search) || save.Title.Contains(Search, System.StringComparison.OrdinalIgnoreCase);
             }
 
             return false;

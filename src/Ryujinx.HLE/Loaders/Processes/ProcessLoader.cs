@@ -172,7 +172,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             // Load executable.
             IExecutable executable;
 
-            if (Path.GetExtension(path).ToLower() == ".nro")
+            if (Path.GetExtension(path).Equals(".nro", StringComparison.OrdinalIgnoreCase))
             {
                 FileStream input = new(path, FileMode.Open);
                 NroExecutable nro = new(input.AsStorage());

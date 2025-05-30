@@ -245,8 +245,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (arg is XCITrimmerFileModel content)
             {
                 return string.IsNullOrWhiteSpace(_search)
-                    || content.Name.ToLower().Contains(_search.ToLower())
-                    || content.Path.ToLower().Contains(_search.ToLower());
+                    || content.Name.Contains(_search, System.StringComparison.OrdinalIgnoreCase)
+                    || content.Path.Contains(_search, System.StringComparison.OrdinalIgnoreCase);
             }
 
             return false;

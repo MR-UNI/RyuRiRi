@@ -119,7 +119,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is DownloadableContentModel content)
             {
-                return string.IsNullOrWhiteSpace(_search) || content.FileName.ToLower().Contains(_search.ToLower()) || content.TitleIdStr.ToLower().Contains(_search.ToLower());
+                return string.IsNullOrWhiteSpace(_search) || content.FileName.Contains(_search, System.StringComparison.OrdinalIgnoreCase) || content.TitleIdStr.Contains(_search, System.StringComparison.OrdinalIgnoreCase);
             }
 
             return false;
