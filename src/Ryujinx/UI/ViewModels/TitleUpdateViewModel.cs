@@ -178,7 +178,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             ApplicationLibrary.SaveTitleUpdatesForGame(ApplicationData, updates);
         }
 
-        private Task ShowNewUpdatesAddedDialog(int numAdded)
+        private Task<UserResult> ShowNewUpdatesAddedDialog(int numAdded)
         {
             string msg = string.Format(LocaleManager.Instance[LocaleKeys.UpdateWindowUpdateAddedMessage], numAdded);
             return Dispatcher.UIThread.InvokeAsync(async () => 

@@ -224,8 +224,8 @@ namespace Ryujinx.Ava.UI.Views.Input
             PointerPressed -= MouseClick;
         }
 
-        private IButtonAssigner CreateButtonAssigner(bool forStick) =>
-            new GamepadButtonAssigner(
+        private GamepadButtonAssigner CreateButtonAssigner(bool forStick) =>
+            new(
                 ViewModel.ParentModel.SelectedGamepad,
                 (ViewModel.ParentModel.Config as StandardControllerInputConfig).TriggerThreshold,
                 forStick);

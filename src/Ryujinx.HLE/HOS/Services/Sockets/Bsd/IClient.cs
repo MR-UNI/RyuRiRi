@@ -103,7 +103,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             }
 
             LinuxError errno = LinuxError.SUCCESS;
-            ISocket newBsdSocket;
+            ManagedSocket newBsdSocket;
 
             try
             {

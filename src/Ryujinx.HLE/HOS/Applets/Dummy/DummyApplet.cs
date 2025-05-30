@@ -1,3 +1,4 @@
+using Microsoft.IO;
 using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Services.Am.AppletAE;
 using System;
@@ -28,7 +29,7 @@ namespace Ryujinx.HLE.HOS.Applets.Dummy
         
         private static byte[] BuildResponse()
         {
-            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
             writer.Write((ulong)ResultCode.Success);
             return stream.ToArray();

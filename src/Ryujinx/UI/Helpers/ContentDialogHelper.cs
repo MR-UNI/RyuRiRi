@@ -480,7 +480,7 @@ namespace Ryujinx.Ava.UI.Helpers
             await dialogWindow.ShowDialog(_contentDialogOverlayWindow ?? mainWindow ?? GetMainWindow());
         }
 
-        private static Window GetMainWindow()
+        private static MainWindow GetMainWindow()
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime al)
             {

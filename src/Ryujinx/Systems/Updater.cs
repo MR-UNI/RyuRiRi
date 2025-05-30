@@ -492,7 +492,7 @@ namespace Ryujinx.Ava.Systems
 
             using HttpResponseMessage response = client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result;
             using Stream remoteFileStream = response.Content.ReadAsStreamAsync().Result;
-            using Stream updateFileStream = File.Open(updateFile, FileMode.Create);
+            using FileStream updateFileStream = File.Open(updateFile, FileMode.Create);
 
             long totalBytes = response.Content.Headers.ContentLength.Value;
             long bytesWritten = 0;
@@ -539,7 +539,7 @@ namespace Ryujinx.Ava.Systems
         [SupportedOSPlatform("macos")]
         private static void ExtractTarGzipFile(TaskDialog taskDialog, string archivePath, string outputDirectoryPath)
         {
-            using Stream inStream = File.OpenRead(archivePath);
+            using FileStream inStream = File.OpenRead(archivePath);
             using GZipInputStream gzipStream = new(inStream);
             using TarInputStream tarStream = new(gzipStream, Encoding.ASCII);
 

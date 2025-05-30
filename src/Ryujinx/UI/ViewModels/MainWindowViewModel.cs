@@ -758,7 +758,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         #region PrivateMethods
 
-        private static IComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
+        private static SortExpressionComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
             ascending
                 ? SortExpressionComparer<ApplicationData>.Ascending(selector)
                 : SortExpressionComparer<ApplicationData>.Descending(selector);
