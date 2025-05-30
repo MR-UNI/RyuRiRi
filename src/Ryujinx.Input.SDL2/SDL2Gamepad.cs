@@ -156,6 +156,7 @@ namespace Ryujinx.Input.SDL2
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void SetTriggerThreshold(float triggerThreshold)
