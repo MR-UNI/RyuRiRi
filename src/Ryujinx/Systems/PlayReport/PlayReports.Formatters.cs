@@ -304,7 +304,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
                     .Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}")
                     .JoinToString(", ");
 
-            string RankMedal(int? rank) => rank switch
+            static string RankMedal(int? rank) => rank switch
             {
                 0 => "🥇",
                 1 => "🥈",

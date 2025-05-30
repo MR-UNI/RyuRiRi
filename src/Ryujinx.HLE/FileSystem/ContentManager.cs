@@ -1063,8 +1063,8 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             return;
-            
-            bool VerifyKeys(string[] lines, string regex)
+
+            static bool VerifyKeys(string[] lines, string regex)
             {
                 foreach (string line in lines)
                 {

@@ -78,8 +78,8 @@ namespace Ryujinx.Ava.Systems
                 LastUpdated = dt;
 
             return;
-            
-            string ColStr(SepReader.Col col) => col.ToString().Trim('"');
+
+            static string ColStr(SepReader.Col col) => col.ToString().Trim('"');
         }
         
         public string GameName { get; }
