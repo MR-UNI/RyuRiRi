@@ -120,30 +120,34 @@
                     IconSource="Code" />
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
-       
-        <ReversibleStackPanel
-            Grid.Row="2"
-            Margin="10"
-            Spacing="10"
-            Orientation="Horizontal"
-            HorizontalAlignment="Right"
-            ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
-            <Button
-                Content="{ext:Locale SettingsButtonSave}"
-                Command="{Binding SaveUserConfig}" />
-            <Button
-                HotKey="Escape"
-                Content="{ext:Locale SettingsButtonClose}"
-                Command="{Binding CancelButton}" />
-            <Button
-                IsVisible="{Binding IsGameRunning}"
-                Content="{ext:Locale SettingsButtonApply}"
-                Command="{Binding ApplyButton}" />
-            <Button
-                IsVisible="{Binding !IsGameRunning}"
-                Content="{ext:Locale UserProfilesDelete}"
-                Command="{Binding DeleteConfigGame}"
-                Classes="red"/>
-        </ReversibleStackPanel>
+        <Grid Grid.Row="3"
+           ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10" Spacing="10">
+                    <Button
+                        IsVisible="{Binding !IsGameRunning}"
+                        Content="{ext:Locale UserProfilesDelete}"
+                        Command="{Binding DeleteConfigGame}"
+                        Classes="red"/>
+                </StackPanel>
+            <ReversibleStackPanel
+                Grid.Column="2"
+                Margin="10"
+                Spacing="10"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
+                <Button
+                    Classes="accent"
+                    Content="{ext:Locale SettingsButtonSave}"
+                    Command="{Binding SaveUserConfig}" />
+                <Button
+                    HotKey="Escape"
+                    Content="{ext:Locale SettingsButtonClose}"
+                    Command="{Binding CancelButton}" />
+                <Button
+                    Content="{ext:Locale SettingsButtonApply}"
+                    Command="{Binding ApplyButton}" />
+            </ReversibleStackPanel>
+        </Grid>
     </Grid>
 </window:StyleableAppWindow>

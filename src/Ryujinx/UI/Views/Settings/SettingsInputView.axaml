@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsInputView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -22,9 +22,16 @@
             <Panel
                 Margin="10">
                 <Grid RowDefinitions="Auto,*,Auto">
-                    <views:InputView
-                        Grid.Row="0"
-                        Name="InputView" />
+                    <StackPanel>
+                        <!--
+                           Opacity="{Binding PanelOpacityInput}">
+                       
+                            IsEnabled="{Binding !EnableConfigGlobal}">
+                            -->
+                        <views:InputView
+                            Grid.Row="0"
+                            Name="InputView" />
+                    </StackPanel>
                     <StackPanel
                         Orientation="Vertical"
                         Grid.Row="2">
@@ -34,6 +41,13 @@
                         <StackPanel
                             Orientation="Horizontal"
                             Spacing="10">
+                            <CheckBox                          
+                                ToolTip.Tip="{ext:Locale UseGlobalInputTooltip}"
+                                MinWidth="0"
+                                IsChecked="{Binding EnableConfigGlobal}">
+                                <TextBlock
+                                    Text="{ext:Locale SettingsTabInputUseGlobalInput}" />
+                            </CheckBox>
                             <CheckBox
                                 ToolTip.Tip="{ext:Locale DockModeToggleTooltip}"
                                 MinWidth="0"

@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
@@ -14,7 +15,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
         public InputView()
         {
-            ViewModel = new InputViewModel(this);
+            ViewModel = new InputViewModel(this, ConfigurationState.Instance.System.UseInputGlobalConfig.Value);
 
             InitializeComponent();
         }
@@ -22,6 +23,14 @@ namespace Ryujinx.Ava.UI.Views.Input
         public void SaveCurrentProfile()
         {
             ViewModel.Save();
+        }
+
+        public void ToggleLocalGlobalInput(bool enableConfigGlobal)
+        {
+
+            Dispose();
+            ViewModel = new InputViewModel(this, enableConfigGlobal); // Create new Input Page with other input configs
+            InitializeComponent();
         }
 
         private async void PlayerIndexBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

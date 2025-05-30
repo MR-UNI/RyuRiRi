@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 69;
+        public const int CurrentVersion = 70;
 
         /// <summary>
         /// Version of the configuration file format
@@ -151,6 +151,11 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Instead of setting the time via configuration, use the values provided by the system.
         /// </summary>
         public bool MatchSystemTime { get; set; }
+
+        /// <summary>
+        /// Enable or disable use global input config  (Independent from controllers binding)
+        /// </summary>
+        public bool UseInputGlobalConfig { get; set; }
 
         /// <summary>
         /// Enables or disables Docked Mode

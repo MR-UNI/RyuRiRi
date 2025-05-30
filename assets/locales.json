@@ -6548,6 +6548,31 @@
       }
     },
     {
+      "ID": "SettingsTabInputUseGlobalInput",
+      "Translations": {
+        "ar_SA": "إدخال عالمي",
+        "de_DE": "Globale Eingabe",
+        "el_GR": "Παγκόσμια εισαγωγή",
+        "en_US": "Global Input",
+        "es_ES": "Entrada Global",
+        "fr_FR": "Saisie Globale",
+        "he_IL": "קלט גלובלי",
+        "it_IT": "Input Globale",
+        "ja_JP": "グローバル入力",
+        "ko_KR": "글로벌 입력",
+        "no_NO": "Global Inndata",
+        "pl_PL": "Globalny Wpis",
+        "pt_BR": "Entrada Global",
+        "ru_RU": "Глобальный Ввод",
+        "sv_SE": "Global Input",
+        "th_TH": "การป้อนข้อมูลแบบโกลบอล",
+        "tr_TR": "Küresel Girdi",
+        "uk_UA": "Глобальний Ввід",
+        "zh_CN": "全局输入",
+        "zh_TW": "全域輸入"
+      }
+    },
+    {
       "ID": "SettingsTabInputEnableDockedMode",
       "Translations": {
         "ar_SA": "تركيب بالمنصة",
@@ -16420,6 +16445,31 @@
         "uk_UA": "Огляд користувацької теми графічного інтерфейсу",
         "zh_CN": "查找自定义主题",
         "zh_TW": "瀏覽自訂 GUI 佈景主題"
+      }
+    },
+    {
+      "ID": "UseGlobalInputTooltip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "If this option is enabled in custom settings, the global input configuration will be used.\n\nIn the global settings: you can enable or disable it as needed; this setting will be inherited by any new custom configurations created.",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "Если эта опция включена в пользовательских настройках, будет использована глобальная конфигурация ввода.\n\nВ глобальных настройках: переключите эту опцию по своему усмотрению, это будет унаследовано для вновь созданых пользовательских конфигураций",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {

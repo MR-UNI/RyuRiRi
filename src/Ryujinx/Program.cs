@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Silk.NET.Vulkan;
 
 namespace Ryujinx.Ava
 {
@@ -35,6 +36,7 @@ namespace Ryujinx.Ava
         public static string Version { get; private set; }
         public static string ConfigurationPath { get; private set; }
         public static string GlobalConfigurationPath { get; private set; }
+        public static bool UseExtraConfig{ get; private set; }
         public static bool PreviewerDetached { get; private set; }
         public static bool UseHardwareAcceleration { get; private set; }
         public static string BackendThreadingArg { get; private set; }
@@ -160,6 +162,7 @@ namespace Ryujinx.Ava
             }
         }
 
+
         public static string GetDirGameUserConfig(string gameId, bool rememberGlobalDir = false, bool changeFolderForGame = false)
         {
             if (string.IsNullOrEmpty(gameId))
@@ -169,24 +172,22 @@ namespace Ryujinx.Ava
 
             string gameDir = Path.Combine(AppDataManager.GamesDirPath, gameId, ReleaseInformation.ConfigName);
 
-            // Should load with the game if there is a custom setting for the game
-            if (rememberGlobalDir)
-            {
-                GlobalConfigurationPath = ConfigurationPath;
-            }
-
             if (changeFolderForGame)
             {
                 ConfigurationPath = gameDir;
+                UseExtraConfig = true;
             }
 
             return gameDir;
         }
 
-        public static void ReloadConfig()
+        public static void SetUseExtraConfig(bool value) 
         {
-            //It is necessary that when a user setting appears, the global setting remains available
-            GlobalConfigurationPath = null;
+            UseExtraConfig = value;
+        }
+
+        public static void ReloadConfig(bool rememberGlobalDir = false)
+        {
 
             string localConfigurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ReleaseInformation.ConfigName);
             string appDataConfigurationPath = Path.Combine(AppDataManager.BaseDirPath, ReleaseInformation.ConfigName);
@@ -225,6 +226,12 @@ namespace Ryujinx.Ava
 
                     ConfigurationState.Instance.LoadDefault();
                 }
+            }
+
+            // When you first load the program, copy to remember the path for the global configuration
+            if (GlobalConfigurationPath == null)
+            {
+                GlobalConfigurationPath = ConfigurationPath;
             }
 
             UseHardwareAcceleration = ConfigurationState.Instance.EnableHardwareAcceleration;

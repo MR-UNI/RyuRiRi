@@ -1591,8 +1591,15 @@ namespace Ryujinx.Ava.UI.ViewModels
             string idGame = application.IdBaseString;
             if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(idGame), out ConfigurationFileFormat configurationFileFormat))
             {
-                // Loads the user configuration, having previously changed the global configuration to the user configuration
+                // Loads the user configuration, having previously changed the global configuration to the user configuration              
                 ConfigurationState.Instance.Load(configurationFileFormat, Program.GetDirGameUserConfig(idGame, true, true), idGame);
+
+                if (ConfigurationFileFormat.TryLoad(Program.GlobalConfigurationPath, out ConfigurationFileFormat configurationFileFormatExtra))
+                {
+                    //This is where the global configuration will be stored.
+                    //This allows you to change the global configuration settings during the game (for example, the global input setting)
+                    ConfigurationState.InstanceExtra.Load(configurationFileFormatExtra, Program.GlobalConfigurationPath);
+                }
             }
 
             // Code where conditions will be executed after loading user configuration

@@ -90,6 +90,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             System.TimeZone.Value = cff.SystemTimeZone;
             System.SystemTimeOffset.Value = shouldLoadFromFile ? cff.SystemTimeOffset : System.SystemTimeOffset.Value; // Get from global config only
             System.MatchSystemTime.Value = shouldLoadFromFile ? cff.MatchSystemTime : System.MatchSystemTime.Value; // Get from global config only
+            System.UseInputGlobalConfig.Value = cff.UseInputGlobalConfig;
             System.EnableDockedMode.Value = cff.DockedMode;
             System.EnablePtc.Value = cff.EnablePtc;
             System.EnableLowPowerPtc.Value = cff.EnableLowPowerPtc;
@@ -147,7 +148,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             Hid.EnableMouse.Value = cff.EnableMouse;
             Hid.DisableInputWhenOutOfFocus.Value = shouldLoadFromFile ? cff.DisableInputWhenOutOfFocus: Hid.DisableInputWhenOutOfFocus.Value; // Get from global config only
             Hid.Hotkeys.Value = shouldLoadFromFile ? cff.Hotkeys : Hid.Hotkeys.Value; // Get from global config only
-            Hid.InputConfig.Value = cff.InputConfig ?? [];
+            Hid.InputConfig.Value = cff.InputConfig ?? [] ;
             Hid.RainbowSpeed.Value = cff.RainbowSpeed;
 
             Multiplayer.LanInterfaceId.Value = cff.MultiplayerLanInterfaceId;
