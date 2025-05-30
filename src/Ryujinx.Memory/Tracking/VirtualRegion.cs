@@ -143,7 +143,7 @@ namespace Ryujinx.Memory.Tracking
             Size = splitAddress - Address;
 
             // The new region inherits all of our parents.
-            newRegion.Handles = new List<RegionHandle>(Handles);
+            newRegion.Handles = [.. Handles];
             foreach (RegionHandle parent in Handles)
             {
                 parent.AddChild(newRegion);

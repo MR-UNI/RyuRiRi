@@ -49,7 +49,7 @@ namespace Ryujinx.Common.Utilities
 
         public static string SanitizeFileName(string fileName)
         {
-            HashSet<char> reservedChars = new(Path.GetInvalidFileNameChars());
+            HashSet<char> reservedChars = [.. Path.GetInvalidFileNameChars()];
             return string.Concat(fileName.Select(c => reservedChars.Contains(c) ? '_' : c));
         }
     }

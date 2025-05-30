@@ -346,7 +346,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AvaloniaList<string> NetworkInterfaceList
         {
-            get => new(_networkInterfaces.Keys);
+            get => [.. _networkInterfaces.Keys];
         }
 
         public HotkeyConfig KeyboardHotkey { get; set; }

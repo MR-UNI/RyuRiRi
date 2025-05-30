@@ -2634,7 +2634,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             {
                 if (hasContext)
                 {
-                    List<BaseNode> templateParamListTemp = new(_templateParamList);
+                    List<BaseNode> templateParamListTemp = [.. _templateParamList];
                     BaseNode templateArgument = ParseTemplateArgument();
                     _templateParamList = templateParamListTemp;
                     if (templateArgument == null)

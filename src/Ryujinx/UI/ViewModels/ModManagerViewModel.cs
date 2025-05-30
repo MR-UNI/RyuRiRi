@@ -134,7 +134,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             Views.Clear();
             Views.AddRange(view);
 
-            SelectedMods = new(Views.Where(x => x.Enabled));
+            SelectedMods = [.. Views.Where(x => x.Enabled)];
 
             OnPropertyChanged(nameof(ModCount));
             OnPropertyChanged(nameof(Views));
@@ -311,7 +311,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void EnableAll()
         {
-            SelectedMods = new(Mods);
+            SelectedMods = [.. Mods];
         }
 
         public void DisableAll()
