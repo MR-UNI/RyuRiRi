@@ -89,8 +89,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                     context.AddCapability(Capability.GeometryShaderPassthroughNV);
                 }
             }
-            else if (parameters.Definitions.Stage == ShaderStage.TessellationControl ||
-                     parameters.Definitions.Stage == ShaderStage.TessellationEvaluation)
+            else if (parameters.Definitions.Stage is ShaderStage.TessellationControl or
+                     ShaderStage.TessellationEvaluation)
             {
                 context.AddCapability(Capability.Tessellation);
             }

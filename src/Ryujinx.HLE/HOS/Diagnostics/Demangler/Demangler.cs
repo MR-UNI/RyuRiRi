@@ -582,7 +582,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                     return null;
                 case 'T':
                     // might just be a class enum type
-                    if (Peek(1) == 's' || Peek(1) == 'u' || Peek(1) == 'e')
+                    if (Peek(1) is 's' or 'u' or 'e')
                     {
                         result = ParseClassEnumType();
                         break;
@@ -1342,7 +1342,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 bool isInherited = ConsumeIf("I");
 
                 char ctorDtorType = Peek();
-                if (ctorDtorType != '1' && ctorDtorType != '2' && ctorDtorType != '3')
+                if (ctorDtorType is not '1' and not '2' and not '3')
                 {
                     return null;
                 }
@@ -1365,7 +1365,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             if (ConsumeIf("D"))
             {
                 char c = Peek();
-                if (c != '0' && c != '1' && c != '2')
+                if (c is not '0' and not '1' and not '2')
                 {
                     return null;
                 }
@@ -1440,8 +1440,8 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             }
 
             char foldKind = Peek();
-            bool hasInitializer = foldKind == 'L' || foldKind == 'R';
-            bool isLeftFold = foldKind == 'l' || foldKind == 'L';
+            bool hasInitializer = foldKind is 'L' or 'R';
+            bool isLeftFold = foldKind is 'l' or 'L';
 
             if (!isLeftFold && !(foldKind == 'r' || foldKind == 'R'))
             {

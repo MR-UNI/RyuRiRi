@@ -63,7 +63,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             // Backend managed is always auto, unified memory is always host.
             _desiredType = BufferBackingType.HostMemory;
-            _canSwap = _systemMemoryType != SystemMemoryType.BackendManaged && _systemMemoryType != SystemMemoryType.UnifiedMemory;
+            _canSwap = _systemMemoryType is not SystemMemoryType.BackendManaged and not SystemMemoryType.UnifiedMemory;
 
             if (_canSwap)
             {

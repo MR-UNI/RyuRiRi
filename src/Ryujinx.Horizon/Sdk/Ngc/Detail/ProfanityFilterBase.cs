@@ -113,7 +113,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 {
                     break;
                 }
-                else if (word[index] == '@' || word[index] == '\uFF20')
+                else if (word[index] is '@' or '\uFF20')
                 {
                     return true;
                 }
@@ -232,7 +232,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                     text[startOffset] = 0xc1;
                     text[startOffset + 1] = 0xc1;
                 }
-                else if (maskMode == MaskMode.Overwrite || maskMode == MaskMode.ReplaceByOneCharacter)
+                else if (maskMode is MaskMode.Overwrite or MaskMode.ReplaceByOneCharacter)
                 {
                     text[startOffset] = 0xc0;
                     text[startOffset + 1] = 0xc0;
@@ -312,7 +312,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 }
                 else if ((character & 0x80) != 0)
                 {
-                    if (character >= 0xc2 && character < 0xe0)
+                    if (character is >= 0xc2 and < 0xe0)
                     {
                         characterByteLength = 2;
                     }
@@ -621,7 +621,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 
                     if ((character & 0x80) != 0)
                     {
-                        if (character >= 0xc2 && character < 0xe0)
+                        if (character is >= 0xc2 and < 0xe0)
                         {
                             characterByteLength = 2;
                         }
@@ -751,7 +751,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 
                 if ((character & 0x80) != 0 || character == 0)
                 {
-                    if (character >= 0xc2 && character < 0xe0)
+                    if (character is >= 0xc2 and < 0xe0)
                     {
                         characterByteLength = 2;
                     }

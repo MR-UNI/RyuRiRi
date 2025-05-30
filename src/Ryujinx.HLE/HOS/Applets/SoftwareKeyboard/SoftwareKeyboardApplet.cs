@@ -147,19 +147,19 @@ namespace Ryujinx.HLE.HOS.Applets
 
         private bool IsKeyboardActive()
         {
-            return _backgroundState >= InlineKeyboardState.Appearing && _backgroundState < InlineKeyboardState.Disappearing;
+            return _backgroundState is >= InlineKeyboardState.Appearing and < InlineKeyboardState.Disappearing;
         }
 
         private bool InputModeControllerEnabled()
         {
-            return _inputMode == KeyboardInputMode.ControllerAndKeyboard ||
-                   _inputMode == KeyboardInputMode.ControllerOnly;
+            return _inputMode is KeyboardInputMode.ControllerAndKeyboard or
+                   KeyboardInputMode.ControllerOnly;
         }
 
         private bool InputModeTypingEnabled()
         {
-            return _inputMode == KeyboardInputMode.ControllerAndKeyboard ||
-                   _inputMode == KeyboardInputMode.KeyboardOnly;
+            return _inputMode is KeyboardInputMode.ControllerAndKeyboard or
+                   KeyboardInputMode.KeyboardOnly;
         }
 
         private void AdvanceInputMode()

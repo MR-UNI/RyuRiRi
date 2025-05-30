@@ -43,13 +43,13 @@ namespace Ryujinx.Graphics.OpenGL
 
         private static readonly Lazy<GpuVendor> _gpuVendor = new(GetGpuVendor);
 
-        private static bool IsIntel => _gpuVendor.Value == GpuVendor.IntelWindows || _gpuVendor.Value == GpuVendor.IntelUnix;
+        private static bool IsIntel => _gpuVendor.Value is GpuVendor.IntelWindows or GpuVendor.IntelUnix;
 
         public static GpuVendor Vendor => _gpuVendor.Value;
 
         private static readonly Lazy<float> _maxSupportedAnisotropy = new(GL.GetFloat((GetPName)All.MaxTextureMaxAnisotropy));
 
-        public static bool UsePersistentBufferForFlush => _gpuVendor.Value == GpuVendor.AmdWindows || _gpuVendor.Value == GpuVendor.Nvidia;
+        public static bool UsePersistentBufferForFlush => _gpuVendor.Value is GpuVendor.AmdWindows or GpuVendor.Nvidia;
 
         public static bool SupportsAlphaToCoverageDitherControl => _supportsAlphaToCoverageDitherControl.Value;
         public static bool SupportsAstcCompression => _supportsAstcCompression.Value;
@@ -73,7 +73,7 @@ namespace Ryujinx.Graphics.OpenGL
         public static bool SupportsTextureShadowLod => _supportsTextureShadowLod.Value;
         public static bool SupportsViewportSwizzle => _supportsViewportSwizzle.Value;
 
-        public static bool SupportsMismatchingViewFormat => _gpuVendor.Value != GpuVendor.AmdWindows && _gpuVendor.Value != GpuVendor.IntelWindows;
+        public static bool SupportsMismatchingViewFormat => _gpuVendor.Value is not GpuVendor.AmdWindows and not GpuVendor.IntelWindows;
         public static bool SupportsNonConstantTextureOffset => _gpuVendor.Value == GpuVendor.Nvidia;
         public static bool RequiresSyncFlush => _gpuVendor.Value == GpuVendor.AmdWindows || IsIntel;
 
@@ -117,11 +117,11 @@ namespace Ryujinx.Graphics.OpenGL
 
                 return renderer.Contains("mesa") ? GpuVendor.IntelUnix : GpuVendor.IntelWindows;
             }
-            else if (vendor == "ati technologies inc." || vendor == "advanced micro devices, inc.")
+            else if (vendor is "ati technologies inc." or "advanced micro devices, inc.")
             {
                 return GpuVendor.AmdWindows;
             }
-            else if (vendor == "amd" || vendor == "x.org")
+            else if (vendor is "amd" or "x.org")
             {
                 return GpuVendor.AmdUnix;
             }

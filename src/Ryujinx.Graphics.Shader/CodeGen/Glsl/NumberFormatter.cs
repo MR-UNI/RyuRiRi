@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         public static string FormatInt(int value)
         {
-            if (value <= MaxDecimal && value >= -MaxDecimal)
+            if (value is <= MaxDecimal and >= (-MaxDecimal))
             {
                 return value.ToString(CultureInfo.InvariantCulture);
             }
@@ -93,7 +93,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         public static string FormatUint(uint value)
         {
-            if (value <= MaxDecimal && value >= 0)
+            if (value is <= MaxDecimal and >= 0)
             {
                 return value.ToString(CultureInfo.InvariantCulture) + "u";
             }

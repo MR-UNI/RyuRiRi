@@ -34,8 +34,8 @@ namespace Ryujinx.Ava.Common.Models
         {
             get
             {
-                return ProcessingOutcome != XCIFileTrimmer.OperationOutcome.Undetermined &&
-                    ProcessingOutcome != XCIFileTrimmer.OperationOutcome.Successful;
+                return ProcessingOutcome is not XCIFileTrimmer.OperationOutcome.Undetermined and
+                    not XCIFileTrimmer.OperationOutcome.Successful;
             }
         }
 

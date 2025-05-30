@@ -86,9 +86,9 @@ namespace Ryujinx.Audio.Renderer.Server
 
                 PoolMapper.UpdateResult updateResult = mapper.Update(ref memoryPool, in parameter, ref outStatus);
 
-                if (updateResult != PoolMapper.UpdateResult.Success &&
-                    updateResult != PoolMapper.UpdateResult.MapError &&
-                    updateResult != PoolMapper.UpdateResult.UnmapError)
+                if (updateResult is not PoolMapper.UpdateResult.Success and
+                    not PoolMapper.UpdateResult.MapError and
+                    not PoolMapper.UpdateResult.UnmapError)
                 {
                     if (updateResult != PoolMapper.UpdateResult.InvalidParameter)
                     {

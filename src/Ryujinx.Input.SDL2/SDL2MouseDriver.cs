@@ -106,7 +106,7 @@ namespace Ryujinx.Input.SDL2
                 case SDL_EventType.SDL_MOUSEBUTTONUP:
                     uint rawButton = evnt.button.button;
 
-                    if (rawButton > 0 && rawButton <= (int)MouseButton.Count)
+                    if (rawButton is > 0 and <= ((int)MouseButton.Count))
                     {
                         PressedButtons[(int)DriverButtonToMouseButton(rawButton)] = evnt.type == SDL_EventType.SDL_MOUSEBUTTONDOWN;
 

@@ -284,7 +284,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 flags |= TextureFlags.Offset;
             }
 
-            if (lodMode == Lod.Lb || lodMode == Lod.Lba)
+            if (lodMode is Lod.Lb or Lod.Lba)
             {
                 sourcesList.Add(lodValue);
 
@@ -695,10 +695,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
 
             bool isArray =
-                dimensions == TexDim.Array1d ||
-                dimensions == TexDim.Array2d ||
-                dimensions == TexDim.Array3d ||
-                dimensions == TexDim.ArrayCube;
+                dimensions is TexDim.Array1d or
+                TexDim.Array2d or
+                TexDim.Array3d or
+                TexDim.ArrayCube;
 
             Operand arrayIndex = isArray ? Ra() : null;
 
@@ -737,7 +737,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand[] packedOffs = new Operand[2];
 
-            bool hasAnyOffset = offset == TexOffset.Aoffi || offset == TexOffset.Ptp;
+            bool hasAnyOffset = offset is TexOffset.Aoffi or TexOffset.Ptp;
 
             packedOffs[0] = hasAnyOffset ? Rb() : null;
             packedOffs[1] = offset == TexOffset.Ptp ? Rb() : null;
@@ -850,10 +850,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
             int coordsCount = type.GetDimensions();
 
             bool isArray =
-                dimensions == TexDim.Array1d ||
-                dimensions == TexDim.Array2d ||
-                dimensions == TexDim.Array3d ||
-                dimensions == TexDim.ArrayCube;
+                dimensions is TexDim.Array1d or
+                TexDim.Array2d or
+                TexDim.Array3d or
+                TexDim.ArrayCube;
 
             Operand arrayIndex = isArray ? Ra() : null;
 
@@ -994,10 +994,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
             Operand packedParams = Ra();
 
             bool isArray =
-                dimensions == TexDim.Array1d ||
-                dimensions == TexDim.Array2d ||
-                dimensions == TexDim.Array3d ||
-                dimensions == TexDim.ArrayCube;
+                dimensions is TexDim.Array1d or
+                TexDim.Array2d or
+                TexDim.Array3d or
+                TexDim.ArrayCube;
 
             if (isArray)
             {

@@ -493,7 +493,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                 {
                     delta = targetIndex - branchIndex;
 
-                    if (delta >= -Encodable26BitsOffsetLimit && delta < Encodable26BitsOffsetLimit)
+                    if (delta is >= (-Encodable26BitsOffsetLimit) and < Encodable26BitsOffsetLimit)
                     {
                         writer.WriteInstructionAt(branchIndex, encoding | (uint)(delta & 0x3ffffff));
 
@@ -559,7 +559,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                 }
             }
 
-            Debug.Assert(name == InstName.B || name == InstName.Cbnz, $"Unknown branch instruction \"{name}\".");
+            Debug.Assert(name is InstName.B or InstName.Cbnz, $"Unknown branch instruction \"{name}\".");
         }
 
         private static void RewriteCallInstructionWithTarget(in Context context, uint targetAddress, uint nextAddress, int branchIndex)

@@ -112,7 +112,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             //
             // 1 if we have tried to decode bits after the end of stream was encountered.
             // 0 No error.
-            return Count > BdValueSize && Count < LotsOfBits;
+            return Count is > BdValueSize and < LotsOfBits;
         }
 
         public int Read(int prob)
@@ -227,7 +227,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         public ArrayPtr<byte> FindEnd()
         {
             // Find the end of the coded buffer
-            while (Count > 8 && Count < BdValueSize)
+            while (Count is > 8 and < BdValueSize)
             {
                 Count -= 8;
                 _buffer = _buffer.Slice(-1);

@@ -413,7 +413,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 static bool IsUnexpectedLinuxError(LinuxError error)
                 {
-                    return error != LinuxError.SUCCESS && error != LinuxError.ETIMEDOUT;
+                    return error is not LinuxError.SUCCESS and not LinuxError.ETIMEDOUT;
                 }
 
                 // Hybrid approach
@@ -934,7 +934,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 errno = LinuxError.EINVAL;
 
-                if (how >= 0 && how <= 2)
+                if (how is >= 0 and <= 2)
                 {
                     errno = socket.Shutdown((BsdSocketShutdownFlags)how);
                 }
@@ -951,7 +951,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             LinuxError errno = LinuxError.EINVAL;
 
-            if (how >= 0 && how <= 2)
+            if (how is >= 0 and <= 2)
             {
                 errno = _context.ShutdownAllSockets((BsdSocketShutdownFlags)how);
             }

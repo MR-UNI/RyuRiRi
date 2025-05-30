@@ -58,7 +58,7 @@ namespace Ryujinx.Audio.Renderer.Device
         /// <param name="volume">The new master volume.</param>
         public void UpdateMasterVolume(float volume)
         {
-            Debug.Assert(volume >= 0.0f && volume <= 1.0f);
+            Debug.Assert(volume is >= 0.0f and <= 1.0f);
 
             MasterVolume = volume;
         }

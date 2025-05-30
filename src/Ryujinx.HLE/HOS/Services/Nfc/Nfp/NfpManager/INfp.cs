@@ -603,7 +603,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     }
                     else
                     {
-                        if (context.Device.System.NfpDevices[i].State == NfpDeviceState.TagMounted || context.Device.System.NfpDevices[i].State == NfpDeviceState.TagFound)
+                        if (context.Device.System.NfpDevices[i].State is NfpDeviceState.TagMounted or NfpDeviceState.TagFound)
                         {
                             byte[] uuid = VirtualAmiibo.GenerateUuid(context.Device.System.NfpDevices[i].AmiiboId, context.Device.System.NfpDevices[i].UseRandomUuid);
 
@@ -975,7 +975,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
         {
             // TODO: Find the differencies between IUser and ISystem/IDebug.
 
-            if (_permissionLevel == NfpPermissionLevel.Debug || _permissionLevel == NfpPermissionLevel.System)
+            if (_permissionLevel is NfpPermissionLevel.Debug or NfpPermissionLevel.System)
             {
                 return GetRegisterInfo(context);
             }

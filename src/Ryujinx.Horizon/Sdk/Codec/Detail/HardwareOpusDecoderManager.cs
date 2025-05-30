@@ -305,7 +305,7 @@ namespace Ryujinx.Horizon.Sdk.Codec.Detail
         {
             const int SilkDecoderSize = 0x2160;
 
-            if (channelsCount < 1 || channelsCount > 2)
+            if (channelsCount is < 1 or > 2)
             {
                 return 0;
             }
@@ -351,12 +351,12 @@ namespace Ryujinx.Horizon.Sdk.Codec.Detail
 
         private static bool IsValidChannelCount(int channelsCount)
         {
-            return channelsCount > 0 && channelsCount <= 2;
+            return channelsCount is > 0 and <= 2;
         }
 
         private static bool IsValidMultiChannelCount(int channelsCount)
         {
-            return channelsCount > 0 && channelsCount <= 255;
+            return channelsCount is > 0 and <= 255;
         }
 
         private static bool IsValidSampleRate(int sampleRate)

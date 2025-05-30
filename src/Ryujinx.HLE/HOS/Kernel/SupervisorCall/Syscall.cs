@@ -1199,7 +1199,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                 return KernelResult.InvalidMemState;
             }
 
-            if (permission > KMemoryPermission.ReadAndWrite || permission == KMemoryPermission.Write)
+            if (permission is > KMemoryPermission.ReadAndWrite or KMemoryPermission.Write)
             {
                 return KernelResult.InvalidPermission;
             }
@@ -1261,7 +1261,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                 return KernelResult.InvalidMemState;
             }
 
-            if (permission > KMemoryPermission.ReadAndWrite || permission == KMemoryPermission.Write)
+            if (permission is > KMemoryPermission.ReadAndWrite or KMemoryPermission.Write)
             {
                 return KernelResult.InvalidPermission;
             }
@@ -1485,7 +1485,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                         return KernelResult.InvalidMemRange;
                     }
 
-                    if (permission != KMemoryPermission.Read && permission != KMemoryPermission.ReadAndExecute)
+                    if (permission is not KMemoryPermission.Read and not KMemoryPermission.ReadAndExecute)
                     {
                         return KernelResult.InvalidPermission;
                     }
@@ -1540,10 +1540,10 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                 return KernelResult.InvalidSize;
             }
 
-            if (permission != KMemoryPermission.None &&
-                permission != KMemoryPermission.Read &&
-                permission != KMemoryPermission.ReadAndWrite &&
-                permission != KMemoryPermission.ReadAndExecute)
+            if (permission is not KMemoryPermission.None and
+                not KMemoryPermission.Read and
+                not KMemoryPermission.ReadAndWrite and
+                not KMemoryPermission.ReadAndExecute)
             {
                 return KernelResult.InvalidPermission;
             }
@@ -2138,7 +2138,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
                 case InfoType.ThreadTickCount:
                     {
-                        if (subId < -1 || subId > 3)
+                        if (subId is < (-1) or > 3)
                         {
                             return KernelResult.InvalidCombination;
                         }

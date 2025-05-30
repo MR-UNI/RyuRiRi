@@ -175,7 +175,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
 
             // NOTE: Return ResultCode.InvalidArgument if ip_address and subnet_mask are null, doesn't occur in our case.
 
-            if (_state == NetworkState.AccessPointCreated || _state == NetworkState.StationConnected)
+            if (_state is NetworkState.AccessPointCreated or NetworkState.StationConnected)
             {
                 ProxyConfig config = _state switch
                 {
@@ -522,7 +522,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                 return _nifmResultCode;
             }
 
-            if (_state == NetworkState.AccessPoint || _state == NetworkState.AccessPointCreated)
+            if (_state is NetworkState.AccessPoint or NetworkState.AccessPointCreated)
             {
                 DestroyNetworkImpl(DisconnectReason.DestroyedByUser);
             }
@@ -698,12 +698,12 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                 return _nifmResultCode;
             }
 
-            if (bufferSize == 0 || bufferSize > LdnConst.AdvertiseDataSizeMax)
+            if (bufferSize is 0 or > LdnConst.AdvertiseDataSizeMax)
             {
                 return ResultCode.InvalidArgument;
             }
 
-            if (_state == NetworkState.AccessPoint || _state == NetworkState.AccessPointCreated)
+            if (_state is NetworkState.AccessPoint or NetworkState.AccessPointCreated)
             {
                 byte[] advertiseData = new byte[bufferSize];
 
@@ -733,7 +733,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                 return ResultCode.InvalidArgument;
             }
 
-            if (_state == NetworkState.AccessPoint || _state == NetworkState.AccessPointCreated)
+            if (_state is NetworkState.AccessPoint or NetworkState.AccessPointCreated)
             {
                 return _accessPoint.SetStationAcceptPolicy(acceptPolicy);
             }
@@ -807,7 +807,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                 return _nifmResultCode;
             }
 
-            if (_state == NetworkState.Station || _state == NetworkState.StationConnected)
+            if (_state is NetworkState.Station or NetworkState.StationConnected)
             {
                 DisconnectImpl(DisconnectReason.DisconnectedByUser);
             }

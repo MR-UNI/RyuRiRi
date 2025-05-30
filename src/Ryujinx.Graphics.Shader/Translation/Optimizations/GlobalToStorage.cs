@@ -281,19 +281,19 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
         private static bool IsGlobalMemory(StorageKind storageKind)
         {
-            return storageKind == StorageKind.GlobalMemory ||
-                   storageKind == StorageKind.GlobalMemoryS8 ||
-                   storageKind == StorageKind.GlobalMemoryS16 ||
-                   storageKind == StorageKind.GlobalMemoryU8 ||
-                   storageKind == StorageKind.GlobalMemoryU16;
+            return storageKind is StorageKind.GlobalMemory or
+                   StorageKind.GlobalMemoryS8 or
+                   StorageKind.GlobalMemoryS16 or
+                   StorageKind.GlobalMemoryU8 or
+                   StorageKind.GlobalMemoryU16;
         }
 
         private static bool IsSmallInt(StorageKind storageKind)
         {
-            return storageKind == StorageKind.GlobalMemoryS8 ||
-                   storageKind == StorageKind.GlobalMemoryS16 ||
-                   storageKind == StorageKind.GlobalMemoryU8 ||
-                   storageKind == StorageKind.GlobalMemoryU16;
+            return storageKind is StorageKind.GlobalMemoryS8 or
+                   StorageKind.GlobalMemoryS16 or
+                   StorageKind.GlobalMemoryU8 or
+                   StorageKind.GlobalMemoryU16;
         }
 
         private static LinkedListNode<INode> ReplaceGlobalMemoryWithStorage(
@@ -1102,7 +1102,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
         {
             baseOffset = null;
 
-            if (operation.Inst == Instruction.Load || operation.Inst == Instruction.Store)
+            if (operation.Inst is Instruction.Load or Instruction.Store)
             {
                 if (operation.StorageKind == StorageKind.SharedMemory)
                 {

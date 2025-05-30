@@ -132,7 +132,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     res = mi.MvPredQ4(refr);
                     break;
                 default:
-                    Debug.Assert(ssIdx <= 3 && ssIdx >= 0);
+                    Debug.Assert(ssIdx is <= 3 and >= 0);
                     break;
             }
 

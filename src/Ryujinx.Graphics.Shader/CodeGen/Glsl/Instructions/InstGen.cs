@@ -74,7 +74,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
                 {
                     builder.Append(GenerateLoadOrStore(context, operation, isStore: false));
 
-                    AggregateType dstType = operation.Inst == Instruction.AtomicMaxS32 || operation.Inst == Instruction.AtomicMinS32
+                    AggregateType dstType = operation.Inst is Instruction.AtomicMaxS32 or Instruction.AtomicMinS32
                         ? AggregateType.S32
                         : AggregateType.U32;
 

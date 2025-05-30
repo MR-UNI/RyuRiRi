@@ -5266,7 +5266,7 @@ namespace ARMeilleure.Instructions
         private static Operand EmitSse2Sll_128(ArmEmitterContext context, Operand op, int shift)
         {
             // The upper part of op is assumed to be zero.
-            Debug.Assert(shift >= 0 && shift < 64);
+            Debug.Assert(shift is >= 0 and < 64);
 
             if (shift == 0)
             {

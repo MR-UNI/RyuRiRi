@@ -153,7 +153,7 @@ namespace Ryujinx.Audio.Renderer.Server.Splitter
         /// <returns>The volume for the given destination.</returns>
         public float GetMixVolume(int destinationIndex)
         {
-            Debug.Assert(destinationIndex >= 0 && destinationIndex < Constants.MixBufferCountMax);
+            Debug.Assert(destinationIndex is >= 0 and < Constants.MixBufferCountMax);
 
             return MixBufferVolume[destinationIndex];
         }
@@ -165,7 +165,7 @@ namespace Ryujinx.Audio.Renderer.Server.Splitter
         /// <returns>The volume for the given destination.</returns>
         public float GetMixVolumePrev(int destinationIndex)
         {
-            Debug.Assert(destinationIndex >= 0 && destinationIndex < Constants.MixBufferCountMax);
+            Debug.Assert(destinationIndex is >= 0 and < Constants.MixBufferCountMax);
 
             return PreviousMixBufferVolume[destinationIndex];
         }

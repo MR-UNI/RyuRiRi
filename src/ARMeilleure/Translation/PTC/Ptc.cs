@@ -1162,8 +1162,8 @@ namespace ARMeilleure.Translation.PTC
 
         public void Close()
         {
-            if (State == PtcState.Enabled ||
-                State == PtcState.Continuing)
+            if (State is PtcState.Enabled or
+                PtcState.Continuing)
             {
                 State = PtcState.Closing;
             }

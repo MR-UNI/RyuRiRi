@@ -242,7 +242,7 @@ namespace Ryujinx.HLE.HOS.Services.Sm
             {
                 byte chr = context.RequestData.ReadByte();
 
-                if (chr >= 0x20 && chr < 0x7f)
+                if (chr is >= 0x20 and < 0x7f)
                 {
                     nameBuilder.Append((char)chr);
                 }

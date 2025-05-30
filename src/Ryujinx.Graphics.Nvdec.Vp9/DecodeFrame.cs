@@ -1734,10 +1734,14 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static bool ReadSyncCode(ref ReadBitBuffer rb)
         {
-            return rb.ReadLiteral(8) == SyncCode0 &&
-                   rb.ReadLiteral(8) == SyncCode1 &&
-                   rb.ReadLiteral(8) == SyncCode2;
-        }
+            int readSyncCode0 = rb.ReadLiteral(8);
+            int readSyncCode1 = rb.ReadLiteral(8);
+            int readSyncCode2 = rb.ReadLiteral(8);
+
+            return readSyncCode0 == SyncCode0 &&
+                   readSyncCode1 == SyncCode1 &&
+                   readSyncCode2 == SyncCode2;
+		}
 
         private static void RefCntFb(ref Array12<RefCntBuffer> bufs, ref int idx, int newIdx)
         {

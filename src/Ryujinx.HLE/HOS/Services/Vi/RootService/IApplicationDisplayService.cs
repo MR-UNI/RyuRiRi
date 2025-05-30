@@ -148,7 +148,7 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService
             {
                 byte chr = context.RequestData.ReadByte();
 
-                if (chr >= 0x20 && chr < 0x7f)
+                if (chr is >= 0x20 and < 0x7f)
                 {
                     nameBuilder.Append((char)chr);
                 }
@@ -346,7 +346,7 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService
                 return ResultCode.InvalidArguments;
             }
 
-            if (scalingMode != SourceScalingMode.ScaleToWindow && scalingMode != SourceScalingMode.PreserveAspectRatio)
+            if (scalingMode is not SourceScalingMode.ScaleToWindow and not SourceScalingMode.PreserveAspectRatio)
             {
                 // Invalid scaling mode specified.
                 return ResultCode.InvalidScalingMode;

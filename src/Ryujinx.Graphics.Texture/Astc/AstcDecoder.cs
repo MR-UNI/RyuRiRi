@@ -1574,7 +1574,7 @@ namespace Ryujinx.Graphics.Texture.Astc
                 r |= (modeBits & 0xC) >> 1;
             }
 
-            Debug.Assert(2 <= r && r <= 7);
+            Debug.Assert(r is >= 2 and <= 7);
 
             // Determine width & height
             switch (layout)

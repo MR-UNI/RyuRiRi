@@ -86,7 +86,7 @@ namespace Ryujinx.HLE.HOS
 
         private static bool IsProcessValid(ITamperedProcess process)
         {
-            return process.State != ProcessState.Crashed && process.State != ProcessState.Exiting && process.State != ProcessState.Exited;
+            return process.State is not ProcessState.Crashed and not ProcessState.Exiting and not ProcessState.Exited;
         }
 
         private void TamperRunner()
@@ -173,7 +173,7 @@ namespace Ryujinx.HLE.HOS
             // Look for the input of the player one or the handheld.
             foreach (GamepadInput input in gamepadInputs)
             {
-                if (input.PlayerId == PlayerIndex.Player1 || input.PlayerId == PlayerIndex.Handheld)
+                if (input.PlayerId is PlayerIndex.Player1 or PlayerIndex.Handheld)
                 {
                     Volatile.Write(ref _pressedKeys, (long)input.Buttons);
 

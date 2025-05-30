@@ -392,7 +392,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
                     if (perPatch)
                     {
-                        if (attr >= AttributeConsts.UserAttributePerPatchBase && attr < AttributeConsts.UserAttributePerPatchEnd)
+                        if (attr is >= AttributeConsts.UserAttributePerPatchBase and < AttributeConsts.UserAttributePerPatchEnd)
                         {
                             int userAttr = attr - AttributeConsts.UserAttributePerPatchBase;
                             int index = userAttr / 16;
@@ -407,7 +407,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
                             }
                         }
                     }
-                    else if (attr >= AttributeConsts.UserAttributeBase && attr < AttributeConsts.UserAttributeEnd)
+                    else if (attr is >= AttributeConsts.UserAttributeBase and < AttributeConsts.UserAttributeEnd)
                     {
                         int userAttr = attr - AttributeConsts.UserAttributeBase;
                         int index = userAttr / 16;
@@ -436,7 +436,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
                             switch (attr)
                             {
                                 case AttributeConsts.Layer:
-                                    if (definitions.Stage != ShaderStage.Compute && definitions.Stage != ShaderStage.Fragment)
+                                    if (definitions.Stage is not ShaderStage.Compute and not ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.RtLayer);
                                     }
@@ -885,7 +885,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
         public static bool IsPopBranch(InstName name)
         {
-            return name == InstName.Brk || name == InstName.Cont || name == InstName.Sync;
+            return name is InstName.Brk or InstName.Cont or InstName.Sync;
         }
 
         private static MergeType GetMergeTypeFromPush(InstName name)

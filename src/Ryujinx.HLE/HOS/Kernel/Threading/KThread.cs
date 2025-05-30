@@ -537,7 +537,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
                 ThreadSchedState lowNibble = SchedFlags & ThreadSchedState.LowMask;
 
-                if (lowNibble != ThreadSchedState.Paused && lowNibble != ThreadSchedState.Running)
+                if (lowNibble is not ThreadSchedState.Paused and not ThreadSchedState.Running)
                 {
                     KernelContext.CriticalSection.Leave();
 

@@ -94,15 +94,15 @@ namespace Ryujinx.HLE.Loaders.Mods
 
         static int ParseHexByte(byte c)
         {
-            if (c >= '0' && c <= '9')
+            if (c is >= (byte)'0' and <= (byte)'9')
             {
                 return c - '0';
             }
-            else if (c >= 'A' && c <= 'F')
+            else if (c is >= (byte)'A' and <= (byte)'F')
             {
                 return c - 'A' + 10;
             }
-            else if (c >= 'a' && c <= 'f')
+            else if (c is >= (byte)'a' and <= (byte)'f')
             {
                 return c - 'a' + 10;
             }

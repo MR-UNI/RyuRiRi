@@ -486,7 +486,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                     return false;
                 }
 
-                if (name[namePosition] != '\0' && name[namePosition] != ',' && name[namePosition] != ';')
+                if (name[namePosition] is not (byte)'\0' and not (byte)',' and not (byte)';')
                 {
                     bool isValid = GetOffset(name.ToArray(), ref namePosition, ref dstOffset);
 
@@ -506,7 +506,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                     namePosition = 0;
                 }
 
-                if (name[namePosition] == ',' || name[namePosition] == ';')
+                if (name[namePosition] is (byte)',' or (byte)';')
                 {
                     namePosition++;
 
@@ -1554,7 +1554,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 
             int savedSeconds;
 
-            if (calendarTime.Second >= 0 && calendarTime.Second < SecondsPerMinute)
+            if (calendarTime.Second is >= 0 and < SecondsPerMinute)
             {
                 savedSeconds = 0;
             }

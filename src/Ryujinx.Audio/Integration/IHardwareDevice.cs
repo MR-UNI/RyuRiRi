@@ -47,7 +47,7 @@ namespace Ryujinx.Audio.Integration
         {
             uint channelCount = GetChannelCount();
 
-            Debug.Assert(channelCount > 0 && channelCount <= Constants.ChannelCountMax);
+            Debug.Assert(channelCount is > 0 and <= Constants.ChannelCountMax);
 
             return channelCount != Constants.ChannelCountMax;
         }

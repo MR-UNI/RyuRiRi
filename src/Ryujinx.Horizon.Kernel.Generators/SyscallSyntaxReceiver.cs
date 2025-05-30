@@ -16,7 +16,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
-            if (!(syntaxNode is ClassDeclarationSyntax classDeclaration) || classDeclaration.AttributeLists.Count == 0)
+            if (syntaxNode is not ClassDeclarationSyntax classDeclaration || classDeclaration.AttributeLists.Count == 0)
             {
                 return;
             }

@@ -253,9 +253,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                 {
                     value |= AttributeType.Packed;
 
-                    if (type == VertexAttribType.Snorm ||
-                        type == VertexAttribType.Sint ||
-                        type == VertexAttribType.Sscaled)
+                    if (type is VertexAttribType.Snorm or
+                        VertexAttribType.Sint or
+                        VertexAttribType.Sscaled)
                     {
                         value |= AttributeType.PackedRgb10A2Signed;
                     }
