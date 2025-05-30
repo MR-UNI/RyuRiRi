@@ -1262,9 +1262,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static void SetupFrameSize(MemoryAllocator allocator, ref Vp9Common cm, ref ReadBitBuffer rb)
         {
-            int width = 0, height = 0;
             ref BufferPool pool = ref cm.BufferPool.Value;
-            rb.ReadFrameSize(out width, out height);
+            rb.ReadFrameSize(out int width, out int height);
             cm.ResizeContextBuffers(allocator, width, height);
             SetupRenderSize(ref cm, ref rb);
 
