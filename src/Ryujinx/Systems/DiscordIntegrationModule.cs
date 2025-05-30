@@ -1,9 +1,9 @@
 using DiscordRPC;
 using Gommon;
-using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.Systems.PlayReport;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
@@ -42,7 +42,8 @@ namespace Ryujinx.Ava.Systems
             {
                 Assets = new Assets
                 {
-                    LargeImageKey = "ryujinx", LargeImageText = TruncateToByteLength(_description)
+                    LargeImageKey = "ryujinx",
+                    LargeImageText = TruncateToByteLength(_description)
                 },
                 Details = "Main Menu",
                 State = "Idling",

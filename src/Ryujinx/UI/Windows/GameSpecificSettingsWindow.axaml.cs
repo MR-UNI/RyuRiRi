@@ -16,7 +16,7 @@ namespace Ryujinx.Ava.UI.Windows
             Title = string.Format(LocaleManager.Instance[LocaleKeys.SettingsWithInfo], viewModel.SelectedApplication.Name, viewModel.SelectedApplication.IdString);
 
             DataContext = ViewModel = new SettingsViewModel(
-                viewModel.VirtualFileSystem, 
+                viewModel.VirtualFileSystem,
                 viewModel.ContentManager,
                 viewModel.IsGameRunning,
                 viewModel.SelectedApplication.Path,
@@ -46,7 +46,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void NavPanelOnSelectionChanged(object sender, NavigationViewSelectionChangedEventArgs e)
         {
-            
+
             if (e.SelectedItem is NavigationViewItem navItem && navItem.Tag is not null)
             {
                 switch (navItem.Tag.ToString())
@@ -85,7 +85,7 @@ namespace Ryujinx.Ava.UI.Windows
                     default:
                         throw new NotImplementedException();
                 }
-            }        
+            }
         }
 
         protected override void OnClosing(WindowClosingEventArgs e)

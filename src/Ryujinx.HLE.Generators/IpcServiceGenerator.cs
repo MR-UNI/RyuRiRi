@@ -59,7 +59,7 @@ namespace Ryujinx.HLE.Generators
 
             generator.LeaveScope();
             generator.LeaveScope();
-            generator.AppendLine("#nullable disable");            
+            generator.AppendLine("#nullable disable");
             context.AddSource($"IUserInterface.g.cs", generator.ToString());
         }
 

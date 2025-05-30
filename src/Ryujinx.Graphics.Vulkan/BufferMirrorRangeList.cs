@@ -172,7 +172,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 return null;
             }
-            
+
             List<Range> result = null;
 
             int index = BinarySearch(list, offset, size);

@@ -479,7 +479,7 @@ namespace Ryujinx.HLE.FileSystem
             FinishInstallation(temporaryDirectory, registeredDirectory);
         }
 
-		public static void InstallKeys(string keysSource, string installDirectory)
+        public static void InstallKeys(string keysSource, string installDirectory)
         {
             if (Directory.Exists(keysSource))
             {
@@ -519,7 +519,7 @@ namespace Ryujinx.HLE.FileSystem
             }
         }
 
-		private static void InstallKeysFromZip(ZipArchive archive, string installDirectory)
+        private static void InstallKeysFromZip(ZipArchive archive, string installDirectory)
         {
             string temporaryDirectory = Path.Combine(installDirectory, "temp");
             if (Directory.Exists(temporaryDirectory))
@@ -1022,7 +1022,7 @@ namespace Ryujinx.HLE.FileSystem
             return null;
         }
 
-		public static void VerifyKeysFile(string filePath)
+        public static void VerifyKeysFile(string filePath)
         {
             // Verify the keys file format refers to https://github.com/Thealexbarney/LibHac/blob/master/KEYS.md
             string genericPattern = @"^[a-z0-9_]+ = [a-z0-9]+$";
@@ -1057,7 +1057,8 @@ namespace Ryujinx.HLE.FileSystem
                 {
                     throw new FormatException($"Invalid \"{filePath}\" file format.");
                 }
-            } else
+            }
+            else
             {
                 throw new FileNotFoundException($"Keys file not found at \"{filePath}\".");
             }
@@ -1078,7 +1079,7 @@ namespace Ryujinx.HLE.FileSystem
             }
         }
 
-		public static bool AreKeysAlredyPresent(string pathToCheck)
+        public static bool AreKeysAlredyPresent(string pathToCheck)
         {
             string[] fileNames = ["prod.keys", "title.keys", "console.keys", "dev.keys"];
             foreach (string file in fileNames)

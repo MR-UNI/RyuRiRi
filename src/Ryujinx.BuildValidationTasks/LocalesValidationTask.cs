@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text.Json;
+using System.Linq;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Ryujinx.BuildValidationTasks
 {
     public class LocalesValidationTask : IValidationTask
-	{
-		static readonly JsonSerializerOptions _jsonOptions = new()
-		{
-			WriteIndented = true,
-			NewLine = "\n",
-			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-		};
-		
+    {
+        static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            WriteIndented = true,
+            NewLine = "\n",
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+
         public LocalesValidationTask() { }
 
         public bool Execute(string projectPath, bool isGitRunner)

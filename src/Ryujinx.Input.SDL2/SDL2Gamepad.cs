@@ -86,7 +86,7 @@ namespace Ryujinx.Input.SDL2
             Id = driverId;
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
-            
+
             // Enable motion tracking
             if (Features.HasFlag(GamepadFeaturesFlag.Motion))
             {
@@ -110,7 +110,7 @@ namespace Ryujinx.Input.SDL2
             byte red = packedRgb > 0 ? (byte)(packedRgb >> 16) : (byte)0;
             byte green = packedRgb > 0 ? (byte)(packedRgb >> 8) : (byte)0;
             byte blue = packedRgb > 0 ? (byte)(packedRgb % 256) : (byte)0;
-            
+
             if (SDL_GameControllerSetLED(_gamepadHandle, red, green, blue) != 0)
                 Logger.Debug?.Print(LogClass.Hid, "LED setting failed; probably in the middle of disconnecting.");
         }
@@ -225,7 +225,7 @@ namespace Ryujinx.Input.SDL2
         private static Vector3 RadToDegree(Vector3 rad) => rad * (180 / MathF.PI);
 
         private static Vector3 GsToMs2(Vector3 gs) => gs / SDL_STANDARD_GRAVITY;
-        
+
         public void SetConfiguration(InputConfig configuration)
         {
             lock (_userMappingLock)
@@ -238,11 +238,11 @@ namespace Ryujinx.Input.SDL2
                         (this as IGamepad).ClearLed();
                     else if (_configuration.Led.UseRainbow)
                         SetLed((uint)Rainbow.Color.ToArgb());
-                    
+
                     if (!_configuration.Led.TurnOffLed && !_configuration.Led.UseRainbow)
                         SetLed(_configuration.Led.LedColor);
                 }
-                
+
                 _buttonsUserMapping.Clear();
 
                 // First update sticks

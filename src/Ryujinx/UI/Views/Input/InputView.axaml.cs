@@ -66,8 +66,8 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                 ViewModel.IsModified = false;
                 ViewModel.PlayerId = ViewModel.PlayerIdChoose;
-                
-            }   
+
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

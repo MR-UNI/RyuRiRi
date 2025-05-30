@@ -14,9 +14,9 @@ namespace Ryujinx.Ava.Utilities
         public static string OverrideBackendThreading { get; private set; }
         public static string OverrideBackendThreadingAfterReboot { get; private set; }
         public static string OverridePPTC { get; private set; }
-        public static string OverrideMemoryManagerMode { get; private set; } 
-        public static string OverrideSystemRegion { get; private set; } 
-        public static string OverrideSystemLanguage { get; private set; } 
+        public static string OverrideMemoryManagerMode { get; private set; }
+        public static string OverrideSystemRegion { get; private set; }
+        public static string OverrideSystemLanguage { get; private set; }
         public static string OverrideHideCursor { get; private set; }
         public static string BaseDirPathArg { get; private set; }
         public static FilePath FirmwareToInstallPathArg { get; set; }
@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.Utilities
 
                 if (arg.Contains('-') || arg.Contains("--"))
                 {
-                    CountArguments++; 
+                    CountArguments++;
                 }
 
                 switch (arg)

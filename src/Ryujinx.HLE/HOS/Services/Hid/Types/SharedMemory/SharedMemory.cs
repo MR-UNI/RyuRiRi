@@ -45,7 +45,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Types.SharedMemory
         /// </summary>
         [FieldOffset(0x9A00)]
         public Array10<NpadState> Npads;
-        
+
         /// <summary>
         /// Debug mouse.
         /// </summary>

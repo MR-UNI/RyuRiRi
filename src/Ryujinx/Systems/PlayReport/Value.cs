@@ -1,4 +1,4 @@
-﻿using MsgPack;
+using MsgPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +130,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
         /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="MultiValueFormatter"/>.
         /// </summary>
         public static readonly MultiValueFormatter MultiAlwaysResets = _ => ForceReset;
-        
+
         /// <summary>
         /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="SparseMultiValueFormatter"/>.
         /// </summary>
@@ -142,14 +142,14 @@ namespace Ryujinx.Ava.Systems.PlayReport
         /// </summary>
         /// <param name="formattedValue">The string to always return for this delegate instance.</param>
         public static SingleValueFormatter SingleAlwaysReturns(string formattedValue) => _ => formattedValue;
-        
+
         /// <summary>
         /// A delegate factory you can use to always return the specified
         /// <paramref name="formattedValue"/> in a <see cref="MultiValueFormatter"/>.
         /// </summary>
         /// <param name="formattedValue">The string to always return for this delegate instance.</param>
         public static MultiValueFormatter MultiAlwaysReturns(string formattedValue) => _ => formattedValue;
-        
+
         /// <summary>
         /// A delegate factory you can use to always return the specified
         /// <paramref name="formattedValue"/> in a <see cref="SparseMultiValueFormatter"/>.

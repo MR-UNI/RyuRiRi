@@ -818,7 +818,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 Logger.Warning?.PrintMsg(LogClass.ServiceBsd, $"Invalid socket fd '{socketFd}'.");
             }
-            
+
             return WriteBsdResult(context, 0, errno);
         }
 

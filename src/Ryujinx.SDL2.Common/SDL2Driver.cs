@@ -32,10 +32,10 @@ namespace Ryujinx.SDL2.Common
         private Thread _worker;
 
         private const uint SDL_JOYBATTERYUPDATED = 1543;
-        
+
         public event Action<int, int> OnJoyStickConnected;
         public event Action<int> OnJoystickDisconnected;
-        
+
         public event Action<int, SDL_JoystickPowerLevel> OnJoyBatteryUpdated;
 
         private ConcurrentDictionary<uint, Action<SDL_Event>> _registeredWindowHandlers;

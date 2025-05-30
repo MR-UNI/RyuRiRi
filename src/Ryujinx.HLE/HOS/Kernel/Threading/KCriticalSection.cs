@@ -6,7 +6,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
     {
         private readonly KernelContext _context;
         private int _recursionCount;
-        
+
         // type is not Lock due to Monitor class usage
         public object Lock { get; } = new();
 

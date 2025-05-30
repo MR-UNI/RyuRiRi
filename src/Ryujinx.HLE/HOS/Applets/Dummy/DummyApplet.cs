@@ -10,14 +10,14 @@ namespace Ryujinx.HLE.HOS.Applets.Dummy
     {
         private readonly Horizon _system;
         private AppletSession _normalSession;
-        
+
         public event EventHandler AppletStateChanged;
-        
+
         public DummyApplet(Horizon system)
         {
             _system = system;
         }
-        
+
         public ResultCode Start(AppletSession normalSession, AppletSession interactiveSession)
         {
             _normalSession = normalSession;
@@ -26,7 +26,7 @@ namespace Ryujinx.HLE.HOS.Applets.Dummy
             _system.ReturnFocus();
             return ResultCode.Success;
         }
-        
+
         private static byte[] BuildResponse()
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();

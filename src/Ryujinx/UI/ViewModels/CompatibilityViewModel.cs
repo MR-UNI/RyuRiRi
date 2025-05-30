@@ -19,15 +19,15 @@ namespace Ryujinx.Ava.UI.ViewModels
                 x.TitleId.Check(tid => _ownedGameTitleIds.ContainsIgnoreCase(tid)))
             : _currentEntries;
 
-        public CompatibilityViewModel() {}
-        
+        public CompatibilityViewModel() { }
+
         private void AppCountUpdated(object _, ApplicationCountUpdatedEventArgs __)
             => _ownedGameTitleIds = _appLibrary.Applications.Keys.Select(x => x.ToString("X16")).ToArray();
 
         public CompatibilityViewModel(ApplicationLibrary appLibrary)
         {
             _appLibrary = appLibrary;
-            
+
             AppCountUpdated(null, null);
 
             _appLibrary.ApplicationCountUpdated += AppCountUpdated;
@@ -38,7 +38,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             GC.SuppressFinalize(this);
             _appLibrary.ApplicationCountUpdated -= AppCountUpdated;
         }
-        
+
         private bool _onlyShowOwnedGames = true;
 
         public bool OnlyShowOwnedGames

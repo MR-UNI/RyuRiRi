@@ -20,7 +20,7 @@ namespace Ryujinx.Input.SDL2
 
         private StandardControllerInputConfig _configuration;
 
-        private readonly Dictionary<GamepadButtonInputId,SDL_GameControllerButton> _leftButtonsDriverMapping = new()
+        private readonly Dictionary<GamepadButtonInputId, SDL_GameControllerButton> _leftButtonsDriverMapping = new()
         {
             { GamepadButtonInputId.LeftStick , SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSTICK },
              {GamepadButtonInputId.DpadUp ,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_Y},
@@ -33,7 +33,7 @@ namespace Ryujinx.Input.SDL2
              {GamepadButtonInputId.SingleRightTrigger0,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_RIGHTSHOULDER},
              {GamepadButtonInputId.SingleLeftTrigger0,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSHOULDER},
         };
-        private readonly Dictionary<GamepadButtonInputId,SDL_GameControllerButton> _rightButtonsDriverMapping = new()
+        private readonly Dictionary<GamepadButtonInputId, SDL_GameControllerButton> _rightButtonsDriverMapping = new()
         {
              {GamepadButtonInputId.RightStick,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSTICK},
              {GamepadButtonInputId.A,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_B},
@@ -268,8 +268,8 @@ namespace Ryujinx.Input.SDL2
                         break;
                     default:
                         throw new NotSupportedException($"Unsupported JoyCon type: {_joyConType}");
-				}
-                
+                }
+
                 SetTriggerThreshold(_configuration.TriggerThreshold);
             }
         }
@@ -354,7 +354,7 @@ namespace Ryujinx.Input.SDL2
             {
                 return (0.0f, 0.0f);
             }
-            
+
             (short stickX, short stickY) = GetStickXY();
 
             float resultX = ConvertRawStickValue(stickX);
@@ -395,7 +395,7 @@ namespace Ryujinx.Input.SDL2
                 SDL_GameControllerGetAxis(_gamepadHandle, SDL_GameControllerAxis.SDL_CONTROLLER_AXIS_LEFTX),
                 SDL_GameControllerGetAxis(_gamepadHandle, SDL_GameControllerAxis.SDL_CONTROLLER_AXIS_LEFTY));
         }
-        
+
         public bool IsPressed(GamepadButtonInputId inputId)
         {
             if (!_buttonsDriverMapping.TryGetValue(inputId, out var button))

@@ -1,4 +1,4 @@
-﻿using Avalonia.Data.Converters;
+using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
@@ -15,8 +15,8 @@ namespace Ryujinx.Ava.UI.Helpers
         public object Convert(object value, Type _, object __, CultureInfo ___)
             => value.Cast<LocaleKeys>() switch
             {
-                LocaleKeys.CompatibilityListNothing or 
-                    LocaleKeys.CompatibilityListBoots or 
+                LocaleKeys.CompatibilityListNothing or
+                    LocaleKeys.CompatibilityListBoots or
                     LocaleKeys.CompatibilityListMenus => Brushes.Red,
                 LocaleKeys.CompatibilityListIngame => Brushes.DarkOrange,
                 _ => Brushes.ForestGreen

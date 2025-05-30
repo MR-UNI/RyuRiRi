@@ -753,7 +753,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         public ResultCode OpenCloudBackupWorkStorageFileSystem(ServiceCtx context)
         {
             CloudBackupWorkStorageId storageId = (CloudBackupWorkStorageId)context.RequestData.ReadInt32();
-            
+
             Logger.Stub?.PrintStub(LogClass.ServiceFs, new { storageId });
             throw new NotImplementedException(); // reimplementing behavior from LibHac 0.19.0
         }
@@ -1232,9 +1232,9 @@ namespace Ryujinx.HLE.HOS.Services.Fs
         {
             BisPartitionId partitionId = (BisPartitionId)context.RequestData.ReadInt32();
             ref readonly FspPath path = ref FileSystemProxyHelper.GetFspPath(context);
-            
+
             Logger.Stub?.PrintStub(LogClass.ServiceFs, new { partitionId, path });
-            
+
             throw new NotImplementedException(); // reimplementing behavior from LibHac 0.19.0
         }
 

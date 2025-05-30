@@ -491,7 +491,7 @@ namespace Ryujinx.Headless
         {
             if (_ignoreControllerApplet)
                 return false;
-            
+
             string playerCount = args.PlayerCountMin == args.PlayerCountMax ? $"exactly {args.PlayerCountMin}" : $"{args.PlayerCountMin}-{args.PlayerCountMax}";
 
             string message = $"Application requests {playerCount} {"player".ToQuantity(args.PlayerCountMin + args.PlayerCountMax, ShowQuantityAs.None)} with:\n\n"
@@ -560,7 +560,7 @@ namespace Ryujinx.Headless
                 SDL2Driver.Instance.Dispose();
             }
         }
-        
+
         public UserProfile ShowPlayerSelectDialog()
         {
             return AccountSaveDataManager.GetLastUsedUser();

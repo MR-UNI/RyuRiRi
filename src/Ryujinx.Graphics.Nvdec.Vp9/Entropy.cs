@@ -1,4 +1,4 @@
-﻿using Ryujinx.Graphics.Nvdec.Vp9.Types;
+using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

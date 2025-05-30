@@ -61,7 +61,7 @@ namespace Ryujinx.HLE.HOS.Services.Pctl.ParentalControlServiceFactory
                         {
                             _ratingAge[i] = Convert.ToInt32(context.Device.Processes.ActiveApplication.ApplicationControlProperties.RatingAge[i]);
                         }
-                        
+
                         _parentalControlFlag = context.Device.Processes.ActiveApplication.ApplicationControlProperties.ParentalControlFlag;
                     }
                 }

@@ -12,7 +12,7 @@ namespace Ryujinx.Ava.UI.Models
         public string Path { get; }
         public string Name { get; }
 
-        public string FormattedName => 
+        public string FormattedName =>
             InSd && ulong.TryParse(Name, NumberStyles.HexNumber, null, out ulong applicationId)
                 ? $"Atmosphère: {RyujinxApp.MainWindow.ApplicationLibrary.GetNameForApplicationId(applicationId)}"
                 : Name;

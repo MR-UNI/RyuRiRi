@@ -89,7 +89,7 @@ namespace Ryujinx.Input.SDL2
         private void HandleJoyStickDisconnected(int joystickInstanceId)
         {
             bool joyConPairDisconnected = false;
-            
+
             if (!_gamepadsInstanceIdsMapping.Remove(joystickInstanceId, out string id))
                 return;
 
@@ -113,7 +113,7 @@ namespace Ryujinx.Input.SDL2
         private void HandleJoyStickConnected(int joystickDeviceId, int joystickInstanceId)
         {
             bool joyConPairConnected = false;
-            
+
             if (SDL_IsGameController(joystickDeviceId) == SDL_bool.SDL_TRUE)
             {
                 if (_gamepadsInstanceIdsMapping.ContainsKey(joystickInstanceId))
@@ -138,7 +138,7 @@ namespace Ryujinx.Input.SDL2
                             _gamepadsIds.Insert(joystickDeviceId, id);
                         else
                             _gamepadsIds.Add(id);
-                        
+
                         if (SDL2JoyConPair.IsCombinable(_gamepadsIds))
                         {
                             _gamepadsIds.Remove(SDL2JoyConPair.Id);
@@ -155,7 +155,7 @@ namespace Ryujinx.Input.SDL2
                 }
             }
         }
-        
+
         private void HandleJoyBatteryUpdated(int joystickDeviceId, SDL_JoystickPowerLevel powerLevel)
         {
             Logger.Info?.Print(LogClass.Hid,
@@ -199,7 +199,7 @@ namespace Ryujinx.Input.SDL2
                     return SDL2JoyConPair.GetGamepad(_gamepadsIds);
                 }
             }
-            
+
             int joystickIndex = GetJoystickIndexByGamepadId(id);
 
             if (joystickIndex == -1)
@@ -213,10 +213,10 @@ namespace Ryujinx.Input.SDL2
             {
                 return null;
             }
-            
+
             if (SDL_GameControllerName(gamepadHandle).StartsWith(SDL2JoyCon.Prefix))
             {
-                return new SDL2JoyCon(gamepadHandle, id);    
+                return new SDL2JoyCon(gamepadHandle, id);
             }
 
             return new SDL2Gamepad(gamepadHandle, id);

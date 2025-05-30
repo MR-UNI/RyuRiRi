@@ -96,9 +96,9 @@ namespace Ryujinx.Ava.UI.Models.Input
         public float UiStickRightX => ClampVector(UiStickRight).Item1;
         public float UiStickRightY => ClampVector(UiStickRight).Item2;
 
-		public static int UiStickCircumference => DrawStickCircumference;
-		public static int UiCanvasSize => DrawStickCanvasSize;
-		public static int UiStickBorderSize => DrawStickBorderSize;
+        public static int UiStickCircumference => DrawStickCircumference;
+        public static int UiCanvasSize => DrawStickCanvasSize;
+        public static int UiStickBorderSize => DrawStickBorderSize;
 
         public float? UiDeadzoneLeft => _gamepadConfig?.DeadzoneLeft * DrawStickCanvasSize - DrawStickCircumference;
         public float? UiDeadzoneRight => _gamepadConfig?.DeadzoneRight * DrawStickCanvasSize - DrawStickCircumference;

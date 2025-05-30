@@ -59,9 +59,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             switch (maxTxSize)
             {
-                case TxSize.Tx8X8: return fc.Tx8x8Prob[ctx].AsSpan();
-                case TxSize.Tx16X16: return fc.Tx16x16Prob[ctx].AsSpan();
-                case TxSize.Tx32X32: return fc.Tx32x32Prob[ctx].AsSpan();
+                case TxSize.Tx8X8:
+                    return fc.Tx8x8Prob[ctx].AsSpan();
+                case TxSize.Tx16X16:
+                    return fc.Tx16x16Prob[ctx].AsSpan();
+                case TxSize.Tx32X32:
+                    return fc.Tx32x32Prob[ctx].AsSpan();
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
                     return ReadOnlySpan<byte>.Empty;
@@ -72,9 +75,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             switch (maxTxSize)
             {
-                case TxSize.Tx8X8: return counts.Tx8x8[ctx].AsSpan();
-                case TxSize.Tx16X16: return counts.Tx16x16[ctx].AsSpan();
-                case TxSize.Tx32X32: return counts.Tx32x32[ctx].AsSpan();
+                case TxSize.Tx8X8:
+                    return counts.Tx8x8[ctx].AsSpan();
+                case TxSize.Tx16X16:
+                    return counts.Tx16x16[ctx].AsSpan();
+                case TxSize.Tx32X32:
+                    return counts.Tx32x32[ctx].AsSpan();
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
                     return Span<uint>.Empty;
@@ -493,7 +499,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         ZeroPair(ref mv);
                         break;
                     }
-                default: return false;
+                default:
+                    return false;
             }
 
             return ret;
@@ -759,7 +766,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 refmvCount = 1;
             }
 
-            Done:
+        Done:
             // Clamp vectors
             for (i = 0; i < refmvCount; ++i)
             {

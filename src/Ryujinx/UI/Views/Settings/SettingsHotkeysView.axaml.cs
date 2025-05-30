@@ -10,8 +10,8 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -56,7 +56,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
             {
                 DeleteBind();
             }
-          
+
             _currentAssigner?.Cancel(shouldUnbind);
 
             PointerPressed -= MouseClick;

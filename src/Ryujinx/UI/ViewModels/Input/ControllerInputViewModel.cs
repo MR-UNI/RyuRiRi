@@ -33,7 +33,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 OnPropertyChanged();
             }
         }
-        
+
         private bool _isLeft;
         public bool IsLeft
         {
@@ -59,11 +59,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public bool HasSides => IsLeft ^ IsRight;
-        
+
         [ObservableProperty] private SvgImage _image;
-        
+
         public InputViewModel ParentModel { get; }
-        
+
         public ControllerInputViewModel(InputViewModel model, GamepadInputConfig config, StickVisualizer visualizer)
         {
             ParentModel = model;
@@ -79,7 +79,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     else
                     {
                         Rainbow.Reset();
-                        
+
                         if (Config.TurnOffLed)
                             ParentModel.SelectedGamepad.ClearLed();
                         else
@@ -91,17 +91,17 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public async void ShowMotionConfig()
-        {      
+        {
             await MotionInputView.Show(this);
             ParentModel.IsModified = true;
         }
 
         public async void ShowRumbleConfig()
-        {        
+        {
             await RumbleInputView.Show(this);
             ParentModel.IsModified = true;
         }
-        
+
         public async void ShowLedConfig()
         {
             await LedInputView.Show(this);

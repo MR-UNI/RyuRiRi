@@ -6,8 +6,8 @@ using DynamicData;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -103,7 +103,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             // NOTE(jpr): this works around a bug where calling _views.Clear also clears SelectedDownloadableContents for
             // some reason. so we save the items here and add them back after
             DownloadableContentModel[] items = SelectedDownloadableContents.ToArray();
-            
+
             Views.Clear();
             Views.AddRange(view);
 
@@ -253,12 +253,12 @@ namespace Ryujinx.Ava.UI.ViewModels
             return Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 await ContentDialogHelper.ShowTextDialog(
-                    LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle], 
-                    msg, 
-                    string.Empty, 
-                    string.Empty, 
-                    string.Empty, 
-                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                    LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle],
+                    msg,
+                    string.Empty,
+                    string.Empty,
+                    string.Empty,
+                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
                     (int)Symbol.Checkmark);
             });
         }

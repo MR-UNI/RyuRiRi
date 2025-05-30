@@ -16,8 +16,8 @@ namespace ARMeilleure.State
 
         public ulong Pc => _nativeContext.GetPc();
 
-		public static uint CtrEl0 => 0x8444c004;
-		public static uint DczidEl0 => 0x00000004;
+        public static uint CtrEl0 => 0x8444c004;
+        public static uint DczidEl0 => 0x00000004;
 
         public ulong CntfrqEl0 => _counter.Frequency;
         public ulong CntpctEl0 => _counter.Counter;

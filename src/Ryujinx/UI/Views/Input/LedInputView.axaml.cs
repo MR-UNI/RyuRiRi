@@ -20,10 +20,10 @@ namespace Ryujinx.UI.Views.Input
                 LedColor = viewModel.Config.LedColor,
                 UseRainbowLed = viewModel.Config.UseRainbowLed,
             };
-            
+
             InitializeComponent();
         }
-        
+
         private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
         {
             if (!args.NewColor.HasValue)
@@ -32,7 +32,7 @@ namespace Ryujinx.UI.Views.Input
                 return;
             if (ViewModel.TurnOffLed)
                 return;
-            
+
             ViewModel.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
         }
 
@@ -42,7 +42,7 @@ namespace Ryujinx.UI.Views.Input
                 return;
             if (ViewModel.TurnOffLed)
                 return;
-            
+
             ViewModel.ParentModel.SelectedGamepad.SetLed(ViewModel.LedColor.ToUInt32());
         }
 

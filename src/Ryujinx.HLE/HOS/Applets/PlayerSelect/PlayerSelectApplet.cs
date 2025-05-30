@@ -27,7 +27,7 @@ namespace Ryujinx.HLE.HOS.Applets
         {
             _normalSession = normalSession;
             _interactiveSession = interactiveSession;
-            
+
             UserProfile selected = _system.Device.UIHandler.ShowPlayerSelectDialog();
             if (selected == null)
             {
@@ -49,7 +49,7 @@ namespace Ryujinx.HLE.HOS.Applets
             return ResultCode.Success;
         }
 
-		private static byte[] BuildResponse(UserProfile selectedUser)
+        private static byte[] BuildResponse(UserProfile selectedUser)
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
@@ -61,21 +61,21 @@ namespace Ryujinx.HLE.HOS.Applets
             return stream.ToArray();
         }
 
-		private static byte[] BuildGuestResponse()
+        private static byte[] BuildGuestResponse()
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
-            
+
             writer.Write(new byte());
 
             return stream.ToArray();
         }
 
-		private static byte[] BuildResponse()
+        private static byte[] BuildResponse()
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
-            
+
             writer.Write((ulong)PlayerSelectResult.Failure);
 
             return stream.ToArray();

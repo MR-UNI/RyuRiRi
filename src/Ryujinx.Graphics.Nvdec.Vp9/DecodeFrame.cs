@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
@@ -63,7 +63,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             {
                 for (int j = 0; j < Constants.InterModes - 1; ++j)
                 {
-                    r.DiffUpdateProb( ref fc.InterModeProb[i][j]);
+                    r.DiffUpdateProb(ref fc.InterModeProb[i][j]);
                 }
             }
         }
@@ -1174,7 +1174,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                             {
                                 for (int m = 0; m < Entropy.UnconstrainedNodes; ++m)
                                 {
-                                    r.DiffUpdateProb( ref coefProbs[i][j][k][l][m]);
+                                    r.DiffUpdateProb(ref coefProbs[i][j][k][l][m]);
                                 }
                             }
                         }
@@ -1740,7 +1740,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             return readSyncCode0 == SyncCode0 &&
                    readSyncCode1 == SyncCode1 &&
                    readSyncCode2 == SyncCode2;
-		}
+        }
 
         private static void RefCntFb(ref Array12<RefCntBuffer> bufs, ref int idx, int newIdx)
         {
@@ -2017,7 +2017,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
                 for (int i = 0; i < Constants.IntraInterContexts; i++)
                 {
-                    r.DiffUpdateProb( ref fc.IntraInterProb[i]);
+                    r.DiffUpdateProb(ref fc.IntraInterProb[i]);
                 }
 
                 cm.ReferenceMode = cm.ReadFrameReferenceMode(ref r);
@@ -2032,7 +2032,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 {
                     for (int i = 0; i < Constants.IntraModes - 1; ++i)
                     {
-                        r.DiffUpdateProb( ref fc.YModeProb[j][i]);
+                        r.DiffUpdateProb(ref fc.YModeProb[j][i]);
                     }
                 }
 
@@ -2040,7 +2040,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 {
                     for (int i = 0; i < Constants.PartitionTypes - 1; ++i)
                     {
-                        r.DiffUpdateProb( ref fc.PartitionProb[j][i]);
+                        r.DiffUpdateProb(ref fc.PartitionProb[j][i]);
                     }
                 }
 
@@ -2122,7 +2122,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     allocator.Free(cm.TileWorkerData);
                 }
 
-                cm.CheckMemError( ref cm.TileWorkerData, allocator.Allocate<TileWorkerData>(numTileWorkers));
+                cm.CheckMemError(ref cm.TileWorkerData, allocator.Allocate<TileWorkerData>(numTileWorkers));
                 cm.TotalTiles = tileRows * tileCols;
             }
 

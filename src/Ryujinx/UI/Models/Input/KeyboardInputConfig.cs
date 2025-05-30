@@ -29,24 +29,24 @@ namespace Ryujinx.Ava.UI.Models.Input
         [ObservableProperty] private Key _dpadDown;
         [ObservableProperty] private Key _dpadLeft;
         [ObservableProperty] private Key _dpadRight;
-        
+
         [ObservableProperty] private Key _buttonMinus;
         [ObservableProperty] private Key _buttonPlus;
-        
+
         [ObservableProperty] private Key _buttonA;
         [ObservableProperty] private Key _buttonB;
         [ObservableProperty] private Key _buttonX;
         [ObservableProperty] private Key _buttonY;
-        
+
         [ObservableProperty] private Key _buttonL;
         [ObservableProperty] private Key _buttonR;
-        
+
         [ObservableProperty] private Key _buttonZl;
         [ObservableProperty] private Key _buttonZr;
-        
+
         [ObservableProperty] private Key _leftButtonSl;
         [ObservableProperty] private Key _leftButtonSr;
-        
+
         [ObservableProperty] private Key _rightButtonSl;
         [ObservableProperty] private Key _rightButtonSr;
 

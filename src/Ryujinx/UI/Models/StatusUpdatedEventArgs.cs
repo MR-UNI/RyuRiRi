@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.UI.Models
                 ShaderCount == suea.ShaderCount;
         }
 
-        public override int GetHashCode() 
+        public override int GetHashCode()
             => HashCode.Combine(VSyncMode, VolumeStatus, AspectRatio, DockedMode, FifoStatus, GameStatus, ShaderCount);
     }
 }

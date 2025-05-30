@@ -4,9 +4,9 @@ using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.UI.Controls;
+using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 

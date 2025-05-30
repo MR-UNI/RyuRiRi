@@ -142,7 +142,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
             int tempRegister;
             int tempGuestAddress = -1;
 
-            bool inlineLookup = guestAddress.Kind != OperandKind.Constant && 
+            bool inlineLookup = guestAddress.Kind != OperandKind.Constant &&
                                 funcTable is { Sparse: true };
 
             if (guestAddress.Kind == OperandKind.Constant)

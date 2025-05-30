@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             Add(map, 0x3fc, AggregateType.Bool, IoVariable.FrontFacing, StagesMask.Fragment, StagesMask.None);
 
             return map.AsReadOnly();
-		}
+        }
 
         private static ReadOnlyDictionary<int, AttributeEntry> CreatePerPatchMap()
         {
@@ -92,7 +92,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             Add(map, 0x018, AggregateType.Vector4 | AggregateType.FP32, IoVariable.UserDefined, StagesMask.TessellationEvaluation, StagesMask.TessellationControl, 31, 0x200);
 
             return map.AsReadOnly();
-		}
+        }
 
         private static void Add(
             Dictionary<int, AttributeEntry> attributes,

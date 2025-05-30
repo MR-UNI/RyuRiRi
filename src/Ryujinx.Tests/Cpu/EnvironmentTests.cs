@@ -18,7 +18,7 @@ namespace Ryujinx.Tests.Cpu
         {
             // Create a translator, as one is needed to register the signal handler or emit methods.
             _translator ??= new Translator(
-                new JitMemoryAllocator(), 
+                new JitMemoryAllocator(),
                 new MockMemoryManager(),
                 AddressTable<ulong>.CreateForArm(true, MemoryManagerType.SoftwarePageTable));
         }

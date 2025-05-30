@@ -21,7 +21,7 @@ namespace Ryujinx.Input
         /// </summary>
         /// <remarks>Values are in degrees</remarks>
         Gyroscope,
-        
+
         /// <summary>
         /// Second accelerometer.
         /// </summary>

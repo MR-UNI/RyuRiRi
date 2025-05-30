@@ -150,7 +150,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
             for (int i = _activeRegionIndex; i < _jitRegions.Count; i++)
             {
                 int allocOffset = _cacheAllocator.Allocate(codeSize);
-        
+
                 if (allocOffset >= 0)
                 {
                     _jitRegions[i].ExpandIfNeeded((ulong)allocOffset + (ulong)codeSize);
@@ -163,11 +163,11 @@ namespace Ryujinx.Cpu.LightningJit.Cache
             ReservedRegion newRegion = new(_jitRegions[0].Allocator, CacheSize);
             _jitRegions.Add(newRegion);
             _activeRegionIndex = _jitRegions.Count - 1;
-            
+
             int newRegionNumber = _activeRegionIndex;
 
             Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({((long)(newRegionNumber + 1) * CacheSize).Bytes()} Total Allocation).");
-        
+
             _cacheAllocator = new CacheMemoryAllocator(CacheSize);
 
             int allocOffsetNew = _cacheAllocator.Allocate(codeSize);

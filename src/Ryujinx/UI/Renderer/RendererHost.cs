@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Ryujinx.Ava.Systems.Configuration;
@@ -36,8 +36,8 @@ namespace Ryujinx.Ava.UI.Renderer
                 EmbeddedWindowOpenGL => GraphicsBackend.OpenGl,
                 _ => throw new NotImplementedException()
             };
-        
-        
+
+
         private void Initialize()
         {
             EmbeddedWindow.WindowCreated += CurrentWindow_WindowCreated;

@@ -28,16 +28,16 @@ namespace ARMeilleure.Diagnostics
             _symbolNames = new Dictionary<ulong, string>();
         }
 
-		private void Indent()
-		{
-			if (_indentLevel == 0)
-                    return;
+        private void Indent()
+        {
+            if (_indentLevel == 0)
+                return;
 
-			_builder.EnsureCapacity(_builder.Capacity + _indentLevel);
-			_builder.Append(Indentation, _indentLevel);
-		}
+            _builder.EnsureCapacity(_builder.Capacity + _indentLevel);
+            _builder.Append(Indentation, _indentLevel);
+        }
 
-		private void IncreaseIndentation()
+        private void IncreaseIndentation()
         {
             _indentLevel++;
         }

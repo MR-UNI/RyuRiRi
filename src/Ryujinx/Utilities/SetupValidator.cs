@@ -94,7 +94,7 @@ namespace Ryujinx.Ava.Utilities
                     error = UserError.Success;
                     return true;
                 }
-                
+
                 return IsFirmwareValid(contentManager, out error);
             }
 

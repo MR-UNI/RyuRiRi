@@ -30,7 +30,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
         public class Array
         {
             private readonly LdnGameData[] _ldnDatas;
-            
+
             internal Array(IEnumerable<LdnGameData> receivedData)
             {
                 _ldnDatas = receivedData.ToArray();
@@ -43,7 +43,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
     public static class LdnGameDataHelper
     {
-        public static LdnGameData.Array Where(this LdnGameData[] unfilteredDatas, ref ApplicationControlProperty acp) 
+        public static LdnGameData.Array Where(this LdnGameData[] unfilteredDatas, ref ApplicationControlProperty acp)
             => LdnGameData.GetArrayForApp(unfilteredDatas, ref acp);
     }
 }

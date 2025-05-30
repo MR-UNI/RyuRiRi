@@ -14,8 +14,8 @@ namespace Ryujinx.Cpu
 
         /// <inheritdoc/>
         public ulong Counter => (ulong)(ElapsedSeconds * Frequency);
-        
-        
+
+
         public long TickScalar { get; set; }
 
         private static long _acumElapsedTicks;
@@ -27,17 +27,17 @@ namespace Ryujinx.Cpu
             get
             {
                 long elapsedTicks = _tickCounter.ElapsedTicks;
-                
+
                 _acumElapsedTicks += (elapsedTicks - _lastElapsedTicks) * TickScalar / 100;
 
                 _lastElapsedTicks = elapsedTicks;
-                
+
                 return _acumElapsedTicks;
             }
         }
 
         /// <inheritdoc/>
-        
+
         public TimeSpan ElapsedTime => Stopwatch.GetElapsedTime(0, ElapsedTicks);
 
         /// <inheritdoc/>

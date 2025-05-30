@@ -1,4 +1,4 @@
-﻿using LibHac.Common;
+using LibHac.Common;
 using LibHac.Ncm;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem.NcaUtils;
@@ -38,17 +38,17 @@ namespace Ryujinx.Ava.Utilities
             out BlitStruct<ApplicationControlProperty> appControl)
         {
             contentManager ??= _contentManager;
-            if (contentManager == null) 
+            if (contentManager == null)
                 goto BadData;
 
             string contentPath = GetContentPath(contentManager);
-            if (string.IsNullOrEmpty(contentPath)) 
+            if (string.IsNullOrEmpty(contentPath))
                 goto BadData;
 
             appData = new() { Name = Name, Id = ProgramId, Path = contentPath };
             appControl = StructHelpers.CreateCustomNacpData(Name, Version);
             return true;
-            
+
         BadData:
             appData = null;
             appControl = new BlitStruct<ApplicationControlProperty>(0);

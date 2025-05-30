@@ -42,8 +42,8 @@ namespace Ryujinx.Common
                 }
             }
         }
-        
-        public void LogChangesToValue(string valueName, LogClass logClass = LogClass.Configuration) 
+
+        public void LogChangesToValue(string valueName, LogClass logClass = LogClass.Configuration)
             => Event += (_, e) => ReactiveObjectHelper.LogValueChange(logClass, e, valueName);
 
         public static implicit operator T(ReactiveObject<T> obj) => obj.Value;
@@ -55,12 +55,12 @@ namespace Ryujinx.Common
         {
             if (eventArgs.AreValuesEqual)
                 return;
-            
+
             string message = string.Create(CultureInfo.InvariantCulture, $"{valueName} set to: {eventArgs.NewValue}");
 
             Logger.Info?.Print(logClass, message);
         }
-        
+
         public static void Toggle(this ReactiveObject<bool> rBoolean) => rBoolean.Value = !rBoolean.Value;
     }
 
@@ -78,7 +78,7 @@ namespace Ryujinx.Common
 
                 if (OldValue == null && NewValue != null)
                     return false;
-                
+
                 if (OldValue != null && NewValue == null)
                     return false;
 

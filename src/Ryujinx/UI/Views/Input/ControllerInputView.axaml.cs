@@ -64,7 +64,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                 };
 
                 if (!float.IsNaN(_changeSlider) && _changeSlider != (float)check.Value)
-                {     
+                {
                     FlagInputConfigChanged();
 
                     _changeSlider = (float)check.Value;
@@ -103,7 +103,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                         this.Focus(NavigationMethod.Pointer);
 
                         PointerPressed += MouseClick;
-                       
+
                         ControllerInputViewModel viewModel = (DataContext as ControllerInputViewModel);
 
                         IKeyboard keyboard =
@@ -233,7 +233,7 @@ namespace Ryujinx.Ava.UI.Views.Input
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
-            
+
             foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
             {
                 gamepad?.ClearLed();

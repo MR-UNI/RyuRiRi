@@ -21,10 +21,10 @@ namespace Ryujinx.Ava.UI.Applet
         public ProfileSelectorDialog(ProfileSelectorDialogViewModel viewModel)
         {
             DataContext = ViewModel = viewModel;
-            
+
             InitializeComponent();
         }
-        
+
         private void Grid_PointerEntered(object sender, PointerEventArgs e)
         {
             if (sender is Grid { DataContext: UserProfile profile })
@@ -61,7 +61,7 @@ namespace Ryujinx.Ava.UI.Applet
                             if (item is UserProfile originalItem)
                             {
                                 UserProfileSft profile = new(originalItem.UserId, originalItem.Name, originalItem.Image);
-                                
+
                                 if (profile.UserId == ViewModel.SelectedUserId)
                                 {
                                     profile.AccountState = AccountState.Open;
@@ -98,13 +98,13 @@ namespace Ryujinx.Ava.UI.Applet
 
             UserId result = UserId.Null;
             bool input = false;
-            
+
             contentDialog.Closed += Handler;
 
             await ContentDialogHelper.ShowAsync(contentDialog);
 
             return (result, input);
-            
+
             void Handler(ContentDialog sender, ContentDialogClosedEventArgs eventArgs)
             {
                 if (eventArgs.Result == ContentDialogResult.Primary)

@@ -1,12 +1,12 @@
 using Avalonia.Collections;
+using Avalonia.Threading;
 using DynamicData;
 using Gommon;
-using Avalonia.Threading;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Common.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,12 +93,12 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void SortingChanged()
         {
             OnPropertiesChanged(
-                nameof(IsSortedByName), 
-                nameof(IsSortedBySaved), 
-                nameof(SortingAscending), 
-                nameof(SortingField), 
+                nameof(IsSortedByName),
+                nameof(IsSortedBySaved),
+                nameof(SortingAscending),
+                nameof(SortingField),
                 nameof(SortingFieldName));
-            
+
             SortAndFilter();
         }
 
@@ -110,13 +110,13 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void ApplicationsChanged()
         {
             OnPropertiesChanged(
-                nameof(AllXCIFiles), 
-                nameof(Status), 
-                nameof(PotentialSavings), 
-                nameof(ActualSavings), 
-                nameof(CanTrim), 
+                nameof(AllXCIFiles),
+                nameof(Status),
+                nameof(PotentialSavings),
+                nameof(ActualSavings),
+                nameof(CanTrim),
                 nameof(CanUntrim));
-            
+
             DisplayedChanged();
             SortAndFilter();
         }
@@ -124,9 +124,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void SelectionChanged(bool displayedChanged = true)
         {
             OnPropertiesChanged(
-                nameof(Status), 
-                nameof(CanTrim), 
-                nameof(CanUntrim), 
+                nameof(Status),
+                nameof(CanTrim),
+                nameof(CanUntrim),
                 nameof(SelectedXCIFiles));
 
             if (displayedChanged)
@@ -136,10 +136,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void ProcessingChanged()
         {
             OnPropertiesChanged(
-                nameof(Processing), 
-                nameof(Cancel), 
-                nameof(Status), 
-                nameof(CanTrim), 
+                nameof(Processing),
+                nameof(Cancel),
+                nameof(Status),
+                nameof(CanTrim),
                 nameof(CanUntrim));
         }
 

@@ -3,11 +3,11 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.HLE;
 using Ryujinx.HLE.HOS.Applets;
@@ -241,7 +241,9 @@ namespace Ryujinx.Ava.UI.Applet
                 {
                     ErrorAppletWindow msgDialog = new(_parent, buttons, message)
                     {
-                        Title = title, WindowStartupLocation = WindowStartupLocation.CenterScreen, Width = 400
+                        Title = title,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        Width = 400
                     };
 
                     object response = await msgDialog.Run();
@@ -292,7 +294,8 @@ namespace Ryujinx.Ava.UI.Applet
                 profiles.Add(new Models.UserProfile(guest, nav));
                 ProfileSelectorDialogViewModel viewModel = new()
                 {
-                    Profiles = profiles, SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId
+                    Profiles = profiles,
+                    SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId
                 };
                 (selected, _) = await ProfileSelectorDialog.ShowInputDialog(viewModel);
 

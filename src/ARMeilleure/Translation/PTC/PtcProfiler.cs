@@ -27,7 +27,7 @@ namespace ARMeilleure.Translation.PTC
 
         private const uint InternalVersion = 7007; //! Not to be incremented manually for each change to the ARMeilleure project.
 
-        private static readonly uint[] _migrateInternalVersions = 
+        private static readonly uint[] _migrateInternalVersions =
         [
             1866,
             5518,
@@ -76,7 +76,7 @@ namespace ARMeilleure.Translation.PTC
             Enabled = false;
         }
 
-        private void TimerElapsed(object _, ElapsedEventArgs __) 
+        private void TimerElapsed(object _, ElapsedEventArgs __)
             => new Thread(PreSave) { Name = "Ptc.DiskWriter" }.Start();
 
         public void AddEntry(ulong address, ExecutionMode mode, bool highCq, bool blacklist = false)
@@ -152,7 +152,7 @@ namespace ARMeilleure.Translation.PTC
                 if (!funcProfile.Blacklist)
                     continue;
 
-                if (!funcs.Contains(ptr)) 
+                if (!funcs.Contains(ptr))
                     funcs.Add(ptr);
             }
 

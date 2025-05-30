@@ -34,7 +34,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 if (!_processesByPid.TryGetValue(_latestPid, out ProcessResult value))
                     throw new RyujinxException(
                         $"The HLE Process map did not have a process with ID {_latestPid}. Are you missing firmware?");
-                
+
                 return value;
             }
         }
@@ -159,7 +159,7 @@ namespace Ryujinx.HLE.Loaders.Processes
 
             return false;
         }
-        
+
         public bool LoadNxo(string path)
         {
             BlitStruct<ApplicationControlProperty> nacpData = new(1);

@@ -451,7 +451,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                 new(0x00000000, 0x20001000)
             ];
 
-            List<InstInfo> insts = 
+            List<InstInfo> insts =
             [
                 new(0x5AC02000, 0x7FFFFC00, InstName.Abs, IsaVersion.v89, InstFlags.RdRn),
                 new(0x5EE0B800, 0xFFFFFC00, InstName.AbsAdvsimdS, IsaVersion.v80, InstFlags.RdRnFpSimd),

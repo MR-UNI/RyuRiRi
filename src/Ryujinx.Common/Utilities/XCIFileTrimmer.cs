@@ -204,7 +204,7 @@ namespace Ryujinx.Common.Utilities
 
             while (true)
             {
-                if (cancelToken.HasValue && cancelToken.Value.IsCancellationRequested) 
+                if (cancelToken.HasValue && cancelToken.Value.IsCancellationRequested)
                 {
                     return false;
                 }
@@ -256,7 +256,7 @@ namespace Ryujinx.Common.Utilities
                 {
                     return OperationOutcome.Cancelled;
                 }
-                else 
+                else
                 {
                     return OperationOutcome.FreeSpaceCheckFailed;
                 }
@@ -293,7 +293,7 @@ namespace Ryujinx.Common.Utilities
                 {
 
 #if !XCI_TRIMMER_READ_ONLY_MODE
-                        outfileStream.SetLength(TrimmedFileSizeB);
+                    outfileStream.SetLength(TrimmedFileSizeB);
 #endif
                     return OperationOutcome.Successful;
                 }
@@ -366,7 +366,7 @@ namespace Ryujinx.Common.Utilities
                     {
                         return OperationOutcome.Cancelled;
                     }
-                    else 
+                    else
                     {
                         return OperationOutcome.Successful;
                     }
@@ -403,9 +403,9 @@ namespace Ryujinx.Common.Utilities
                     }
 
                     long bytesToWrite = Math.Min(XCIFileTrimmer.BufferSize, bytesLeftToWriteB);
-                    
+
 #if !XCI_TRIMMER_READ_ONLY_MODE
-                        outfileStream.Write(buffer, 0, (int)bytesToWrite);
+                    outfileStream.Write(buffer, 0, (int)bytesToWrite);
 #endif
 
                     bytesLeftToWriteB -= bytesToWrite;

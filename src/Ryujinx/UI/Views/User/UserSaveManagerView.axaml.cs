@@ -130,7 +130,7 @@ namespace Ryujinx.Ava.UI.Views.User
                     UserResult result = await ContentDialogHelper.CreateConfirmationDialog(LocaleManager.Instance[LocaleKeys.DeleteUserSave],
                         LocaleManager.Instance[LocaleKeys.IrreversibleActionNote],
                         LocaleManager.Instance[LocaleKeys.InputDialogYes],
-                        LocaleManager.Instance[LocaleKeys.InputDialogNo], 
+                        LocaleManager.Instance[LocaleKeys.InputDialogNo],
                         string.Empty);
 
                     if (result == UserResult.Yes)

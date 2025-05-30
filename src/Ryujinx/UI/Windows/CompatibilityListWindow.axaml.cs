@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.ViewModels;
@@ -11,7 +11,7 @@ namespace Ryujinx.Ava.UI.Windows
         public static async Task Show(string titleId = null)
         {
             using CompatibilityViewModel compatWindow = new(RyujinxApp.MainWindow.ViewModel.ApplicationLibrary);
-            
+
             await ShowAsync(new CompatibilityListWindow
             {
                 DataContext = compatWindow,
@@ -23,9 +23,9 @@ namespace Ryujinx.Ava.UI.Windows
         public CompatibilityListWindow() : base(useCustomTitleBar: true, 37)
         {
             Title = RyujinxApp.FormatTitle(LocaleKeys.CompatibilityListTitle);
-            
+
             InitializeComponent();
-            
+
             FlushControls.IsVisible = !ConfigurationState.Instance.ShowOldUI;
             NormalControls.IsVisible = ConfigurationState.Instance.ShowOldUI;
         }
@@ -39,7 +39,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             if (sender is not TextBox searchBox)
                 return;
-        
+
             cvm.Search(searchBox.Text);
         }
     }

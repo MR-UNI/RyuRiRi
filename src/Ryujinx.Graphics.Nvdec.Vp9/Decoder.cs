@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -69,9 +69,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             };
 
             cm.Mb.Lossless = pictureInfo.Lossless;
-			cm.Mb.Bd = 8;
+            cm.Mb.Bd = 8;
 
-			if (cm.InterpFilter != Constants.Switchable)
+            if (cm.InterpFilter != Constants.Switchable)
             {
                 cm.InterpFilter = LiteralToFilter[cm.InterpFilter];
             }

@@ -1089,7 +1089,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                             case MultiplayerMode.LdnRyu:
                                 try
                                 {
-                                    string ldnServer = context.Device.Configuration.MultiplayerLdnServer 
+                                    string ldnServer = context.Device.Configuration.MultiplayerLdnServer
                                                        ?? throw new InvalidOperationException("Cannot initialize RyuLDN with a null Multiplayer server.");
 
                                     if (!IPAddress.TryParse(ldnServer, out IPAddress ipAddress))

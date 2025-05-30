@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.UI.Views.User
         private NavigationDialogHost _parent;
         private UserProfile _profile;
         private bool _isNewUser;
-        
+
         public static uint MaxProfileNameLength => 0x20;
         public bool IsDeletable => _profile.UserId != AccountManager.DefaultUserId;
 

@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 using System.Diagnostics;
@@ -98,7 +98,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             int spelBottom = spelTop - SubpelShifts;
             Mv clampedMv = new()
             {
-                Row = (short)(srcMv.Row * (1 << (1 - ssY))), Col = (short)(srcMv.Col * (1 << (1 - ssX)))
+                Row = (short)(srcMv.Row * (1 << (1 - ssY))),
+                Col = (short)(srcMv.Col * (1 << (1 - ssX)))
             };
 
             Debug.Assert(ssX <= 1);

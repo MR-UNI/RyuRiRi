@@ -91,13 +91,13 @@ namespace Ryujinx.Graphics.Gpu
         /// Support buffer updater.
         /// </summary>
         internal SupportBufferUpdater SupportBufferUpdater { get; }
-        
+
         /// <summary>
         /// Enabled dirty hacks.
         /// Used for workarounds to emulator bugs we can't fix/don't know how to fix yet.
         /// </summary>
         internal DirtyHacks DirtyHacks { get; }
-        
+
 
         /// <summary>
         /// Host hardware capabilities.

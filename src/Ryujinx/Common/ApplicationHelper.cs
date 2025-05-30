@@ -13,10 +13,10 @@ using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE.FileSystem;
@@ -292,7 +292,7 @@ namespace Ryujinx.Ava.Common
             };
             extractorThread.Start();
         }
-        
+
         public static void ExtractAoc(string destination, string updateFilePath, string updateName)
         {
             CancellationTokenSource cancellationToken = new();
@@ -418,7 +418,7 @@ namespace Ryujinx.Ava.Common
 
             if (!result.HasValue)
                 return;
-            
+
             ExtractAoc(result.Value.Path.LocalPath, updateFilePath, updateName);
         }
 

@@ -21,12 +21,12 @@ namespace Ryujinx.Graphics.Gpu
         /// </summary>
         public static string ShadersDumpPath { get; set; }
 
-		/// <summary>
-		/// Fast GPU time calculates the internal GPU time ticks as if the GPU was capable of
-		/// processing commands almost instantly, instead of using the host timer.
-		/// This can avoid lower resolution on some games when GPU performance is poor.
-		/// </summary>
-		public static bool FastGpuTime { get; set; } = true;
+        /// <summary>
+        /// Fast GPU time calculates the internal GPU time ticks as if the GPU was capable of
+        /// processing commands almost instantly, instead of using the host timer.
+        /// This can avoid lower resolution on some games when GPU performance is poor.
+        /// </summary>
+        public static bool FastGpuTime { get; set; } = true;
 
         /// <summary>
         /// Enables or disables fast 2d engine texture copies entirely on CPU when possible.
@@ -45,22 +45,22 @@ namespace Ryujinx.Graphics.Gpu
         /// Enables or disables high-level emulation of common GPU Macro code.
         /// </summary>
         public static bool EnableMacroHLE { get; set; } = true;
-        
+
         /// <summary>
         /// Title id of the current running game.
         /// Used by the shader cache.
         /// </summary>
         public static string TitleId { get; set; }
 
-		/// <summary>
-		/// Enables or disables the shader cache.
-		/// </summary>
-		public static bool EnableShaderCache { get; set; }
+        /// <summary>
+        /// Enables or disables the shader cache.
+        /// </summary>
+        public static bool EnableShaderCache { get; set; }
 
-		/// <summary>
-		/// Enables or disables shader SPIR-V compilation.
-		/// </summary>
-		public static bool EnableSpirvCompilationOnVulkan { get; set; } = true;
+        /// <summary>
+        /// Enables or disables shader SPIR-V compilation.
+        /// </summary>
+        public static bool EnableSpirvCompilationOnVulkan { get; set; } = true;
 
         /// <summary>
         /// Enables or disables recompression of compressed textures that are not natively supported by the host.

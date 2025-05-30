@@ -6,8 +6,8 @@ namespace Ryujinx.Common
     public static class TitleIDs
     {
         public static ReactiveObject<Optional<string>> CurrentApplication { get; } = new();
-        
-        public static string GetDiscordGameAsset(string titleId) 
+
+        public static string GetDiscordGameAsset(string titleId)
             => DiscordGameAssetKeys.Contains(titleId) ? titleId : "game";
 
         public static readonly string[] DiscordGameAssetKeys =

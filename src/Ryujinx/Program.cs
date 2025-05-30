@@ -6,11 +6,11 @@ using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia.MaterialDesign;
 using Ryujinx.Ava.Systems;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Systems.Configuration.System;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Systems.Configuration;
-using Ryujinx.Ava.Systems.Configuration.System;
 using Ryujinx.Ava.Utilities.SystemInfo;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
@@ -47,7 +47,7 @@ namespace Ryujinx.Ava
         public static int Main(string[] args)
         {
             Version = ReleaseInformation.Version;
-            
+
             if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
             {
                 _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 20H1 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
@@ -55,7 +55,7 @@ namespace Ryujinx.Ava
             }
 
             PreviewerDetached = true;
-            
+
             if (args.Length > 0 && args[0] is "--no-gui" or "nogui")
             {
                 HeadlessRyujinx.Entrypoint(args[1..]);
@@ -63,7 +63,7 @@ namespace Ryujinx.Ava
             }
 
             Initialize(args);
-            
+
             LoggerAdapter.Register();
 
             IconProvider.Current
@@ -115,10 +115,10 @@ namespace Ryujinx.Ava
             AppDomain.CurrentDomain.UnhandledException += (sender, e)
                 => ProcessUnhandledException(sender, e.ExceptionObject as Exception, e.IsTerminating);
             TaskScheduler.UnobservedTaskException += (sender, e)
-                => ProcessUnhandledException(sender, e.Exception, false); 
+                => ProcessUnhandledException(sender, e.Exception, false);
             AppDomain.CurrentDomain.ProcessExit += (_, _) => Exit();
 
-            
+
             // Setup base data directory.
             AppDataManager.Initialize(CommandLineState.BaseDirPathArg);
 
@@ -304,13 +304,11 @@ namespace Ryujinx.Ava
             Logger.Notice.Print(LogClass.Application, $".NET Runtime: {RuntimeInformation.FrameworkDescription}");
             SystemInfo.Gather().Print();
 
-            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {
-                Logger.GetEnabledLevels()
+            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {Logger.GetEnabledLevels()
                     .FormatCollection(
-                        x => x.ToString(), 
-                        separator: ", ", 
-                        emptyCollectionFallback: "<None>")
-            }");
+                        x => x.ToString(),
+                        separator: ", ",
+                        emptyCollectionFallback: "<None>")}");
 
             Logger.Notice.Print(LogClass.Application,
                 AppDataManager.Mode == AppDataManager.LaunchMode.Custom
@@ -342,8 +340,8 @@ namespace Ryujinx.Ava
                 else
                     log.PrintMsg(LogClass.Application, message);
             }
-            
-            
+
+
             if (isTerminating)
                 Exit();
         }

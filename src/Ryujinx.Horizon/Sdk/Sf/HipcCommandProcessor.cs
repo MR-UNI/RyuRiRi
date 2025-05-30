@@ -387,7 +387,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
             outRawData = MemoryMarshal.Cast<uint, byte>(response.DataWords);
         }
 
-		public static void SetOutObjects(ref ServiceDispatchContext context, HipcMessageData response, Span<IServiceObject> objects)
+        public static void SetOutObjects(ref ServiceDispatchContext context, HipcMessageData response, Span<IServiceObject> objects)
         {
             if (objects.Length == 0)
             {

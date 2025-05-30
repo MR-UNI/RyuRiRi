@@ -1694,7 +1694,7 @@ namespace Ryujinx.Horizon.Common
             { 0x827AC, "InvalidPackage1Pk11Size" },
         }.AsReadOnly();
 
-		public static bool TryGet(int errorCode, out string name)
+        public static bool TryGet(int errorCode, out string name)
         {
             return _names.TryGetValue(errorCode, out name);
         }
