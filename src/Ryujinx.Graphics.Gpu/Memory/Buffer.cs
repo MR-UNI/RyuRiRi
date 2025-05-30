@@ -705,7 +705,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             BufferHandle handle = Handle;
 
-            return (ulong address, ulong size, ulong _) =>
+            return (address, size, _) =>
             {
                 FlushImpl(handle, address, size);
             };

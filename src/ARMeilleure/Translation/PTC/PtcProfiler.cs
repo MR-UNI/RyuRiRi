@@ -293,10 +293,10 @@ namespace ARMeilleure.Translation.PTC
         {
             if (migrateEntryFunc != null)
             {
-                return DeserializeAndUpdateDictionary(stream, (Stream stream) => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); }, migrateEntryFunc);
+                return DeserializeAndUpdateDictionary(stream, stream => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); }, migrateEntryFunc);
             }
 
-            return DeserializeDictionary<ulong, FuncProfile>(stream, (Stream stream) => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); });
+            return DeserializeDictionary<ulong, FuncProfile>(stream, stream => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); });
         }
 
         private static ReadOnlySpan<byte> GetReadOnlySpan(MemoryStream memoryStream)

@@ -235,7 +235,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             // Check stage bindings
 
-            _uniformMirrored.Union(_uniformSet).SignalSet((int binding, int count) =>
+            _uniformMirrored.Union(_uniformSet).SignalSet((binding, count) =>
             {
                 for (int i = 0; i < count; i++)
                 {
@@ -257,7 +257,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             });
 
-            _storageMirrored.Union(_storageSet).SignalSet((int binding, int count) =>
+            _storageMirrored.Union(_storageSet).SignalSet((binding, count) =>
             {
                 for (int i = 0; i < count; i++)
                 {

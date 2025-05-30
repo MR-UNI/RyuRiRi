@@ -51,7 +51,7 @@ namespace ARMeilleure.Common
             {
                 SparseMemoryBlock block = new(size, pageInit, null);
 
-                _trackingEvent = (ulong address, ulong size, bool write) =>
+                _trackingEvent = (address, size, write) =>
                 {
                     ulong pointer = (ulong)block.Block.Pointer + address;
                     ensureMapped((IntPtr)pointer);
