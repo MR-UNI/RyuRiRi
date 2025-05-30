@@ -646,16 +646,11 @@ namespace Ryujinx.HLE.HOS
 
                         modLoadResult.Replaces[1 << i] = true;
 
-                        using (FileStream stream = nsoFile.OpenRead())
-                        {
-                            nsos[i] = new NsoExecutable(stream.AsStorage(), nsoName);
-                            Logger.Info?.Print(LogClass.ModLoader, $"NSO '{nsoName}' replaced");
-                            using (MD5 md5 = MD5.Create())
-                            {
-                                stream.Seek(0, SeekOrigin.Begin);
-                                tempHash += Convert.ToHexStringLower(md5.ComputeHash(stream));
-                            }
-                        }
+                        using FileStream stream = nsoFile.OpenRead();
+                        nsos[i] = new NsoExecutable(stream.AsStorage(), nsoName);
+                        Logger.Info?.Print(LogClass.ModLoader, $"NSO '{nsoName}' replaced");
+                        stream.Seek(0, SeekOrigin.Begin);
+                        tempHash += Convert.ToHexStringLower(MD5.HashData(stream));
                     }
 
                     modLoadResult.Stubs[1 << i] |= File.Exists(Path.Combine(mod.Path.FullName, nsoName + StubExtension));
@@ -689,10 +684,7 @@ namespace Ryujinx.HLE.HOS
 
             if (!string.IsNullOrEmpty(tempHash))
             {
-                using (MD5 md5 = MD5.Create())
-                {
-                    modLoadResult.Hash += Convert.ToHexStringLower(md5.ComputeHash(tempHash.ToBytes()));
-                }
+                modLoadResult.Hash += Convert.ToHexStringLower(MD5.HashData(tempHash.ToBytes()));
             }
 
             return modLoadResult;

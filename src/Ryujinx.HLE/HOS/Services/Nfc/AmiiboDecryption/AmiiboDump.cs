@@ -184,27 +184,25 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 byte[] counter = new byte[blockSize];
                 Array.Copy(iv, counter, blockSize);
 
-                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                using ICryptoTransform encryptor = aes.CreateEncryptor();
+                byte[] encryptedCounter = new byte[blockSize];
+
+                for (int i = 0; i < data.Length; i += blockSize)
                 {
-                    byte[] encryptedCounter = new byte[blockSize];
+                    // Encrypt the counter
+                    encryptor.TransformBlock(counter, 0, blockSize, encryptedCounter, 0);
 
-                    for (int i = 0; i < data.Length; i += blockSize)
+                    // Determine the number of bytes to process in this block
+                    int blockLength = Math.Min(blockSize, data.Length - i);
+
+                    // XOR the encrypted counter with the plaintext/ciphertext block
+                    for (int j = 0; j < blockLength; j++)
                     {
-                        // Encrypt the counter
-                        encryptor.TransformBlock(counter, 0, blockSize, encryptedCounter, 0);
-
-                        // Determine the number of bytes to process in this block
-                        int blockLength = Math.Min(blockSize, data.Length - i);
-
-                        // XOR the encrypted counter with the plaintext/ciphertext block
-                        for (int j = 0; j < blockLength; j++)
-                        {
-                            output[i + j] = (byte)(data[i + j] ^ encryptedCounter[j]);
-                        }
-
-                        // Increment the counter
-                        IncrementCounter(counter);
+                        output[i + j] = (byte)(data[i + j] ^ encryptedCounter[j]);
                     }
+
+                    // Increment the counter
+                    IncrementCounter(counter);
                 }
             }
 

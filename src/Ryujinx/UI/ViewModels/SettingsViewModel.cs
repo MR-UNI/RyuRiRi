@@ -399,10 +399,8 @@ namespace Ryujinx.Ava.UI.ViewModels
   
             if (gameIconData != null && gameIconData.Length > 0)
             {
-                using (var ms = new MemoryStream(gameIconData))
-                {
-                    _gameIcon = new Bitmap(ms);
-                }
+                using var ms = new MemoryStream(gameIconData);
+                _gameIcon = new Bitmap(ms);
             }
 
             _isGameRunning = gameRunning;
