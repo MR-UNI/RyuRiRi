@@ -150,7 +150,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
             return handleTable.GenerateHandle(process, out handle);
         }
 
-        public Result StartProcess(int handle, int priority, int cpuCore, ulong mainThreadStackSize)
+		public static Result StartProcess(int handle, int priority, int cpuCore, ulong mainThreadStackSize)
         {
             KProcess process = KernelStatic.GetCurrentProcess().HandleTable.GetObject<KProcess>(handle);
 
@@ -1071,7 +1071,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
             return result;
         }
 
-        public Result QueryMemory(out MemoryInfo info, out ulong pageInfo, ulong address)
+		public static Result QueryMemory(out MemoryInfo info, out ulong pageInfo, ulong address)
         {
             KProcess process = KernelStatic.GetCurrentProcess();
 

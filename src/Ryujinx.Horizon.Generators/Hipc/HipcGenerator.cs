@@ -471,7 +471,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
             {
                 if (outObjectsCount != 0)
                 {
-                    generator.AppendLine($"processor.SetOutObjects(ref context, {ResponseVariableName}, {OutObjectsVariableName});");
+                    generator.AppendLine($"HipcCommandProcessor.SetOutObjects(ref context, {ResponseVariableName}, {OutObjectsVariableName});");
                 }
 
                 if (buffersCount != 0)

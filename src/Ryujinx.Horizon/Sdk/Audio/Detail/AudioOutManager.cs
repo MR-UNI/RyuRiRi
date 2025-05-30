@@ -22,7 +22,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
         [CmifCommand(0)]
         public Result ListAudioOuts(out int count, [Buffer(HipcBufferFlags.Out | HipcBufferFlags.MapAlias)] Span<DeviceName> names)
         {
-            string[] deviceNames = _impl.ListAudioOuts();
+            string[] deviceNames = AudioOutputManager.ListAudioOuts();
 
             count = 0;
 

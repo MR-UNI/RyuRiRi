@@ -13,11 +13,11 @@ namespace Ryujinx.Audio.Renderer.Device
         /// </summary>
         private readonly Dictionary<ulong, VirtualDeviceSession[]> _sessionsRegistry = new();
 
-        /// <summary>
-        /// The default <see cref="VirtualDevice"/>.
-        /// </summary>
-        /// <remarks>This is used when the USB device is the default one on older revision.</remarks>
-        public VirtualDevice DefaultDevice => VirtualDevice.Devices[0];
+		/// <summary>
+		/// The default <see cref="VirtualDevice"/>.
+		/// </summary>
+		/// <remarks>This is used when the USB device is the default one on older revision.</remarks>
+		public static VirtualDevice DefaultDevice => VirtualDevice.Devices[0];
 
         /// <summary>
         /// The current active <see cref="VirtualDevice"/>.

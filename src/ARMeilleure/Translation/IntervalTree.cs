@@ -115,16 +115,16 @@ namespace ARMeilleure.Translation
             return list;
         }
 
-        #endregion
+		#endregion
 
-        #region Private Methods (BST)
+		#region Private Methods (BST)
 
-        /// <summary>
-        /// Adds all values that are children of or contained within <paramref name="node"/> into <paramref name="list"/>, in Key Order.
-        /// </summary>
-        /// <param name="node">The node to search for values within</param>
-        /// <param name="list">The list to add values to</param>
-        private void AddToList(IntervalTreeNode<TK, TV> node, List<TV> list)
+		/// <summary>
+		/// Adds all values that are children of or contained within <paramref name="node"/> into <paramref name="list"/>, in Key Order.
+		/// </summary>
+		/// <param name="node">The node to search for values within</param>
+		/// <param name="list">The list to add values to</param>
+		private static void AddToList(IntervalTreeNode<TK, TV> node, List<TV> list)
         {
             if (node == null)
             {
@@ -169,14 +169,14 @@ namespace ARMeilleure.Translation
             return null;
         }
 
-        /// <summary>
-        /// Retrieve all keys that overlap the given start and end keys.
-        /// </summary>
-        /// <param name="start">Start of the range</param>
-        /// <param name="end">End of the range</param>
-        /// <param name="overlaps">Overlaps array to place results in</param>
-        /// <param name="overlapCount">Overlaps count to update</param>
-        private void GetKeys(IntervalTreeNode<TK, TV> node, TK start, TK end, ref TK[] overlaps, ref int overlapCount)
+		/// <summary>
+		/// Retrieve all keys that overlap the given start and end keys.
+		/// </summary>
+		/// <param name="start">Start of the range</param>
+		/// <param name="end">End of the range</param>
+		/// <param name="overlaps">Overlaps array to place results in</param>
+		/// <param name="overlapCount">Overlaps count to update</param>
+		private static void GetKeys(IntervalTreeNode<TK, TV> node, TK start, TK end, ref TK[] overlaps, ref int overlapCount)
         {
             if (node == null || start.CompareTo(node.Max) >= 0)
             {

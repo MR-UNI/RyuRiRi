@@ -69,13 +69,13 @@ namespace ARMeilleure.Instructions
         [UnmanagedCallersOnly]
         public static ulong GetCtrEl0()
         {
-            return GetContext().CtrEl0;
+            return ExecutionContext.CtrEl0;
         }
 
         [UnmanagedCallersOnly]
         public static ulong GetDczidEl0()
         {
-            return GetContext().DczidEl0;
+            return ExecutionContext.DczidEl0;
         }
 
         [UnmanagedCallersOnly]

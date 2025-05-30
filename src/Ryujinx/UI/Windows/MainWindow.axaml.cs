@@ -732,7 +732,7 @@ namespace Ryujinx.Ava.UI.Windows
             applicationLibraryThread.Start();
         }
 
-        private void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
+		private static void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
         {
             string[] messages =
             [

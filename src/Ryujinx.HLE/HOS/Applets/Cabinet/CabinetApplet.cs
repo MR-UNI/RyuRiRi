@@ -75,7 +75,7 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
             return ResultCode.Success;
         }
 
-        private void StartFormatter(ref StartParamForAmiiboSettings startParam)
+		private static void StartFormatter(ref StartParamForAmiiboSettings startParam)
         {
             // Initialize RegisterInfo
             startParam.RegisterInfo = new RegisterInfo();

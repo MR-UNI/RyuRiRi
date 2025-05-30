@@ -49,7 +49,7 @@ namespace Ryujinx.HLE.HOS.Applets
             return ResultCode.Success;
         }
 
-        private byte[] BuildResponse(UserProfile selectedUser)
+		private static byte[] BuildResponse(UserProfile selectedUser)
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
@@ -60,8 +60,8 @@ namespace Ryujinx.HLE.HOS.Applets
 
             return stream.ToArray();
         }
-        
-        private byte[] BuildGuestResponse()
+
+		private static byte[] BuildGuestResponse()
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
@@ -70,8 +70,8 @@ namespace Ryujinx.HLE.HOS.Applets
 
             return stream.ToArray();
         }
-        
-        private byte[] BuildResponse()
+
+		private static byte[] BuildResponse()
         {
             using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);

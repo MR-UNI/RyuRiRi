@@ -392,7 +392,7 @@ namespace Ryujinx.Graphics.Vulkan
             return templates;
         }
 
-        private PipelineStageFlags GetPipelineStages(ResourceStages stages)
+		private static PipelineStageFlags GetPipelineStages(ResourceStages stages)
         {
             PipelineStageFlags result = 0;
 
@@ -429,7 +429,7 @@ namespace Ryujinx.Graphics.Vulkan
             return result;
         }
 
-        private (PipelineStageFlags Buffer, PipelineStageFlags Texture) BuildIncoherentStages(ReadOnlyCollection<ResourceUsageCollection> setUsages)
+		private static (PipelineStageFlags Buffer, PipelineStageFlags Texture) BuildIncoherentStages(ReadOnlyCollection<ResourceUsageCollection> setUsages)
         {
             PipelineStageFlags buffer = PipelineStageFlags.None;
             PipelineStageFlags texture = PipelineStageFlags.None;
