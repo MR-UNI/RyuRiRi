@@ -9,7 +9,7 @@ namespace ARMeilleure.Diagnostics
 {
     class IRDumper
     {
-        private const string Indentation = " ";
+        private const char Indentation = ' ';
 
         private int _indentLevel;
 
@@ -28,17 +28,16 @@ namespace ARMeilleure.Diagnostics
             _symbolNames = new Dictionary<ulong, string>();
         }
 
-        private void Indent()
-        {
-            _builder.EnsureCapacity(_builder.Capacity + _indentLevel * Indentation.Length);
+		private void Indent()
+		{
+			if (_indentLevel == 0)
+                    return;
 
-            for (int index = 0; index < _indentLevel; index++)
-            {
-                _builder.Append(Indentation);
-            }
-        }
+			_builder.EnsureCapacity(_builder.Capacity + _indentLevel);
+			_builder.Append(Indentation, _indentLevel);
+		}
 
-        private void IncreaseIndentation()
+		private void IncreaseIndentation()
         {
             _indentLevel++;
         }

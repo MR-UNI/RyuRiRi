@@ -35,7 +35,7 @@ namespace Ryujinx.Ava.Utilities
             {
                 string arg = args[i];
 
-                if (arg.Contains("-") || arg.Contains("--"))
+                if (arg.Contains('-') || arg.Contains("--"))
                 {
                     CountArguments++; 
                 }
