@@ -267,8 +267,8 @@ namespace Ryujinx.Input.SDL2
                         _buttonsUserMapping.Add(new ButtonMappingEntry(GamepadButtonInputId.SingleLeftTrigger1, (GamepadButtonInputId)_configuration.RightJoycon.ButtonSl));
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                        throw new NotSupportedException($"Unsupported JoyCon type: {_joyConType}");
+				}
                 
                 SetTriggerThreshold(_configuration.TriggerThreshold);
             }
