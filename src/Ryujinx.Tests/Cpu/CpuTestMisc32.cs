@@ -90,16 +90,19 @@ namespace Ryujinx.Tests.Cpu
             {
                 Opcode(0xEEE10A10); // VMSR FPSCR, R0
             }
+
             Opcode(0xEEB48A4A); // VCMP.F32 S16, S20
             if (mode2)
             {
                 Opcode(0xEEF10A10); // VMRS R0, FPSCR
                 Opcode(0xE200020F); // AND R0, #0xF0000000 // R0 &= "Fpsr.Nzcv".
             }
+
             if (mode3)
             {
                 Opcode(0xEEF1FA10); // VMRS APSR_NZCV, FPSCR
             }
+
             Opcode(0xE12FFF1E); // BX LR
 
             ExecuteOpcodes();

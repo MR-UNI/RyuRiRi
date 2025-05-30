@@ -8,14 +8,14 @@ namespace Ryujinx.Horizon
 {
     public static class HorizonStatic
     {
-        internal static void HandlePlayReport(PlayReport report) => 
+        internal static void HandlePlayReport(PlayReport report) =>
             new Thread(() => PlayReport?.Invoke(report))
             {
-                Name = "HLE.PlayReportEvent", 
+                Name = "HLE.PlayReportEvent",
                 IsBackground = true,
                 Priority = ThreadPriority.AboveNormal
             }.Start();
-        
+
         public static event Action<PlayReport> PlayReport;
 
         [field: ThreadStatic]

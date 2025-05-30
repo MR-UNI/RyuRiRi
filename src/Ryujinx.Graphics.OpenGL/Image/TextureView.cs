@@ -358,7 +358,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
             PixelFormat pixelFormat = format.PixelFormat;
             PixelType pixelType = format.PixelType;
 
-            if (target == TextureTarget.TextureCubeMap || target == TextureTarget.TextureCubeMapArray)
+            if (target is TextureTarget.TextureCubeMap or TextureTarget.TextureCubeMapArray)
             {
                 target = TextureTarget.TextureCubeMapPositiveX + (layer % 6);
             }
@@ -568,6 +568,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                             format.PixelType,
                             data);
                     }
+
                     break;
 
                 case Target.Texture1DArray:
@@ -597,6 +598,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                             format.PixelType,
                             data);
                     }
+
                     break;
 
                 case Target.Texture2D:
@@ -626,6 +628,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                             format.PixelType,
                             data);
                     }
+
                     break;
 
                 case Target.Texture2DArray:
@@ -661,6 +664,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                             format.PixelType,
                             data);
                     }
+
                     break;
 
                 case Target.Cubemap:
@@ -690,6 +694,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                             format.PixelType,
                             data);
                     }
+
                     break;
             }
         }
@@ -756,6 +761,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                                 format.PixelType,
                                 data);
                         }
+
                         break;
 
                     case Target.Texture1DArray:
@@ -786,6 +792,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                                 format.PixelType,
                                 data);
                         }
+
                         break;
 
                     case Target.Texture2DArray:
@@ -821,6 +828,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                                 format.PixelType,
                                 data);
                         }
+
                         break;
 
                     case Target.Cubemap:
@@ -855,6 +863,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                                     data + faceOffset);
                             }
                         }
+
                         break;
                 }
 

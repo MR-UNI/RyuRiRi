@@ -46,10 +46,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             _currentThread = null;
 
-            if (_srcCoresHighestPrioThreads == null)
-            {
-                _srcCoresHighestPrioThreads = new int[CpuCoresCount];
-            }
+            _srcCoresHighestPrioThreads ??= new int[CpuCoresCount];
         }
 
         private static int PreemptionPriorities(int index)

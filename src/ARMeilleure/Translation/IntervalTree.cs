@@ -124,7 +124,7 @@ namespace ARMeilleure.Translation
         /// </summary>
         /// <param name="node">The node to search for values within</param>
         /// <param name="list">The list to add values to</param>
-        private void AddToList(IntervalTreeNode<TK, TV> node, List<TV> list)
+        private static void AddToList(IntervalTreeNode<TK, TV> node, List<TV> list)
         {
             if (node == null)
             {
@@ -165,6 +165,7 @@ namespace ARMeilleure.Translation
                     return node;
                 }
             }
+
             return null;
         }
 
@@ -175,7 +176,7 @@ namespace ARMeilleure.Translation
         /// <param name="end">End of the range</param>
         /// <param name="overlaps">Overlaps array to place results in</param>
         /// <param name="overlapCount">Overlaps count to update</param>
-        private void GetKeys(IntervalTreeNode<TK, TV> node, TK start, TK end, ref TK[] overlaps, ref int overlapCount)
+        private static void GetKeys(IntervalTreeNode<TK, TV> node, TK start, TK end, ref TK[] overlaps, ref int overlapCount)
         {
             if (node == null || start.CompareTo(node.Max) >= 0)
             {
@@ -311,6 +312,7 @@ namespace ARMeilleure.Translation
                     return false;
                 }
             }
+
             IntervalTreeNode<TK, TV> newNode = new(start, end, value, parent);
             if (newNode.Parent == null)
             {
@@ -422,12 +424,14 @@ namespace ARMeilleure.Translation
             {
                 return Maximum(node.Left);
             }
+
             IntervalTreeNode<TK, TV> parent = node.Parent;
             while (parent != null && node == parent.Left)
             {
                 node = parent;
                 parent = parent.Parent;
             }
+
             return parent;
         }
 
@@ -452,6 +456,7 @@ namespace ARMeilleure.Translation
                         RotateLeft(ParentOf(ptr));
                         sibling = RightOf(ParentOf(ptr));
                     }
+
                     if (ColorOf(LeftOf(sibling)) == Black && ColorOf(RightOf(sibling)) == Black)
                     {
                         SetColor(sibling, Red);
@@ -466,6 +471,7 @@ namespace ARMeilleure.Translation
                             RotateRight(sibling);
                             sibling = RightOf(ParentOf(ptr));
                         }
+
                         SetColor(sibling, ColorOf(ParentOf(ptr)));
                         SetColor(ParentOf(ptr), Black);
                         SetColor(RightOf(sibling), Black);
@@ -484,6 +490,7 @@ namespace ARMeilleure.Translation
                         RotateRight(ParentOf(ptr));
                         sibling = LeftOf(ParentOf(ptr));
                     }
+
                     if (ColorOf(RightOf(sibling)) == Black && ColorOf(LeftOf(sibling)) == Black)
                     {
                         SetColor(sibling, Red);
@@ -498,6 +505,7 @@ namespace ARMeilleure.Translation
                             RotateLeft(sibling);
                             sibling = LeftOf(ParentOf(ptr));
                         }
+
                         SetColor(sibling, ColorOf(ParentOf(ptr)));
                         SetColor(ParentOf(ptr), Black);
                         SetColor(LeftOf(sibling), Black);
@@ -506,6 +514,7 @@ namespace ARMeilleure.Translation
                     }
                 }
             }
+
             SetColor(ptr, Black);
         }
 
@@ -532,6 +541,7 @@ namespace ARMeilleure.Translation
                             balanceNode = ParentOf(balanceNode);
                             RotateLeft(balanceNode);
                         }
+
                         SetColor(ParentOf(balanceNode), Black);
                         SetColor(ParentOf(ParentOf(balanceNode)), Red);
                         RotateRight(ParentOf(ParentOf(balanceNode)));
@@ -555,12 +565,14 @@ namespace ARMeilleure.Translation
                             balanceNode = ParentOf(balanceNode);
                             RotateRight(balanceNode);
                         }
+
                         SetColor(ParentOf(balanceNode), Black);
                         SetColor(ParentOf(ParentOf(balanceNode)), Red);
                         RotateLeft(ParentOf(ParentOf(balanceNode)));
                     }
                 }
             }
+
             SetColor(_root, Black);
         }
 
@@ -574,6 +586,7 @@ namespace ARMeilleure.Translation
                 {
                     node.Right.Parent = node;
                 }
+
                 IntervalTreeNode<TK, TV> nodeParent = ParentOf(node);
                 right.Parent = nodeParent;
                 if (nodeParent == null)
@@ -588,6 +601,7 @@ namespace ARMeilleure.Translation
                 {
                     nodeParent.Right = right;
                 }
+
                 right.Left = node;
                 node.Parent = right;
 
@@ -605,6 +619,7 @@ namespace ARMeilleure.Translation
                 {
                     node.Left.Parent = node;
                 }
+
                 IntervalTreeNode<TK, TV> nodeParent = ParentOf(node);
                 left.Parent = nodeParent;
                 if (nodeParent == null)
@@ -619,6 +634,7 @@ namespace ARMeilleure.Translation
                 {
                     nodeParent.Left = left;
                 }
+
                 left.Right = node;
                 node.Parent = left;
 

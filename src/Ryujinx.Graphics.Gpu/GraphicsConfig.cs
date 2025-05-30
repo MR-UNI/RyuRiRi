@@ -1,6 +1,5 @@
 namespace Ryujinx.Graphics.Gpu
 {
-#pragma warning disable CA2211 // Non-constant fields should not be visible
     /// <summary>
     /// General GPU and graphics configuration.
     /// </summary>
@@ -9,25 +8,25 @@ namespace Ryujinx.Graphics.Gpu
         /// <summary>
         /// Resolution scale.
         /// </summary>
-        public static float ResScale = 1f;
+        public static float ResScale { get; set; } = 1f;
 
         /// <summary>
         /// Max Anisotropy. Values range from 0 - 16. Set to -1 to let the game decide.
         /// </summary>
-        public static float MaxAnisotropy = -1;
+        public static float MaxAnisotropy { get; set; } = -1;
 
         /// <summary>
         /// Base directory used to write shader code dumps.
         /// Set to null to disable code dumping.
         /// </summary>
-        public static string ShadersDumpPath;
+        public static string ShadersDumpPath { get; set; }
 
         /// <summary>
         /// Fast GPU time calculates the internal GPU time ticks as if the GPU was capable of
         /// processing commands almost instantly, instead of using the host timer.
         /// This can avoid lower resolution on some games when GPU performance is poor.
         /// </summary>
-        public static bool FastGpuTime = true;
+        public static bool FastGpuTime { get; set; } = true;
 
         /// <summary>
         /// Enables or disables fast 2d engine texture copies entirely on CPU when possible.
@@ -35,43 +34,42 @@ namespace Ryujinx.Graphics.Gpu
         /// as textures will not need to be created for the copy, and the data does not need to be
         /// flushed from GPU.
         /// </summary>
-        public static bool Fast2DCopy = true;
+        public static bool Fast2DCopy { get; set; } = true;
 
         /// <summary>
         /// Enables or disables the Just-in-Time compiler for GPU Macro code.
         /// </summary>
-        public static bool EnableMacroJit = true;
+        public static bool EnableMacroJit { get; set; } = true;
 
         /// <summary>
         /// Enables or disables high-level emulation of common GPU Macro code.
         /// </summary>
-        public static bool EnableMacroHLE = true;
-        
+        public static bool EnableMacroHLE { get; set; } = true;
+
         /// <summary>
         /// Title id of the current running game.
         /// Used by the shader cache.
         /// </summary>
-        public static string TitleId;
+        public static string TitleId { get; set; }
 
         /// <summary>
         /// Enables or disables the shader cache.
         /// </summary>
-        public static bool EnableShaderCache;
+        public static bool EnableShaderCache { get; set; }
 
         /// <summary>
         /// Enables or disables shader SPIR-V compilation.
         /// </summary>
-        public static bool EnableSpirvCompilationOnVulkan = true;
+        public static bool EnableSpirvCompilationOnVulkan { get; set; } = true;
 
         /// <summary>
         /// Enables or disables recompression of compressed textures that are not natively supported by the host.
         /// </summary>
-        public static bool EnableTextureRecompression = false;
+        public static bool EnableTextureRecompression { get; set; } = false;
 
         /// <summary>
         /// Enables or disables color space passthrough, if available.
         /// </summary>
-        public static bool EnableColorSpacePassthrough = false;
+        public static bool EnableColorSpacePassthrough { get; set; } = false;
     }
-#pragma warning restore CA2211
 }

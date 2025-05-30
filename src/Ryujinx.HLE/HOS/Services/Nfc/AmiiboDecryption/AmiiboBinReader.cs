@@ -27,14 +27,12 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 return new VirtualAmiiboFile();
             }
 
-            byte[] initialCounter = new byte[16];
-
-            const int totalPages = 135;
-            const int pageSize = 4;
-            const int totalBytes = totalPages * pageSize;
-
             if (fileBytes.Length == 532)
             {
+                int totalPages = 135;
+                int pageSize = 4;
+                int totalBytes = totalPages * pageSize;
+
                 // add 8 bytes to the end of the file
                 byte[] newFileBytes = new byte[totalBytes];
                 Array.Copy(fileBytes, newFileBytes, fileBytes.Length);
@@ -54,7 +52,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             byte[] writeCounter = new byte[2];
             byte[] appId = new byte[8];
             byte[] settingsBytes = new byte[2];
-            byte formData = 0;
             byte[] applicationAreas = new byte[216];
             byte[] dataFull = amiiboDump.GetData();
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Data Full Length: {dataFull.Length}");
@@ -94,7 +91,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                         // Bytes 0 and 1 are amiibo ID, byte 2 is set ID, byte 3 is form data
                         Array.Copy(pageData, 0, amiiboID, 0, 2);
                         setID[0] = pageData[2];
-                        formData = pageData[3];
                         break;
                     case 64:
                     case 65:
@@ -145,6 +141,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             {
                 VirtualAmiibo.ApplicationBytes = applicationAreas;
             }
+
             VirtualAmiibo.NickName = nickName;
             return virtualAmiiboFile;
         }
@@ -161,6 +158,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, $"Error reading file: {ex.Message}");
                 return false;
             }
+
             string keyRetailBinPath = GetKeyRetailBinPath();
             if (string.IsNullOrEmpty(keyRetailBinPath))
             {
@@ -207,6 +205,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Failed to encrypt data correctly.");
                 return false;
             }
+
             inputFile = inputFile.Replace("_modified", string.Empty);
             // Save the encrypted data to file or return it for saving externally
             string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFile), Path.GetFileNameWithoutExtension(inputFile) + "_modified.bin");
@@ -235,6 +234,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, $"Error reading file: {ex.Message}");
                 return false;
             }
+
             string keyRetailBinPath = GetKeyRetailBinPath();
             if (string.IsNullOrEmpty(keyRetailBinPath))
             {
@@ -259,6 +259,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Invalid tag data length. Expected 540 bytes.");
                 return false;
             }
+
             byte[] encryptedData = amiiboDecryptor.EncryptAmiiboDump(oldData).GetData();
 
             if (encryptedData == null || encryptedData.Length != readBytes.Length)
@@ -266,6 +267,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Failed to encrypt data correctly.");
                 return false;
             }
+
             inputFile = inputFile.Replace("_modified", string.Empty);
             // Save the encrypted data to file or return it for saving externally
             string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFile), Path.GetFileNameWithoutExtension(inputFile) + "_modified.bin");
@@ -316,6 +318,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                     else
                         crc >>= 1;
                 }
+
                 table[i] = crc;
             }
 
@@ -325,6 +328,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 byte index = (byte)((result & 0xFF) ^ b);
                 result = (result >> 8) ^ table[index];
             }
+
             return ~result;
         }
 
@@ -335,17 +339,17 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         public static bool HasAmiiboKeyFile => File.Exists(GetKeyRetailBinPath());
 
-        
-        public static DateTime DateTimeFromTag(ushort value)
+
+        public static DateTime DateTimeFromTag(ushort dateTimeTag)
         {
             try
             {
-                int day = value & 0x1F;
-                int month = (value >> 5) & 0x0F;
-                int year = (value >> 9) & 0x7F;
+                int day = dateTimeTag & 0x1F;
+                int month = (dateTimeTag >> 5) & 0x0F;
+                int year = (dateTimeTag >> 9) & 0x7F;
 
                 if (day == 0 || month == 0 || month > 12 || day > DateTime.DaysInMonth(2000 + year, month))
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(dateTimeTag), "Invalid date in tag.");
 
                 return new DateTime(2000 + year, month, day);
             }

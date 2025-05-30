@@ -124,6 +124,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
                         {
                             return null;
                         }
+
                         break;
                     case WaitCancelled:
                         lock (_lock)
@@ -133,6 +134,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
                                 return _signaledHolder;
                             }
                         }
+
                         break;
                     default:
                         lock (_lock)

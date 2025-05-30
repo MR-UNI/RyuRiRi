@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Common.Helper;
 using System;
 using System.Drawing;
@@ -31,12 +31,12 @@ namespace Ryujinx.Common.Utilities
         {
             CyclingEnabled = false;
         }
-        
-        
+
+
         public static float Speed { get; set; } = 1;
 
         private static readonly Lock _lock = new();
-        
+
         private static Color _color = Color.Blue;
 
         public static ref Color Color
@@ -55,7 +55,7 @@ namespace Ryujinx.Common.Utilities
             lock (_lock)
             {
                 _color = HsbToRgb((_color.GetHue() + Speed) / 360);
-            
+
                 _updatedHandler.Call(ref _color);
             }
         }
@@ -63,7 +63,7 @@ namespace Ryujinx.Common.Utilities
         public static void Reset()
         {
             _updatedHandler.Clear();
-            
+
             lock (_lock)
                 _color = Color.Blue;
         }
@@ -124,6 +124,7 @@ namespace Ryujinx.Common.Utilities
                         break;
                 }
             }
+
             return Color.FromArgb(Convert.ToByte(255), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b));
         }
     }

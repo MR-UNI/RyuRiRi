@@ -175,6 +175,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                         case SamplerMinFilter.Linear:
                             return MinFilter.Linear;
                     }
+
                     break;
 
                 case SamplerMipFilter.Nearest:
@@ -185,6 +186,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                         case SamplerMinFilter.Linear:
                             return MinFilter.LinearMipmapNearest;
                     }
+
                     break;
 
                 case SamplerMipFilter.Linear:
@@ -195,6 +197,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                         case SamplerMinFilter.Linear:
                             return MinFilter.LinearMipmapLinear;
                     }
+
                     break;
             }
 

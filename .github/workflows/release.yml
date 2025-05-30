@@ -11,9 +11,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   RYUJINX_BASE_VERSION: "1.3"
   RYUJINX_TARGET_RELEASE_CHANNEL_NAME: "release"
-  RYUJINX_TARGET_RELEASE_CHANNEL_OWNER: "Ryubing"
-  RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO: "Ryujinx"
-  RYUJINX_TARGET_RELEASE_CHANNEL_REPO: "Stable-Releases"
   RELEASE: 1
 
 jobs:
@@ -50,17 +47,17 @@ jobs:
             # Stable builds:
             | Platform | Artifact |
             |--|--|
-            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
-            | Windows ARM 64-bit | [Stable Windows ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_arm64.zip) |
-            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
-            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
-            | macOS | [Stable macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
+            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Windows ARM 64-bit | [Stable Windows ARM Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_arm64.zip) |
+            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | macOS | [Stable macOS Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
             
             **[Full Changelog](https://git.ryujinx.app/ryubing/ryujinx/-/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }})**
           omitBodyDuringUpdate: true
-          owner: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}
-          repo: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          owner: ${{ secrets.RC_OWNER }}
+          repo: ${{ secrets.RC_STABLE_NAME }}
+          token: ${{ secrets.ALT_RELEASE_TOKEN }}
 
   release:
     name: Release for ${{ matrix.platform.name }}
@@ -95,9 +92,6 @@ jobs:
           sed -r --in-place 's/\%\%RYUJINX_BUILD_VERSION\%\%/${{ steps.version_info.outputs.build_version }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_BUILD_GIT_HASH\%\%/${{ steps.version_info.outputs.git_short_hash }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_NAME\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_NAME }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_OWNER\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_CONFIG_FILE_NAME\%\%/Config\.json/g;' src/Ryujinx.Common/ReleaseInformation.cs
         shell: bash
 
@@ -174,19 +168,19 @@ jobs:
             # Stable builds:
             | Platform | Artifact |
             |--|--|
-            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
-            | Windows ARM 64-bit | [Stable Windows ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_arm64.zip) |
-            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
-            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
-            | macOS | [Stable macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
+            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Windows ARM 64-bit | [Stable Windows ARM Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_arm64.zip) |
+            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | macOS | [Stable macOS Artifact](https://github.com/${{ secrets.RC_OWNER }}/${{ secrets.RC_STABLE_NAME }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
             
             **[Full Changelog](https://git.ryujinx.app/ryubing/ryujinx/-/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }})**
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true
-          owner: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}
-          repo: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          owner: ${{ secrets.RC_OWNER }}
+          repo: ${{ secrets.RC_STABLE_NAME }}
+          token: ${{ secrets.ALT_RELEASE_TOKEN }}
 
   macos_release:
     name: Release MacOS universal
@@ -227,9 +221,6 @@ jobs:
           sed -r --in-place 's/\%\%RYUJINX_BUILD_VERSION\%\%/${{ steps.version_info.outputs.build_version }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_BUILD_GIT_HASH\%\%/${{ steps.version_info.outputs.git_short_hash }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_NAME\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_NAME }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_OWNER\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
-          sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_CONFIG_FILE_NAME\%\%/Config\.json/g;' src/Ryujinx.Common/ReleaseInformation.cs
         shell: bash
 
@@ -247,6 +238,6 @@ jobs:
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true
-          owner: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}
-          repo: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          owner: ${{ secrets.RC_OWNER }}
+          repo: ${{ secrets.RC_STABLE_NAME }}
+          token: ${{ secrets.ALT_RELEASE_TOKEN }}

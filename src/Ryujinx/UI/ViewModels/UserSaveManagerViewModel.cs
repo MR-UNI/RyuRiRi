@@ -43,10 +43,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .Bind(out ReadOnlyObservableCollection<SaveModel> view).AsObservableList();
 
-#pragma warning disable MVVMTK0034
-            _views.Clear();
-            _views.AddRange(view);
-#pragma warning restore MVVMTK0034
+            Views.Clear();
+            Views.AddRange(view);
             OnPropertyChanged(nameof(Views));
         }
 
@@ -54,13 +52,13 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is SaveModel save)
             {
-                return string.IsNullOrWhiteSpace(Search) || save.Title.ToLower().Contains(Search.ToLower());
+                return string.IsNullOrWhiteSpace(Search) || save.Title.Contains(Search, System.StringComparison.OrdinalIgnoreCase);
             }
 
             return false;
         }
 
-        private IComparer<SaveModel> GetComparer()
+        private SortExpressionComparer<SaveModel> GetComparer()
         {
             return SortIndex switch
             {

@@ -38,6 +38,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Operation failed with error {errorCode}.");
                 }
+
                 result = -1;
             }
 
@@ -102,7 +103,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             }
 
             LinuxError errno = LinuxError.SUCCESS;
-            ISocket newBsdSocket;
+            ManagedSocket newBsdSocket;
 
             try
             {
@@ -412,7 +413,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 static bool IsUnexpectedLinuxError(LinuxError error)
                 {
-                    return error != LinuxError.SUCCESS && error != LinuxError.ETIMEDOUT;
+                    return error is not LinuxError.SUCCESS and not LinuxError.ETIMEDOUT;
                 }
 
                 // Hybrid approach
@@ -817,7 +818,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 Logger.Warning?.PrintMsg(LogClass.ServiceBsd, $"Invalid socket fd '{socketFd}'.");
             }
-            
+
             return WriteBsdResult(context, 0, errno);
         }
 
@@ -876,13 +877,15 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 errno = LinuxError.SUCCESS;
 
+                // F_GETFL
                 if (cmd == 0x3)
                 {
                     result = !socket.Blocking ? 0x800 : 0;
                 }
-                else if (cmd == 0x4 && arg == 0x800)
+                // F_SETFL
+                else if (cmd == 0x4)
                 {
-                    socket.Blocking = false;
+                    socket.Blocking = (arg & 0x800) != 0;
                     result = 0;
                 }
                 else
@@ -931,7 +934,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 errno = LinuxError.EINVAL;
 
-                if (how >= 0 && how <= 2)
+                if (how is >= 0 and <= 2)
                 {
                     errno = socket.Shutdown((BsdSocketShutdownFlags)how);
                 }
@@ -948,7 +951,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             LinuxError errno = LinuxError.EINVAL;
 
-            if (how >= 0 && how <= 2)
+            if (how is >= 0 and <= 2)
             {
                 errno = _context.ShutdownAllSockets((BsdSocketShutdownFlags)how);
             }
@@ -1054,7 +1057,6 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             return WriteBsdResult(context, newSockFd, errno);
         }
-
 
         [CommandCmif(29)] // 7.0.0+
         // RecvMMsg(u32 fd, u32 vlen, u32 flags, u32 reserved, nn::socket::TimeVal timeout) -> (i32 ret, u32 bsd_errno, buffer<bytes, 6> message);

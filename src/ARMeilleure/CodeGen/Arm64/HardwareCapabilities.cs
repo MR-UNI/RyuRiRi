@@ -137,6 +137,7 @@ namespace ARMeilleure.CodeGen.Arm64
             {
                 return val != 0;
             }
+
             return false;
         }
 

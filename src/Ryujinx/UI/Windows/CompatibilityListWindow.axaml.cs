@@ -24,9 +24,9 @@ namespace Ryujinx.Ava.UI.Windows
         public CompatibilityListWindow() : base(useCustomTitleBar: true, 37)
         {
             Title = RyujinxApp.FormatTitle(LocaleKeys.CompatibilityListTitle);
-            
+
             InitializeComponent();
-            
+
             FlushControls.IsVisible = !ConfigurationState.Instance.ShowOldUI;
             NormalControls.IsVisible = ConfigurationState.Instance.ShowOldUI;
         }
@@ -40,7 +40,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             if (sender is not TextBox searchBox)
                 return;
-        
+
             cvm.Search(searchBox.Text);
         }
 

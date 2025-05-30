@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Video;
 using System.Diagnostics;
@@ -26,7 +26,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public readonly unsafe Plane UPlane => new((nint)UBuffer.ToPointer(), UBuffer.Length);
         public readonly unsafe Plane VPlane => new((nint)VBuffer.ToPointer(), VBuffer.Length);
 
-        public FrameField Field => FrameField.Progressive;
+        public readonly FrameField Field => FrameField.Progressive;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -43,10 +43,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public int FrameSize { get; private set; }
         public int Border { get; private set; }
 
-        public int YCropWidth => Width;
-        public int YCropHeight => Height;
-        public int UvCropWidth => UvWidth;
-        public int UvCropHeight => UvHeight;
+        public readonly int YCropWidth => Width;
+        public readonly int YCropHeight => Height;
+        public readonly int UvCropWidth => UvWidth;
+        public readonly int UvCropHeight => UvHeight;
 
         public ArrayPtr<byte> BufferAlloc;
         public int BufferAllocSz;
@@ -119,7 +119,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             VpxGetFrameBufferCbFnT cb,
             Ptr<InternalFrameBufferList> cbPriv)
         {
-            int byteAlign = byteAlignment == 0 ? 1 : byteAlignment; // TODO: Is it safe to ignore the alignment?
             int alignedWidth = (width + 7) & ~7;
             int alignedHeight = (height + 7) & ~7;
             int yStride = (alignedWidth + (2 * border) + 31) & ~31;
@@ -134,8 +133,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 ((ulong)(uvHeight + (2 * uvBorderH)) * (ulong)uvStride) + (ulong)byteAlignment;
 
             ulong frameSize = (ulong)(1 + (useHighbitdepth ? 1 : 0)) * (yplaneSize + (2 * uvplaneSize));
-
-            ArrayPtr<byte> buf = ArrayPtr<byte>.Null;
 
             // frame_size is stored in buffer_alloc_sz, which is an int. If it won't
             // fit, fail early.
@@ -211,7 +208,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             SubsamplingX = ssX;
             SubsamplingY = ssY;
 
-            buf = BufferAlloc;
+            ArrayPtr<byte> buf = BufferAlloc;
             if (useHighbitdepth)
             {
                 // Store uint16 addresses when using 16bit framebuffers
@@ -231,7 +228,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return 0;
         }
 
-        public void Dispose()
+        public readonly void Dispose()
         {
             Marshal.FreeHGlobal(_pointer);
         }

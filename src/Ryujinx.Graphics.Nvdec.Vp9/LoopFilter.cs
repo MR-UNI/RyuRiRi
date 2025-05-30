@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 _curSbCol.AsSpan().Fill(-1);
             }
 
-            public void SyncRead(int r, int c)
+            public readonly void SyncRead(int r, int c)
             {
                 if (_curSbCol == null)
                 {
@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
             }
 
-            public void SyncWrite(int r, int c, int sbCols)
+            public readonly void SyncWrite(int r, int c, int sbCols)
             {
                 if (_curSbCol == null)
                 {
@@ -336,7 +336,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static Span<LoopFilterMask> GetLfm(ref Types.LoopFilter lf, int miRow, int miCol)
         {
-            return lf.Lfm.AsSpan().Slice((miCol >> 3) + ((miRow >> 3) * lf.LfmStride));
+            return lf.Lfm.AsSpan()[((miCol >> 3) + ((miRow >> 3) * lf.LfmStride))..];
         }
 
         // 8x8 blocks in a superblock. A "1" represents the first block in a 16x16
@@ -380,7 +380,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
             for (int i = 0; i < bh; i++)
             {
-                MemoryMarshal.CreateSpan(ref lfm.LflY[index], 64 - index).Slice(0, bw).Fill((byte)filterLevel);
+                MemoryMarshal.CreateSpan(ref lfm.LflY[index], 64 - index)[..bw].Fill((byte)filterLevel);
                 index += 8;
             }
 
@@ -444,7 +444,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             const ulong AboveBorder = 0x000000ff000000ffUL;
             const ushort LeftBorderUv = 0x1111;
             const ushort AboveBorderUv = 0x000f;
-
 
             // The largest loopfilter we have is 16x16 so we use the 16x16 mask
             // for 32x32 transforms also.
@@ -775,7 +774,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 ss[0] = ss[0].Slice(8);
-                lfl = lfl.Slice(1);
+                lfl = lfl[1..];
                 mask16X16 >>= 1;
                 mask8X8 >>= 1;
                 mask4X4 >>= 1;
@@ -903,7 +902,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 ss[0] = ss[0].Slice(8);
-                lfl = lfl.Slice(1);
+                lfl = lfl[1..];
                 mask16X16 >>= 1;
                 mask8X8 >>= 1;
                 mask4X4 >>= 1;
@@ -1060,7 +1059,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 s = s.Slice(8 * count);
-                lfl = lfl.Slice(count);
+                lfl = lfl[count..];
                 mask16X16 >>= count;
                 mask8X8 >>= count;
                 mask4X4 >>= count;
@@ -1222,7 +1221,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 s = s.Slice(8 * count);
-                lfl = lfl.Slice(count);
+                lfl = lfl[count..];
                 mask16X16 >>= count;
                 mask8X8 >>= count;
                 mask4X4 >>= count;
@@ -1270,7 +1269,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 s = s.Slice(8);
-                lfl = lfl.Slice(1);
+                lfl = lfl[1..];
                 mask16X16 >>= 1;
                 mask8X8 >>= 1;
                 mask4X4 >>= 1;
@@ -1315,7 +1314,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
 
                 s = s.Slice(8);
-                lfl = lfl.Slice(1);
+                lfl = lfl[1..];
                 mask16X16 >>= 1;
                 mask8X8 >>= 1;
                 mask4X4 >>= 1;
@@ -1347,7 +1346,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             Span<int> mask4X4 = stackalloc int[Constants.MiBlockSize];
             Span<int> mask4X4Int = stackalloc int[Constants.MiBlockSize];
             Span<byte> lfl = stackalloc byte[Constants.MiBlockSize * Constants.MiBlockSize];
-
 
             for (int r = 0; r < Constants.MiBlockSize && miRow + r < cm.MiRows; r += rowStep)
             {
@@ -1478,7 +1476,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4C & borderMask,
                         (uint)mask4X4Int[r],
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfl.Slice(r << 3),
+                        lfl[(r << 3)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1491,7 +1489,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4C & borderMask,
                         (uint)mask4X4Int[r],
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfl.Slice(r << 3));
+                        lfl[(r << 3)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(8 * dst.Stride);
@@ -1532,7 +1530,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         mask4X4IntR,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfl.Slice(r << 3),
+                        lfl[(r << 3)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1545,7 +1543,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         mask4X4IntR,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfl.Slice(r << 3));
+                        lfl[(r << 3)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(8 * dst.Stride);
@@ -1579,7 +1577,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         (uint)mask4X4,
                         (uint)mask4X4Int,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfm.LflY.AsSpan().Slice(r << 3),
+                        lfm.LflY.AsSpan()[(r << 3)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1594,7 +1592,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         (uint)mask4X4,
                         (uint)mask4X4Int,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfm.LflY.AsSpan().Slice(r << 3));
+                        lfm.LflY.AsSpan()[(r << 3)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(16 * dst.Stride);
@@ -1640,7 +1638,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         (uint)mask4X4Int & 0xff,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfm.LflY.AsSpan().Slice(r << 3),
+                        lfm.LflY.AsSpan()[(r << 3)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1653,7 +1651,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         (uint)mask4X4Int & 0xff,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lfm.LflY.AsSpan().Slice(r << 3));
+                        lfm.LflY.AsSpan()[(r << 3)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(8 * dst.Stride);
@@ -1700,7 +1698,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4,
                         mask4X4Int,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lflUv.Slice(r << 1),
+                        lflUv[(r << 1)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1715,7 +1713,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4,
                         mask4X4Int,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lflUv.Slice(r << 1));
+                        lflUv[(r << 1)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(16 * dst.Stride);
@@ -1763,7 +1761,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         mask4X4IntR,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lflUv.Slice(r << 1),
+                        lflUv[(r << 1)..],
                         (int)cm.BitDepth);
                 }
                 else
@@ -1776,7 +1774,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         mask4X4R,
                         mask4X4IntR,
                         cm.LfInfo.Lfthr.AsSpan(),
-                        lflUv.Slice(r << 1));
+                        lflUv[(r << 1)..]);
                 }
 
                 dst.Buf = dst.Buf.Slice(8 * dst.Stride);
@@ -1831,7 +1829,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 ArrayPtr<Ptr<ModeInfo>> mi = cm.MiGridVisible.Slice(miRow * cm.MiStride);
                 Span<LoopFilterMask> lfm = GetLfm(ref cm.Lf, miRow, 0);
 
-                for (miCol = 0; miCol < cm.MiCols; miCol += Constants.MiBlockSize, lfm = lfm.Slice(1))
+                for (miCol = 0; miCol < cm.MiCols; miCol += Constants.MiBlockSize, lfm = lfm[1..])
                 {
                     int r = miRow >> Constants.MiBlockSizeLog2;
                     int c = miCol >> Constants.MiBlockSizeLog2;

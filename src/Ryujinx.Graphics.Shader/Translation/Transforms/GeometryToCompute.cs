@@ -91,6 +91,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                             context.GpuAccessor.Log($"Invalid output \"{(IoVariable)operation.GetSource(0).Value}\".");
                         }
                     }
+
                     break;
                 case Instruction.Store:
                     if (operation.StorageKind == StorageKind.Output)
@@ -110,6 +111,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                             context.GpuAccessor.Log($"Invalid output \"{(IoVariable)operation.GetSource(0).Value}\".");
                         }
                     }
+
                     break;
             }
 

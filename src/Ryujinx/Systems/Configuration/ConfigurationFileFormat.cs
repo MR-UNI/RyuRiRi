@@ -111,7 +111,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Enables printing FS access log messages
         /// </summary>
         public bool LoggingEnableFsAccessLog { get; set; }
-        
+
         /// <summary>
         /// Enables log messages from Avalonia
         /// </summary>
@@ -146,7 +146,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Change System Time Offset in seconds
         /// </summary>
         public long SystemTimeOffset { get; set; }
-        
+
         /// <summary>
         /// Instead of setting the time via configuration, use the values provided by the system.
         /// </summary>
@@ -166,12 +166,12 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// DEPRECATED: Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public bool CheckUpdatesOnStart { get; set; }
-        
+
         /// <summary>
         /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
         /// </summary>
         public UpdaterType UpdateCheckerType { get; set; }
-        
+
         /// <summary>
         /// How the emulator should behave when you click off/on the window.
         /// </summary>
@@ -263,7 +263,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Enables or disables low-power profiled translation cache persistency loading
         /// </summary>
         public bool EnableLowPowerPtc { get; set; }
-        
+
         /// <summary>
         /// Clock tick scalar, in percent points (100 = 1.0).
         /// </summary>
@@ -398,7 +398,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Enable or disable mouse support (Independent from controllers binding)
         /// </summary>
         public bool EnableMouse { get; set; }
-        
+
         /// <summary>
         /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
         /// </summary>
@@ -413,7 +413,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Input configurations
         /// </summary>
         public List<InputConfig> InputConfig { get; set; }
-        
+
         /// <summary>
         /// The speed of spectrum cycling for the Rainbow LED feature.
         /// </summary>
@@ -458,17 +458,17 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Uses Hypervisor over JIT if available
         /// </summary>
         public bool UseHypervisor { get; set; }
-        
+
         /// <summary>
         ///     Show toggles for dirty hacks in the UI.
         /// </summary>
         public bool ShowDirtyHacks { get; set; }
-        
+
         /// <summary>
         ///     The packed values of the enabled dirty hacks.
         /// </summary>
         public ulong[] DirtyHacks { get; set; }
-        
+
         /// <summary>
         /// Loads a configuration file from disk
         /// </summary>

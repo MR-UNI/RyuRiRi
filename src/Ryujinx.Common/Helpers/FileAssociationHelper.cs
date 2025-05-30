@@ -23,7 +23,7 @@ namespace Ryujinx.Common.Helper
         public static partial void SHChangeNotify(uint wEventId, uint uFlags, nint dwItem1, nint dwItem2);
 
         public static bool IsTypeAssociationSupported => (OperatingSystem.IsLinux() || OperatingSystem.IsWindows());
-        
+
         public static bool AreMimeTypesRegistered
         {
             get
@@ -92,21 +92,21 @@ namespace Ryujinx.Common.Helper
         [SupportedOSPlatform("windows")]
         private static bool AreMimeTypesRegisteredWindows()
         {
-            return _fileExtensions.Aggregate(false, 
+            return _fileExtensions.Aggregate(false,
                 (current, ext) => current | CheckRegistering(ext)
             );
-            
+
             static bool CheckRegistering(string ext)
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@$"Software\Classes\{ext}");
 
                 RegistryKey openCmd = key?.OpenSubKey(@"shell\open\command");
-                
+
                 if (openCmd is null)
                 {
                     return false;
                 }
-                
+
                 string keyValue = (string)openCmd.GetValue(string.Empty);
 
                 return keyValue is not null && (keyValue.Contains("Ryujinx") || keyValue.Contains(AppDomain.CurrentDomain.FriendlyName));
@@ -116,7 +116,7 @@ namespace Ryujinx.Common.Helper
         [SupportedOSPlatform("windows")]
         private static bool InstallWindowsMimeTypes(bool uninstall = false)
         {
-            bool registered = _fileExtensions.Aggregate(false, 
+            bool registered = _fileExtensions.Aggregate(false,
                 (current, ext) => current | RegisterExtension(ext, uninstall)
             );
 
@@ -124,7 +124,7 @@ namespace Ryujinx.Common.Helper
             SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_FLUSH, nint.Zero, nint.Zero);
 
             return registered;
-            
+
             static bool RegisterExtension(string ext, bool uninstall = false)
             {
                 string keyString = @$"Software\Classes\{ext}";
@@ -136,6 +136,7 @@ namespace Ryujinx.Common.Helper
                     {
                         return true;
                     }
+
                     Logger.Debug?.Print(LogClass.Application, $"Removing type association {ext}");
                     Registry.CurrentUser.DeleteSubKeyTree(keyString);
                     Logger.Debug?.Print(LogClass.Application, $"Removed type association {ext}");

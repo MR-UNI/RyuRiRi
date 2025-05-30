@@ -24,7 +24,7 @@ namespace ARMeilleure.Translation.Cache
 
         private static JitCacheInvalidation _jitCacheInvalidator;
 
-        private static List<CacheMemoryAllocator> _cacheAllocators = [];
+        private static readonly List<CacheMemoryAllocator> _cacheAllocators = [];
 
         private static readonly List<CacheEntry> _cacheEntries = [];
 
@@ -204,7 +204,6 @@ namespace ARMeilleure.Translation.Cache
             newRegion.ExpandIfNeeded((ulong)allocOffsetNew + (ulong)codeSize);
             return allocOffsetNew;
         }
-
 
         private static int AlignCodeSize(int codeSize)
         {

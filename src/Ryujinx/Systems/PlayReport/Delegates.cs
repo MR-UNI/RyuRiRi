@@ -1,4 +1,4 @@
-﻿namespace Ryujinx.Ava.Systems.PlayReport
+namespace Ryujinx.Ava.Systems.PlayReport
 {
     /// <summary>
     /// The delegate type that powers single value formatters.<br/>

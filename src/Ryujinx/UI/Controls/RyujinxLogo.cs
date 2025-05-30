@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Ryujinx.Ava.Systems.Configuration;
@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.UI.Controls
         public static readonly Bitmap Bitmap =
             new(Assembly.GetAssembly(typeof(MainWindowViewModel))!
                 .GetManifestResourceStream("Ryujinx.Assets.UIImages.Logo_Ryujinx_AntiAlias.png")!);
-        
+
         public RyujinxLogo()
         {
             Margin = new Thickness(7, 7, 7, 0);

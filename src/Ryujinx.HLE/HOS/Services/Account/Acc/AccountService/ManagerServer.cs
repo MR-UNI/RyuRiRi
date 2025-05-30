@@ -5,6 +5,7 @@ using Ryujinx.HLE.HOS.Kernel.Threading;
 using Ryujinx.HLE.HOS.Services.Account.Acc.AsyncContext;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
@@ -38,7 +39,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc.AccountService
 
             RsaSecurityKey secKey = new(parameters);
 
-            SigningCredentials credentials = new(secKey, "RS256");
+            SigningCredentials credentials = new(secKey, SecurityAlgorithms.RsaSha256);
 
             credentials.Key.KeyId = parameters.ToString();
 
@@ -49,11 +50,11 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc.AccountService
             RandomNumberGenerator.Fill(deviceId);
 
             byte[] deviceAccountId = new byte[0x10];
-            RandomNumberGenerator.Fill(deviceId);
+            RandomNumberGenerator.Fill(deviceAccountId);
 
             SecurityTokenDescriptor descriptor = new()
             {
-                Subject = new GenericIdentity(Convert.ToHexString(rawUserId).ToLower()),
+                Subject = new ClaimsIdentity([new Claim(JwtRegisteredClaimNames.Sub, Convert.ToHexString(rawUserId).ToLower())]),
                 SigningCredentials = credentials,
                 Audience = "ed9e2f05d286f7b8",
                 Issuer = "https://e0d67c509fb203858ebcb2fe3f88c2aa.baas.nintendo.com",

@@ -25,7 +25,7 @@ namespace Ryujinx.HLE.HOS.Services
         // not large enough.
         private const int PointerBufferSize = 0x8000;
 
-        private static uint[] _defaultCapabilities => [
+        private static uint[] DefaultCapabilities => [
             (((uint)KScheduler.CpuCoresCount - 1) << 24) + (((uint)KScheduler.CpuCoresCount - 1) << 16) + 0x63F7u,
             0x1FFFFFCF,
             0x207FFFEF,
@@ -47,10 +47,10 @@ namespace Ryujinx.HLE.HOS.Services
         private readonly Dictionary<int, IpcService> _sessions = new();
         private readonly Dictionary<int, Func<IpcService>> _ports = new();
 
-        private readonly MemoryStream _requestDataStream;
+        private readonly RecyclableMemoryStream _requestDataStream;
         private readonly BinaryReader _requestDataReader;
 
-        private readonly MemoryStream _responseDataStream;
+        private readonly RecyclableMemoryStream _responseDataStream;
         private readonly BinaryWriter _responseDataWriter;
 
         private int _isDisposed = 0;
@@ -81,7 +81,7 @@ namespace Ryujinx.HLE.HOS.Services
 
             ProcessCreationInfo creationInfo = new("Service", 1, 0, 0x8000000, 1, Flags, 0, 0);
 
-            KernelStatic.StartInitialProcess(context, creationInfo, _defaultCapabilities, 44, Main);
+            KernelStatic.StartInitialProcess(context, creationInfo, DefaultCapabilities, 44, Main);
         }
 
         private void AddPort(int serverPortHandle, Func<IpcService> objectFactory)
@@ -353,8 +353,8 @@ namespace Ryujinx.HLE.HOS.Services
             _requestDataStream.Write(request.RawData);
             _requestDataStream.Position = 0;
 
-            if (request.Type == IpcMessageType.CmifRequest ||
-                request.Type == IpcMessageType.CmifRequestWithContext)
+            if (request.Type is IpcMessageType.CmifRequest or
+                IpcMessageType.CmifRequestWithContext)
             {
                 response.Type = IpcMessageType.CmifResponse;
 
@@ -374,8 +374,8 @@ namespace Ryujinx.HLE.HOS.Services
 
                 response.RawData = _responseDataStream.ToArray();
             }
-            else if (request.Type == IpcMessageType.CmifControl ||
-                     request.Type == IpcMessageType.CmifControlWithContext)
+            else if (request.Type is IpcMessageType.CmifControl or
+                     IpcMessageType.CmifControlWithContext)
             {
 #pragma warning disable IDE0059 // Remove unnecessary value assignment
                 uint magic = (uint)_requestDataReader.ReadUInt64();
@@ -425,7 +425,7 @@ namespace Ryujinx.HLE.HOS.Services
                         throw new NotImplementedException(cmdId.ToString());
                 }
             }
-            else if (request.Type == IpcMessageType.CmifCloseSession || request.Type == IpcMessageType.TipcCloseSession)
+            else if (request.Type is IpcMessageType.CmifCloseSession or IpcMessageType.TipcCloseSession)
             {
                 DestroySession(serverSessionHandle);
                 shouldReply = false;

@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
@@ -63,7 +63,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             {
                 for (int j = 0; j < Constants.InterModes - 1; ++j)
                 {
-                    r.DiffUpdateProb( ref fc.InterModeProb[i][j]);
+                    r.DiffUpdateProb(ref fc.InterModeProb[i][j]);
                 }
             }
         }
@@ -172,15 +172,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             {
                 if (txSize <= TxSize.Tx16X16 && eob <= 10)
                 {
-                    dqcoeff.AsSpan().Slice(0, 4 * (4 << (int)txSize)).Clear();
+                    dqcoeff.AsSpan()[..(4 * (4 << (int)txSize))].Clear();
                 }
                 else if (txSize == TxSize.Tx32X32 && eob <= 34)
                 {
-                    dqcoeff.AsSpan().Slice(0, 256).Clear();
+                    dqcoeff.AsSpan()[..256].Clear();
                 }
                 else
                 {
-                    dqcoeff.AsSpan().Slice(0, 16 << ((int)txSize << 1)).Clear();
+                    dqcoeff.AsSpan()[..(16 << ((int)txSize << 1))].Clear();
                 }
             }
         }
@@ -263,15 +263,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             {
                 if (txType == TxType.DctDct && txSize <= TxSize.Tx16X16 && eob <= 10)
                 {
-                    dqcoeff.AsSpan().Slice(0, 4 * (4 << (int)txSize)).Clear();
+                    dqcoeff.AsSpan()[..(4 * (4 << (int)txSize))].Clear();
                 }
                 else if (txSize == TxSize.Tx32X32 && eob <= 34)
                 {
-                    dqcoeff.AsSpan().Slice(0, 256).Clear();
+                    dqcoeff.AsSpan()[..256].Clear();
                 }
                 else
                 {
-                    dqcoeff.AsSpan().Slice(0, 16 << ((int)txSize << 1)).Clear();
+                    dqcoeff.AsSpan()[..(16 << ((int)txSize << 1))].Clear();
                 }
             }
         }
@@ -289,7 +289,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             PredictionMode mode = plane == 0 ? mi.Mode : mi.UvMode;
             int dstOffset = (4 * row * pd.Dst.Stride) + (4 * col);
             byte* dst = &pd.Dst.Buf.ToPointer()[dstOffset];
-            Span<byte> dstSpan = pd.Dst.Buf.AsSpan().Slice(dstOffset);
+            Span<byte> dstSpan = pd.Dst.Buf.AsSpan()[dstOffset..];
 
             if (mi.SbType < BlockSize.Block8X8)
             {
@@ -329,7 +329,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ref MacroBlockDPlane pd = ref xd.Plane[plane];
             Luts.ScanOrder sc = Luts.DefaultScanOrders[(int)txSize];
             int eob = Detokenize.DecodeBlockTokens(ref twd, plane, sc, col, row, txSize, mi.SegmentId);
-            Span<byte> dst = pd.Dst.Buf.AsSpan().Slice((4 * row * pd.Dst.Stride) + (4 * col));
+            Span<byte> dst = pd.Dst.Buf.AsSpan()[((4 * row * pd.Dst.Stride) + (4 * col))..];
 
             if (eob > 0)
             {
@@ -1024,8 +1024,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             // Update the partition context at the end notes. Set partition bits
             // of block sizes larger than the current one to be one, and partition
             // bits of smaller block sizes to be zero.
-            aboveCtx.Slice(0, bw).Fill(Luts.PartitionContextLookup[(int)subsize].Above);
-            leftCtx.Slice(0, bw).Fill(Luts.PartitionContextLookup[(int)subsize].Left);
+            aboveCtx[..bw].Fill(Luts.PartitionContextLookup[(int)subsize].Above);
+            leftCtx[..bw].Fill(Luts.PartitionContextLookup[(int)subsize].Left);
         }
 
         private static PartitionType ReadPartition(
@@ -1174,7 +1174,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                             {
                                 for (int m = 0; m < Entropy.UnconstrainedNodes; ++m)
                                 {
-                                    r.DiffUpdateProb( ref coefProbs[i][j][k][l][m]);
+                                    r.DiffUpdateProb(ref coefProbs[i][j][k][l][m]);
                                 }
                             }
                         }
@@ -1262,9 +1262,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static void SetupFrameSize(MemoryAllocator allocator, ref Vp9Common cm, ref ReadBitBuffer rb)
         {
-            int width = 0, height = 0;
             ref BufferPool pool = ref cm.BufferPool.Value;
-            rb.ReadFrameSize(out width, out height);
+            rb.ReadFrameSize(out int width, out int height);
             cm.ResizeContextBuffers(allocator, width, height);
             SetupRenderSize(ref cm, ref rb);
 
@@ -1608,13 +1607,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
             GetTileBuffers(ref cm, data, tileCols, ref tileBuffers);
 
-            tileBuffers.AsSpan().Slice(0, tileCols).Sort(CompareTileBuffers);
+            tileBuffers.AsSpan()[..tileCols].Sort(CompareTileBuffers);
 
             if (numWorkers == tileCols)
             {
                 TileBuffer largest = tileBuffers[0];
                 Span<TileBuffer> buffers = tileBuffers.AsSpan();
-                buffers.Slice(1).CopyTo(buffers.Slice(0, tileBuffers.Length - 1));
+                buffers[1..].CopyTo(buffers[..(tileBuffers.Length - 1)]);
                 tileBuffers[tileCols - 1] = largest;
             }
             else
@@ -1734,9 +1733,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static bool ReadSyncCode(ref ReadBitBuffer rb)
         {
-            return rb.ReadLiteral(8) == SyncCode0 &&
-                   rb.ReadLiteral(8) == SyncCode1 &&
-                   rb.ReadLiteral(8) == SyncCode2;
+            int readSyncCode0 = rb.ReadLiteral(8);
+            int readSyncCode1 = rb.ReadLiteral(8);
+            int readSyncCode2 = rb.ReadLiteral(8);
+
+            return readSyncCode0 == SyncCode0 &&
+                   readSyncCode1 == SyncCode1 &&
+                   readSyncCode2 == SyncCode2;
         }
 
         private static void RefCntFb(ref Array12<RefCntBuffer> bufs, ref int idx, int newIdx)
@@ -2014,7 +2017,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
                 for (int i = 0; i < Constants.IntraInterContexts; i++)
                 {
-                    r.DiffUpdateProb( ref fc.IntraInterProb[i]);
+                    r.DiffUpdateProb(ref fc.IntraInterProb[i]);
                 }
 
                 cm.ReferenceMode = cm.ReadFrameReferenceMode(ref r);
@@ -2029,7 +2032,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 {
                     for (int i = 0; i < Constants.IntraModes - 1; ++i)
                     {
-                        r.DiffUpdateProb( ref fc.YModeProb[j][i]);
+                        r.DiffUpdateProb(ref fc.YModeProb[j][i]);
                     }
                 }
 
@@ -2037,7 +2040,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 {
                     for (int i = 0; i < Constants.PartitionTypes - 1; ++i)
                     {
-                        r.DiffUpdateProb( ref fc.PartitionProb[j][i]);
+                        r.DiffUpdateProb(ref fc.PartitionProb[j][i]);
                     }
                 }
 
@@ -2119,7 +2122,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     allocator.Free(cm.TileWorkerData);
                 }
 
-                cm.CheckMemError( ref cm.TileWorkerData, allocator.Allocate<TileWorkerData>(numTileWorkers));
+                cm.CheckMemError(ref cm.TileWorkerData, allocator.Allocate<TileWorkerData>(numTileWorkers));
                 cm.TotalTiles = tileRows * tileCols;
             }
 

@@ -3,11 +3,11 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.HLE;
 using Ryujinx.HLE.HOS.Applets;
@@ -179,11 +179,13 @@ namespace Ryujinx.Ava.UI.Applet
                 try
                 {
                     _parent.ViewModel.AppHost.NpadManager.BlockInputUpdates();
-                    SoftwareKeyboardUIArgs args = new();
-                    args.KeyboardMode = KeyboardMode.Default;
-                    args.InitialText = "Ryujinx";
-                    args.StringLengthMin = 1;
-                    args.StringLengthMax = 25;
+                    SoftwareKeyboardUIArgs args = new()
+                    {
+                        KeyboardMode = KeyboardMode.Default,
+                        InitialText = "Ryujinx",
+                        StringLengthMin = 1,
+                        StringLengthMax = 25
+                    };
                     (UserResult result, string userInput) =
                         await SwkbdAppletDialog.ShowInputDialog(LocaleManager.Instance[LocaleKeys.CabinetDialog], args);
                     if (result == UserResult.Ok)
@@ -220,7 +222,6 @@ namespace Ryujinx.Ava.UI.Applet
             dialogCloseEvent.WaitOne();
         }
 
-
         public void ExecuteProgram(Switch device, ProgramSpecifyKind kind, ulong value)
         {
             device.Configuration.UserChannelPersistence.ExecuteProgram(kind, value);
@@ -240,7 +241,9 @@ namespace Ryujinx.Ava.UI.Applet
                 {
                     ErrorAppletWindow msgDialog = new(_parent, buttons, message)
                     {
-                        Title = title, WindowStartupLocation = WindowStartupLocation.CenterScreen, Width = 400
+                        Title = title,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        Width = 400
                     };
 
                     object response = await msgDialog.Run();
@@ -291,7 +294,8 @@ namespace Ryujinx.Ava.UI.Applet
                 profiles.Add(new Models.UserProfile(guest, nav));
                 ProfileSelectorDialogViewModel viewModel = new()
                 {
-                    Profiles = profiles, SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId
+                    Profiles = profiles,
+                    SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId
                 };
                 (selected, _) = await ProfileSelectorDialog.ShowInputDialog(viewModel);
 

@@ -836,6 +836,5 @@ namespace Spv.Generator
         {
             return ExtInst(resultType, AddExtInstImport("OpenCL.std"), 185, ptr, numelements);
         }
-
     }
 }

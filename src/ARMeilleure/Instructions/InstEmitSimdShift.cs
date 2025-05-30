@@ -1634,7 +1634,7 @@ namespace ARMeilleure.Instructions
             int eSize = 8 << size;
 
             Debug.Assert(op.Type == OperandType.I64);
-            Debug.Assert(eSize == 8 || eSize == 16 || eSize == 32 || eSize == 64);
+            Debug.Assert(eSize is 8 or 16 or 32 or 64);
 
             Operand res = context.AllocateLocal(OperandType.I64);
 
@@ -1657,7 +1657,7 @@ namespace ARMeilleure.Instructions
             int eSize = 8 << size;
 
             Debug.Assert(op.Type == OperandType.I64);
-            Debug.Assert(eSize == 8 || eSize == 16 || eSize == 32 || eSize == 64);
+            Debug.Assert(eSize is 8 or 16 or 32 or 64);
 
             Operand lblEnd = Label();
 
@@ -1732,7 +1732,7 @@ namespace ARMeilleure.Instructions
 
             Debug.Assert(op.Type == OperandType.I64);
             Debug.Assert(shiftLsB.Type == OperandType.I32);
-            Debug.Assert(eSize == 8 || eSize == 16 || eSize == 32 || eSize == 64);
+            Debug.Assert(eSize is 8 or 16 or 32 or 64);
 
             Operand lbl1 = Label();
             Operand lblEnd = Label();
@@ -1769,7 +1769,7 @@ namespace ARMeilleure.Instructions
 
             Debug.Assert(op.Type == OperandType.I64);
             Debug.Assert(shiftLsB.Type == OperandType.I32);
-            Debug.Assert(eSize == 8 || eSize == 16 || eSize == 32 || eSize == 64);
+            Debug.Assert(eSize is 8 or 16 or 32 or 64);
 
             Operand lbl1 = Label();
             Operand lbl2 = Label();
@@ -1813,6 +1813,7 @@ namespace ARMeilleure.Instructions
                     ? EmitSignedSrcSatQ(context, shl, size, signedDst: true)
                     : EmitUnsignedSrcSatQ(context, shl, size, signedDst: false));
             }
+
             context.Branch(lblEnd);
 
             context.MarkLabel(lblEnd);
@@ -1850,6 +1851,7 @@ namespace ARMeilleure.Instructions
                 {
                     context.Copy(res, sar);
                 }
+
                 context.Branch(lblEnd);
 
                 context.MarkLabel(lblEnd);
@@ -1906,6 +1908,7 @@ namespace ARMeilleure.Instructions
                     Operand right = context.BitwiseOr(shr, context.ShiftRightUI(oneShl63UL, context.Subtract(shift, one)));
                     context.Copy(res, context.ConditionalSelect(isEqual, oneUL, right));
                 }
+
                 context.Branch(lblEnd);
 
                 context.MarkLabel(lblEnd);

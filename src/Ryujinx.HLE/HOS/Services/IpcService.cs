@@ -26,17 +26,17 @@ namespace Ryujinx.HLE.HOS.Services
         public IpcService(ServerBase server = null, bool registerTipc = false)
         {
             Stopwatch sw = Stopwatch.StartNew();
-            
+
             CmifCommands = GetType()
                 .GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
                 .SelectMany(methodInfo => methodInfo.GetCustomAttributes<CommandCmifAttribute>()
                 .Select(command => (command.Id, methodInfo)))
                 .ToDictionary(command => command.Id, command => command.methodInfo);
-            
+
             sw.Stop();
-            
+
             Logger.Debug?.Print(
-                LogClass.Emulation, 
+                LogClass.Emulation,
                 $"{CmifCommands.Count} Cmif commands loaded in {sw.ElapsedTicks} ticks ({Stopwatch.Frequency} tps).",
                 GetType().AsPrettyString()
             );
@@ -50,16 +50,16 @@ namespace Ryujinx.HLE.HOS.Services
                     .SelectMany(methodInfo => methodInfo.GetCustomAttributes<CommandTipcAttribute>()
                         .Select(command => (command.Id, methodInfo)))
                     .ToDictionary(command => command.Id, command => command.methodInfo);
-            
+
                 sw.Stop();
-            
+
                 Logger.Debug?.Print(
-                    LogClass.Emulation, 
+                    LogClass.Emulation,
                     $"{TipcCommands.Count} Tipc commands loaded in {sw.ElapsedTicks} ticks ({Stopwatch.Frequency} tps).",
                     GetType().AsPrettyString()
                 );
             }
-            
+
             Server = server;
 
             _parent = this;
@@ -201,7 +201,6 @@ namespace Ryujinx.HLE.HOS.Services
                 else
                 {
                     string serviceName;
-
 
                     serviceName = (this is not DummyService dummyService) ? GetType().FullName : dummyService.ServiceName;
 

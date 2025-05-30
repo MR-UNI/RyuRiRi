@@ -226,6 +226,7 @@ namespace Ryujinx.Headless
                             Renderer?.Window.SetSize(Width, Height);
                             MouseDriver.SetClientSize(Width, Height);
                         }
+
                         break;
 
                     case SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
@@ -488,8 +489,9 @@ namespace Ryujinx.Headless
 
         public bool DisplayMessageDialog(ControllerAppletUIArgs args)
         {
-            if (_ignoreControllerApplet) return false;
-            
+            if (_ignoreControllerApplet)
+                return false;
+
             string playerCount = args.PlayerCountMin == args.PlayerCountMax ? $"exactly {args.PlayerCountMin}" : $"{args.PlayerCountMin}-{args.PlayerCountMax}";
 
             string message = $"Application requests {playerCount} {"player".ToQuantity(args.PlayerCountMin + args.PlayerCountMax, ShowQuantityAs.None)} with:\n\n"
@@ -558,7 +560,7 @@ namespace Ryujinx.Headless
                 SDL2Driver.Instance.Dispose();
             }
         }
-        
+
         public UserProfile ShowPlayerSelectDialog()
         {
             return AccountSaveDataManager.GetLastUsedUser();

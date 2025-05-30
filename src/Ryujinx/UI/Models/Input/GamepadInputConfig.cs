@@ -46,21 +46,21 @@ namespace Ryujinx.Ava.UI.Models.Input
 
         [ObservableProperty] private GamepadInputId _buttonMinus;
         [ObservableProperty] private GamepadInputId _buttonPlus;
-        
+
         [ObservableProperty] private GamepadInputId _buttonA;
         [ObservableProperty] private GamepadInputId _buttonB;
         [ObservableProperty] private GamepadInputId _buttonX;
         [ObservableProperty] private GamepadInputId _buttonY;
-        
+
         [ObservableProperty] private GamepadInputId _buttonZl;
         [ObservableProperty] private GamepadInputId _buttonZr;
-        
+
         [ObservableProperty] private GamepadInputId _buttonL;
         [ObservableProperty] private GamepadInputId _buttonR;
-        
+
         [ObservableProperty] private GamepadInputId _leftButtonSl;
         [ObservableProperty] private GamepadInputId _leftButtonSr;
-        
+
         [ObservableProperty] private GamepadInputId _rightButtonSl;
         [ObservableProperty] private GamepadInputId _rightButtonSr;
 
@@ -73,17 +73,17 @@ namespace Ryujinx.Ava.UI.Models.Input
         [ObservableProperty] private float _triggerThreshold;
 
         [ObservableProperty] private bool _enableMotion;
-        
+
         [ObservableProperty] private bool _enableRumble;
-        
+
         [ObservableProperty] private bool _enableLedChanging;
-        
+
         [ObservableProperty] private Color _ledColor;
-        
+
         public bool ShowLedColorPicker => !TurnOffLed && !UseRainbowLed;
-        
+
         private bool _turnOffLed;
-        
+
         public bool TurnOffLed
         {
             get => _turnOffLed;
@@ -94,9 +94,9 @@ namespace Ryujinx.Ava.UI.Models.Input
                 OnPropertyChanged(nameof(ShowLedColorPicker));
             }
         }
-        
+
         private bool _useRainbowLed;
-        
+
         public bool UseRainbowLed
         {
             get => _useRainbowLed;
@@ -183,7 +183,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                     WeakRumble = controllerInput.Rumble.WeakRumble;
                     StrongRumble = controllerInput.Rumble.StrongRumble;
                 }
-                
+
                 if (controllerInput.Led != null)
                 {
                     EnableLedChanging = controllerInput.Led.EnableLed;
@@ -204,7 +204,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             StandardControllerInputConfig config = new()
             {
                 Id = Id,
-                Name = Name, 
+                Name = Name,
                 Backend = InputBackendType.GamepadSDL2,
                 PlayerIndex = PlayerIndex,
                 ControllerType = ControllerType,

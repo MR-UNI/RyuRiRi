@@ -12,19 +12,24 @@ using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
 using Gommon;
 using LibHac.Common;
+using LibHac.Fs;
 using LibHac.Ns;
+using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.Systems;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Generic;
 using Ryujinx.Ava.UI.Renderer;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Systems.AppLibrary;
-using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
@@ -50,7 +55,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Key = Ryujinx.Input.Key;
 using MissingKeyException = LibHac.Common.Keys.MissingKeyException;
+using Path = System.IO.Path;
 using ShaderCacheLoadingState = Ryujinx.Graphics.Gpu.Shader.ShaderCacheState;
+using UserId = Ryujinx.HLE.HOS.Services.Account.Acc.UserId;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
@@ -79,9 +86,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private Brush _progressBarForegroundColor;
         [ObservableProperty] private Brush _progressBarBackgroundColor;
         [ObservableProperty] private Brush _vSyncModeColor;
-        #nullable enable
+#nullable enable
         [ObservableProperty] private byte[]? _selectedIcon;
-        #nullable disable
+#nullable disable
         [ObservableProperty] private int _statusBarProgressMaximum;
         [ObservableProperty] private int _statusBarProgressValue;
         [ObservableProperty] private string _statusBarProgressStatusText;
@@ -111,7 +118,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (Updater.CanUpdate(true))
                 await Updater.BeginUpdateAsync(true);
         });
-        
+
+        private bool _showTotalTimePlayed;
         private bool _showLoadProgress;
         private bool _isGameRunning;
         private bool _isAmiiboRequested;
@@ -132,7 +140,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _customVSyncIntervalPercentageProxy;
         private ApplicationData _listSelectedApplication;
         private ApplicationData _gridSelectedApplication;
-        
+
         // Key is Title ID
         public SafeDictionary<string, LdnGameData.Array> LdnData = [];
 
@@ -149,9 +157,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .OnItemAdded(_ => OnPropertyChanged(nameof(AppsObservableList)))
                 .OnItemRemoved(_ => OnPropertyChanged(nameof(AppsObservableList)))
-#pragma warning disable MVVMTK0034 // Event to update is fired below
                 .Bind(out _appsObservableList);
-#pragma warning restore MVVMTK0034
 
             _rendererWaitEvent = new AutoResetEvent(false);
 
@@ -197,6 +203,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if DEBUG
             topLevel.AttachDevTools(new KeyGesture(Avalonia.Input.Key.F12, KeyModifiers.Control));
 #endif
+
+            Window.ApplicationLibrary.TotalTimePlayedRecalculated += TotalTimePlayed_Recalculated;
         }
 
         #region Properties
@@ -299,7 +307,25 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged(nameof(ShowFirmwareStatus));
             }
         }
-        
+
+        private void TotalTimePlayed_Recalculated(Optional<TimeSpan> ts)
+        {
+            ShowTotalTimePlayed = ts.HasValue;
+
+            if (ts.HasValue)
+                LocaleManager.Instance.SetDynamicValues(LocaleKeys.GameListLabelTotalTimePlayed, ValueFormatUtils.FormatTimeSpan(ts.Value));
+        }
+
+        public bool ShowTotalTimePlayed
+        {
+            get => _showTotalTimePlayed && EnableNonGameRunningControls;
+            set
+            {
+                _showTotalTimePlayed = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ApplicationData ListSelectedApplication
         {
             get => _listSelectedApplication;
@@ -307,13 +333,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _listSelectedApplication = value;
 
-#pragma warning disable MVVMTK0034
-                if (_listSelectedApplication != null && _listAppContextMenu == null)
+                if (_listSelectedApplication != null && ListAppContextMenu == null)
 
                     ListAppContextMenu = new ApplicationContextMenu();
-                else if (_listSelectedApplication == null && _listAppContextMenu != null)
+                else if (_listSelectedApplication == null && ListAppContextMenu != null)
                     ListAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
 
                 OnPropertyChanged();
             }
@@ -326,13 +350,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _gridSelectedApplication = value;
 
-#pragma warning disable MVVMTK0034
-                if (_gridSelectedApplication != null && _gridAppContextMenu == null)
+                if (_gridSelectedApplication != null && GridAppContextMenu == null)
                     GridAppContextMenu = new ApplicationContextMenu();
-                else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
+                else if (_gridSelectedApplication == null && GridAppContextMenu != null)
                     GridAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
-                
+
                 OnPropertyChanged();
             }
         }
@@ -352,7 +374,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 ListSelectedApplication = value;
                 GridSelectedApplication = value;
-            }        
+            }
         }
 
         public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
@@ -367,7 +389,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool OpenBcatSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.BcatDeliveryCacheStorageSize > 0;
 
-        public bool ShowCustomVSyncIntervalPicker 
+        public bool ShowCustomVSyncIntervalPicker
             => _isGameRunning && AppHost.Device.VSyncMode == VSyncMode.Custom;
 
         public void UpdateVSyncIntervalPicker()
@@ -388,6 +410,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = newInterval;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged((nameof(CustomVSyncInterval)));
                 OnPropertyChanged((nameof(CustomVSyncIntervalPercentageText)));
             }
@@ -419,6 +442,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = value;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageProxy));
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
@@ -551,7 +575,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowNames
         {
-            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1; 
+            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1;
             set
             {
                 ConfigurationState.Instance.UI.ShowNames.Value = value;
@@ -734,7 +758,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         #region PrivateMethods
 
-        private static IComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
+        private static SortExpressionComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
             ascending
                 ? SortExpressionComparer<ApplicationData>.Ascending(selector)
                 : SortExpressionComparer<ApplicationData>.Descending(selector);
@@ -763,15 +787,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void RefreshGrid()
         {
-            Applications.ToObservableChangeSet()
+            var appsList = Applications.ToObservableChangeSet()
                 .Filter(Filter)
                 .Sort(GetComparer())
-#pragma warning disable MVVMTK0034
-                .Bind(out _appsObservableList)
-#pragma warning restore MVVMTK0034
+                .Bind(out var apps)
                 .AsObservableList();
 
-            OnPropertyChanged(nameof(AppsObservableList));
+            AppsObservableList = apps;
         }
 
         private bool Filter(object arg)
@@ -846,10 +868,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 string message = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogFirmwareInstallerFirmwareInstallSuccessMessage, firmwareVersion.VersionString);
 
                                 await ContentDialogHelper.CreateInfoDialog(
-                                    dialogTitle, 
-                                    message, 
-                                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
-                                    string.Empty, 
+                                    dialogTitle,
+                                    message,
+                                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
+                                    string.Empty,
                                     LocaleManager.Instance[LocaleKeys.RyujinxInfo]);
 
                                 Logger.Info?.Print(LogClass.Application, message);
@@ -968,7 +990,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 waitingDialog.Close();
 
                                 string message = ex.Message;
-                                if(ex is FormatException)
+                                if (ex is FormatException)
                                 {
                                     message = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogKeysInstallerKeysNotFoundErrorMessage, filename);
                                 }
@@ -1026,6 +1048,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     case ShaderCacheLoadingState shaderCacheState:
                         CacheLoadStatus = $"{current} / {total}";
@@ -1046,6 +1069,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     default:
                         throw new ArgumentException($"Unknown Progress Handler type {typeof(T)}");
@@ -1082,7 +1106,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _rendererWaitEvent.WaitOne();
 
             AppHost?.Start();
-            
+
             AppHost?.DisposeContext();
         }
 
@@ -1162,11 +1186,11 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     await ContentDialogHelper.ShowTextDialog(
                         LocaleManager.Instance[numAdded > 0 || numRemoved > 0 ? LocaleKeys.RyujinxConfirm : LocaleKeys.RyujinxInfo],
-                        msg, 
-                        string.Empty, 
-                        string.Empty, 
-                        string.Empty, 
-                        LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                        msg,
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
+                        LocaleManager.Instance[LocaleKeys.InputDialogOk],
                         (int)Symbol.Checkmark);
                 });
             }
@@ -1360,7 +1384,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 return;
             }
-            
+
             OpenHelper.OpenFolder(screenshotsDir);
         }
 
@@ -1550,15 +1574,11 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool InitializeUserConfig(ApplicationData application)
         {
-            // Code where conditions will be met before loading the user configuration (Global Config)      
-            BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
+            // Code where conditions will be met before loading the user configuration (Global Config)
             string BackendThreadingInit = Program.BackendThreadingArg;
 
-            if (BackendThreadingInit is null)
-            {
-                BackendThreadingInit = ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
-            }
-            
+            BackendThreadingInit ??= ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
+
             // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
             string idGame = application.IdBaseString;
             if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(idGame), out ConfigurationFileFormat configurationFileFormat))
@@ -1571,13 +1591,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() != BackendThreadingInit)
             {
 
-                List<string> Arguments = new List<string>
+                List<string> Arguments = new()
                 {
                     "--bt", ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() // BackendThreading
                 };
 
                 Rebooter.RebootAppWithGame(application.Path, Arguments);
- 
+
                 return true;
             }
 
@@ -1607,7 +1627,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
-         
+
             Logger.RestartTime();
 
             SelectedIcon ??= ApplicationLibrary.GetApplicationIcon(application.Path, ConfigurationState.Instance.System.Language, application.Id);
@@ -1652,7 +1672,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Thread gameThread = new(InitializeGame) { Name = "GUI.WindowThread" };
             gameThread.Start();
-            
+
         }
 
         public void SwitchToRenderer(bool startFullscreen) =>
@@ -1772,7 +1792,6 @@ namespace Ryujinx.Ava.UI.ViewModels
                 }
             }
         }
-
 
         public void ToggleFullscreen()
         {
@@ -1931,6 +1950,397 @@ namespace Ryujinx.Ava.UI.ViewModels
                 }
             }
         }
+
+        #endregion
+
+        #region Context Menu commands
+
+        public static AsyncRelayCommand<MainWindowViewModel> RunApplication { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => viewModel.LoadApplication(viewModel.SelectedApplication));
+
+        public static RelayCommand<MainWindowViewModel> ToggleFavorite { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                {
+                    viewModel.SelectedApplication.Favorite = !viewModel.SelectedApplication.Favorite;
+
+                    ApplicationLibrary.LoadAndSaveMetaData(viewModel.SelectedApplication.IdString, appMetadata =>
+                    {
+                        appMetadata.Favorite = viewModel.SelectedApplication.Favorite;
+                    });
+
+                    viewModel.RefreshView();
+                }
+            );
+
+        public static RelayCommand<MainWindowViewModel> CreateApplicationShortcut { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => ShortcutHelper.CreateAppShortcut(
+                    viewModel.SelectedApplication.Path,
+                    viewModel.SelectedApplication.Name,
+                    viewModel.SelectedApplication.IdString,
+                    viewModel.SelectedApplication.Icon
+                ));
+
+        public static AsyncRelayCommand<MainWindowViewModel> EditGameConfiguration { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    await StyleableAppWindow.ShowAsync(new GameSpecificSettingsWindow(viewModel));
+
+                    // just checking for file presence
+                    viewModel.SelectedApplication.HasIndependentConfiguration = File.Exists(
+                        Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString, false, false));
+
+                    viewModel.RefreshView();
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenApplicationCompatibility { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => CompatibilityListWindow.Show(viewModel.SelectedApplication.IdString));
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenApplicationData { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => ApplicationDataView.Show(viewModel.SelectedApplication));
+
+        public static RelayCommand<MainWindowViewModel> OpenUserSaveDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                    OpenSaveDirectory(viewModel, SaveDataType.Account, viewModel.AccountManager.LastOpenedUser.UserId.ToLibHac())
+            );
+
+        public static RelayCommand<MainWindowViewModel> OpenDeviceSaveDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => OpenSaveDirectory(viewModel, SaveDataType.Device, default));
+
+        public static RelayCommand<MainWindowViewModel> OpenBcatSaveDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => OpenSaveDirectory(viewModel, SaveDataType.Bcat, default));
+
+        private static void OpenSaveDirectory(MainWindowViewModel viewModel, SaveDataType saveDataType,
+            LibHac.Fs.UserId userId)
+        {
+            SaveDataFilter saveDataFilter = SaveDataFilter.Make(viewModel.SelectedApplication.Id, saveDataType, userId,
+                saveDataId: default, index: default);
+
+            ApplicationHelper.OpenSaveDir(in saveDataFilter, viewModel.SelectedApplication.Id,
+                viewModel.SelectedApplication.ControlHolder, viewModel.SelectedApplication.Name);
+        }
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenTitleUpdateManager { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => TitleUpdateManagerView.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication)
+            );
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenDownloadableContentManager { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                    DownloadableContentManagerView.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication)
+            );
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenCheatManager { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => StyleableAppWindow.ShowAsync(
+                    new CheatWindow(
+                        viewModel.VirtualFileSystem,
+                        viewModel.SelectedApplication.IdString,
+                        viewModel.SelectedApplication.Name,
+                        viewModel.SelectedApplication.Path
+                    )
+                ));
+
+        public static AsyncRelayCommand<MainWindowViewModel> OpenModManager { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => ModManagerView.Show(
+                    viewModel.SelectedApplication.Id,
+                    viewModel.SelectedApplication.IdBase,
+                    viewModel.ApplicationLibrary,
+                    viewModel.SelectedApplication.Name));
+
+        public static RelayCommand<MainWindowViewModel> OpenModsDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                {
+                    string modsBasePath = ModLoader.GetModsBasePath();
+                    string titleModsPath = ModLoader.GetApplicationDir(modsBasePath, viewModel.SelectedApplication.IdString);
+
+                    OpenHelper.OpenFolder(titleModsPath);
+                });
+
+        public static RelayCommand<MainWindowViewModel> OpenSdModsDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                {
+                    string sdModsBasePath = ModLoader.GetSdModsBasePath();
+                    string titleModsPath = ModLoader.GetApplicationDir(sdModsBasePath, viewModel.SelectedApplication.IdString);
+
+                    OpenHelper.OpenFolder(titleModsPath);
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> TrimXci { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel => viewModel.TrimXCIFile(viewModel.SelectedApplication.Path));
+
+        public static AsyncRelayCommand<MainWindowViewModel> PurgePtcCache { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    UserResult result = await ContentDialogHelper.CreateLocalizedConfirmationDialog(
+                        LocaleManager.Instance[LocaleKeys.DialogWarning],
+                        LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCDeletionMessage,
+                            viewModel.SelectedApplication.Name)
+                    );
+
+                    if (result == UserResult.Yes)
+                    {
+                        DirectoryInfo mainDir = new(Path.Combine(AppDataManager.GamesDirPath,
+                            viewModel.SelectedApplication.IdString, "cache", "cpu", "0"));
+                        DirectoryInfo backupDir = new(Path.Combine(AppDataManager.GamesDirPath,
+                            viewModel.SelectedApplication.IdString, "cache", "cpu", "1"));
+
+                        List<FileInfo> cacheFiles = [];
+
+                        if (mainDir.Exists)
+                        {
+                            cacheFiles.AddRange(mainDir.EnumerateFiles("*.cache"));
+                        }
+
+                        if (backupDir.Exists)
+                        {
+                            cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
+                        }
+
+                        if (cacheFiles.Count > 0)
+                        {
+                            foreach (FileInfo file in cacheFiles)
+                            {
+                                try
+                                {
+                                    file.Delete();
+                                }
+                                catch (Exception ex)
+                                {
+                                    await ContentDialogHelper.CreateErrorDialog(
+                                        LocaleManager.Instance.UpdateAndGetDynamicValue(
+                                            LocaleKeys.DialogPPTCDeletionErrorMessage, file.Name, ex));
+                                }
+                            }
+                        }
+                    }
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> NukePtcCache { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    UserResult result = await ContentDialogHelper.CreateLocalizedConfirmationDialog(
+                        LocaleManager.Instance[LocaleKeys.DialogWarning],
+                        LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCNukeMessage,
+                            viewModel.SelectedApplication.Name)
+                    );
+
+                    if (result == UserResult.Yes)
+                    {
+                        DirectoryInfo mainDir = new(Path.Combine(AppDataManager.GamesDirPath,
+                            viewModel.SelectedApplication.IdString, "cache", "cpu", "0"));
+                        DirectoryInfo backupDir = new(Path.Combine(AppDataManager.GamesDirPath,
+                            viewModel.SelectedApplication.IdString, "cache", "cpu", "1"));
+
+                        List<FileInfo> cacheFiles = [];
+
+                        if (mainDir.Exists)
+                        {
+                            cacheFiles.AddRange(mainDir.EnumerateFiles("*.cache"));
+                            cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
+                        }
+
+                        if (backupDir.Exists)
+                        {
+                            cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
+                            cacheFiles.AddRange(backupDir.EnumerateFiles("*.info"));
+                        }
+
+                        if (cacheFiles.Count > 0)
+                        {
+                            foreach (FileInfo file in cacheFiles)
+                            {
+                                try
+                                {
+                                    file.Delete();
+                                }
+                                catch (Exception ex)
+                                {
+                                    await ContentDialogHelper.CreateErrorDialog(
+                                        LocaleManager.Instance.UpdateAndGetDynamicValue(
+                                            LocaleKeys.DialogPPTCDeletionErrorMessage, file.Name, ex));
+                                }
+                            }
+                        }
+                    }
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> PurgeShaderCache { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    UserResult result = await ContentDialogHelper.CreateLocalizedConfirmationDialog(
+                        LocaleManager.Instance[LocaleKeys.DialogWarning],
+                        LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogShaderDeletionMessage,
+                            viewModel.SelectedApplication.Name)
+                    );
+
+                    if (result == UserResult.Yes)
+                    {
+                        DirectoryInfo shaderCacheDir = new(Path.Combine(AppDataManager.GamesDirPath,
+                            viewModel.SelectedApplication.IdString, "cache", "shader"));
+
+                        List<DirectoryInfo> oldCacheDirectories = [];
+                        List<FileInfo> newCacheFiles = [];
+
+                        if (shaderCacheDir.Exists)
+                        {
+                            oldCacheDirectories.AddRange(shaderCacheDir.EnumerateDirectories("*"));
+                            newCacheFiles.AddRange(shaderCacheDir.GetFiles("*.toc"));
+                            newCacheFiles.AddRange(shaderCacheDir.GetFiles("*.data"));
+                        }
+
+                        if ((oldCacheDirectories.Count > 0 || newCacheFiles.Count > 0))
+                        {
+                            foreach (DirectoryInfo directory in oldCacheDirectories)
+                            {
+                                try
+                                {
+                                    directory.Delete(true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    await ContentDialogHelper.CreateErrorDialog(
+                                        LocaleManager.Instance.UpdateAndGetDynamicValue(
+                                            LocaleKeys.DialogPPTCDeletionErrorMessage, directory.Name, ex));
+                                }
+                            }
+
+                            foreach (FileInfo file in newCacheFiles)
+                            {
+                                try
+                                {
+                                    file.Delete();
+                                }
+                                catch (Exception ex)
+                                {
+                                    await ContentDialogHelper.CreateErrorDialog(
+                                        LocaleManager.Instance.UpdateAndGetDynamicValue(
+                                            LocaleKeys.ShaderCachePurgeError, file.Name, ex));
+                                }
+                            }
+                        }
+                    }
+                });
+
+        public static RelayCommand<MainWindowViewModel> OpenPtcDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                {
+                    string ptcDir = Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString,
+                        "cache", "cpu");
+                    string mainDir = Path.Combine(ptcDir, "0");
+                    string backupDir = Path.Combine(ptcDir, "1");
+
+                    if (!Directory.Exists(ptcDir))
+                    {
+                        Directory.CreateDirectory(ptcDir);
+                        Directory.CreateDirectory(mainDir);
+                        Directory.CreateDirectory(backupDir);
+                    }
+
+                    OpenHelper.OpenFolder(ptcDir);
+                });
+
+        public static RelayCommand<MainWindowViewModel> OpenShaderCacheDirectory { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                viewModel =>
+                {
+                    string shaderCacheDir = Path.Combine(AppDataManager.GamesDirPath,
+                        viewModel.SelectedApplication.IdString.ToLower(), "cache", "shader");
+
+                    if (!Directory.Exists(shaderCacheDir))
+                    {
+                        Directory.CreateDirectory(shaderCacheDir);
+                    }
+
+                    OpenHelper.OpenFolder(shaderCacheDir);
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> ExtractApplicationExeFs { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    await ApplicationHelper.ExtractSection(
+                        viewModel.StorageProvider,
+                        NcaSectionType.Code,
+                        viewModel.SelectedApplication.Path,
+                        viewModel.SelectedApplication.Name);
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> ExtractApplicationRomFs { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    await ApplicationHelper.ExtractSection(
+                        viewModel.StorageProvider,
+                        NcaSectionType.Data,
+                        viewModel.SelectedApplication.Path,
+                        viewModel.SelectedApplication.Name);
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> ExtractApplicationAocRomFs { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    DownloadableContentModel selectedDlc = await DlcSelectView.Show(viewModel.SelectedApplication.Id,
+                        viewModel.ApplicationLibrary);
+
+                    if (selectedDlc is not null)
+                    {
+                        await ApplicationHelper.ExtractAoc(
+                            viewModel.StorageProvider,
+                            selectedDlc.ContainerPath,
+                            selectedDlc.FileName);
+                    }
+                });
+
+        public static AsyncRelayCommand<MainWindowViewModel> ExtractApplicationLogo { get; } =
+            Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
+                async viewModel =>
+                {
+                    IReadOnlyList<IStorageFolder> result = await viewModel.StorageProvider.OpenFolderPickerAsync(
+                        new FolderPickerOpenOptions
+                        {
+                            Title = LocaleManager.Instance[LocaleKeys.FolderDialogExtractTitle],
+                            AllowMultiple = false,
+                        });
+
+                    if (result.Count == 0)
+                        return;
+
+                    ApplicationHelper.ExtractSection(
+                        result[0].Path.LocalPath,
+                        NcaSectionType.Logo,
+                        viewModel.SelectedApplication.Path,
+                        viewModel.SelectedApplication.Name);
+
+                    IStorageFile iconFile =
+                        await result[0].CreateFileAsync($"{viewModel.SelectedApplication.IdString}.png");
+                    await using Stream fileStream = await iconFile.OpenWriteAsync();
+
+                    using SKBitmap bitmap = SKBitmap.Decode(viewModel.SelectedApplication.Icon)
+                        .Resize(new SKSizeI(512, 512), SKFilterQuality.High);
+
+                    using SKData png = bitmap.Encode(SKEncodedImageFormat.Png, 100);
+
+                    png.SaveTo(fileStream);
+                });
 
         #endregion
     }

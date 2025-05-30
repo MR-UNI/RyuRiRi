@@ -85,10 +85,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(file);
             }
+
             if (source != null)
             {
                 result.AddOperand(source);
             }
+
             AddDebug(result);
 
             return result;
@@ -414,6 +416,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(accessQualifier);
             }
+
             AddTypeDeclaration(result, forceIdAllocation);
 
             return result;
@@ -696,6 +699,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(initializer);
             }
+
             return result;
         }
 
@@ -720,6 +724,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -735,6 +740,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -750,10 +756,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess0);
             }
+
             if (memoryAccess1 != (MemoryAccessMask)int.MaxValue)
             {
                 result.AddOperand(memoryAccess1);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -770,10 +778,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess0);
             }
+
             if (memoryAccess1 != (MemoryAccessMask)int.MaxValue)
             {
                 result.AddOperand(memoryAccess1);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -984,10 +994,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1004,6 +1016,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1020,10 +1033,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1041,6 +1056,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1056,10 +1072,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1076,6 +1094,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1092,10 +1111,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1113,6 +1134,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1128,10 +1150,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1148,10 +1172,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1168,10 +1194,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1187,10 +1215,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1207,10 +1237,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1308,10 +1340,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1328,6 +1362,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1344,10 +1379,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1365,6 +1402,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1380,10 +1418,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1400,6 +1440,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1416,10 +1457,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1437,6 +1480,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1452,10 +1496,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1472,10 +1518,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1492,10 +1540,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1521,10 +1571,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -1542,10 +1594,12 @@ namespace Spv.Generator
             {
                 result.AddOperand(imageOperands);
             }
+
             if (imageOperands != (ImageOperandsMask)int.MaxValue)
             {
                 result.AddOperand(imageOperandIds);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4302,6 +4356,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4318,6 +4373,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4334,6 +4390,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4350,6 +4407,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4366,6 +4424,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4382,6 +4441,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4398,6 +4458,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4414,6 +4475,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4430,6 +4492,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4446,6 +4509,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4462,6 +4526,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4478,6 +4543,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4494,6 +4560,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4510,6 +4577,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4526,6 +4594,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4542,6 +4611,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(clusterSize);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4877,6 +4947,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -4894,6 +4965,7 @@ namespace Spv.Generator
             {
                 result.AddOperand(memoryAccess);
             }
+
             AddToFunctionDefinitions(result);
 
             return result;
@@ -5311,6 +5383,5 @@ namespace Spv.Generator
 
             return result;
         }
-
     }
 }

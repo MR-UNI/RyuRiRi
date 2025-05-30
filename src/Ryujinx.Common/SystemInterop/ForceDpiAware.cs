@@ -57,7 +57,7 @@ namespace Ryujinx.Common.SystemInterop
                 {
                     string xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE")?.ToLower();
 
-                    if (xdgSessionType == null || xdgSessionType == "x11")
+                    if (xdgSessionType is null or "x11")
                     {
                         nint display = XOpenDisplay(null);
                         string dpiString = Marshal.PtrToStringAnsi(XGetDefault(display, "Xft", "dpi"));
@@ -65,6 +65,7 @@ namespace Ryujinx.Common.SystemInterop
                         {
                             userDpiScale = XDisplayWidth(display, 0) * 25.4 / XDisplayWidthMM(display, 0);
                         }
+
                         _ = XCloseDisplay(display);
                     }
                     else if (xdgSessionType == "wayland")

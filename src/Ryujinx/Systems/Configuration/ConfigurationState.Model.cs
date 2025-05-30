@@ -256,7 +256,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// Enables printing FS access log messages
             /// </summary>
             public ReactiveObject<bool> EnableFsAccessLog { get; private set; }
-            
+
             /// <summary>
             /// Enables log messages from Avalonia
             /// </summary>
@@ -320,7 +320,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// System Time Offset in Seconds
             /// </summary>
             public ReactiveObject<long> SystemTimeOffset { get; private set; }
-            
+
             /// <summary>
             /// Instead of setting the time via configuration, use the values provided by the system.
             /// </summary>
@@ -335,7 +335,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// Enables or disables persistent profiled translation cache
             /// </summary>
             public ReactiveObject<bool> EnablePtc { get; private set; }
-            
+
             /// <summary>
             /// Clock tick scalar, in percent points (100 = 1.0).
             /// </summary>
@@ -389,7 +389,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// Enable or disable ignoring missing services
             /// </summary>
             public ReactiveObject<bool> IgnoreMissingServices { get; private set; }
-            
+
             /// <summary>
             ///  Ignore Controller Applet
             /// </summary>
@@ -423,7 +423,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                 EnablePtc.LogChangesToValue(nameof(EnablePtc));
                 EnableLowPowerPtc = new ReactiveObject<bool>();
                 EnableLowPowerPtc.LogChangesToValue(nameof(EnableLowPowerPtc));
-                EnableLowPowerPtc.Event += (_, evnt) 
+                EnableLowPowerPtc.Event += (_, evnt)
                     => Optimizations.LowPower = evnt.NewValue;
                 TickScalar = new ReactiveObject<long>();
                 TickScalar.LogChangesToValue(nameof(TickScalar));
@@ -473,7 +473,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// Enable or disable mouse support (Independent from controllers binding)
             /// </summary>
             public ReactiveObject<bool> EnableMouse { get; private set; }
-            
+
             /// <summary>
             /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
             /// </summary>
@@ -490,7 +490,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// TODO: Implement a ReactiveList class.
             /// </summary>
             public ReactiveObject<List<InputConfig>> InputConfig { get; private set; }
-            
+
             /// <summary>
             /// The speed of spectrum cycling for the Rainbow LED feature.
             /// </summary>
@@ -676,8 +676,8 @@ namespace Ryujinx.Ava.Systems.Configuration
             public string GetLdnServer()
             {
                 string ldnServer = LdnServer;
-                return string.IsNullOrEmpty(ldnServer) 
-                    ? SharedConstants.DefaultLanPlayHost 
+                return string.IsNullOrEmpty(ldnServer)
+                    ? SharedConstants.DefaultLanPlayHost
                     : ldnServer;
             }
 
@@ -701,9 +701,9 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// Show toggles for dirty hacks in the UI.
             /// </summary>
             public ReactiveObject<bool> ShowDirtyHacks { get; private set; }
-            
+
             public ReactiveObject<bool> Xc2MenuSoftlockFix { get; private set; }
-            
+
             public ReactiveObject<bool> DisableNifmIsAnyInternetRequestAccepted { get; private set; }
 
             public HacksSection()
@@ -717,15 +717,15 @@ namespace Ryujinx.Ava.Systems.Configuration
 
             private void HackChanged(object sender, ReactiveEventArgs<bool> rxe)
             {
-                if (!ShowDirtyHacks) 
+                if (!ShowDirtyHacks)
                     return;
-                
+
                 string newHacks = EnabledHacks.Select(x => x.Hack)
                     .JoinToString(", ");
 
                 if (newHacks != _lastHackCollection)
                 {
-                    RyuLogger.Info?.Print(LogClass.Configuration, 
+                    RyuLogger.Info?.Print(LogClass.Configuration,
                         $"EnabledDirtyHacks set to: [{newHacks}]", "LogValueChange");
 
                     _lastHackCollection = newHacks;
@@ -739,13 +739,13 @@ namespace Ryujinx.Ava.Systems.Configuration
                 get
                 {
                     List<EnabledDirtyHack> enabledHacks = [];
-                    
+
                     if (Xc2MenuSoftlockFix)
                         Apply(DirtyHack.Xc2MenuSoftlockFix);
-                    
+
                     if (DisableNifmIsAnyInternetRequestAccepted)
                         Apply(DirtyHack.NifmServiceDisableIsAnyInternetRequestAccepted);
-                    
+
                     return enabledHacks.ToArray();
 
                     void Apply(DirtyHack hack, int value = 0)
@@ -790,7 +790,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// The Multiplayer section
         /// </summary>
         public MultiplayerSection Multiplayer { get; private set; }
-        
+
         /// <summary>
         ///     The Dirty Hacks section
         /// </summary>
@@ -800,12 +800,12 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Enables or disables Discord Rich Presence
         /// </summary>
         public ReactiveObject<bool> EnableDiscordIntegration { get; private set; }
-        
+
         /// <summary>
         /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
         /// </summary>
         public ReactiveObject<UpdaterType> UpdateCheckerType { get; private set; }
-        
+
         /// <summary>
         /// How the emulator should behave when you click off/on the window.
         /// </summary>
@@ -865,8 +865,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                 System.EnablePtc,
                 System.TickScalar,
                 System.EnableInternetAccess,
-                System.EnableFsIntegrityChecks 
-                    ? IntegrityCheckLevel.ErrorOnInvalid 
+                System.EnableFsIntegrityChecks
+                    ? IntegrityCheckLevel.ErrorOnInvalid
                     : IntegrityCheckLevel.None,
                 System.FsGlobalAccessLogMode,
                 System.MatchSystemTime

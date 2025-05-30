@@ -1,4 +1,4 @@
-﻿using MsgPack;
+using MsgPack;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System.Collections.Generic;
 
@@ -10,12 +10,12 @@ namespace Ryujinx.Ava.Systems.PlayReport
         {
             Matched = matched;
         }
-        
+
         /// <summary>
         /// The currently running application's <see cref="ApplicationMetadata"/>.
         /// </summary>
         public ApplicationMetadata Application { get; init; }
-        
+
         /// <summary>
         /// The entire play report.
         /// </summary>
@@ -26,7 +26,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
         /// </summary>
         public T Matched { get; init; }
     }
-    
+
     /// <summary>
     /// The input data to a <see cref="SingleValueFormatter"/>,
     /// containing the currently running application's <see cref="ApplicationMetadata"/>,
@@ -65,7 +65,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
         public SparseMultiValue(Dictionary<string, Value> matched) : base(matched)
         {
         }
-        
+
         public SparseMultiValue(Dictionary<string, MessagePackObject> matched) : base(Value.ConvertPackedObjectMap(matched))
         {
         }

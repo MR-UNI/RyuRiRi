@@ -24,7 +24,7 @@ namespace ARMeilleure.Instructions
             {
                 uint src = (uint)idx + 256u;
 
-                Debug.Assert(256u <= src && src < 512u);
+                Debug.Assert(src is >= 256u and < 512u);
 
                 src = (src << 1) + 1u;
 
@@ -32,7 +32,7 @@ namespace ARMeilleure.Instructions
 
                 uint dst = (aux + 1u) >> 1;
 
-                Debug.Assert(256u <= dst && dst < 512u);
+                Debug.Assert(dst is >= 256u and < 512u);
 
                 tbl[idx] = (byte)(dst - 256u);
             }
@@ -48,7 +48,7 @@ namespace ARMeilleure.Instructions
             {
                 uint src = (uint)idx + 128u;
 
-                Debug.Assert(128u <= src && src < 512u);
+                Debug.Assert(src is >= 128u and < 512u);
 
                 if (src < 256u)
                 {
@@ -69,7 +69,7 @@ namespace ARMeilleure.Instructions
 
                 uint dst = (aux + 1u) >> 1;
 
-                Debug.Assert(256u <= dst && dst < 512u);
+                Debug.Assert(dst is >= 256u and < 512u);
 
                 tbl[idx] = (byte)(dst - 256u);
             }
@@ -322,7 +322,7 @@ namespace ARMeilleure.Instructions
 
             float result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 if ((context.Fpcr & FPCR.Dn) != 0)
                 {
@@ -498,7 +498,7 @@ namespace ARMeilleure.Instructions
 
             double result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 if ((context.Fpcr & FPCR.Dn) != 0)
                 {
@@ -676,7 +676,7 @@ namespace ARMeilleure.Instructions
 
             ushort resultBits;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 if (altHp)
                 {
@@ -1086,7 +1086,7 @@ namespace ARMeilleure.Instructions
         {
             return FPMaxFpscrImpl(value1, value2, standardFpscr == 1);
         }
-        
+
         private static float FPMaxFpscrImpl(float value1, float value2, bool standardFpscr)
         {
             ExecutionContext context = NativeInterface.GetContext();
@@ -1522,7 +1522,7 @@ namespace ARMeilleure.Instructions
 
             float result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -1689,7 +1689,7 @@ namespace ARMeilleure.Instructions
 
             float result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -1726,7 +1726,7 @@ namespace ARMeilleure.Instructions
 
             float result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -1920,7 +1920,7 @@ namespace ARMeilleure.Instructions
 
             float result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -2211,7 +2211,7 @@ namespace ARMeilleure.Instructions
 
             ushort resultBits;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 if (altHp)
                 {
@@ -3057,7 +3057,7 @@ namespace ARMeilleure.Instructions
 
             double result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -3224,7 +3224,7 @@ namespace ARMeilleure.Instructions
 
             double result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -3261,7 +3261,7 @@ namespace ARMeilleure.Instructions
 
             double result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }
@@ -3455,7 +3455,7 @@ namespace ARMeilleure.Instructions
 
             double result;
 
-            if (type == FPType.SNaN || type == FPType.QNaN)
+            if (type is FPType.SNaN or FPType.QNaN)
             {
                 result = FPProcessNaN(type, op, context, fpcr);
             }

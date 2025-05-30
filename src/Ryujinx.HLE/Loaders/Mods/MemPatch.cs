@@ -76,7 +76,7 @@ namespace Ryujinx.HLE.Loaders.Mods
                     Logger.Warning?.Print(LogClass.ModLoader, $"Attempted to patch protected memory ({patchOffset:x} is within protected boundary of {protectedOffset:x}).");
                     continue;
                 }
-                
+
                 if (patchOffset > memory.Length)
                 {
                     Logger.Warning?.Print(LogClass.ModLoader, $"Attempted to patch out of bounds memory (offset {patchOffset} ({patchOffset:x}) exceeds memory buffer length {memory.Length}).");

@@ -56,6 +56,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
                         Logger.Warning?.Print(LogClass.Application, $"The command line specified profile named '{initialProfileName}' was not found");
                     }
                 }
+
                 OpenUser(commandLineUserProfileOverride.IsNull ? _accountSaveDataManager.LastOpened : commandLineUserProfileOverride);
             }
         }

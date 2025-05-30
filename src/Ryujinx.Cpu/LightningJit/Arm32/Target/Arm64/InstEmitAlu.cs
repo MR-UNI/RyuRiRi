@@ -736,6 +736,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                         {
                             m = GetRrxC(context, dest, m, carryOut);
                         }
+
                         break;
                 }
             }

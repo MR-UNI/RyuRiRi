@@ -110,6 +110,7 @@ namespace ARMeilleure.Instructions
                             EmitStoreSimd(context, address, d >> 1, index, op.Size);
                         }
                     }
+
                     offset += eBytes;
                     d += op.Increment;
                 }

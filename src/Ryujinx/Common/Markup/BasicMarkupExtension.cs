@@ -1,4 +1,4 @@
-﻿using Avalonia.Data.Core;
+using Avalonia.Data.Core;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
@@ -27,7 +27,7 @@ namespace Ryujinx.Ava.Common.Markup
                 Setter as Action<object, object?>,
                 typeof(T));
 
-        public override object ProvideValue(IServiceProvider serviceProvider) 
+        public override object ProvideValue(IServiceProvider serviceProvider)
             => new CompiledBindingExtension(
                     new CompiledBindingPathBuilder()
                         .Property(PropertyInfo, PropertyInfoAccessorFactory.CreateInpcPropertyAccessor)

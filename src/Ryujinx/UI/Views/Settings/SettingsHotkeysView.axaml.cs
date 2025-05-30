@@ -10,8 +10,8 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -20,7 +20,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
     public partial class SettingsHotkeysView : RyujinxControl<SettingsViewModel>
     {
         private ButtonKeyAssigner _currentAssigner;
-        private readonly IGamepadDriver _avaloniaKeyboardDriver;
+        private readonly AvaloniaKeyboardDriver _avaloniaKeyboardDriver;
 
         public SettingsHotkeysView()
         {
@@ -56,7 +56,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
             {
                 DeleteBind();
             }
-          
+
             _currentAssigner?.Cancel(shouldUnbind);
 
             PointerPressed -= MouseClick;
@@ -69,7 +69,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
 
             if (_currentAssigner != null)
             {
-                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                Dictionary<string, Action> buttonActions = new()
                 {
                     { "ToggleVSyncMode", () => viewModel.KeyboardHotkey.ToggleVSyncMode = Key.Unbound },
                     { "Screenshot", () => viewModel.KeyboardHotkey.Screenshot = Key.Unbound },

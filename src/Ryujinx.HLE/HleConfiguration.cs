@@ -102,7 +102,7 @@ namespace Ryujinx.HLE
         /// Control if the Profiled Translation Cache (PTC) should be used.
         /// </summary>
         internal readonly bool EnablePtc;
-        
+
         /// <summary>
         /// Control the arbitrary scalar applied to emulated CPU tick timing.
         /// </summary>
@@ -193,7 +193,7 @@ namespace Ryujinx.HLE
         /// An action called when HLE force a refresh of output after docked mode changed.
         /// </summary>
         public Action RefreshInputConfig { internal get; set; }
-        
+
         /// <summary>
         ///     The desired hacky workarounds.
         /// </summary>

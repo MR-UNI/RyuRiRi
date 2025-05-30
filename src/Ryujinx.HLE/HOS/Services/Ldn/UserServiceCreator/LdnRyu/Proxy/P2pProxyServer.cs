@@ -156,7 +156,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
             if (_publicPort != 0)
             {
                 _ = Executor.ExecuteAfterDelayAsync(
-                    PortLeaseRenew.Seconds(), 
+                    PortLeaseRenew.Seconds(),
                     _disposedCancellation.Token,
                     RefreshLease);
             }

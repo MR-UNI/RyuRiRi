@@ -64,6 +64,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             return null;
         }
 
@@ -112,6 +113,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             newNode.Parent = parent;
             if (parent == null)
             {
@@ -125,6 +127,7 @@ namespace Ryujinx.Common.Collections
             {
                 parent.Right = newNode;
             }
+
             Count++;
             return newNode;
         }
@@ -274,6 +277,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             return null;
         }
     }

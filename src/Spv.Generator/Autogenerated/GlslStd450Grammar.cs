@@ -434,6 +434,5 @@ namespace Spv.Generator
         {
             return ExtInst(resultType, AddExtInstImport("GLSL.std.450"), 81, x, minVal, maxVal);
         }
-
     }
 }

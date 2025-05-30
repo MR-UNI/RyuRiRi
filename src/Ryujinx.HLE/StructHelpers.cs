@@ -1,4 +1,4 @@
-﻿using LibHac.Common;
+using LibHac.Common;
 using LibHac.Ns;
 using System;
 using System.Text;
@@ -11,13 +11,13 @@ namespace Ryujinx.HLE
         {
             // https://switchbrew.org/wiki/NACP
             const int OffsetOfDisplayVersion = 0x3060;
-            
+
             // https://switchbrew.org/wiki/NACP#ApplicationTitle
             const int TotalApplicationTitles = 0x10;
             const int SizeOfApplicationTitle = 0x300;
             const int OffsetOfApplicationPublisherStrings = 0x200;
-            
-            
+
+
             BlitStruct<ApplicationControlProperty> nacpData = new(1);
 
             // name and publisher buffer
@@ -27,7 +27,7 @@ namespace Ryujinx.HLE
                 Encoding.ASCII.GetBytes(name).AsSpan().CopyTo(nacpData.ByteSpan[(i * SizeOfApplicationTitle)..]);
                 "Ryujinx"u8.CopyTo(nacpData.ByteSpan[(i * SizeOfApplicationTitle + OffsetOfApplicationPublisherStrings)..]);
             }
-            
+
             // version buffer
             Encoding.ASCII.GetBytes(version).AsSpan().CopyTo(nacpData.ByteSpan[OffsetOfDisplayVersion..]);
 

@@ -392,7 +392,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
                     if (perPatch)
                     {
-                        if (attr >= AttributeConsts.UserAttributePerPatchBase && attr < AttributeConsts.UserAttributePerPatchEnd)
+                        if (attr is >= AttributeConsts.UserAttributePerPatchBase and < AttributeConsts.UserAttributePerPatchEnd)
                         {
                             int userAttr = attr - AttributeConsts.UserAttributePerPatchBase;
                             int index = userAttr / 16;
@@ -407,7 +407,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
                             }
                         }
                     }
-                    else if (attr >= AttributeConsts.UserAttributeBase && attr < AttributeConsts.UserAttributeEnd)
+                    else if (attr is >= AttributeConsts.UserAttributeBase and < AttributeConsts.UserAttributeEnd)
                     {
                         int userAttr = attr - AttributeConsts.UserAttributeBase;
                         int index = userAttr / 16;
@@ -436,16 +436,18 @@ namespace Ryujinx.Graphics.Shader.Decoders
                             switch (attr)
                             {
                                 case AttributeConsts.Layer:
-                                    if (definitions.Stage != ShaderStage.Compute && definitions.Stage != ShaderStage.Fragment)
+                                    if (definitions.Stage is not ShaderStage.Compute and not ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.RtLayer);
                                     }
+
                                     break;
                                 case AttributeConsts.ViewportIndex:
                                     if (definitions.Stage != ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.ViewportIndex);
                                     }
+
                                     break;
                                 case AttributeConsts.ClipDistance0:
                                 case AttributeConsts.ClipDistance1:
@@ -459,12 +461,14 @@ namespace Ryujinx.Graphics.Shader.Decoders
                                     {
                                         context.SetClipDistanceWritten((attr - AttributeConsts.ClipDistance0) / 4);
                                     }
+
                                     break;
                                 case AttributeConsts.ViewportMask:
                                     if (definitions.Stage != ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.ViewportMask);
                                     }
+
                                     break;
                             }
                         }
@@ -478,12 +482,14 @@ namespace Ryujinx.Graphics.Shader.Decoders
                                     {
                                         context.SetUsedFeature(FeatureFlags.FragCoordXY);
                                     }
+
                                     break;
                                 case AttributeConsts.InstanceId:
                                     if (definitions.Stage == ShaderStage.Vertex)
                                     {
                                         context.SetUsedFeature(FeatureFlags.InstanceId);
                                     }
+
                                     break;
                             }
                         }
@@ -879,7 +885,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
         public static bool IsPopBranch(InstName name)
         {
-            return name == InstName.Brk || name == InstName.Cont || name == InstName.Sync;
+            return name is InstName.Brk or InstName.Cont or InstName.Sync;
         }
 
         private static MergeType GetMergeTypeFromPush(InstName name)

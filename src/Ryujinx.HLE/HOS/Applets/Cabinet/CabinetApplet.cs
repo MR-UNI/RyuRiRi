@@ -1,8 +1,8 @@
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Services.Am.AppletAE;
-using Ryujinx.HLE.HOS.Services.Hid.HidServer;
 using Ryujinx.HLE.HOS.Services.Hid;
+using Ryujinx.HLE.HOS.Services.Hid.HidServer;
 using Ryujinx.HLE.HOS.Services.Nfc.Nfp;
 using Ryujinx.HLE.HOS.Services.Nfc.Nfp.NfpManager;
 using System;
@@ -75,7 +75,7 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
             return ResultCode.Success;
         }
 
-        private void StartFormatter(ref StartParamForAmiiboSettings startParam)
+        private static void StartFormatter(ref StartParamForAmiiboSettings startParam)
         {
             // Initialize RegisterInfo
             startParam.RegisterInfo = new RegisterInfo();
@@ -109,6 +109,7 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
                     }
                 }
             }
+
             VirtualAmiibo.UpdateNickName(amiiboId, newName);
         }
 
@@ -154,9 +155,9 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
         public unsafe struct ReturnValueForAmiiboSettings
         {
             public byte AmiiboSettingsReturnFlag;
-            private byte Padding1;
-            private byte Padding2;
-            private byte Padding3;
+            private readonly byte Padding1;
+            private readonly byte Padding2;
+            private readonly byte Padding3;
             public DeviceHandle DeviceHandle;
             public TagInfo TagInfo;
             public RegisterInfo RegisterInfo;

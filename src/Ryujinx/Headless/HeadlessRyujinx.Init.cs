@@ -52,7 +52,7 @@ namespace Ryujinx.Headless
             // Logging system information.
             Program.PrintSystemInfo();
         }
-        
+
         private static InputConfig HandlePlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
         {
             if (inputId == null)
@@ -280,7 +280,7 @@ namespace Ryujinx.Headless
 
             return config;
         }
-        
+
         private static IRenderer CreateRenderer(Options options, WindowBase window)
         {
             if (options.GraphicsBackend == GraphicsBackend.Vulkan && window is VulkanWindow vulkanWindow)
@@ -295,7 +295,7 @@ namespace Ryujinx.Headless
 
                     foreach (DeviceInfo device in devices)
                     {
-                        if (device.Vendor.ToLowerInvariant() == preferredGpuVendor)
+                        if (device.Vendor.Equals(preferredGpuVendor, StringComparison.OrdinalIgnoreCase))
                         {
                             preferredGpuId = device.Id;
                             break;
@@ -312,7 +312,7 @@ namespace Ryujinx.Headless
 
             return new OpenGLRenderer();
         }
-        
+
         private static Switch InitializeEmulationContext(WindowBase window, IRenderer renderer, Options options) =>
             new(
                 new HleConfiguration(

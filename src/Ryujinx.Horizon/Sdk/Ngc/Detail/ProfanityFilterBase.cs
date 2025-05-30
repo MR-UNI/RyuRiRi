@@ -8,7 +8,6 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 {
     abstract class ProfanityFilterBase
     {
-#pragma warning disable IDE0230 // Use UTF-8 string literal
         private static readonly byte[][] _wordSeparators =
         [
             [0x0D],
@@ -92,7 +91,6 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
             [0xEF, 0xBC, 0x8D],
             [0xEF, 0xBC, 0xBD]
         ];
-#pragma warning restore IDE0230
 
         private enum SignFilterStep
         {
@@ -115,7 +113,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 {
                     break;
                 }
-                else if (word[index] == '@' || word[index] == '\uFF20')
+                else if (word[index] is '@' or '\uFF20')
                 {
                     return true;
                 }
@@ -142,6 +140,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                             step = SignFilterStep.DetectEmailUserAtSign;
                             matchStart = index;
                         }
+
                         break;
                     case SignFilterStep.DetectEmailUserAtSign:
                         bool hasMatch = false;
@@ -205,6 +204,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                         {
                             index = domainIndex - 1;
                         }
+
                         break;
                 }
             }
@@ -232,7 +232,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                     text[startOffset] = 0xc1;
                     text[startOffset + 1] = 0xc1;
                 }
-                else if (maskMode == MaskMode.Overwrite || maskMode == MaskMode.ReplaceByOneCharacter)
+                else if (maskMode is MaskMode.Overwrite or MaskMode.ReplaceByOneCharacter)
                 {
                     text[startOffset] = 0xc0;
                     text[startOffset + 1] = 0xc0;
@@ -312,7 +312,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 }
                 else if ((character & 0x80) != 0)
                 {
-                    if (character >= 0xc2 && character < 0xe0)
+                    if (character is >= 0xc2 and < 0xe0)
                     {
                         characterByteLength = 2;
                     }
@@ -621,7 +621,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 
                     if ((character & 0x80) != 0)
                     {
-                        if (character >= 0xc2 && character < 0xe0)
+                        if (character is >= 0xc2 and < 0xe0)
                         {
                             characterByteLength = 2;
                         }
@@ -751,7 +751,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 
                 if ((character & 0x80) != 0 || character == 0)
                 {
-                    if (character >= 0xc2 && character < 0xe0)
+                    if (character is >= 0xc2 and < 0xe0)
                     {
                         characterByteLength = 2;
                     }

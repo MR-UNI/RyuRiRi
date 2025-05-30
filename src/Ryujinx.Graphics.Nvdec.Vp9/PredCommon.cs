@@ -1,4 +1,4 @@
-﻿using Ryujinx.Graphics.Nvdec.Vp9.Types;
+using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System.Diagnostics;
 
 namespace Ryujinx.Graphics.Nvdec.Vp9
@@ -61,7 +61,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 ctx = 1;
             }
 
-            Debug.Assert(ctx >= 0 && ctx < Constants.CompInterContexts);
+            Debug.Assert(ctx is >= 0 and < Constants.CompInterContexts);
             return ctx;
         }
 
@@ -186,7 +186,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 predContext = 2;
             }
 
-            Debug.Assert(predContext >= 0 && predContext < Constants.RefContexts);
+            Debug.Assert(predContext is >= 0 and < Constants.RefContexts);
             return predContext;
         }
 
@@ -294,7 +294,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 predContext = 2;
             }
 
-            Debug.Assert(predContext >= 0 && predContext < Constants.RefContexts);
+            Debug.Assert(predContext is >= 0 and < Constants.RefContexts);
             return predContext;
         }
 
@@ -430,7 +430,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 predContext = 2;
             }
 
-            Debug.Assert(predContext >= 0 && predContext < Constants.RefContexts);
+            Debug.Assert(predContext is >= 0 and < Constants.RefContexts);
             return predContext;
         }
     }

@@ -1,5 +1,6 @@
 using ARMeilleure.State;
 using Humanizer;
+using Microsoft.IO;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
@@ -26,7 +27,7 @@ namespace ARMeilleure.Translation.PTC
 
         private const uint InternalVersion = 7007; //! Not to be incremented manually for each change to the ARMeilleure project.
 
-        private static readonly uint[] _migrateInternalVersions = 
+        private static readonly uint[] _migrateInternalVersions =
         [
             1866,
             5518,
@@ -75,7 +76,7 @@ namespace ARMeilleure.Translation.PTC
             Enabled = false;
         }
 
-        private void TimerElapsed(object _, ElapsedEventArgs __) 
+        private void TimerElapsed(object _, ElapsedEventArgs __)
             => new Thread(PreSave) { Name = "Ptc.DiskWriter" }.Start();
 
         public void AddEntry(ulong address, ExecutionMode mode, bool highCq, bool blacklist = false)
@@ -151,7 +152,7 @@ namespace ARMeilleure.Translation.PTC
                 if (!funcProfile.Blacklist)
                     continue;
 
-                if (!funcs.Contains(ptr)) 
+                if (!funcs.Contains(ptr))
                     funcs.Add(ptr);
             }
 
@@ -219,7 +220,7 @@ namespace ARMeilleure.Translation.PTC
                     return false;
                 }
 
-                using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+                using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
                 Debug.Assert(stream.Seek(0L, SeekOrigin.Begin) == 0L && stream.Length == 0L);
 
                 try
@@ -293,10 +294,10 @@ namespace ARMeilleure.Translation.PTC
         {
             if (migrateEntryFunc != null)
             {
-                return DeserializeAndUpdateDictionary(stream, (Stream stream) => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); }, migrateEntryFunc);
+                return DeserializeAndUpdateDictionary(stream, stream => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); }, migrateEntryFunc);
             }
 
-            return DeserializeDictionary<ulong, FuncProfile>(stream, (Stream stream) => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); });
+            return DeserializeDictionary<ulong, FuncProfile>(stream, stream => { return new FuncProfile(DeserializeStructure<FuncProfilePreBlacklist>(stream)); });
         }
 
         private static ReadOnlySpan<byte> GetReadOnlySpan(MemoryStream memoryStream)
@@ -467,8 +468,8 @@ namespace ARMeilleure.Translation.PTC
 
         public void Start()
         {
-            if (_ptc.State == PtcState.Enabled ||
-                _ptc.State == PtcState.Continuing)
+            if (_ptc.State is PtcState.Enabled or
+                PtcState.Continuing)
             {
                 Enabled = true;
 

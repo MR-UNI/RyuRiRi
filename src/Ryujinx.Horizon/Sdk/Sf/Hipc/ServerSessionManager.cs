@@ -206,6 +206,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                     {
                         return MemoryMarshal.Cast<byte, int>(inMessage)[3];
                     }
+
                     break;
             }
 

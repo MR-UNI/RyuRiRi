@@ -170,8 +170,6 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 int vbStride = vertexBuffer.UnpackStride();
                 ulong vbSize = GetVertexBufferSize(address, endAddress.Pack(), vbStride, _indexed, instanced, _firstVertex, _count);
 
-                ulong oldVbSize = vbSize;
-
                 ulong attributeOffset = (ulong)vertexAttrib.UnpackOffset();
                 int componentSize = format.GetScalarSize();
 
@@ -477,7 +475,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         private readonly ulong GetVertexBufferSize(ulong vbAddress, ulong vbEndAddress, int vbStride, bool indexed, bool instanced, int firstVertex, int vertexCount)
         {
             IndexType indexType = _state.State.IndexBufferState.Type;
-            bool indexTypeSmall = indexType == IndexType.UByte || indexType == IndexType.UShort;
+            bool indexTypeSmall = indexType is IndexType.UByte or IndexType.UShort;
             ulong vbSize = vbEndAddress - vbAddress + 1;
             ulong size;
 

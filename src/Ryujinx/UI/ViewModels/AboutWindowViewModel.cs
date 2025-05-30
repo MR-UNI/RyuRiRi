@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private Bitmap _discordLogo;
         [ObservableProperty] private string _version;
 
-        public string Developers => "GreemDev";
+        public string Developers => "GreemDev, LotP";
 
         public string FormerDevelopers => LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.AboutPageDeveloperListMore, "gdkchan, Ac_K, marysaka, rip in peri peri, LDj3SNuD, emmaus, Thealexbarney, GoffyDude, TSRBerry, IsaacMarovitz");
 
@@ -23,8 +23,6 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             Version = RyujinxApp.FullAppName + "\n" + Program.Version;
             UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value);
-
-            GitLabLogo = LoadBitmap("resm:Ryujinx.Assets.UIImages.Logo_GitLab.png?assembly=Ryujinx");
 
             RyujinxApp.ThemeChanged += Ryujinx_ThemeChanged;
         }
@@ -39,10 +37,11 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void UpdateLogoTheme(string theme)
         {
             bool isDarkTheme = theme == "Dark" || (theme == "Auto" && RyujinxApp.DetectSystemTheme() == ThemeVariant.Dark);
-            
+
             string themeName = isDarkTheme ? "Dark" : "Light";
-            
+
             DiscordLogo = LoadBitmap(LogoPathFormat.Format("Discord", themeName));
+            GitLabLogo = LoadBitmap(LogoPathFormat.Format("GitLab", themeName));
         }
 
         private static Bitmap LoadBitmap(string uri) => new(Avalonia.Platform.AssetLoader.Open(new Uri(uri)));
@@ -50,10 +49,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void Dispose()
         {
             RyujinxApp.ThemeChanged -= Ryujinx_ThemeChanged;
-            
+
             GitLabLogo.Dispose();
             DiscordLogo.Dispose();
-            
+
             GC.SuppressFinalize(this);
         }
     }

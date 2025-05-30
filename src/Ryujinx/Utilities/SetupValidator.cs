@@ -31,7 +31,7 @@ namespace Ryujinx.Ava.Utilities
                 firmwareVersion = null;
             }
 
-            return error == UserError.NoFirmware && Path.GetExtension(baseApplicationPath).ToLowerInvariant() == ".xci" && firmwareVersion != null;
+            return error == UserError.NoFirmware && Path.GetExtension(baseApplicationPath).Equals(".xci", StringComparison.OrdinalIgnoreCase) && firmwareVersion != null;
         }
 
         public static bool TryFixStartApplication(ContentManager contentManager, string baseApplicationPath, UserError error, out UserError outError)
@@ -94,7 +94,7 @@ namespace Ryujinx.Ava.Utilities
                     error = UserError.Success;
                     return true;
                 }
-                
+
                 return IsFirmwareValid(contentManager, out error);
             }
 

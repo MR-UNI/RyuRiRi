@@ -195,7 +195,7 @@ namespace Ryujinx.Input.SDL2
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int ToSDL2Scancode(Key key)
         {
-            if (key >= Key.Unknown && key <= Key.Menu)
+            if (key is >= Key.Unknown and <= Key.Menu)
             {
                 return -1;
             }

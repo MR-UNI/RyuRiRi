@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -7,10 +7,10 @@ namespace Ryujinx.Common.Helper
     public class RefEvent<T>
     {
         public delegate void Handler(ref T arg);
-        
+
         private readonly Lock _subLock = new();
         private readonly List<Handler> _subscriptions = [];
-    
+
         public bool HasSubscribers
         {
             get

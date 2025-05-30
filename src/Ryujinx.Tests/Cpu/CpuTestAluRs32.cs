@@ -35,7 +35,6 @@ namespace Ryujinx.Tests.Cpu
         }
         #endregion
 
-
         [Test, Pairwise]
         public void Adc_Adcs_Rsc_Rscs_Sbc_Sbcs([ValueSource(nameof(_Adc_Adcs_Rsc_Rscs_Sbc_Sbcs_))] uint opcode,
                                                [Values(0u, 13u)] uint rd,

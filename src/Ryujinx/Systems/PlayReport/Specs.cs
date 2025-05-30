@@ -1,4 +1,4 @@
-﻿using MsgPack;
+using MsgPack;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System;
 using System.Collections.Generic;
@@ -36,9 +36,8 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 : null;
             return this;
         }
-        
-        public List<FormatterSpecBase> ValueFormatters { get; } = [];
 
+        public List<FormatterSpecBase> ValueFormatters { get; } = [];
 
         /// <summary>
         /// Add a value formatter to the current <see cref="GameSpec"/>
@@ -66,7 +65,9 @@ namespace Ryujinx.Ava.Systems.PlayReport
             SingleValueFormatter valueFormatter
         ) => AddValueFormatter(new FormatterSpec
         {
-            Priority = priority, ReportKeys = [reportKey], Formatter = valueFormatter
+            Priority = priority,
+            ReportKeys = [reportKey],
+            Formatter = valueFormatter
         });
 
         /// <summary>
@@ -95,7 +96,9 @@ namespace Ryujinx.Ava.Systems.PlayReport
             MultiValueFormatter valueFormatter
         ) => AddValueFormatter(new MultiFormatterSpec
         {
-            Priority = priority, ReportKeys = reportKeys, Formatter = valueFormatter
+            Priority = priority,
+            ReportKeys = reportKeys,
+            Formatter = valueFormatter
         });
 
         /// <summary>
@@ -130,7 +133,9 @@ namespace Ryujinx.Ava.Systems.PlayReport
             SparseMultiValueFormatter valueFormatter
         ) => AddValueFormatter(new SparseMultiFormatterSpec
         {
-            Priority = priority, ReportKeys = reportKeys, Formatter = valueFormatter
+            Priority = priority,
+            ReportKeys = reportKeys,
+            Formatter = valueFormatter
         });
 
         private GameSpec AddValueFormatter<T>(T formatterSpec) where T : FormatterSpecBase

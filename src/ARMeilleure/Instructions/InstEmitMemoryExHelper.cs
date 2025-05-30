@@ -42,6 +42,7 @@ namespace ARMeilleure.Instructions
                 {
                     context.Store(exValuePtr, Const(0UL));
                 }
+
                 if (size < 4)
                 {
                     context.Store(context.Add(exValuePtr, Const(exValuePtr.Type, 8L)), Const(0UL));

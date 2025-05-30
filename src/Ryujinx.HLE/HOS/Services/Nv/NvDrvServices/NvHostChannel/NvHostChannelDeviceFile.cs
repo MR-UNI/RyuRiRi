@@ -400,7 +400,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
         private NvInternalResult SetTimeslice(ref uint timeslice)
         {
-            if (timeslice < 1000 || timeslice > 50000)
+            if (timeslice is < 1000 or > 50000)
             {
                 return NvInternalResult.InvalidInput;
             }
@@ -562,7 +562,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
         private static Host1xContext GetHost1XContext(GpuContext gpu, ulong pid)
         {
-            return _host1xContextRegistry.GetOrAdd(pid, (ulong key) => new Host1xContext(gpu, key));
+            return _host1xContextRegistry.GetOrAdd(pid, key => new Host1xContext(gpu, key));
         }
 
         public static void Destroy()

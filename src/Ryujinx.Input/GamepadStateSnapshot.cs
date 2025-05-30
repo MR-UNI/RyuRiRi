@@ -32,7 +32,6 @@ namespace Ryujinx.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsPressed(GamepadButtonInputId inputId) => _buttonsState[(int)inputId];
 
-
         /// <summary>
         /// Set the state of a given button.
         /// </summary>

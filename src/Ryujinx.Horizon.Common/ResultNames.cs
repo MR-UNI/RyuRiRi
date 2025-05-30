@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Ryujinx.Horizon.Common
 {
     static class ResultNames
     {
         // Reference: https://github.com/Thealexbarney/LibHac/blob/master/build/CodeGen/results.csv
-        private static readonly IReadOnlyDictionary<int, string> _names = new Dictionary<int, string>()
+        private static readonly ReadOnlyDictionary<int, string> _names = new Dictionary<int, string>()
         {
             { 0x0, "Success" },
             { 0xE01, "OutOfSessions" },
@@ -1691,7 +1692,7 @@ namespace Ryujinx.Horizon.Common
             { 0x823AC, "InvalidPackage1SectionSize" },
             { 0x825AC, "InvalidPackage1MarikoBodySize" },
             { 0x827AC, "InvalidPackage1Pk11Size" },
-        };
+        }.AsReadOnly();
 
         public static bool TryGet(int errorCode, out string name)
         {

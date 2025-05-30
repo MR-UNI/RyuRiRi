@@ -109,6 +109,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -128,6 +129,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -148,6 +150,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
             {
                 Logger.Info?.PrintMsg(LogClass.ServiceBsd, $"Connecting to: {ProtocolType}/***:{remoteEndPoint.Port}");
             }
+
             try
             {
                 Socket.Connect(remoteEndPoint);
@@ -166,6 +169,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                     {
                         Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                     }
+
                     return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
                 }
             }
@@ -200,6 +204,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -223,6 +228,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -259,6 +265,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 receiveSize = -1;
 
                 result = WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
@@ -314,6 +321,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 receiveSize = -1;
 
                 result = WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
@@ -341,6 +349,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 sendSize = -1;
 
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
@@ -361,6 +370,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 sendSize = -1;
 
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
@@ -402,6 +412,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -452,6 +463,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -480,7 +492,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
             return true;
         }
 
-        private static IList<ArraySegment<byte>> ConvertMessagesToBuffer(BsdMMsgHdr message)
+        private static ArraySegment<byte>[] ConvertMessagesToBuffer(BsdMMsgHdr message)
         {
             int segmentCount = 0;
             int index = 0;
@@ -588,6 +600,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }
@@ -630,6 +643,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Socket Exception: {exception}");
                 }
+
                 return WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
             }
         }

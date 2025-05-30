@@ -32,7 +32,7 @@ namespace ARMeilleure.Translation
 
             return _delegates.Values[index].FuncPtr; // O(1).
         }
-        
+
         public static int GetDelegateIndex(MethodInfo info)
         {
             ArgumentNullException.ThrowIfNull(info);
@@ -48,7 +48,7 @@ namespace ARMeilleure.Translation
 
             return index;
         }
-        
+
         private static void SetDelegateInfo(MethodInfo method)
         {
             string key = GetKey(method);

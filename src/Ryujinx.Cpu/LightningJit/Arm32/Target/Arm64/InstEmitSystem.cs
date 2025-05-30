@@ -60,6 +60,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                                 return;
                         }
                     }
+
                     break;
             }
         }
@@ -109,6 +110,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                                 break;
                         }
                     }
+
                     break;
             }
 
@@ -142,6 +144,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                             context.Arm64Assembler.B(0);
                             return;
                     }
+
                     break;
             }
 

@@ -108,7 +108,7 @@ namespace Ryujinx.Headless
                 }
             }
         }
-        
+
         private SDL2OpenGLContext _openGLContext;
 
         public OpenGLWindow(

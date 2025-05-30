@@ -545,6 +545,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                             context.GetReservedStackOffset(),
                             isTail: true);
                     }
+
                     break;
 
                 case InstName.Ret:
@@ -565,6 +566,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
 
                         context.TailMerger.AddUnconditionalReturn(writer, asm);
                     }
+
                     break;
 
                 case InstName.BCond:
@@ -574,7 +576,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                 case InstName.Tbz:
                     uint branchMask;
 
-                    if (name == InstName.Tbnz || name == InstName.Tbz)
+                    if (name is InstName.Tbnz or InstName.Tbz)
                     {
                         originalOffset = ImmUtils.ExtractSImm14Times4(encoding);
                         branchMask = 0x3fff;
@@ -631,7 +633,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                     {
                         delta = targetIndex - branchIndex;
 
-                        if (delta >= -Encodable26BitsOffsetLimit && delta < Encodable26BitsOffsetLimit)
+                        if (delta is >= (-Encodable26BitsOffsetLimit) and < Encodable26BitsOffsetLimit)
                         {
                             writer.WriteInstructionAt(branchIndex, (encoding & ~0x3ffffffu) | (uint)(delta & 0x3ffffff));
                             break;
@@ -652,7 +654,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                 case InstName.Tbz:
                     uint branchMask;
 
-                    if (name == InstName.Tbnz || name == InstName.Tbz)
+                    if (name is InstName.Tbnz or InstName.Tbz)
                     {
                         originalOffset = ImmUtils.ExtractSImm14Times4(encoding);
                         branchMask = 0x3fff;
@@ -709,6 +711,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                         writer.WriteInstructionAt(movedBranchIndex, (encoding & ~(branchMask << 5)) | (uint)((delta & branchMask) << 5));
                         WriteTailCallConstant(context, ref asm, blockIndex, targetAddress);
                     }
+
                     break;
 
                 default:

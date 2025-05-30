@@ -82,7 +82,6 @@ namespace Ryujinx.Tests.Cpu
         }
         #endregion
 
-
         [Test, Pairwise]
         public void Mla_Mls_Mul_Sqdmulh_Sqrdmulh_Ve_4H_8H([ValueSource(nameof(_Mla_Mls_Mul_Sqdmulh_Sqrdmulh_Ve_4H_8H_))] uint opcodes,
                                                           [Values(0u)] uint rd,

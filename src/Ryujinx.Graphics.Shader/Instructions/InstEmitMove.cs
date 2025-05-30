@@ -92,14 +92,14 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     break;
 
                 case SReg.InvocationInfo:
-                    if (context.TranslatorContext.Definitions.Stage != ShaderStage.Compute && context.TranslatorContext.Definitions.Stage != ShaderStage.Fragment)
+                    if (context.TranslatorContext.Definitions.Stage is not ShaderStage.Compute and not ShaderStage.Fragment)
                     {
                         // Note: Lowest 8-bits seems to contain some primitive index,
                         // but it seems to be NVIDIA implementation specific as it's only used
                         // to calculate ISBE offsets, so we can just keep it as zero.
 
-                        if (context.TranslatorContext.Definitions.Stage == ShaderStage.TessellationControl ||
-                            context.TranslatorContext.Definitions.Stage == ShaderStage.TessellationEvaluation)
+                        if (context.TranslatorContext.Definitions.Stage is ShaderStage.TessellationControl or
+                            ShaderStage.TessellationEvaluation)
                         {
                             src = context.ShiftLeft(context.Load(StorageKind.Input, IoVariable.PatchVertices), Const(16));
                         }
@@ -112,6 +112,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         src = Const(0);
                     }
+
                     break;
 
                 case SReg.TId:

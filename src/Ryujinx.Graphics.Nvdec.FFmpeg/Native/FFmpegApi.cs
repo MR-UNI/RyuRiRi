@@ -12,8 +12,8 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
 
         private static readonly Dictionary<string, (int, int)> _librariesWhitelist = new()
         {
-            { AvCodecLibraryName, (58, 61) },
-            { AvUtilLibraryName, (56, 59) },
+            { AvCodecLibraryName, (59, 60) },
+            { AvUtilLibraryName, (57, 58) },
         };
 
         private static string FormatLibraryNameForCurrentOs(string libraryName, int version)
@@ -35,7 +35,6 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
                 throw new NotImplementedException($"Unsupported OS for FFmpeg: {RuntimeInformation.RuntimeIdentifier}");
             }
         }
-
 
         private static bool TryLoadWhitelistedLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath, out nint handle)
         {

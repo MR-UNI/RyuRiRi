@@ -8,11 +8,11 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Windowing;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Systems.Configuration;
-using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using System;
@@ -23,7 +23,7 @@ namespace Ryujinx.Ava
     public class RyujinxApp : Application
     {
         public static event Action ThemeChanged;
-        
+
         internal static string FormatTitle(LocaleKeys? windowTitleKey = null, bool includeVersion = true)
             => windowTitleKey is null
                 ? $"{FullAppName}{(includeVersion ? $" {Program.Version}" : string.Empty)}"
@@ -34,7 +34,7 @@ namespace Ryujinx.Ava
         public static MainWindow MainWindow => Current!
             .ApplicationLifetime.Cast<IClassicDesktopStyleApplicationLifetime>()
             .MainWindow.Cast<MainWindow>();
-        
+
         public static IClassicDesktopStyleApplicationLifetime AppLifetime => Current!
             .ApplicationLifetime.Cast<IClassicDesktopStyleApplicationLifetime>();
 
@@ -47,7 +47,6 @@ namespace Ryujinx.Ava
         public static void SetTaskbarProgress(TaskBarProgressBarState state) => MainWindow.PlatformFeatures.SetTaskBarProgressBarState(state);
         public static void SetTaskbarProgressValue(ulong current, ulong total) => MainWindow.PlatformFeatures.SetTaskBarProgressBarValue(current, total);
         public static void SetTaskbarProgressValue(long current, long total) => SetTaskbarProgressValue(Convert.ToUInt64(current), Convert.ToUInt64(total));
-
 
         public override void Initialize()
         {

@@ -78,7 +78,7 @@ namespace Ryujinx.Common.Configuration.Hid.Controller
         /// Controller Rumble Settings
         /// </summary>
         public RumbleConfigController Rumble { get; set; }
-        
+
         /// <summary>
         /// Controller LED Settings
         /// </summary>

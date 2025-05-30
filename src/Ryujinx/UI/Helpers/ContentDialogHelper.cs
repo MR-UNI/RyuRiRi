@@ -23,13 +23,13 @@ namespace Ryujinx.Ava.UI.Helpers
         private static ContentDialogOverlayWindow _contentDialogOverlayWindow;
 
         public static ContentDialog ApplyStyles(
-            this ContentDialog contentDialog, 
-            double closeButtonWidth = 80, 
+            this ContentDialog contentDialog,
+            double closeButtonWidth = 80,
             HorizontalAlignment buttonSpaceAlignment = HorizontalAlignment.Right)
         {
             Style closeButton = new(x => x.Name("CloseButton"));
             closeButton.Setters.Add(new Setter(Layoutable.WidthProperty, closeButtonWidth));
-            
+
             Style closeButtonParent = new(x => x.Name("CommandSpace"));
             closeButtonParent.Setters.Add(new Setter(Layoutable.HorizontalAlignmentProperty, buttonSpaceAlignment));
 
@@ -281,7 +281,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 string.Empty,
                 LocaleManager.Instance[LocaleKeys.InputDialogOk],
                 (int)Symbol.Important);
-        
+
         internal static async Task<UserResult> CreateUpdaterUpToDateInfoDialog(string primary, string secondaryText)
             => await ShowTextDialog(
                 LocaleManager.Instance[LocaleKeys.DialogUpdaterTitle],
@@ -339,7 +339,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
             return response == UserResult.Yes;
         }
-        
+
         internal static async Task<UserResult> CreateUpdaterChoiceDialog(string title, string primary, string secondaryText)
         {
             if (_isChoiceDialogOpen)
@@ -403,7 +403,7 @@ namespace Ryujinx.Ava.UI.Helpers
                     Position = parent.PointToScreen(new Point()),
                     ShowInTaskbar = false,
                 };
-                
+
 #if DEBUG
                 _contentDialogOverlayWindow.AttachDevTools(new KeyGesture(Key.F12, KeyModifiers.Control));
 #endif
@@ -480,7 +480,7 @@ namespace Ryujinx.Ava.UI.Helpers
             await dialogWindow.ShowDialog(_contentDialogOverlayWindow ?? mainWindow ?? GetMainWindow());
         }
 
-        private static Window GetMainWindow()
+        private static MainWindow GetMainWindow()
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime al)
             {

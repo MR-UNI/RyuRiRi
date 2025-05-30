@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -252,35 +252,35 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         private static readonly byte[] _defaultSingleRefP = [33, 16, 77, 74, 142, 142, 172, 170, 238, 247];
         private static readonly byte[] _defaultTxProbs = [3, 136, 37, 5, 52, 13, 20, 152, 15, 101, 100, 66];
 
-        static EntropyMode()
-        {
-            byte[][] kfPartitionProbs =
-            [
-                // 8x8 . 4x4
-                [158, 97, 94], // a/l both not split
-                [93, 24, 99], // a split, l not split
-                [85, 119, 44], // l split, a not split
-                [62, 59, 67], // a/l both split
+        //static EntropyMode()
+        //{
+        //    byte[][] kfPartitionProbs =
+        //    [
+        //        // 8x8 . 4x4
+        //        [158, 97, 94], // a/l both not split
+        //        [93, 24, 99], // a split, l not split
+        //        [85, 119, 44], // l split, a not split
+        //        [62, 59, 67], // a/l both split
 
-                // 16x16 . 8x8
-                [149, 53, 53], // a/l both not split
-                [94, 20, 48], // a split, l not split
-                [83, 53, 24], // l split, a not split
-                [52, 18, 18], // a/l both split
+        //        // 16x16 . 8x8
+        //        [149, 53, 53], // a/l both not split
+        //        [94, 20, 48], // a split, l not split
+        //        [83, 53, 24], // l split, a not split
+        //        [52, 18, 18], // a/l both split
 
-                // 32x32 . 16x16
-                [150, 40, 39], // a/l both not split
-                [78, 12, 26], // a split, l not split
-                [67, 33, 11], // l split, a not split
-                [24, 7, 5], // a/l both split
+        //        // 32x32 . 16x16
+        //        [150, 40, 39], // a/l both not split
+        //        [78, 12, 26], // a split, l not split
+        //        [67, 33, 11], // l split, a not split
+        //        [24, 7, 5], // a/l both split
 
-                // 64x64 . 32x32
-                [174, 35, 49], // a/l both not split
-                [68, 11, 27], // a split, l not split
-                [57, 15, 9], // l split, a not split
-                [12, 3, 3] // a/l both split
-            ];
-        }
+        //        // 64x64 . 32x32
+        //        [174, 35, 49], // a/l both not split
+        //        [68, 11, 27], // a split, l not split
+        //        [57, 15, 9], // l split, a not split
+        //        [12, 3, 3] // a/l both split
+        //    ];
+        //}
 
         private static readonly byte[] _defaultSkipProbs = [192, 128, 64];
 
@@ -296,7 +296,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             Entropy.CopyProbs(ref fc.CompInterProb, _defaultCompInterP);
             Entropy.CopyProbs(ref fc.CompRefProb, _defaultCompRefP);
             Entropy.CopyProbs(ref fc.SingleRefProb, _defaultSingleRefP);
-            Entropy.CopyProbs(ref fc.Tx32x32Prob, _defaultTxProbs.AsSpan().Slice(0, 6));
+            Entropy.CopyProbs(ref fc.Tx32x32Prob, _defaultTxProbs.AsSpan()[..6]);
             Entropy.CopyProbs(ref fc.Tx16x16Prob, _defaultTxProbs.AsSpan().Slice(6, 4));
             Entropy.CopyProbs(ref fc.Tx8x8Prob, _defaultTxProbs.AsSpan().Slice(10, 2));
             Entropy.CopyProbs(ref fc.SkipProb, _defaultSkipProbs);

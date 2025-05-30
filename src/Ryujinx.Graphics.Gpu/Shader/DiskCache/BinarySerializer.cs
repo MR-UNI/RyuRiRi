@@ -203,6 +203,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                     {
                         offset += stream.Read(data[offset..]);
                     }
+
                     stream.Dispose();
                     break;
                 case CompressionAlgorithm.Brotli:
@@ -211,6 +212,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                     {
                         offset += stream.Read(data[offset..]);
                     }
+
                     stream.Dispose();
                     break;
             }

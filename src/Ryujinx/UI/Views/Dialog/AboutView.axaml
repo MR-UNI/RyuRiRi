@@ -113,6 +113,7 @@
                         Background="Transparent"
                         Click="Button_OnClick"
                         CornerRadius="15"
+                        Tag="https://src.ryujinx.app"
                         ToolTip.Tip="{ext:Locale AboutGitLabUrlTooltipMessage}">
                         <Image Source="{Binding GitLabLogo}" />
                     </Button>

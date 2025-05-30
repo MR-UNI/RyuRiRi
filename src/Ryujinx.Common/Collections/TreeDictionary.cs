@@ -78,6 +78,7 @@ namespace Ryujinx.Common.Collections
             {
                 return node.Key;
             }
+
             return default;
         }
 
@@ -94,6 +95,7 @@ namespace Ryujinx.Common.Collections
             {
                 return node.Key;
             }
+
             return default;
         }
 
@@ -111,6 +113,7 @@ namespace Ryujinx.Common.Collections
 
                 return successor != null ? successor.Key : default;
             }
+
             return default;
         }
 
@@ -128,6 +131,7 @@ namespace Ryujinx.Common.Collections
 
                 return predecessor != null ? predecessor.Key : default;
             }
+
             return default;
         }
 
@@ -147,6 +151,7 @@ namespace Ryujinx.Common.Collections
             {
                 nodes.Enqueue(this.Root);
             }
+
             while (nodes.TryDequeue(out Node<TKey, TValue> node))
             {
                 list.Add(new KeyValuePair<TKey, TValue>(node.Key, node.Value));
@@ -154,11 +159,13 @@ namespace Ryujinx.Common.Collections
                 {
                     nodes.Enqueue(node.Left);
                 }
+
                 if (node.Right != null)
                 {
                     nodes.Enqueue(node.Right);
                 }
             }
+
             return list;
         }
 
@@ -184,7 +191,7 @@ namespace Ryujinx.Common.Collections
         /// </summary>
         /// <param name="node">The node to search for nodes within</param>
         /// <param name="list">The list to add node to</param>
-        private void AddToList(Node<TKey, TValue> node, List<KeyValuePair<TKey, TValue>> list)
+        private static void AddToList(Node<TKey, TValue> node, List<KeyValuePair<TKey, TValue>> list)
         {
             if (node == null)
             {
@@ -225,6 +232,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             return null;
         }
 
@@ -274,6 +282,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             Node<TKey, TValue> newNode = new(key, value, parent);
             if (newNode.Parent == null)
             {
@@ -287,6 +296,7 @@ namespace Ryujinx.Common.Collections
             {
                 parent.Right = newNode;
             }
+
             Count++;
             return newNode;
         }
@@ -392,6 +402,7 @@ namespace Ryujinx.Common.Collections
                             ptr = parent;
                             parent = parent.Parent;
                         }
+
                         return parent;
                     }
                 }
@@ -400,6 +411,7 @@ namespace Ryujinx.Common.Collections
                     return tmp;
                 }
             }
+
             return null;
         }
 
@@ -444,6 +456,7 @@ namespace Ryujinx.Common.Collections
                             ptr = parent;
                             parent = parent.Parent;
                         }
+
                         return parent;
                     }
                 }
@@ -452,6 +465,7 @@ namespace Ryujinx.Common.Collections
                     return tmp;
                 }
             }
+
             return null;
         }
 
@@ -502,6 +516,7 @@ namespace Ryujinx.Common.Collections
             {
                 return node.Key.Equals(item.Key) && node.Value.Equals(item.Value);
             }
+
             return false;
         }
 
@@ -588,6 +603,7 @@ namespace Ryujinx.Common.Collections
                 {
                     queue.Enqueue(node.Left);
                 }
+
                 if (null != node.Right)
                 {
                     queue.Enqueue(node.Right);

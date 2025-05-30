@@ -62,8 +62,8 @@ namespace Ryujinx.HLE.UI
         /// Gets fonts and colors used by the host.
         /// </summary>
         IHostUITheme HostUITheme { get; }
-        
-        
+
+
         /// <summary>
         /// Displays the player select dialog and returns the selected profile.
         /// </summary>

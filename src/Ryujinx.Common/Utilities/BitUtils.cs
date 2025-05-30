@@ -40,10 +40,10 @@ namespace Ryujinx.Common
 
             return (value >> 32) | (value << 32);
         }
-        
+
         // Never actually written bit packing logic before, so I looked it up.
         // This code is from https://gist.github.com/Alan-FGR/04938e93e2bffdf5802ceb218a37c195
-        
+
         public static ulong PackBitFields(this uint[] values, byte[] bitFields)
         {
             ulong retVal = values[0]; //we set the first value right away
@@ -52,6 +52,7 @@ namespace Ryujinx.Common
                 retVal <<= bitFields[f]; // we shift the previous value
                 retVal += values[f];// and add our current value
             }
+
             return retVal;
         }
 
@@ -68,6 +69,7 @@ namespace Ryujinx.Common
                 int leftShift = 64 - curPos; // we figure how much left shift we gotta apply for the other numbers to overflow into oblivion
                 retArr[f] = (uint)((packed << leftShift) >> leftShift + lastEnd); // we do magic
             }
+
             return retArr;
         }
     }

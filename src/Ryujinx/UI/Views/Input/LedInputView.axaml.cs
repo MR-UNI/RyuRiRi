@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
@@ -20,27 +20,32 @@ namespace Ryujinx.UI.Views.Input
                 LedColor = viewModel.Config.LedColor,
                 UseRainbowLed = viewModel.Config.UseRainbowLed,
             };
-            
+
             InitializeComponent();
         }
-        
+
         private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
         {
-            if (!args.NewColor.HasValue) return;
-            if (!ViewModel.EnableLedChanging) return;
-            if (ViewModel.TurnOffLed) return;
-            
+            if (!args.NewColor.HasValue)
+                return;
+            if (!ViewModel.EnableLedChanging)
+                return;
+            if (ViewModel.TurnOffLed)
+                return;
+
             ViewModel.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
         }
 
         private void ColorPickerButton_OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
-            if (!ViewModel.EnableLedChanging) return;
-            if (ViewModel.TurnOffLed) return;
-            
+            if (!ViewModel.EnableLedChanging)
+                return;
+            if (ViewModel.TurnOffLed)
+                return;
+
             ViewModel.ParentModel.SelectedGamepad.SetLed(ViewModel.LedColor.ToUInt32());
         }
-        
+
         public static async Task Show(ControllerInputViewModel viewModel)
         {
             LedInputView content = new(viewModel);

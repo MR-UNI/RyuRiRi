@@ -835,8 +835,6 @@ namespace ARMeilleure.Translation.PTC
                 return;
             }
 
-
-
             int degreeOfParallelism = Environment.ProcessorCount;
 
             if (Optimizations.LowPower)
@@ -896,13 +894,12 @@ namespace ARMeilleure.Translation.PTC
                 }
             }
 
-
             List<Thread> threads = Enumerable.Range(0, degreeOfParallelism)
-                .Select(idx => 
+                .Select(idx =>
                     new Thread(TranslateFuncs)
                     {
-                        IsBackground = true, 
-                        Name = "Ptc.TranslateThread." + idx 
+                        IsBackground = true,
+                        Name = "Ptc.TranslateThread." + idx
                     }
                 ).ToList();
 
@@ -912,6 +909,7 @@ namespace ARMeilleure.Translation.PTC
             {
                 thread.Start();
             }
+
             foreach (Thread thread in threads)
             {
                 thread.Join();
@@ -925,8 +923,8 @@ namespace ARMeilleure.Translation.PTC
             sw.Stop();
 
             PtcStateChanged?.Invoke(PtcLoadingState.Loaded, _translateCount, _translateTotalCount);
-            
-            Logger.Info?.Print(LogClass.Ptc, 
+
+            Logger.Info?.Print(LogClass.Ptc,
                 $"{_translateCount} of {_translateTotalCount} functions translated in {sw.Elapsed.TotalSeconds} seconds " +
                 $"| {"function".ToQuantity(_translateTotalCount - _translateCount)} blacklisted " +
                 $"| Thread count: {degreeOfParallelism}");
@@ -1164,8 +1162,8 @@ namespace ARMeilleure.Translation.PTC
 
         public void Close()
         {
-            if (State == PtcState.Enabled ||
-                State == PtcState.Continuing)
+            if (State is PtcState.Enabled or
+                PtcState.Continuing)
             {
                 State = PtcState.Closing;
             }

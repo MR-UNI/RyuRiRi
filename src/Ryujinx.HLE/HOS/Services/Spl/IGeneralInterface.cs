@@ -84,6 +84,7 @@ namespace Ryujinx.HLE.HOS.Services.Spl
                     {
                         configValue = (ulong)DramId.IcosaSamsung4GiB;
                     }
+
                     break;
                 case ConfigItem.SecurityEngineInterruptNumber:
                     return SmcResult.NotImplemented;

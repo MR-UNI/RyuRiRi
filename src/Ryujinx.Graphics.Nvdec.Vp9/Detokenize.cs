@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -48,7 +48,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ReadOnlySpan<byte> cat6Prob = xd.Bd == 12
                 ? Luts.Cat6ProbHigh12
                 : xd.Bd == 10
-                    ? Luts.Cat6ProbHigh12.Slice(2)
+                    ? Luts.Cat6ProbHigh12[2..]
                     : Luts.Cat6Prob;
             int cat6Bits = xd.Bd == 12 ? 18 : xd.Bd == 10 ? 16 : 14;
             // Keep value, range, and count as locals.  The compiler produces better
@@ -61,7 +61,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             {
                 int val = -1;
                 band = bandTranslate[0];
-                bandTranslate = bandTranslate.Slice(1);
+                bandTranslate = bandTranslate[1..];
                 ref Array3<byte> prob = ref coefProbs[band][ctx];
                 if (!xd.Counts.IsNull)
                 {
@@ -98,7 +98,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
                     ctx = GetCoefContext(nb, tokenCache, c);
                     band = bandTranslate[0];
-                    bandTranslate = bandTranslate.Slice(1);
+                    bandTranslate = bandTranslate[1..];
                     prob = ref coefProbs[band][ctx];
                 }
 
@@ -234,8 +234,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ref MacroBlockDPlane pd = ref xd.Plane[plane];
             ref Array2<short> dequant = ref pd.SegDequant[segId];
             int eob;
-            Span<sbyte> a = pd.AboveContext.AsSpan().Slice(x);
-            Span<sbyte> l = pd.LeftContext.AsSpan().Slice(y);
+            Span<sbyte> a = pd.AboveContext.AsSpan()[x..];
+            Span<sbyte> l = pd.LeftContext.AsSpan()[y..];
             int ctx;
             int ctxShiftA = 0;
             int ctxShiftL = 0;

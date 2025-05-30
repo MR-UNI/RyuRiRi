@@ -146,6 +146,7 @@ namespace ARMeilleure.Instructions
                 {
                     res = EmitMoveDoubleWordToSide(context, res, side, op.Vd);
                 }
+
                 res = EmitDoubleWordInsert(context, d, res, op.Vd);
             }
 

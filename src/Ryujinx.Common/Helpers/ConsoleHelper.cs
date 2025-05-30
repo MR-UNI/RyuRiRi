@@ -19,7 +19,7 @@ namespace Ryujinx.Common.Helper
         [SupportedOSPlatform("windows")]
         [LibraryImport("user32")]
         private static partial nint GetForegroundWindow();
-        
+
         [SupportedOSPlatform("windows")]
         [LibraryImport("user32")]
         [return: MarshalAs(UnmanagedType.Bool)]

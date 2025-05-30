@@ -122,9 +122,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void SetEntries(IEnumerable<CompatibilityEntry> entries)
         {
-#pragma warning disable MVVMTK0034
             _currentEntries = entries.ToList();
-#pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(CurrentEntries));
         }
 

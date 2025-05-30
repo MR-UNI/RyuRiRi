@@ -179,8 +179,6 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
             _error.Set();
         }
 
-
-
         private void HandleInitialize(LdnHeader header, InitializeMessage initialize)
         {
             InitializeMemory = initialize;
@@ -346,9 +344,9 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
             }
         }
 
-        public void SetGameVersion(byte[] versionString)
+        public void SetGameVersion(ReadOnlySpan<byte> versionString)
         {
-            _gameVersion = versionString;
+            _gameVersion = versionString.ToArray();
 
             if (_gameVersion.Length < 0x10)
             {

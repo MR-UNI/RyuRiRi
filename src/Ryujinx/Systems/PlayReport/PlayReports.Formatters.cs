@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Humanizer;
 using System;
 using System.Buffers.Binary;
@@ -19,7 +19,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 < -201d => "Exploring the Depths",
                 _ => "Roaming Hyrule"
             };
-        
+
         private static FormattedValue SkywardSwordHD_Rupees(SingleValue value)
             => "rupee".ToQuantity(value.Matched.IntValue);
 
@@ -59,13 +59,13 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 "Race" => "Racing",
                 _ => FormattedValue.ForceReset
             };
-        
+
         private static FormattedValue PokemonSV(MultiValue values)
         {
-            
+
             string playStatus = values.Matched[0].BoxedValue is 0 ? "Playing Alone" : "Playing in a group";
-            
-            FormattedValue locations = values.Matched[1].ToString()  switch
+
+            FormattedValue locations = values.Matched[1].ToString() switch
             {
                 // Base Game Locations
                 "a_w01" => "South Area One",
@@ -97,8 +97,8 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 //TODO DLC Locations
                 _ => FormattedValue.ForceReset
             };
-            
-            return$"{playStatus} in {locations}";
+
+            return $"{playStatus} in {locations}";
         }
 
         private static FormattedValue SuperSmashBrosUltimate_Mode(SparseMultiValue values)
@@ -121,7 +121,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
 
             if (values.Matched.ContainsKey("is_created"))
             {
-                return "Edited a Custom Stage!"; 
+                return "Edited a Custom Stage!";
             }
 
             if (values.Matched.ContainsKey("adv_slot"))
@@ -179,97 +179,97 @@ namespace Ryujinx.Ava.Systems.PlayReport
         private static string SuperSmashBrosUltimate_Character(Value value) =>
             BinaryPrimitives.ReverseEndianness(
                     BitConverter.ToInt64(((MsgPack.MessagePackExtendedTypeObject)value.BoxedValue).GetBody(), 0)) switch
-                {
-                    0x0 => "Mario",
-                    0x1 => "Donkey Kong",
-                    0x2 => "Link",
-                    0x3 => "Samus",
-                    0x4 => "Dark Samus",
-                    0x5 => "Yoshi",
-                    0x6 => "Kirby",
-                    0x7 => "Fox",
-                    0x8 => "Pikachu",
-                    0x9 => "Luigi",
-                    0xA => "Ness",
-                    0xB => "Captain Falcon",
-                    0xC => "Jigglypuff",
-                    0xD => "Peach",
-                    0xE => "Daisy",
-                    0xF => "Bowser",
-                    0x10 => "Ice Climbers",
-                    0x11 => "Sheik",
-                    0x12 => "Zelda",
-                    0x13 => "Dr. Mario",
-                    0x14 => "Pichu",
-                    0x15 => "Falco",
-                    0x16 => "Marth",
-                    0x17 => "Lucina",
-                    0x18 => "Young Link",
-                    0x19 => "Ganondorf",
-                    0x1A => "Mewtwo",
-                    0x1B => "Roy",
-                    0x1C => "Chrom",
-                    0x1D => "Mr Game & Watch",
-                    0x1E => "Meta Knight",
-                    0x1F => "Pit",
-                    0x20 => "Dark Pit",
-                    0x21 => "Zero Suit Samus",
-                    0x22 => "Wario",
-                    0x23 => "Snake",
-                    0x24 => "Ike",
-                    0x25 => "Pokémon Trainer",
-                    0x26 => "Diddy Kong",
-                    0x27 => "Lucas",
-                    0x28 => "Sonic",
-                    0x29 => "King Dedede",
-                    0x2A => "Olimar",
-                    0x2B => "Lucario",
-                    0x2C => "R.O.B.",
-                    0x2D => "Toon Link",
-                    0x2E => "Wolf",
-                    0x2F => "Villager",
-                    0x30 => "Mega Man",
-                    0x31 => "Wii Fit Trainer",
-                    0x32 => "Rosalina & Luma",
-                    0x33 => "Little Mac",
-                    0x34 => "Greninja",
-                    0x35 => "Palutena",
-                    0x36 => "Pac-Man",
-                    0x37 => "Robin",
-                    0x38 => "Shulk",
-                    0x39 => "Bowser Jr.",
-                    0x3A => "Duck Hunt",
-                    0x3B => "Ryu",
-                    0x3C => "Ken",
-                    0x3D => "Cloud",
-                    0x3E => "Corrin",
-                    0x3F => "Bayonetta",
-                    0x40 => "Richter",
-                    0x41 => "Inkling",
-                    0x42 => "Ridley",
-                    0x43 => "King K. Rool",
-                    0x44 => "Simon",
-                    0x45 => "Isabelle",
-                    0x46 => "Incineroar",
-                    0x47 => "Mii Brawler",
-                    0x48 => "Mii Swordfighter",
-                    0x49 => "Mii Gunner",
-                    0x4A => "Piranha Plant",
-                    0x4B => "Joker",
-                    0x4C => "Hero",
-                    0x4D => "Banjo",
-                    0x4E => "Terry",
-                    0x4F => "Byleth",
-                    0x50 => "Min Min",
-                    0x51 => "Steve",
-                    0x52 => "Sephiroth",
-                    0x53 => "Pyra/Mythra",
-                    0x54 => "Kazuya",
-                    0x55 => "Sora",
-                    0xFE => "Random",
-                    0xFF => "Scripted Entity",
-                    _ => "Unknown"
-                };
+            {
+                0x0 => "Mario",
+                0x1 => "Donkey Kong",
+                0x2 => "Link",
+                0x3 => "Samus",
+                0x4 => "Dark Samus",
+                0x5 => "Yoshi",
+                0x6 => "Kirby",
+                0x7 => "Fox",
+                0x8 => "Pikachu",
+                0x9 => "Luigi",
+                0xA => "Ness",
+                0xB => "Captain Falcon",
+                0xC => "Jigglypuff",
+                0xD => "Peach",
+                0xE => "Daisy",
+                0xF => "Bowser",
+                0x10 => "Ice Climbers",
+                0x11 => "Sheik",
+                0x12 => "Zelda",
+                0x13 => "Dr. Mario",
+                0x14 => "Pichu",
+                0x15 => "Falco",
+                0x16 => "Marth",
+                0x17 => "Lucina",
+                0x18 => "Young Link",
+                0x19 => "Ganondorf",
+                0x1A => "Mewtwo",
+                0x1B => "Roy",
+                0x1C => "Chrom",
+                0x1D => "Mr Game & Watch",
+                0x1E => "Meta Knight",
+                0x1F => "Pit",
+                0x20 => "Dark Pit",
+                0x21 => "Zero Suit Samus",
+                0x22 => "Wario",
+                0x23 => "Snake",
+                0x24 => "Ike",
+                0x25 => "Pokémon Trainer",
+                0x26 => "Diddy Kong",
+                0x27 => "Lucas",
+                0x28 => "Sonic",
+                0x29 => "King Dedede",
+                0x2A => "Olimar",
+                0x2B => "Lucario",
+                0x2C => "R.O.B.",
+                0x2D => "Toon Link",
+                0x2E => "Wolf",
+                0x2F => "Villager",
+                0x30 => "Mega Man",
+                0x31 => "Wii Fit Trainer",
+                0x32 => "Rosalina & Luma",
+                0x33 => "Little Mac",
+                0x34 => "Greninja",
+                0x35 => "Palutena",
+                0x36 => "Pac-Man",
+                0x37 => "Robin",
+                0x38 => "Shulk",
+                0x39 => "Bowser Jr.",
+                0x3A => "Duck Hunt",
+                0x3B => "Ryu",
+                0x3C => "Ken",
+                0x3D => "Cloud",
+                0x3E => "Corrin",
+                0x3F => "Bayonetta",
+                0x40 => "Richter",
+                0x41 => "Inkling",
+                0x42 => "Ridley",
+                0x43 => "King K. Rool",
+                0x44 => "Simon",
+                0x45 => "Isabelle",
+                0x46 => "Incineroar",
+                0x47 => "Mii Brawler",
+                0x48 => "Mii Swordfighter",
+                0x49 => "Mii Gunner",
+                0x4A => "Piranha Plant",
+                0x4B => "Joker",
+                0x4C => "Hero",
+                0x4D => "Banjo",
+                0x4E => "Terry",
+                0x4F => "Byleth",
+                0x50 => "Min Min",
+                0x51 => "Steve",
+                0x52 => "Sephiroth",
+                0x53 => "Pyra/Mythra",
+                0x54 => "Kazuya",
+                0x55 => "Sora",
+                0xFE => "Random",
+                0xFF => "Scripted Entity",
+                _ => "Unknown"
+            };
 
         private static string SuperSmashBrosUltimate_PlayerListing(SparseMultiValue values)
         {
@@ -295,16 +295,14 @@ namespace Ryujinx.Ava.Systems.PlayReport
             players = players.OrderBy(p => p.Rank ?? int.MaxValue).ToList();
 
             return players.Count > 4
-                ? $"{players.Count} Players - {
-                    players.Take(3)
+                ? $"{players.Count} Players - {players.Take(3)
                         .Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}")
-                        .JoinToString(", ")
-                }"
+                        .JoinToString(", ")}"
                 : players
                     .Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}")
                     .JoinToString(", ");
 
-            string RankMedal(int? rank) => rank switch
+            static string RankMedal(int? rank) => rank switch
             {
                 0 => "🥇",
                 1 => "🥈",
@@ -371,7 +369,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
             "m_9417_e" => Playing("Zero Wing"),
 
             #endregion
-            
+
             #region Nintendo 64
 
             "n_1653_e" or "n_1653_p" => Playing("1080º ™ Snowboarding"),

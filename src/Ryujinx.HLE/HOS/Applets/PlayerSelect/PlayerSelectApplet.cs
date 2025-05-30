@@ -1,3 +1,4 @@
+using Microsoft.IO;
 using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.Services.Am.AppletAE;
@@ -26,7 +27,7 @@ namespace Ryujinx.HLE.HOS.Applets
         {
             _normalSession = normalSession;
             _interactiveSession = interactiveSession;
-            
+
             UserProfile selected = _system.Device.UIHandler.ShowPlayerSelectDialog();
             if (selected == null)
             {
@@ -40,6 +41,7 @@ namespace Ryujinx.HLE.HOS.Applets
             {
                 _normalSession.Push(BuildResponse(selected));
             }
+
             AppletStateChanged?.Invoke(this, null);
 
             _system.ReturnFocus();
@@ -47,9 +49,9 @@ namespace Ryujinx.HLE.HOS.Applets
             return ResultCode.Success;
         }
 
-        private byte[] BuildResponse(UserProfile selectedUser)
+        private static byte[] BuildResponse(UserProfile selectedUser)
         {
-            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
 
             writer.Write((ulong)PlayerSelectResult.Success);
@@ -58,22 +60,22 @@ namespace Ryujinx.HLE.HOS.Applets
 
             return stream.ToArray();
         }
-        
-        private byte[] BuildGuestResponse()
+
+        private static byte[] BuildGuestResponse()
         {
-            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
-            
+
             writer.Write(new byte());
 
             return stream.ToArray();
         }
-        
-        private byte[] BuildResponse()
+
+        private static byte[] BuildResponse()
         {
-            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
-            
+
             writer.Write((ulong)PlayerSelectResult.Failure);
 
             return stream.ToArray();

@@ -47,6 +47,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                     {
                         path = $"{MountName}:/ac_{regionIndex}_not_b_nx";
                     }
+
                     break;
                 case AcType.AcB1:
                     if (regionIndex < 0)
@@ -57,6 +58,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                     {
                         path = $"{MountName}:/ac_{regionIndex}_b1_nx";
                     }
+
                     break;
                 case AcType.AcB2:
                     if (regionIndex < 0)
@@ -67,6 +69,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                     {
                         path = $"{MountName}:/ac_{regionIndex}_b2_nx";
                     }
+
                     break;
                 case AcType.AcSimilarForm:
                     path = $"{MountName}:/ac_similar_form_nx";

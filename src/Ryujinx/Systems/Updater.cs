@@ -32,9 +32,9 @@ namespace Ryujinx.Ava.Systems
     internal static class Updater
     {
         private static ReleaseChannels.Channel? _currentReleaseChannel;
-        
+
         private const string GitHubApiUrl = "https://api.github.com";
-        
+
         private static readonly GithubReleasesJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
         private static readonly string _homeDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -43,10 +43,10 @@ namespace Ryujinx.Ava.Systems
         private const int ConnectionCount = 4;
 
         private static string _buildVer;
-        
+
 
         private static readonly string _platformExt = BuildPlatformExtension();
-        
+
         private static string _buildUrl;
         private static long _buildSize;
         private static bool _updateSuccessful;
@@ -68,14 +68,14 @@ namespace Ryujinx.Ava.Systems
 
                 return default;
             }
-            
+
             Logger.Info?.Print(LogClass.Application, "Checking for updates.");
-            
+
             // Get latest version number from GitHub API
             try
             {
                 using HttpClient jsonClient = ConstructHttpClient();
-                
+
                 if (_currentReleaseChannel == null)
                 {
                     ReleaseChannels releaseChannels = await ReleaseInformation.GetReleaseChannelsAsync(jsonClient);
@@ -84,7 +84,7 @@ namespace Ryujinx.Ava.Systems
                         ? releaseChannels.Canary
                         : releaseChannels.Stable;
                 }
-                
+
                 string fetchedJson = await jsonClient.GetStringAsync(_currentReleaseChannel.Value.GetLatestReleaseApiUrl());
                 GithubReleasesJsonResponse fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
                 _buildVer = fetched.TagName;
@@ -108,7 +108,7 @@ namespace Ryujinx.Ava.Systems
                                     OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion, _currentReleaseChannel.Value));
                                 }
                             }
-                            
+
                             Logger.Info?.Print(LogClass.Application, "Up to date.");
 
                             _running = false;
@@ -134,7 +134,7 @@ namespace Ryujinx.Ava.Systems
                             OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion, _currentReleaseChannel.Value));
                         }
                     }
-                    
+
                     Logger.Info?.Print(LogClass.Application, "Up to date.");
 
                     _running = false;
@@ -169,7 +169,7 @@ namespace Ryujinx.Ava.Systems
 
             return (currentVersion, newVersion);
         }
-        
+
         public static async Task BeginUpdateAsync(bool showVersionUpToDate = false)
         {
             if (_running)
@@ -181,7 +181,8 @@ namespace Ryujinx.Ava.Systems
 
             Optional<(Version, Version)> versionTuple = await CheckVersionAsync(showVersionUpToDate);
 
-            if (_running is false || !versionTuple.HasValue) return;
+            if (_running is false || !versionTuple.HasValue)
+                return;
 
             (Version currentVersion, Version newVersion) = versionTuple.Value;
 
@@ -198,7 +199,7 @@ namespace Ryujinx.Ava.Systems
                         OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion, _currentReleaseChannel.Value));
                     }
                 }
-                
+
                 Logger.Info?.Print(LogClass.Application, "Up to date.");
 
                 _running = false;
@@ -229,9 +230,9 @@ namespace Ryujinx.Ava.Systems
                 string newVersionString = ReleaseInformation.IsCanaryBuild
                     ? $"Canary {currentVersion} -> Canary {newVersion}"
                     : $"{currentVersion} -> {newVersion}";
-                
+
                 Logger.Info?.Print(LogClass.Application, $"Version found: {newVersionString}");
-                
+
             RequestUserToUpdate:
                 // Show a message asking the user if they want to update
                 UserResult shouldUpdate = await ContentDialogHelper.CreateUpdaterChoiceDialog(
@@ -442,8 +443,8 @@ namespace Ryujinx.Ava.Systems
                         // On macOS, ensure that we remove the quarantine bit to prevent Gatekeeper from blocking execution.
                         if (OperatingSystem.IsMacOS())
                         {
-                            using Process xattrProcess = Process.Start("xattr", 
-                                [ "-d", "com.apple.quarantine", updateFile ]);
+                            using Process xattrProcess = Process.Start("xattr",
+                                ["-d", "com.apple.quarantine", updateFile]);
 
                             xattrProcess.WaitForExit();
                         }
@@ -491,7 +492,7 @@ namespace Ryujinx.Ava.Systems
 
             using HttpResponseMessage response = client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result;
             using Stream remoteFileStream = response.Content.ReadAsStreamAsync().Result;
-            using Stream updateFileStream = File.Open(updateFile, FileMode.Create);
+            using FileStream updateFileStream = File.Open(updateFile, FileMode.Create);
 
             long totalBytes = response.Content.Headers.ContentLength.Value;
             long bytesWritten = 0;
@@ -538,7 +539,7 @@ namespace Ryujinx.Ava.Systems
         [SupportedOSPlatform("macos")]
         private static void ExtractTarGzipFile(TaskDialog taskDialog, string archivePath, string outputDirectoryPath)
         {
-            using Stream inStream = File.OpenRead(archivePath);
+            using FileStream inStream = File.OpenRead(archivePath);
             using GZipInputStream gzipStream = new(inStream);
             using TarInputStream tarStream = new(gzipStream, Encoding.ASCII);
 
@@ -781,7 +782,7 @@ namespace Ryujinx.Ava.Systems
         public static void CleanupUpdate() =>
             Directory.GetFiles(_homeDir, "*.ryuold", SearchOption.AllDirectories)
                 .ForEach(File.Delete);
-        
+
         private static string BuildPlatformExtension()
         {
             if (RunningPlatform.IsMacOS)
@@ -800,7 +801,7 @@ namespace Ryujinx.Ava.Systems
                 Architecture.X64 => "x64",
                 _ => throw new PlatformNotSupportedException($"Unknown architecture {Enum.GetName(RunningPlatform.Architecture)}."),
             };
-            
+
             string fileExtension = RunningPlatform.CurrentOS switch
 #pragma warning restore CS8509
             {

@@ -20,7 +20,7 @@ namespace Ryujinx.HLE
     public class Switch : IDisposable
     {
         public static Switch Shared { get; private set; }
-        
+
         public HleConfiguration Configuration { get; }
         public IHardwareDeviceDriver AudioDeviceDriver { get; }
         public MemoryBlock Memory { get; }
@@ -35,7 +35,7 @@ namespace Ryujinx.HLE
             get => System?.TickSource?.TickScalar ?? ITickSource.RealityTickScalar;
             set => System.TickSource.TickScalar = value;
         }
-        
+
         public ProcessLoader Processes { get; }
         public PerformanceStatistics Statistics { get; }
         public Hid Hid { get; }

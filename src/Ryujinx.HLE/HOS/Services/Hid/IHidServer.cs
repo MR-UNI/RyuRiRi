@@ -130,7 +130,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             return ResultCode.Success;
         }
-        
+
         [CommandCmif(26)]
         // ActivateDebugMouse(nn::applet::AppletResourceUserId)
         public ResultCode ActivateDebugMouse(ServiceCtx context)
@@ -702,7 +702,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             return ResultCode.Success;
         }
-        
+
         [CommandCmif(92)]
         // SetGestureOutputRanges(pid, ushort Unknown0)
         public ResultCode SetGestureOutputRanges(ServiceCtx context)
@@ -1161,59 +1161,54 @@ namespace Ryujinx.HLE.HOS.Services.Hid
             NpadStyleIndex deviceType = (NpadStyleIndex)deviceHandle.DeviceType;
             NpadIdType npadIdType = (NpadIdType)deviceHandle.PlayerId;
 
-            if (deviceType < NpadStyleIndex.System || deviceType >= NpadStyleIndex.FullKey)
+            if (!HidUtils.IsValidNpadIdType(npadIdType))
             {
-                if (!HidUtils.IsValidNpadIdType(npadIdType))
-                {
-                    return ResultCode.InvalidNpadIdType;
-                }
-
-                if (deviceHandle.Position > 1)
-                {
-                    return ResultCode.InvalidDeviceIndex;
-                }
-
-                VibrationDeviceType vibrationDeviceType = VibrationDeviceType.None;
-
-                if (Enum.IsDefined(deviceType))
-                {
-                    vibrationDeviceType = VibrationDeviceType.LinearResonantActuator;
-                }
-                else if ((uint)deviceType == 8)
-                {
-                    vibrationDeviceType = VibrationDeviceType.GcErm;
-                }
-
-                VibrationDevicePosition vibrationDevicePosition = VibrationDevicePosition.None;
-
-                if (vibrationDeviceType == VibrationDeviceType.LinearResonantActuator)
-                {
-                    if (deviceHandle.Position == 0)
-                    {
-                        vibrationDevicePosition = VibrationDevicePosition.Left;
-                    }
-                    else if (deviceHandle.Position == 1)
-                    {
-                        vibrationDevicePosition = VibrationDevicePosition.Right;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"{nameof(deviceHandle.Position)} contains an invalid value: {deviceHandle.Position}");
-                    }
-                }
-
-                VibrationDeviceValue deviceInfo = new()
-                {
-                    DeviceType = vibrationDeviceType,
-                    Position = vibrationDevicePosition,
-                };
-
-                context.ResponseData.WriteStruct(deviceInfo);
-
-                return ResultCode.Success;
+                return ResultCode.InvalidNpadIdType;
             }
 
-            return ResultCode.InvalidNpadDeviceType;
+            if (deviceHandle.Position > 1)
+            {
+                return ResultCode.InvalidDeviceIndex;
+            }
+
+            VibrationDeviceType vibrationDeviceType = VibrationDeviceType.None;
+
+            if (Enum.IsDefined(deviceType))
+            {
+                vibrationDeviceType = VibrationDeviceType.LinearResonantActuator;
+            }
+            else if ((uint)deviceType == 8)
+            {
+                vibrationDeviceType = VibrationDeviceType.GcErm;
+            }
+
+            VibrationDevicePosition vibrationDevicePosition = VibrationDevicePosition.None;
+
+            if (vibrationDeviceType == VibrationDeviceType.LinearResonantActuator)
+            {
+                if (deviceHandle.Position == 0)
+                {
+                    vibrationDevicePosition = VibrationDevicePosition.Left;
+                }
+                else if (deviceHandle.Position == 1)
+                {
+                    vibrationDevicePosition = VibrationDevicePosition.Right;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"{nameof(deviceHandle.Position)} contains an invalid value: {deviceHandle.Position}");
+                }
+            }
+
+            VibrationDeviceValue deviceInfo = new()
+            {
+                DeviceType = vibrationDeviceType,
+                Position = vibrationDevicePosition,
+            };
+
+            context.ResponseData.WriteStruct(deviceInfo);
+
+            return ResultCode.Success;
         }
 
         [CommandCmif(201)]

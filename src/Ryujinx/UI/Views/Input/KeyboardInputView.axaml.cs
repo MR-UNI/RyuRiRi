@@ -9,8 +9,8 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -45,9 +45,9 @@ namespace Ryujinx.Ava.UI.Views.Input
 
         private void Button_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (sender is not ToggleButton button) 
+            if (sender is not ToggleButton button)
                 return;
-            
+
             if (button.IsChecked is true)
             {
                 if (_currentAssigner != null && button == _currentAssigner.ToggledButton)
@@ -65,7 +65,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                     IKeyboard keyboard =
                         (IKeyboard)ViewModel.ParentModel.AvaloniaKeyboardDriver.GetGamepad("0"); // Open Avalonia keyboard for cancel operations.
-                    IButtonAssigner assigner = 
+                    IButtonAssigner assigner =
                         new KeyboardKeyAssigner((IKeyboard)ViewModel.ParentModel.SelectedGamepad);
 
                     _currentAssigner.ButtonAssigned += (_, be) =>
@@ -205,7 +205,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
             if (_currentAssigner != null)
             {
-                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                Dictionary<string, Action> buttonActions = new()
                 {
                     { "ButtonZl", () => ViewModel.Config.ButtonZl = Key.Unbound },
                     { "ButtonL", () => ViewModel.Config.ButtonL = Key.Unbound },

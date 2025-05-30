@@ -73,7 +73,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             Operand slot = Const(op.CbufSlot);
             Operand srcA = GetSrcReg(context, op.SrcA);
 
-            if (op.AddressMode == AddressMode.Is || op.AddressMode == AddressMode.Isl)
+            if (op.AddressMode is AddressMode.Is or AddressMode.Isl)
             {
                 slot = context.IAdd(slot, context.BitfieldExtractU32(srcA, Const(16), Const(16)));
                 srcA = context.BitwiseAnd(srcA, Const(0xffff));
@@ -213,7 +213,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             switch (op)
             {
                 case AtomOp.Add:
-                    if (type == AtomSize.S32 || type == AtomSize.U32)
+                    if (type is AtomSize.S32 or AtomSize.U32)
                     {
                         res = context.AtomicAdd(storageKind, e0, e1, value);
                     }
@@ -221,6 +221,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Min:
                     if (type == AtomSize.S32)
@@ -235,6 +236,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Max:
                     if (type == AtomSize.S32)
@@ -249,9 +251,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.And:
-                    if (type == AtomSize.S32 || type == AtomSize.U32)
+                    if (type is AtomSize.S32 or AtomSize.U32)
                     {
                         res = context.AtomicAnd(storageKind, e0, e1, value);
                     }
@@ -259,9 +262,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Or:
-                    if (type == AtomSize.S32 || type == AtomSize.U32)
+                    if (type is AtomSize.S32 or AtomSize.U32)
                     {
                         res = context.AtomicOr(storageKind, e0, e1, value);
                     }
@@ -269,9 +273,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Xor:
-                    if (type == AtomSize.S32 || type == AtomSize.U32)
+                    if (type is AtomSize.S32 or AtomSize.U32)
                     {
                         res = context.AtomicXor(storageKind, e0, e1, value);
                     }
@@ -279,9 +284,10 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Exch:
-                    if (type == AtomSize.S32 || type == AtomSize.U32)
+                    if (type is AtomSize.S32 or AtomSize.U32)
                     {
                         res = context.AtomicSwap(storageKind, e0, e1, value);
                     }
@@ -289,6 +295,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 default:
                     context.TranslatorContext.GpuAccessor.Log($"Invalid atomic operation: {op}.");

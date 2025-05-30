@@ -51,22 +51,22 @@ namespace Ryujinx.Ava.Utilities
         {
             if (!timeSpan.HasValue || timeSpan.Value.TotalSeconds < 1)
                 return string.Empty;
-            
+
             if (timeSpan.Value.TotalSeconds < 60)
-                return timeSpan.Value.Humanize(1, 
-                    countEmptyUnits: false, 
+                return timeSpan.Value.Humanize(1,
+                    countEmptyUnits: false,
                     maxUnit: TimeUnit.Second,
                     minUnit: TimeUnit.Second);
 
             if (timeSpan.Value.TotalMinutes < 60)
-                return timeSpan.Value.Humanize(1, 
-                    countEmptyUnits: false, 
+                return timeSpan.Value.Humanize(1,
+                    countEmptyUnits: false,
                     maxUnit: TimeUnit.Minute,
                     minUnit: TimeUnit.Minute);
-            
-            return timeSpan.Value.Humanize(1, 
-                countEmptyUnits: false, 
-                maxUnit: TimeUnit.Hour, 
+
+            return timeSpan.Value.Humanize(1,
+                countEmptyUnits: false,
+                maxUnit: TimeUnit.Hour,
                 minUnit: TimeUnit.Hour);
         }
 

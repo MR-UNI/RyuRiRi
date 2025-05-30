@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 using System.Buffers.Binary;
@@ -63,7 +63,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 ulong bigEndianValues = BinaryPrimitives.ReadUInt64BigEndian(buffer);
                 nv = bigEndianValues >> (BdValueSize - bits);
                 count += bits;
-                buffer = buffer.Slice(bits >> 3);
+                buffer = buffer[(bits >> 3)..];
                 value = Value | (nv << (shift & 0x7));
             }
             else
@@ -82,7 +82,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     {
                         count += 8;
                         value |= (ulong)buffer[0] << shift;
-                        buffer = buffer.Slice(1);
+                        buffer = buffer[1..];
                         shift -= 8;
                     }
                 }
@@ -96,7 +96,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             Count = count;
         }
 
-        public bool HasError()
+        public readonly bool HasError()
         {
             // Check if we have reached the end of the buffer.
             //
@@ -112,7 +112,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             //
             // 1 if we have tried to decode bits after the end of stream was encountered.
             // 0 No error.
-            return Count > BdValueSize && Count < LotsOfBits;
+            return Count is > BdValueSize and < LotsOfBits;
         }
 
         public int Read(int prob)
@@ -149,6 +149,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 value <<= shift;
                 count -= shift;
             }
+
             Value = value;
             Count = count;
             Range = range;
@@ -200,14 +201,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             if (value >= bigsplit)
             {
-                range = range - split;
-                value = value - bigsplit;
+                range -= split;
+                value -= bigsplit;
                 {
                     int shift = _norm[range];
                     range <<= shift;
                     value <<= shift;
                     count -= shift;
                 }
+
                 return 1;
             }
 
@@ -218,13 +220,14 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 value <<= shift;
                 count -= shift;
             }
+
             return 0;
         }
 
         public ArrayPtr<byte> FindEnd()
         {
             // Find the end of the coded buffer
-            while (Count > 8 && Count < BdValueSize)
+            while (Count is > 8 and < BdValueSize)
             {
                 Count -= 8;
                 _buffer = _buffer.Slice(-1);

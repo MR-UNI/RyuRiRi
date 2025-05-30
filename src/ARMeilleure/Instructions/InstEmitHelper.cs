@@ -90,6 +90,7 @@ namespace ARMeilleure.Instructions
                 {
                     value = context.ConvertI64ToI32(value);
                 }
+
                 Operand reg = Register(GetRegisterAlias(context.Mode, regIndex), RegisterType.Integer, OperandType.I32);
 
                 context.Copy(reg, value);

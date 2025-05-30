@@ -21,7 +21,7 @@ namespace Ryujinx.HLE.HOS.Services.Ssl.SslService
         private SessionCacheMode _sessionCacheMode;
         private string _hostName;
 
-        private ISslConnectionBase _connection;
+        private SslManagedSocketConnection _connection;
         private BsdContext _bsdContext;
         private readonly ulong _processId;
 
@@ -295,7 +295,6 @@ namespace Ryujinx.HLE.HOS.Services.Ssl.SslService
             ResultCode result;
 
             using WritableRegion region = context.Memory.GetWritableRegion(context.Request.ReceiveBuff[0].Position, (int)context.Request.ReceiveBuff[0].Size);
-
 
             // TODO: Better error management.
             result = _connection.Peek(out int peekCount, region.Memory);

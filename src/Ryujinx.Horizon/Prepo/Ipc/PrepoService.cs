@@ -131,7 +131,7 @@ namespace Ryujinx.Horizon.Prepo.Ipc
         {
             enabled = false;
 
-            if (_permissionLevel == PrepoServicePermissionLevel.User || _permissionLevel == PrepoServicePermissionLevel.System)
+            if (_permissionLevel is PrepoServicePermissionLevel.User or PrepoServicePermissionLevel.System)
             {
                 enabled = _userAgreementCheckEnabled;
 
@@ -148,7 +148,7 @@ namespace Ryujinx.Horizon.Prepo.Ipc
         [CmifCommand(40101)] // 2.0.0+
         public Result SetUserAgreementCheckEnabled(bool enabled)
         {
-            if (_permissionLevel == PrepoServicePermissionLevel.User || _permissionLevel == PrepoServicePermissionLevel.System)
+            if (_permissionLevel is PrepoServicePermissionLevel.User or PrepoServicePermissionLevel.System)
             {
                 _userAgreementCheckEnabled = enabled;
 
@@ -188,17 +188,17 @@ namespace Ryujinx.Horizon.Prepo.Ipc
             {
                 return PrepoResult.InvalidBufferSize;
             }
-            
+
             StringBuilder builder = new();
             MessagePackObject deserializedReport = MessagePackSerializer.UnpackMessagePackObject(reportBuffer.ToArray());
 
             PlayReport playReport = new()
             {
-                Kind = playReportKind, 
+                Kind = playReportKind,
                 Room = gameRoom,
                 ReportData = deserializedReport
             };
-            
+
             builder.AppendLine();
             builder.AppendLine("PlayReport log:");
             builder.AppendLine($" Kind: {playReportKind}");
@@ -225,7 +225,7 @@ namespace Ryujinx.Horizon.Prepo.Ipc
             _arp.GetApplicationLaunchProperty(out ApplicationLaunchProperty applicationLaunchProperty, applicationInstanceId).AbortOnFailure();
 
             playReport.Version = applicationLaunchProperty.Version;
-            
+
             builder.AppendLine($" ApplicationVersion: {applicationLaunchProperty.Version}");
 
             if (!userId.IsNull)
@@ -236,7 +236,7 @@ namespace Ryujinx.Horizon.Prepo.Ipc
 
             builder.AppendLine($" Room: {gameRoom}");
             builder.AppendLine($" Report: {MessagePackObjectFormatter.Format(deserializedReport)}");
-            
+
             HorizonStatic.HandlePlayReport(playReport);
 
             Logger.Info?.Print(LogClass.ServicePrepo, builder.ToString());

@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {
-    [SuppressMessage("Design", "CA1069: Enums values should not be duplicated")]
     enum ColorFormat : ulong
     {
 #pragma warning disable IDE0055 // Disable formatting

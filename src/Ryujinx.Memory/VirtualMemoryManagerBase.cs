@@ -400,6 +400,5 @@ namespace Ryujinx.Memory
                 }
             }
         }
-
     }
 }

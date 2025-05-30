@@ -52,6 +52,7 @@ namespace Ryujinx.Graphics.Texture.Astc
                     comp = numberBits - newShift;
                     numberBits = newShift;
                 }
+
                 retValue <<= numberBits;
                 retValue |= tempValue >> comp;
                 resLength += numberBits;

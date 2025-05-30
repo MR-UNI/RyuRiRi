@@ -75,6 +75,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 nickname = NickName;
                 NickName = string.Empty;
             }
+
             UtilityImpl utilityImpl = new(tickSource);
             CharInfo charInfo = new();
 
@@ -109,6 +110,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 AmiiboBinReader.SaveBinFile(InputBin, virtualAmiiboFile.NickName);
                 return;
             }
+
             SaveAmiiboFile(virtualAmiiboFile);
         }
 
@@ -139,6 +141,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 ApplicationBytes = [];
                 return bytes;
             }
+
             VirtualAmiiboFile virtualAmiiboFile = LoadAmiiboFile(amiiboId);
 
             foreach (VirtualAmiiboApplicationArea applicationArea in virtualAmiiboFile.ApplicationAreas)
@@ -179,6 +182,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 AmiiboBinReader.SaveBinFile(InputBin, applicationAreaData);
                 return;
             }
+
             VirtualAmiiboFile virtualAmiiboFile = LoadAmiiboFile(amiiboId);
 
             if (virtualAmiiboFile.ApplicationAreas.Any(item => item.ApplicationAreaId == OpenedApplicationAreaId))
@@ -246,6 +250,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 return true;
 
             }
+
             return File.Exists(Path.Join(AppDataManager.BaseDirPath, "system", "amiibo", $"{virtualAmiiboFile.AmiiboId}.json"));
         }
     }

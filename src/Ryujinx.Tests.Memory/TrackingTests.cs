@@ -329,6 +329,7 @@ namespace Ryujinx.Tests.Memory
                     {
                         _tracking.VirtualMemoryEvent((ulong)random.Next(PageSize), 4, false);
                     }
+
                     Interlocked.Increment(ref signalThreadsDone);
                 });
             }

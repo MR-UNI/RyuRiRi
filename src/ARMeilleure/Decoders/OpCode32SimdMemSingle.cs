@@ -45,7 +45,7 @@ namespace ARMeilleure.Decoders
             Rn = (opCode >> 16) & 0xf;
 
             WBack = Rm != RegisterAlias.Aarch32Pc;
-            RegisterIndex = Rm != RegisterAlias.Aarch32Pc && Rm != RegisterAlias.Aarch32Sp;
+            RegisterIndex = Rm is not RegisterAlias.Aarch32Pc and not RegisterAlias.Aarch32Sp;
         }
     }
 }

@@ -192,14 +192,14 @@ namespace Ryujinx.Graphics.Vulkan
 
         private readonly void RecordFeedbackLoop(ExtAttachmentFeedbackLoopDynamicState api, CommandBuffer commandBuffer)
         {
-                ImageAspectFlags aspects = (_feedbackLoopAspects & FeedbackLoopAspects.Color) != 0 ? ImageAspectFlags.ColorBit : 0;
+            ImageAspectFlags aspects = (_feedbackLoopAspects & FeedbackLoopAspects.Color) != 0 ? ImageAspectFlags.ColorBit : 0;
 
-                if ((_feedbackLoopAspects & FeedbackLoopAspects.Depth) != 0)
-                {
-                    aspects |= ImageAspectFlags.DepthBit | ImageAspectFlags.StencilBit;
-                }
+            if ((_feedbackLoopAspects & FeedbackLoopAspects.Depth) != 0)
+            {
+                aspects |= ImageAspectFlags.DepthBit | ImageAspectFlags.StencilBit;
+            }
 
-                api.CmdSetAttachmentFeedbackLoopEnable(commandBuffer, aspects);
+            api.CmdSetAttachmentFeedbackLoopEnable(commandBuffer, aspects);
         }
     }
 }

@@ -46,7 +46,6 @@ namespace Ryujinx.Ava.UI.Views.Input
                     LocaleManager.Instance[LocaleKeys.Cancel],
                     LocaleManager.Instance[LocaleKeys.RyujinxConfirm]);
 
-
                 if (result == UserResult.Yes)
                 {
                     ViewModel.Save();
@@ -61,14 +60,14 @@ namespace Ryujinx.Ava.UI.Views.Input
                         ViewModel.IsModified = true;
                         ViewModel.PlayerId = ((PlayerModel)e.AddedItems[0])!.Id;
                     }
+
                     return;
                 }
 
                 ViewModel.IsModified = false;
                 ViewModel.PlayerId = ViewModel.PlayerIdChoose;
-                
-            }   
-            
+
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

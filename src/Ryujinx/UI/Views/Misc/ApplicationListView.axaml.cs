@@ -2,10 +2,10 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.UI.Windows;
 using System;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace Ryujinx.Ava.UI.Views.Misc
             if (sender is ListBox { SelectedItem: ApplicationData selected })
                 RaiseEvent(new ApplicationOpenedEventArgs(selected, ApplicationOpenedEvent));
         }
-        
+
         private async void PlayabilityStatus_OnClick(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { Content: TextBlock playabilityLabel })
@@ -46,15 +46,15 @@ namespace Ryujinx.Ava.UI.Views.Misc
 
             if (!RyujinxApp.IsClipboardAvailable(out IClipboard clipboard))
                 return;
-            
+
             ApplicationData appData = ViewModel.Applications.FirstOrDefault(it => it.IdString == idText.Text);
             if (appData is null)
                 return;
-            
+
             await clipboard.SetTextAsync(appData.IdString);
-                
+
             NotificationHelper.ShowInformation(
-                "Copied Title ID", 
+                "Copied Title ID",
                 $"{appData.Name} ({appData.IdString})");
         }
     }

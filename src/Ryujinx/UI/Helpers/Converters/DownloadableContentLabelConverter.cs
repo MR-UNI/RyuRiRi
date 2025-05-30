@@ -37,6 +37,5 @@ namespace Ryujinx.Ava.UI.Helpers
         {
             throw new NotImplementedException();
         }
-
     }
 }

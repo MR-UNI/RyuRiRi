@@ -29,10 +29,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
         StorageRead = 0x40,
         StorageWrite = 0x80,
-
-#pragma warning disable CA1069 // Enums values should not be duplicated
         StorageAtomic = 0xc0
-#pragma warning restore CA1069 // Enums values should not be duplicated
     }
 
     /// <summary>

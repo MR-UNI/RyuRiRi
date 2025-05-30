@@ -774,6 +774,7 @@ namespace ARMeilleure.CodeGen.Arm64
                     instI |= 1 << 22; // sh flag
                     imm >>= 12;
                 }
+
                 WriteInstructionAuto(instI | (EncodeUImm12(imm, 0) << 10), rd, rn);
             }
             else

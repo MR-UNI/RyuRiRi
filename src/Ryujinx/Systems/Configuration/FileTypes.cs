@@ -13,7 +13,7 @@ namespace Ryujinx.Ava.Systems.Configuration
         NRO,
         NSO
     }
-    
+
     public static class FileTypesExtensions
     {
         /// <summary>

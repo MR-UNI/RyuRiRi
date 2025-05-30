@@ -45,7 +45,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             return x == y || x.Type == OperandType.Constant || x.Type == OperandType.ConstantBuffer;
         }
 
-        private static bool AreAllSourcesEqual(INode node, INode otherNode)
+        private static bool AreAllSourcesEqual(Operation node, Operation otherNode)
         {
             if (node.SourcesCount != otherNode.SourcesCount)
             {
@@ -96,7 +96,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
         private static bool IsConditionalBranch(Instruction inst)
         {
-            return inst == Instruction.BranchIfFalse || inst == Instruction.BranchIfTrue;
+            return inst is Instruction.BranchIfFalse or Instruction.BranchIfTrue;
         }
 
         private static bool IsSameCondition(Operand currentCondition, Operand queryCondition)

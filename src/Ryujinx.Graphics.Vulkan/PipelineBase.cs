@@ -1548,7 +1548,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
 
             return false;
-    }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool UpdateFeedbackLoop()
