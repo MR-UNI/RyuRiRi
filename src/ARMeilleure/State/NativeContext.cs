@@ -111,6 +111,7 @@ namespace ARMeilleure.State
             {
                 value |= GetStorage().Flags[flag] != 0 ? 1u << flag : 0u;
             }
+
             return value;
         }
 
@@ -155,6 +156,7 @@ namespace ARMeilleure.State
                     value |= GetStorage().FpFlags[flag] != 0 ? bit : 0u;
                 }
             }
+
             return value;
         }
 

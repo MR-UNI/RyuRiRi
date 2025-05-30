@@ -33,7 +33,7 @@ namespace Ryujinx.Ava.UI.Windows
             Height = ConfigurationState.Instance.ShowOldUI
                 ? 906
                 : 954; // nav panel is put on top with custom title bar so account for new height
-            
+
             Load();
         }
 
@@ -111,12 +111,12 @@ namespace Ryujinx.Ava.UI.Windows
         protected override void OnClosing(WindowClosingEventArgs e)
         {
             HotkeysPage.Dispose();
-            
+
             foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
             {
                 gamepad?.ClearLed();
             }
-            
+
             InputPage.Dispose();
             base.OnClosing(e);
         }

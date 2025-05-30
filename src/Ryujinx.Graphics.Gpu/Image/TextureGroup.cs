@@ -218,7 +218,6 @@ namespace Ryujinx.Graphics.Gpu.Image
             }
         }
 
-
         /// <summary>
         /// Flushes incompatible overlaps if the storage format requires it, and they have been modified.
         /// This allows unsupported host formats to accept data written to format aliased textures.
@@ -1132,7 +1131,6 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             SignalAllDirty();
         }
-
 
         /// <summary>
         /// Removes a view from the group, removing it from all overlap lists.

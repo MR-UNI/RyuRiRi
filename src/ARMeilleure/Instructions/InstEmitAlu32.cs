@@ -899,6 +899,7 @@ namespace ARMeilleure.Instructions
                     {
                         n = context.ShiftLeft(n, Const(shift));
                     }
+
                     break;
                 case ShiftType.Asr:
                     if (shift == 32)
@@ -909,6 +910,7 @@ namespace ARMeilleure.Instructions
                     {
                         n = context.ShiftRightSI(n, Const(shift));
                     }
+
                     break;
             }
 

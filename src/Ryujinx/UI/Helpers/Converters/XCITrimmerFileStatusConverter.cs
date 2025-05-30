@@ -31,7 +31,7 @@ namespace Ryujinx.Ava.UI.Helpers
             }
 
             return app.PercentageProgress != null ? String.Empty :
-                app.ProcessingOutcome != OperationOutcome.Successful && app.ProcessingOutcome != OperationOutcome.Undetermined ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusFailedLabel] :
+                app.ProcessingOutcome is not OperationOutcome.Successful and not OperationOutcome.Undetermined ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusFailedLabel] :
                 app.Trimmable & app.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusPartialLabel] :
                 app.Trimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusTrimmableLabel] :
                 app.Untrimmable ? LocaleManager.Instance[LocaleKeys.TitleXCIStatusUntrimmableLabel] :

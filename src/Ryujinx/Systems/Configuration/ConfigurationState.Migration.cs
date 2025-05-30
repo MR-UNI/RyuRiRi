@@ -33,18 +33,18 @@ namespace Ryujinx.Ava.Systems.Configuration
             foreach ((int newVersion, Action<ConfigurationFileFormat> migratorFunction)
                      in _migrations.OrderBy(x => x.Key))
             {
-                if (cff.Version >= newVersion) 
+                if (cff.Version >= newVersion)
                     continue;
 
-                RyuLogger.Warning?.Print(LogClass.Application, 
+                RyuLogger.Warning?.Print(LogClass.Application,
                     $"Outdated configuration version {cff.Version}, migrating to version {newVersion}.");
-                
+
                 migratorFunction(cff);
 
                 configurationFileUpdated = true;
             }
-            
-          
+
+
             EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
             UpdateCheckerType.Value = shouldLoadFromFile ? cff.UpdateCheckerType : UpdateCheckerType.Value; // Get from global config only
             FocusLostActionType.Value = cff.FocusLostActionType;
@@ -53,7 +53,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             ShowOldUI.Value = shouldLoadFromFile ? cff.ShowTitleBar : ShowOldUI.Value; // Get from global config only
             EnableHardwareAcceleration.Value = shouldLoadFromFile ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value; // Get from global config only
             HideCursor.Value = cff.HideCursor;
-          
+
             Logger.EnableFileLog.Value = cff.EnableFileLog;
             Logger.EnableDebug.Value = cff.LoggingEnableDebug;
             Logger.EnableStub.Value = cff.LoggingEnableStub;
@@ -65,7 +65,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             Logger.EnableFsAccessLog.Value = cff.LoggingEnableFsAccessLog;
             Logger.FilteredClasses.Value = cff.LoggingFilteredClasses;
             Logger.GraphicsDebugLevel.Value = cff.LoggingGraphicsDebugLevel;
-            
+
             Graphics.ResScale.Value = cff.ResScale;
             Graphics.ResScaleCustom.Value = cff.ResScaleCustom;
             Graphics.MaxAnisotropy.Value = cff.MaxAnisotropy;
@@ -84,7 +84,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             Graphics.EnableTextureRecompression.Value = cff.EnableTextureRecompression;
             Graphics.EnableMacroHLE.Value = cff.EnableMacroHLE;
             Graphics.EnableColorSpacePassthrough.Value = cff.EnableColorSpacePassthrough;
-            
+
             System.Language.Value = cff.SystemLanguage;
             System.Region.Value = cff.SystemRegion;
             System.TimeZone.Value = cff.SystemTimeZone;
@@ -142,10 +142,9 @@ namespace Ryujinx.Ava.Systems.Configuration
             UI.WindowStartup.WindowPositionY.Value = shouldLoadFromFile ? cff.WindowStartup.WindowPositionY : UI.WindowStartup.WindowPositionY.Value;
             UI.WindowStartup.WindowMaximized.Value = shouldLoadFromFile ? cff.WindowStartup.WindowMaximized : UI.WindowStartup.WindowMaximized.Value;
 
-
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
-            Hid.DisableInputWhenOutOfFocus.Value = shouldLoadFromFile ? cff.DisableInputWhenOutOfFocus: Hid.DisableInputWhenOutOfFocus.Value; // Get from global config only
+            Hid.DisableInputWhenOutOfFocus.Value = shouldLoadFromFile ? cff.DisableInputWhenOutOfFocus : Hid.DisableInputWhenOutOfFocus.Value; // Get from global config only
             Hid.Hotkeys.Value = shouldLoadFromFile ? cff.Hotkeys : Hid.Hotkeys.Value; // Get from global config only
             Hid.InputConfig.Value = cff.InputConfig ?? [];
             Hid.RainbowSpeed.Value = cff.RainbowSpeed;
@@ -155,14 +154,14 @@ namespace Ryujinx.Ava.Systems.Configuration
             Multiplayer.DisableP2p.Value = cff.MultiplayerDisableP2p;
             Multiplayer.LdnPassphrase.Value = cff.MultiplayerLdnPassphrase;
             Multiplayer.LdnServer.Value = cff.LdnServer;
-            
-            {
-                Hacks.ShowDirtyHacks.Value = shouldLoadFromFile ? cff.ShowDirtyHacks: Hacks.ShowDirtyHacks.Value; // Get from global config only
 
-                DirtyHacks hacks = new (cff.DirtyHacks ?? []);
+            {
+                Hacks.ShowDirtyHacks.Value = shouldLoadFromFile ? cff.ShowDirtyHacks : Hacks.ShowDirtyHacks.Value; // Get from global config only
+
+                DirtyHacks hacks = new(cff.DirtyHacks ?? []);
 
                 Hacks.Xc2MenuSoftlockFix.Value = hacks.IsEnabled(DirtyHack.Xc2MenuSoftlockFix);
-                
+
             }
 
             if (configurationFileUpdated)
@@ -172,7 +171,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                 RyuLogger.Notice.Print(LogClass.Application, $"Configuration file updated to version {ConfigurationFileFormat.CurrentVersion}");
             }
         }
-        
+
         private static readonly Dictionary<int, Action<ConfigurationFileFormat>> _migrations =
             Collections.NewDictionary<int, Action<ConfigurationFileFormat>>(
                 (2, static cff => cff.SystemRegion = Region.USA),
@@ -184,13 +183,15 @@ namespace Ryujinx.Ava.Systems.Configuration
                 {
                     cff.ColumnSort = new ColumnSort { SortColumnId = 0, SortAscending = false };
                     cff.Hotkeys = new KeyboardHotkeys { ToggleVSyncMode = Key.F1 };
-                }),
+                }
+        ),
                 (10, static cff => cff.AudioBackend = AudioBackend.OpenAl),
                 (11, static cff =>
                 {
                     cff.ResScale = 1;
                     cff.ResScaleCustom = 1.0f;
-                }),
+                }
+        ),
                 (12, static cff => cff.LoggingGraphicsDebugLevel = GraphicsDebugLevel.None),
                 // 13 -> LDN1
                 (14, static cff => cff.CheckUpdatesOnStart = true),
@@ -205,7 +206,8 @@ namespace Ryujinx.Ava.Systems.Configuration
 
                     cff.MultiplayerMode = MultiplayerMode.Disabled;
                     cff.MultiplayerLanInterfaceId = "0";
-                }),
+                }
+        ),
                 (22, static cff => cff.HideCursor = HideCursorMode.Never),
                 (24, static cff =>
                 {
@@ -260,14 +262,17 @@ namespace Ryujinx.Ava.Systems.Configuration
                             },
                         }
                     ];
-                }),
+                }
+        ),
                 (26, static cff => cff.MemoryManagerMode = MemoryManagerMode.HostMappedUnsafe),
                 (27, static cff => cff.EnableMouse = false),
                 (29,
                     static cff =>
                         cff.Hotkeys = new KeyboardHotkeys
                         {
-                            ToggleVSyncMode = Key.F1, Screenshot = Key.F8, ShowUI = Key.F4
+                            ToggleVSyncMode = Key.F1,
+                            Screenshot = Key.F8,
+                            ShowUI = Key.F4
                         }),
                 (30, static cff =>
                 {
@@ -275,10 +280,13 @@ namespace Ryujinx.Ava.Systems.Configuration
                     {
                         config.Rumble = new RumbleConfigController
                         {
-                            EnableRumble = false, StrongRumble = 1f, WeakRumble = 1f,
+                            EnableRumble = false,
+                            StrongRumble = 1f,
+                            WeakRumble = 1f,
                         };
                     }
-                }),
+                }
+        ),
                 (31, static cff => cff.BackendThreading = BackendThreading.Auto),
                 (32, static cff => cff.Hotkeys = new KeyboardHotkeys
                 {
@@ -299,7 +307,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     };
 
                     cff.AudioVolume = 1;
-                }),
+                }
+        ),
                 (34, static cff => cff.EnableInternetAccess = false),
                 (35, static cff =>
                 {
@@ -309,7 +318,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                         config.RangeLeft = 1.0f;
                         config.RangeRight = 1.0f;
                     }
-                }),
+                }
+        ),
 
                 (36, static cff => cff.LoggingEnableTrace = false),
                 (37, static cff => cff.ShowConsole = true),
@@ -320,7 +330,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     cff.ShowNames = true;
                     cff.GridSize = 2;
                     cff.LanguageCode = "en_US";
-                }),
+                }
+        ),
                 (39,
                     static cff => cff.Hotkeys = new KeyboardHotkeys
                     {
@@ -353,7 +364,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     cff.AntiAliasing = AntiAliasing.None;
                     cff.ScalingFilter = ScalingFilter.Bilinear;
                     cff.ScalingFilterLevel = 80;
-                }),
+                }
+        ),
                 (45,
                     static cff => cff.ShownFileTypes = new ShownFileTypes
                     {
@@ -381,7 +393,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     {
                         AppDataManager.FixMacOSConfigurationFolders();
                     }
-                }),
+                }
+        ),
                 (50, static cff => cff.EnableHardwareAcceleration = true),
                 (51, static cff => cff.RememberWindowState = true),
                 (52, static cff => cff.AutoloadDirs = []),
@@ -410,7 +423,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     };
 
                     cff.CustomVSyncInterval = 120;
-                }),
+                }
+        ),
                 // 58 migration accidentally got skipped, but it worked with no issues somehow lol
                 (59, static cff =>
                 {
@@ -420,7 +434,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     // This was accidentally enabled by default when it was PRed. That is not what we want,
                     // so as a compromise users who want to use it will simply need to re-enable it once after updating.
                     cff.IgnoreApplet = false;
-                }),
+                }
+        ),
                 (60, static cff => cff.StartNoUI = false),
                 (61, static cff =>
                 {
@@ -434,7 +449,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                             LedColor = new Color(255, 5, 1, 253).ToUInt32()
                         };
                     }
-                }),
+                }
+        ),
                 (62, static cff => cff.RainbowSpeed = 1f),
                 (63, static cff => cff.MatchSystemTime = false),
                 (64, static cff => cff.LoggingEnableAvalonia = false),
@@ -460,7 +476,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                         TurboMode = Key.Unbound,
                         TurboModeWhileHeld = false
                     };
-                }),
+                }
+        ),
                 (69, static cff => cff.SkipUserProfiles = false)
             );
     }

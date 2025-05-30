@@ -15,14 +15,14 @@ using Ryujinx.Audio.Integration;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Systems.AppLibrary;
-using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
@@ -307,7 +307,7 @@ namespace Ryujinx.Ava.Systems
                 Device.VSyncMode = e.NewValue;
                 Device.UpdateVSyncInterval();
             }
-            
+
             _renderer.Window?.ChangeVSyncMode(e.NewValue);
 
             _viewModel.UpdateVSyncIntervalPicker();
@@ -319,7 +319,7 @@ namespace Ryujinx.Ava.Systems
             bool customVSyncIntervalEnabled = ConfigurationState.Instance.Graphics.EnableCustomVSyncInterval.Value;
 
             UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(
-                oldVSyncMode, 
+                oldVSyncMode,
                 oldVSyncMode.Next(customVSyncIntervalEnabled))
             );
         }
@@ -480,7 +480,7 @@ namespace Ryujinx.Ava.Systems
             _renderingThread.Start();
 
             _viewModel.Volume = ConfigurationState.Instance.System.AudioVolume.Value;
-            
+
             Rainbow.Enable();
 
             MainLoop();
@@ -575,7 +575,7 @@ namespace Ryujinx.Ava.Systems
             }
 
             DiscordIntegrationModule.GuestAppStartedAt = null;
-            
+
             Rainbow.Disable();
             Rainbow.Reset();
 
@@ -609,7 +609,6 @@ namespace Ryujinx.Ava.Systems
         {
             if (Device.Processes != null)
                 MainWindowViewModel.UpdateGameMetadata(Device.Processes.ActiveApplication.ProgramIdText);
-
 
             ConfigurationState.Instance.System.IgnoreMissingServices.Event -= UpdateIgnoreMissingServicesState;
             ConfigurationState.Instance.Graphics.AspectRatio.Event -= UpdateAspectRatioState;
@@ -667,7 +666,7 @@ namespace Ryujinx.Ava.Systems
         public async Task<bool> LoadGuestApplication(BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
             DiscordIntegrationModule.GuestAppStartedAt = Timestamps.Now;
-            
+
             InitEmulatedSwitch();
             MainWindow.UpdateGraphicsConfig();
 
@@ -751,7 +750,7 @@ namespace Ryujinx.Ava.Systems
                 {
                     romFsFiles = Directory.GetFiles(ApplicationPath, "*.romfs");
                 }
-                
+
                 Logger.Notice.Print(LogClass.Application, $"Loading unpacked content archive from '{ApplicationPath}'.");
 
                 if (romFsFiles.Length > 0)
@@ -780,7 +779,7 @@ namespace Ryujinx.Ava.Systems
             else if (File.Exists(ApplicationPath))
             {
                 Logger.Notice.Print(LogClass.Application, $"Loading content archive from '{ApplicationPath}'.");
-                
+
                 switch (Path.GetExtension(ApplicationPath).ToLowerInvariant())
                 {
                     case ".xci":
@@ -857,7 +856,7 @@ namespace Ryujinx.Ava.Systems
 
                 return false;
             }
-            
+
             ApplicationLibrary.LoadAndSaveMetaData(Device.Processes.ActiveApplication.ProgramIdText,
                 appMetadata => appMetadata.UpdatePreGame()
             );
@@ -1077,7 +1076,7 @@ namespace Ryujinx.Ava.Systems
             });
 
             (RendererHost.EmbeddedWindow as EmbeddedWindowOpenGL)?.MakeCurrent(true);
-            
+
             // Reload settings when the game is turned off
             // (resets custom settings if there were any)
             Program.ReloadConfig();
@@ -1160,7 +1159,7 @@ namespace Ryujinx.Ava.Systems
         {
             if (_displayCount is 0 && _renderer.ProgramCount is 0)
                 return;
-            
+
             // If there is a mismatch between total program compile and previous count
             // this means new shaders have been compiled and should be displayed.
             if (_renderer.ProgramCount != _previousCount)
@@ -1233,7 +1232,7 @@ namespace Ryujinx.Ava.Systems
                     {
                         Device.ToggleTurbo();
                     }
-                    
+
                     switch (currentHotkeyState)
                     {
                         case KeyboardHotkeyState.ToggleVSyncMode:
@@ -1250,6 +1249,7 @@ namespace Ryujinx.Ava.Systems
                             {
                                 Device.ToggleTurbo();
                             }
+
                             break;
                         case KeyboardHotkeyState.Screenshot:
                             ScreenshotRequested = true;
@@ -1266,6 +1266,7 @@ namespace Ryujinx.Ava.Systems
                             {
                                 Pause();
                             }
+
                             break;
                         case KeyboardHotkeyState.ToggleMute:
                             if (Device.IsAudioMuted())

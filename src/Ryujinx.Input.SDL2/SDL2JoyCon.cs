@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Configuration.Hid;
+using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
 using System;
@@ -20,7 +20,7 @@ namespace Ryujinx.Input.SDL2
 
         private StandardControllerInputConfig _configuration;
 
-        private readonly Dictionary<GamepadButtonInputId,SDL_GameControllerButton> _leftButtonsDriverMapping = new()
+        private readonly Dictionary<GamepadButtonInputId, SDL_GameControllerButton> _leftButtonsDriverMapping = new()
         {
             { GamepadButtonInputId.LeftStick , SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSTICK },
              {GamepadButtonInputId.DpadUp ,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_Y},
@@ -33,7 +33,7 @@ namespace Ryujinx.Input.SDL2
              {GamepadButtonInputId.SingleRightTrigger0,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_RIGHTSHOULDER},
              {GamepadButtonInputId.SingleLeftTrigger0,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSHOULDER},
         };
-        private readonly Dictionary<GamepadButtonInputId,SDL_GameControllerButton> _rightButtonsDriverMapping = new()
+        private readonly Dictionary<GamepadButtonInputId, SDL_GameControllerButton> _rightButtonsDriverMapping = new()
         {
              {GamepadButtonInputId.RightStick,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_LEFTSTICK},
              {GamepadButtonInputId.A,SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_B},
@@ -155,7 +155,6 @@ namespace Ryujinx.Input.SDL2
             Dispose(true);
         }
 
-
         public void SetTriggerThreshold(float triggerThreshold)
         {
 
@@ -212,7 +211,8 @@ namespace Ryujinx.Input.SDL2
                 Vector3 value = _joyConType switch
                 {
                     JoyConType.Left => new Vector3(-values[2], values[1], values[0]),
-                    JoyConType.Right => new Vector3(values[2], values[1], -values[0])
+                    JoyConType.Right => new Vector3(values[2], values[1], -values[0]),
+                    _ => throw new NotSupportedException($"Unsupported JoyCon type: {_joyConType}")
                 };
 
                 return inputId switch
@@ -239,7 +239,6 @@ namespace Ryujinx.Input.SDL2
                 // First update sticks
                 _stickUserMapping[(int)StickInputId.Left] = (StickInputId)_configuration.LeftJoyconStick.Joystick;
                 _stickUserMapping[(int)StickInputId.Right] = (StickInputId)_configuration.RightJoyconStick.Joystick;
-
 
                 switch (_joyConType)
                 {
@@ -268,9 +267,9 @@ namespace Ryujinx.Input.SDL2
                         _buttonsUserMapping.Add(new ButtonMappingEntry(GamepadButtonInputId.SingleLeftTrigger1, (GamepadButtonInputId)_configuration.RightJoycon.ButtonSl));
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new NotSupportedException($"Unsupported JoyCon type: {_joyConType}");
                 }
-                
+
                 SetTriggerThreshold(_configuration.TriggerThreshold);
             }
         }
@@ -294,7 +293,6 @@ namespace Ryujinx.Input.SDL2
                 if (_buttonsUserMapping.Count == 0)
                     return rawState;
 
-
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                 foreach (ButtonMappingEntry entry in _buttonsUserMapping)
                 {
@@ -317,7 +315,6 @@ namespace Ryujinx.Input.SDL2
 
             return result;
         }
-
 
         private static float ConvertRawStickValue(short value)
         {
@@ -348,7 +345,6 @@ namespace Ryujinx.Input.SDL2
             return null;
         }
 
-
         public (float, float) GetStick(StickInputId inputId)
         {
             if (inputId == StickInputId.Unbound)
@@ -358,7 +354,7 @@ namespace Ryujinx.Input.SDL2
             {
                 return (0.0f, 0.0f);
             }
-            
+
             (short stickX, short stickY) = GetStickXY();
 
             float resultX = ConvertRawStickValue(stickX);
@@ -399,7 +395,7 @@ namespace Ryujinx.Input.SDL2
                 SDL_GameControllerGetAxis(_gamepadHandle, SDL_GameControllerAxis.SDL_CONTROLLER_AXIS_LEFTX),
                 SDL_GameControllerGetAxis(_gamepadHandle, SDL_GameControllerAxis.SDL_CONTROLLER_AXIS_LEFTY));
         }
-        
+
         public bool IsPressed(GamepadButtonInputId inputId)
         {
             if (!_buttonsDriverMapping.TryGetValue(inputId, out var button))

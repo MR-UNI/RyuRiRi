@@ -111,6 +111,7 @@ namespace Ryujinx.Tests.Cpu
                         Assert.That(GetContext().GetPstateFlag(PState.CFlag), Is.EqualTo(w1 >= imm));
                         Assert.That(GetContext().GetPstateFlag(PState.VFlag), Is.EqualTo((overflow >> 31) != 0));
                     }
+
                     break;
                 case 2:
                     Assert.That(GetContext().GetX(1), Is.EqualTo((w1 + imm) & 0xffffffffu));
@@ -166,6 +167,7 @@ namespace Ryujinx.Tests.Cpu
                         Assert.That(GetContext().GetPstateFlag(PState.NFlag), Is.EqualTo((result >> 31) != 0));
                         Assert.That(GetContext().GetPstateFlag(PState.ZFlag), Is.EqualTo(result == 0));
                     }
+
                     break;
                 case 9:
                     Assert.That(GetContext().GetX(1), Is.EqualTo((uint)-w2));
@@ -180,6 +182,7 @@ namespace Ryujinx.Tests.Cpu
                         Assert.That(GetContext().GetPstateFlag(PState.CFlag), Is.EqualTo(w1 >= w2));
                         Assert.That(GetContext().GetPstateFlag(PState.VFlag), Is.EqualTo((overflow >> 31) != 0));
                     }
+
                     break;
                 case 11:
                     Assert.That(GetContext().GetX(1), Is.EqualTo(w1));
@@ -191,6 +194,7 @@ namespace Ryujinx.Tests.Cpu
                         Assert.That(GetContext().GetPstateFlag(PState.CFlag), Is.EqualTo(result < w1));
                         Assert.That(GetContext().GetPstateFlag(PState.VFlag), Is.EqualTo((overflow >> 31) != 0));
                     }
+
                     break;
                 case 12:
                     Assert.That(GetContext().GetX(1), Is.EqualTo(w1 | w2));
@@ -244,6 +248,7 @@ namespace Ryujinx.Tests.Cpu
                         Assert.That(GetContext().GetPstateFlag(PState.CFlag), Is.EqualTo(w1 >= w2));
                         Assert.That(GetContext().GetPstateFlag(PState.VFlag), Is.EqualTo((overflow >> 31) != 0));
                     }
+
                     break;
                 case 2:
                     Assert.That(GetContext().GetX((int)rd), Is.EqualTo(w2));

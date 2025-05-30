@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using System;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
@@ -133,8 +133,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
 
             Vector128<byte> ff = Sse2.CompareEqual(zero, zero);
-            Vector128<byte> q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, ps1Ps0, qs1Qs0;
-            Vector128<byte> mask, hev;
+            Vector128<byte> q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0;
 
             p3P2 = Sse2.UnpackLow(Sse2.LoadScalarVector128((long*)(s.ToPointer() - (3 * pitch))),
                 Sse2.LoadScalarVector128((long*)(s.ToPointer() - (4 * pitch)))).AsByte();
@@ -149,8 +148,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             q1Q0 = Sse2.UnpackHigh(q0P0.AsInt64(), q1P1.AsInt64()).AsByte();
             q2Q1 = Sse2.UnpackLow(Sse2.ShiftRightLogical128BitLane(q1P1, 8).AsInt64(), q3Q2.AsInt64()).AsByte();
 
-            FilterHevMask(q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, limitV, threshV, out hev, out mask);
-            Filter4(p1P0, q1Q0, hev, mask, ff, out ps1Ps0, out qs1Qs0);
+            FilterHevMask(q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, limitV, threshV, out Vector128<byte> hev, out Vector128<byte> mask);
+            Filter4(p1P0, q1Q0, hev, mask, ff, out Vector128<byte> ps1Ps0, out Vector128<byte> qs1Qs0);
 
             Sse.StoreHigh((float*)(s.ToPointer() - (2 * pitch)), ps1Ps0.AsSingle()); // *op1
             Sse2.StoreScalar((long*)(s.ToPointer() - (1 * pitch)), ps1Ps0.AsInt64()); // *op0
@@ -178,8 +177,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             Vector128<byte> ff = Sse2.CompareEqual(zero, zero);
             Vector128<byte> x0, x1, x2, x3;
-            Vector128<byte> q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, ps1Ps0, qs1Qs0;
-            Vector128<byte> mask, hev;
+            Vector128<byte> q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0;
 
             // 00 10 01 11 02 12 03 13 04 14 05 15 06 16 07 17
             q1Q0 = Sse2.UnpackLow(
@@ -230,8 +228,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             p2P1 = Sse2.UnpackLow(q1P1.AsInt64(), p3P2.AsInt64()).AsByte();
             q2Q1 = Sse2.UnpackLow(Sse2.ShiftRightLogical128BitLane(q1P1, 8).AsInt64(), q3Q2.AsInt64()).AsByte();
 
-            FilterHevMask(q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, limitV, threshV, out hev, out mask);
-            Filter4(p1P0, q1Q0, hev, mask, ff, out ps1Ps0, out qs1Qs0);
+            FilterHevMask(q1P1, q0P0, p3P2, p2P1, p1P0, q3Q2, q2Q1, q1Q0, limitV, threshV, out Vector128<byte> hev, out Vector128<byte> mask);
+            Filter4(p1P0, q1Q0, hev, mask, ff, out Vector128<byte> ps1Ps0, out Vector128<byte> qs1Qs0);
 
             // Transpose 8x4 to 4x8
             // qs1qs0: 20 21 22 23 24 25 26 27  30 31 32 33 34 34 36 37
@@ -1262,6 +1260,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 flat = Sse2.CompareEqual(flat, zero);
                 flat = Sse2.And(flat, mask);
             }
+
             {
                 Vector128<short> four = Vector128.Create((short)4);
                 ArrayPtr<byte> src = s;

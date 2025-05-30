@@ -30,7 +30,7 @@ namespace Ryujinx.Ava.UI.Helpers
             }
 
             return app.PercentageProgress != null ? null :
-                app.ProcessingOutcome != OperationOutcome.Successful && app.ProcessingOutcome != OperationOutcome.Undetermined ? app.ProcessingOutcome.ToLocalisedText() :
+                app.ProcessingOutcome is not OperationOutcome.Successful and not OperationOutcome.Undetermined ? app.ProcessingOutcome.ToLocalisedText() :
                 null;
         }
 

@@ -84,6 +84,7 @@ namespace Ryujinx.Tests.Collections
             {
                 Console.WriteLine($"{node.Key} -> {node.Value}");
             }
+
             Assert.AreEqual(list.Count, dictionary.Count);
             Assert.AreEqual(list[0].Key, 4);
             Assert.AreEqual(list[1].Key, 2);
@@ -118,6 +119,7 @@ namespace Ryujinx.Tests.Collections
             {
                 Console.WriteLine($"{node.Key} -> {node.Value}");
             }
+
             Assert.AreEqual(list[0].Key, 4);
             Assert.AreEqual(list[1].Key, 2);
             Assert.AreEqual(list[2].Key, 10);
@@ -149,6 +151,7 @@ namespace Ryujinx.Tests.Collections
             {
                 Console.WriteLine($"{node.Key} -> {node.Value}");
             }
+
             Assert.AreEqual(list[0].Key, 4);
             Assert.AreEqual(list[1].Key, 2);
             Assert.AreEqual(list[2].Key, 9);
@@ -223,7 +226,6 @@ namespace Ryujinx.Tests.Collections
             list = dictionary.AsLevelOrderList();
 
             Assert.AreEqual(list[4].Value, 4);
-
 
             // Assure that none of the nodes locations have been modified.
             Assert.AreEqual(list[0].Key, 4);

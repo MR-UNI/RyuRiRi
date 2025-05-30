@@ -138,6 +138,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             {
                 sb.AppendLine($"\tX[{i:d2}]:\t{GetReg(i)}");
             }
+
             sb.AppendLine($"\tFP:\t{GetReg(29)}");
             sb.AppendLine($"\tLR:\t{GetReg(30)}");
             sb.AppendLine($"\tSP:\t{GetReg(31)}");
@@ -235,6 +236,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
                 {
                     info.SubName = Demangler.Parse(info.SubName);
                 }
+
                 info.SubOffset = info.Offset - symbol.Value;
             }
             else

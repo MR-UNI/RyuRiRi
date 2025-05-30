@@ -124,7 +124,6 @@ namespace Ryujinx.HLE.HOS.Services.Mii
                 }
 
                 if (_isTestModeEnabled)
-#pragma warning disable CS0162
                 {
                     result = _horizonClient.Fs.CreateSystemSaveData(saveDataId, 0x10000, 0x10000,
                         SaveDataFlags.KeepAfterResettingSystemSaveDataWithoutUserSaveData);
@@ -133,7 +132,6 @@ namespace Ryujinx.HLE.HOS.Services.Mii
                         return result;
                     }
                 }
-#pragma warning restore CS0162
                 else
                 {
                     result = _horizonClient.Fs.CreateSystemSaveData(saveDataId, SystemProgramId.Ns.Value, 0x10000,
@@ -155,6 +153,7 @@ namespace Ryujinx.HLE.HOS.Services.Mii
             {
                 _mountCounter++;
             }
+
             return result;
         }
 

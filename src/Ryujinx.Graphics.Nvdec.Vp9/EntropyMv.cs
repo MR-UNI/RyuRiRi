@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
 using System.Diagnostics;
@@ -11,7 +11,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         /* Symbols for coding which components are zero jointly */
         public const int Joints = 4;
-
 
         public static readonly sbyte[] JointTree =
         [
@@ -33,12 +32,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static bool JointVertical(MvJointType type)
         {
-            return type == MvJointType.Hzvnz || type == MvJointType.Hnzvnz;
+            return type is MvJointType.Hzvnz or MvJointType.Hnzvnz;
         }
 
         private static bool JointHorizontal(MvJointType type)
         {
-            return type == MvJointType.Hnzvz || type == MvJointType.Hnzvnz;
+            return type is MvJointType.Hnzvz or MvJointType.Hnzvnz;
         }
 
         private static readonly byte[] _logInBase2 =

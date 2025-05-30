@@ -158,7 +158,7 @@ namespace Ryujinx.Common.Logging
             _time.Restart();
         }
 
-        private static ILogTarget GetTarget(string targetName) 
+        private static ILogTarget GetTarget(string targetName)
             => _logTargets.FirstOrDefault(target => target.Name.Equals(targetName));
 
         public static void AddTarget(ILogTarget target)

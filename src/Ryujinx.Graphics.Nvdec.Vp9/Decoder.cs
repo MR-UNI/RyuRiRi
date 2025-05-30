@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -29,48 +29,52 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ReadOnlySpan<Vp9MvRef> mvsIn,
             Span<Vp9MvRef> mvsOut)
         {
-            Vp9Common cm = new();
+            Vp9Common cm = new()
+            {
+                FrameType = pictureInfo.IsKeyFrame ? FrameType.KeyFrame : FrameType.InterFrame,
+                IntraOnly = pictureInfo.IntraOnly,
 
-            cm.FrameType = pictureInfo.IsKeyFrame ? FrameType.KeyFrame : FrameType.InterFrame;
-            cm.IntraOnly = pictureInfo.IntraOnly;
+                Width = output.Width,
+                Height = output.Height,
+                SubsamplingX = 1,
+                SubsamplingY = 1,
 
-            cm.Width = output.Width;
-            cm.Height = output.Height;
-            cm.SubsamplingX = 1;
-            cm.SubsamplingY = 1;
+                UsePrevFrameMvs = pictureInfo.UsePrevInFindMvRefs,
 
-            cm.UsePrevFrameMvs = pictureInfo.UsePrevInFindMvRefs;
+                RefFrameSignBias = pictureInfo.RefFrameSignBias,
 
-            cm.RefFrameSignBias = pictureInfo.RefFrameSignBias;
+                BaseQindex = pictureInfo.BaseQIndex,
+                YDcDeltaQ = pictureInfo.YDcDeltaQ,
+                UvAcDeltaQ = pictureInfo.UvAcDeltaQ,
+                UvDcDeltaQ = pictureInfo.UvDcDeltaQ,
 
-            cm.BaseQindex = pictureInfo.BaseQIndex;
-            cm.YDcDeltaQ = pictureInfo.YDcDeltaQ;
-            cm.UvAcDeltaQ = pictureInfo.UvAcDeltaQ;
-            cm.UvDcDeltaQ = pictureInfo.UvDcDeltaQ;
+                TxMode = (TxMode)pictureInfo.TransformMode,
+
+                AllowHighPrecisionMv = pictureInfo.AllowHighPrecisionMv,
+
+                InterpFilter = (byte)pictureInfo.InterpFilter,
+
+                ReferenceMode = (ReferenceMode)pictureInfo.ReferenceMode,
+
+                CompFixedRef = pictureInfo.CompFixedRef,
+                CompVarRef = pictureInfo.CompVarRef,
+
+                BitDepth = BitDepth.Bits8,
+
+                Log2TileCols = pictureInfo.Log2TileCols,
+                Log2TileRows = pictureInfo.Log2TileRows,
+
+                Fc = new Ptr<Vp9EntropyProbs>(ref pictureInfo.Entropy),
+                Counts = new Ptr<Vp9BackwardUpdates>(ref pictureInfo.BackwardUpdateCounts)
+            };
 
             cm.Mb.Lossless = pictureInfo.Lossless;
             cm.Mb.Bd = 8;
-
-            cm.TxMode = (TxMode)pictureInfo.TransformMode;
-
-            cm.AllowHighPrecisionMv = pictureInfo.AllowHighPrecisionMv;
-
-            cm.InterpFilter = (byte)pictureInfo.InterpFilter;
 
             if (cm.InterpFilter != Constants.Switchable)
             {
                 cm.InterpFilter = LiteralToFilter[cm.InterpFilter];
             }
-
-            cm.ReferenceMode = (ReferenceMode)pictureInfo.ReferenceMode;
-
-            cm.CompFixedRef = pictureInfo.CompFixedRef;
-            cm.CompVarRef = pictureInfo.CompVarRef;
-
-            cm.BitDepth = BitDepth.Bits8;
-
-            cm.Log2TileCols = pictureInfo.Log2TileCols;
-            cm.Log2TileRows = pictureInfo.Log2TileRows;
 
             cm.Seg.Enabled = pictureInfo.SegmentEnabled;
             cm.Seg.UpdateMap = pictureInfo.SegmentMapUpdate;
@@ -84,9 +88,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             cm.Lf.ModeRefDeltaEnabled = pictureInfo.ModeRefDeltaEnabled;
             cm.Lf.RefDeltas = pictureInfo.RefDeltas;
             cm.Lf.ModeDeltas = pictureInfo.ModeDeltas;
-
-            cm.Fc = new Ptr<Vp9EntropyProbs>(ref pictureInfo.Entropy);
-            cm.Counts = new Ptr<Vp9BackwardUpdates>(ref pictureInfo.BackwardUpdateCounts);
 
             cm.FrameRefs[0].Buf = (Surface)pictureInfo.LastReference;
             cm.FrameRefs[1].Buf = (Surface)pictureInfo.GoldenReference;

@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.GAL
                 Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend Threading ({backendThreading}): True");
                 return new ThreadedRenderer(this);
             }
-            
+
             Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend Threading ({backendThreading}): False");
 
             return this;

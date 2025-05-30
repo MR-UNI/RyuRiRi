@@ -10,23 +10,23 @@ namespace Ryujinx.Ava.Systems.Configuration
     {
         public static void Initialize()
         {
-            ConfigurationState.Instance.Logger.EnableDebug.Event += 
+            ConfigurationState.Instance.Logger.EnableDebug.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Debug, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableStub.Event += 
+            ConfigurationState.Instance.Logger.EnableStub.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Stub, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableInfo.Event += 
+            ConfigurationState.Instance.Logger.EnableInfo.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Info, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableWarn.Event += 
+            ConfigurationState.Instance.Logger.EnableWarn.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Warning, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableError.Event += 
+            ConfigurationState.Instance.Logger.EnableError.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Error, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableTrace.Event += 
+            ConfigurationState.Instance.Logger.EnableTrace.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Trace, e.NewValue);
-            ConfigurationState.Instance.Logger.EnableGuest.Event += 
+            ConfigurationState.Instance.Logger.EnableGuest.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.Guest, e.NewValue);
             ConfigurationState.Instance.Logger.EnableFsAccessLog.Event +=
                 (_, e) => Logger.SetEnable(LogLevel.AccessLog, e.NewValue);
-            
+
             ConfigurationState.Instance.Logger.FilteredClasses.Event += (_, e) =>
             {
                 bool noFilter = e.NewValue.Length == 0;

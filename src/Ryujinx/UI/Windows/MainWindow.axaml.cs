@@ -13,13 +13,13 @@ using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.Systems;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Systems.Configuration.UI;
 using Ryujinx.Ava.UI.Applet;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Systems.AppLibrary;
-using Ryujinx.Ava.Systems.Configuration;
-using Ryujinx.Ava.Systems.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
@@ -92,9 +92,9 @@ namespace Ryujinx.Ava.UI.Windows
             // NOTE: Height of MenuBar and StatusBar is not usable here, since it would still be 0 at this point.
             StatusBarHeight = StatusBarView.StatusBar.MinHeight;
             MenuBarHeight = MenuBar.MinHeight;
-            
+
             TitleBar.Height = MenuBarHeight;
-            
+
             // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
             TitleBarHeight = (ConfigurationState.Instance.ShowOldUI ? TitleBar.Height : 0);
 
@@ -135,7 +135,7 @@ namespace Ryujinx.Ava.UI.Windows
             base.OnApplyTemplate(e);
 
             NotificationHelper.SetNotificationManager(this);
-            
+
             Executor.ExecuteBackgroundAsync(async () =>
             {
                 await ShowIntelMacWarningAsync();
@@ -145,7 +145,7 @@ namespace Ryujinx.Ava.UI.Windows
                     if ((firmwarePath.ExistsAsFile && firmwarePath.Extension is "xci" or "zip") ||
                         firmwarePath.ExistsAsDirectory)
                     {
-                        await Dispatcher.UIThread.InvokeAsync(() => 
+                        await Dispatcher.UIThread.InvokeAsync(() =>
                             ViewModel.HandleFirmwareInstallation(firmwarePath));
                         CommandLineState.FirmwareToInstallPathArg = null;
                     }
@@ -191,10 +191,10 @@ namespace Ryujinx.Ava.UI.Windows
                     ref ApplicationControlProperty controlHolder = ref application.ControlHolder.Value;
 
                     ViewModel.LdnData[application.IdString] = e.LdnData.Where(ref controlHolder);
-                    
+
                     UpdateApplicationWithLdnData(application);
                 }
-                
+
                 ViewModel.RefreshView();
             });
         }
@@ -230,7 +230,7 @@ namespace Ryujinx.Ava.UI.Windows
             _deferLoad = true;
             _launchPath = launchPathArg;
             _launchApplicationId = launchApplicationId;
-            _startFullscreen = startFullscreenArg;          
+            _startFullscreen = startFullscreenArg;
         }
 
         public void SwitchToGameControl(bool startFullscreen = false)
@@ -330,6 +330,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to change vm.max_map_count. Process exited with code: {rc}");
                     }
+
                     break;
                 case UserResult.No:
                     rc = LinuxHelper.RunPkExec($"echo \"vm.max_map_count = {LinuxHelper.RecommendedVmMaxMapCount}\" > {LinuxHelper.SysCtlConfigPath} && sysctl -p {LinuxHelper.SysCtlConfigPath}");
@@ -341,6 +342,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to write new value for vm.max_map_count to config. Process exited with code: {rc}");
                     }
+
                     break;
             }
         }
@@ -421,6 +423,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Dispatcher.UIThread.Post(() => RyujinxApp.MainWindow.ViewModel.UpdateAvailable = versions.Current < versions.Incoming);
                     }
+
                     break;
             }
         }
@@ -430,7 +433,7 @@ namespace Ryujinx.Ava.UI.Windows
             StatusBarView.VolumeStatus.Click += VolumeStatus_CheckedChanged;
 
             ApplicationGrid.DataContext = ApplicationList.DataContext = ViewModel;
-            
+
             ApplicationGrid.ApplicationOpened += Application_Opened;
             ApplicationList.ApplicationOpened += Application_Opened;
         }
@@ -717,7 +720,7 @@ namespace Ryujinx.Ava.UI.Windows
 
                     ShowNewContentAddedDialog(dlcLoaded, dlcRemoved, updatesLoaded, updatesRemoved);
                 }
-                
+
                 Executor.ExecuteBackgroundAsync(ApplicationLibrary.RefreshTotalTimePlayedAsync);
 
                 _isLoading = false;
@@ -729,7 +732,7 @@ namespace Ryujinx.Ava.UI.Windows
             applicationLibraryThread.Start();
         }
 
-        private void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
+        private static void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
         {
             string[] messages =
             [
@@ -749,10 +752,10 @@ namespace Ryujinx.Ava.UI.Windows
                 await ContentDialogHelper.ShowTextDialog(
                     LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle],
                     msg,
-                    string.Empty, 
-                    string.Empty, 
-                    string.Empty, 
-                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                    string.Empty,
+                    string.Empty,
+                    string.Empty,
+                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
                     (int)Symbol.Checkmark);
             });
         }
@@ -761,20 +764,22 @@ namespace Ryujinx.Ava.UI.Windows
 
         public static async Task ShowIntelMacWarningAsync()
         {
-            if (_intelMacWarningShown) return;
-            
+            if (_intelMacWarningShown)
+                return;
+
             await Dispatcher.UIThread.InvokeAsync(async () => await ContentDialogHelper.CreateWarningDialog(
                 "Intel Mac Warning",
                 "Intel Macs are not supported and will not work properly.\nIf you continue, do not come to our Discord asking for support;\nand do not report bugs on the GitHub. They will be closed."));
 
             _intelMacWarningShown = true;
         }
-        
+
         private void InputElement_OnGotFocus(object sender, GotFocusEventArgs e)
         {
-            if (ViewModel.AppHost is null) return;
-            
-            if (!_focusLoss.Active) 
+            if (ViewModel.AppHost is null)
+                return;
+
+            if (!_focusLoss.Active)
                 return;
 
             switch (_focusLoss.Type)
@@ -798,9 +803,9 @@ namespace Ryujinx.Ava.UI.Windows
                             _focusLoss = default;
                             return;
                         }
-                        
+
                         ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
-                        
+
                         _focusLoss = default;
                         break;
                     }
@@ -808,10 +813,10 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         if (!ViewModel.AppHost.Device.IsAudioMuted())
                             goto case FocusLostType.BlockInput;
-                        
+
                         ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
                         ViewModel.AppHost.NpadManager.UnblockInputUpdates();
-                        
+
                         _focusLoss = default;
                         break;
                     }
@@ -822,15 +827,15 @@ namespace Ryujinx.Ava.UI.Windows
                             _focusLoss = default;
                             return;
                         }
-                        
+
                         ViewModel.AppHost.Resume();
-                        
+
                         _focusLoss = default;
                         break;
                     }
             }
         }
-        
+
         private (FocusLostType Type, bool Active) _focusLoss;
 
         private void InputElement_OnLostFocus(object sender, RoutedEventArgs e)
@@ -838,7 +843,8 @@ namespace Ryujinx.Ava.UI.Windows
             if (ConfigurationState.Instance.FocusLostActionType.Value is FocusLostType.DoNothing)
                 return;
 
-            if (ViewModel.AppHost is null) return;
+            if (ViewModel.AppHost is null)
+                return;
 
             switch (ConfigurationState.Instance.FocusLostActionType.Value)
             {
@@ -846,7 +852,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         if (ViewModel.AppHost.NpadManager.InputUpdatesBlocked)
                             return;
-            
+
                         ViewModel.AppHost.NpadManager.BlockInputUpdates();
                         _focusLoss = (FocusLostType.BlockInput, ViewModel.AppHost.NpadManager.InputUpdatesBlocked);
                         break;
@@ -876,7 +882,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         if (ViewModel.AppHost.Device.System.IsPaused)
                             return;
-                        
+
                         ViewModel.AppHost.Pause();
                         _focusLoss = (FocusLostType.PauseEmulation, ViewModel.AppHost.Device.System.IsPaused);
                         break;

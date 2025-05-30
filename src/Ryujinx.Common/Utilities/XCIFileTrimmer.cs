@@ -183,7 +183,6 @@ namespace Ryujinx.Common.Utilities
                     {
                         CloseReaders();
                     }
-
                 }
                 else
                 {
@@ -205,7 +204,7 @@ namespace Ryujinx.Common.Utilities
 
             while (true)
             {
-                if (cancelToken.HasValue && cancelToken.Value.IsCancellationRequested) 
+                if (cancelToken.HasValue && cancelToken.Value.IsCancellationRequested)
                 {
                     return false;
                 }
@@ -257,7 +256,7 @@ namespace Ryujinx.Common.Utilities
                 {
                     return OperationOutcome.Cancelled;
                 }
-                else 
+                else
                 {
                     return OperationOutcome.FreeSpaceCheckFailed;
                 }
@@ -294,7 +293,7 @@ namespace Ryujinx.Common.Utilities
                 {
 
 #if !XCI_TRIMMER_READ_ONLY_MODE
-                        outfileStream.SetLength(TrimmedFileSizeB);
+                    outfileStream.SetLength(TrimmedFileSizeB);
 #endif
                     return OperationOutcome.Successful;
                 }
@@ -367,7 +366,7 @@ namespace Ryujinx.Common.Utilities
                     {
                         return OperationOutcome.Cancelled;
                     }
-                    else 
+                    else
                     {
                         return OperationOutcome.Successful;
                     }
@@ -404,9 +403,9 @@ namespace Ryujinx.Common.Utilities
                     }
 
                     long bytesToWrite = Math.Min(XCIFileTrimmer.BufferSize, bytesLeftToWriteB);
-                    
+
 #if !XCI_TRIMMER_READ_ONLY_MODE
-                        outfileStream.Write(buffer, 0, (int)bytesToWrite);
+                    outfileStream.Write(buffer, 0, (int)bytesToWrite);
 #endif
 
                     bytesLeftToWriteB -= bytesToWrite;
@@ -511,6 +510,7 @@ namespace Ryujinx.Common.Utilities
                 Log?.Write(LogType.Error, $"The source file doesn't look like an XCI file as the Cartridge Size is incorrect (0x{cartSizeId:X2})");
                 return false;
             }
+
             _cartSizeB = cartSizeNGB * XCIFileTrimmer.CartSizeMBinFormattedGB * XCIFileTrimmer.BytesInAMegabyte;
 
             // Read data size

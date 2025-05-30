@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Video;
@@ -148,7 +148,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public ArrayPtr<sbyte> AboveSegContext;
         public ArrayPtr<sbyte> AboveContext;
 
-        public bool FrameIsIntraOnly()
+        public readonly bool FrameIsIntraOnly()
         {
             return FrameType == FrameType.KeyFrame || IntraOnly;
         }
@@ -166,12 +166,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return false;
         }
 
-        public ref Surface GetFrameNewBuffer()
+        public readonly ref Surface GetFrameNewBuffer()
         {
             return ref BufferPool.Value.FrameBufs[NewFbIdx].Buf;
         }
 
-        public int GetFreeFb()
+        public readonly int GetFreeFb()
         {
             ref Array12<RefCntBuffer> frameBufs = ref BufferPool.Value.FrameBufs;
 
@@ -233,7 +233,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 allocator.Allocate<TileWorkerData>((tileCols * tileRows) + (maxThreads > 1 ? maxThreads : 0));
         }
 
-        public void FreeTileWorkerData(MemoryAllocator allocator)
+        public readonly void FreeTileWorkerData(MemoryAllocator allocator)
         {
             allocator.Free(TileWorkerData);
         }
@@ -357,7 +357,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        private void SetPartitionProbs(ref MacroBlockD xd)
+        private readonly void SetPartitionProbs(ref MacroBlockD xd)
         {
             xd.PartitionProbs = FrameIsIntraOnly()
                 ? new ArrayPtr<Array3<byte>>(ref Fc.Value.KfPartitionProb[0], 16)
@@ -429,7 +429,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         {
             ref Vp9EntropyProbs fc = ref Fc.Value;
 
-
             if (ReferenceMode == ReferenceMode.Select)
             {
                 for (int i = 0; i < Constants.CompInterContexts; ++i)
@@ -490,7 +489,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public void InitMvProbs()
+        public readonly void InitMvProbs()
         {
             Fc.Value.Joints[0] = 32;
             Fc.Value.Joints[1] = 64;
@@ -684,11 +683,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public void SetupTileInfo(ref ReadBitBuffer rb)
         {
-            int minLog2TileCols = 0, maxLog2TileCols = 0, maxOnes;
-            TileInfo.GetTileNBits(MiCols, out minLog2TileCols, out maxLog2TileCols);
+            TileInfo.GetTileNBits(MiCols, out int minLog2TileCols, out int maxLog2TileCols);
 
             // columns
-            maxOnes = maxLog2TileCols - minLog2TileCols;
+            int maxOnes = maxLog2TileCols - minLog2TileCols;
             Log2TileCols = minLog2TileCols;
             while (maxOnes-- != 0 && rb.ReadBit() != 0)
             {
@@ -725,7 +723,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             if (ColorSpace != VpxColorSpace.Srgb)
             {
                 ColorRange = (VpxColorRange)rb.ReadBit();
-                if (Profile == BitstreamProfile.Profile1 || Profile == BitstreamProfile.Profile3)
+                if (Profile is BitstreamProfile.Profile1 or BitstreamProfile.Profile3)
                 {
                     SubsamplingX = rb.ReadBit();
                     SubsamplingY = rb.ReadBit();
@@ -748,7 +746,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             else
             {
                 ColorRange = VpxColorRange.Full;
-                if (Profile == BitstreamProfile.Profile1 || Profile == BitstreamProfile.Profile3)
+                if (Profile is BitstreamProfile.Profile1 or BitstreamProfile.Profile3)
                 {
                     // Note if colorspace is SRGB then 4:4:4 chroma sampling is assumed.
                     // 4:2:2 or 4:4:0 chroma sampling is not allowed.
@@ -988,7 +986,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public void DefaultCoefProbs()
+        public readonly void DefaultCoefProbs()
         {
             Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx4X4], Entropy.DefaultCoefProbs4X4);
             Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx8X8], Entropy.DefaultCoefProbs8X8);

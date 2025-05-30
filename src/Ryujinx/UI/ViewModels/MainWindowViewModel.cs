@@ -20,15 +20,15 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.Systems;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Generic;
 using Ryujinx.Ava.UI.Renderer;
-using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Systems.AppLibrary;
-using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Views.Dialog;
+using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
@@ -86,9 +86,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private Brush _progressBarForegroundColor;
         [ObservableProperty] private Brush _progressBarBackgroundColor;
         [ObservableProperty] private Brush _vSyncModeColor;
-        #nullable enable
+#nullable enable
         [ObservableProperty] private byte[]? _selectedIcon;
-        #nullable disable
+#nullable disable
         [ObservableProperty] private int _statusBarProgressMaximum;
         [ObservableProperty] private int _statusBarProgressValue;
         [ObservableProperty] private string _statusBarProgressStatusText;
@@ -118,7 +118,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (Updater.CanUpdate(true))
                 await Updater.BeginUpdateAsync(true);
         });
-        
+
         private bool _showTotalTimePlayed;
         private bool _showLoadProgress;
         private bool _isGameRunning;
@@ -140,7 +140,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _customVSyncIntervalPercentageProxy;
         private ApplicationData _listSelectedApplication;
         private ApplicationData _gridSelectedApplication;
-        
+
         // Key is Title ID
         public SafeDictionary<string, LdnGameData.Array> LdnData = [];
 
@@ -157,9 +157,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .OnItemAdded(_ => OnPropertyChanged(nameof(AppsObservableList)))
                 .OnItemRemoved(_ => OnPropertyChanged(nameof(AppsObservableList)))
-#pragma warning disable MVVMTK0034 // Event to update is fired below
                 .Bind(out _appsObservableList);
-#pragma warning restore MVVMTK0034
 
             _rendererWaitEvent = new AutoResetEvent(false);
 
@@ -205,7 +203,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if DEBUG
             topLevel.AttachDevTools(new KeyGesture(Avalonia.Input.Key.F12, KeyModifiers.Control));
 #endif
-            
+
             Window.ApplicationLibrary.TotalTimePlayedRecalculated += TotalTimePlayed_Recalculated;
         }
 
@@ -327,7 +325,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         public ApplicationData ListSelectedApplication
         {
             get => _listSelectedApplication;
@@ -335,13 +333,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _listSelectedApplication = value;
 
-#pragma warning disable MVVMTK0034
-                if (_listSelectedApplication != null && _listAppContextMenu == null)
+                if (_listSelectedApplication != null && ListAppContextMenu == null)
 
                     ListAppContextMenu = new ApplicationContextMenu();
-                else if (_listSelectedApplication == null && _listAppContextMenu != null)
+                else if (_listSelectedApplication == null && ListAppContextMenu != null)
                     ListAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
 
                 OnPropertyChanged();
             }
@@ -354,13 +350,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _gridSelectedApplication = value;
 
-#pragma warning disable MVVMTK0034
-                if (_gridSelectedApplication != null && _gridAppContextMenu == null)
+                if (_gridSelectedApplication != null && GridAppContextMenu == null)
                     GridAppContextMenu = new ApplicationContextMenu();
-                else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
+                else if (_gridSelectedApplication == null && GridAppContextMenu != null)
                     GridAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
-                
+
                 OnPropertyChanged();
             }
         }
@@ -380,7 +374,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 ListSelectedApplication = value;
                 GridSelectedApplication = value;
-            }        
+            }
         }
 
         public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
@@ -395,7 +389,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool OpenBcatSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.BcatDeliveryCacheStorageSize > 0;
 
-        public bool ShowCustomVSyncIntervalPicker 
+        public bool ShowCustomVSyncIntervalPicker
             => _isGameRunning && AppHost.Device.VSyncMode == VSyncMode.Custom;
 
         public void UpdateVSyncIntervalPicker()
@@ -416,6 +410,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = newInterval;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged((nameof(CustomVSyncInterval)));
                 OnPropertyChanged((nameof(CustomVSyncIntervalPercentageText)));
             }
@@ -447,6 +442,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = value;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageProxy));
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
@@ -579,7 +575,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowNames
         {
-            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1; 
+            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1;
             set
             {
                 ConfigurationState.Instance.UI.ShowNames.Value = value;
@@ -762,7 +758,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         #region PrivateMethods
 
-        private static IComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
+        private static SortExpressionComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
             ascending
                 ? SortExpressionComparer<ApplicationData>.Ascending(selector)
                 : SortExpressionComparer<ApplicationData>.Descending(selector);
@@ -791,15 +787,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void RefreshGrid()
         {
-            Applications.ToObservableChangeSet()
+            var appsList = Applications.ToObservableChangeSet()
                 .Filter(Filter)
                 .Sort(GetComparer())
-#pragma warning disable MVVMTK0034
-                .Bind(out _appsObservableList)
-#pragma warning restore MVVMTK0034
+                .Bind(out var apps)
                 .AsObservableList();
 
-            OnPropertyChanged(nameof(AppsObservableList));
+            AppsObservableList = apps;
         }
 
         private bool Filter(object arg)
@@ -874,10 +868,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 string message = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogFirmwareInstallerFirmwareInstallSuccessMessage, firmwareVersion.VersionString);
 
                                 await ContentDialogHelper.CreateInfoDialog(
-                                    dialogTitle, 
-                                    message, 
-                                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
-                                    string.Empty, 
+                                    dialogTitle,
+                                    message,
+                                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
+                                    string.Empty,
                                     LocaleManager.Instance[LocaleKeys.RyujinxInfo]);
 
                                 Logger.Info?.Print(LogClass.Application, message);
@@ -996,7 +990,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 waitingDialog.Close();
 
                                 string message = ex.Message;
-                                if(ex is FormatException)
+                                if (ex is FormatException)
                                 {
                                     message = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogKeysInstallerKeysNotFoundErrorMessage, filename);
                                 }
@@ -1054,6 +1048,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     case ShaderCacheLoadingState shaderCacheState:
                         CacheLoadStatus = $"{current} / {total}";
@@ -1074,6 +1069,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     default:
                         throw new ArgumentException($"Unknown Progress Handler type {typeof(T)}");
@@ -1110,7 +1106,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _rendererWaitEvent.WaitOne();
 
             AppHost?.Start();
-            
+
             AppHost?.DisposeContext();
         }
 
@@ -1190,11 +1186,11 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     await ContentDialogHelper.ShowTextDialog(
                         LocaleManager.Instance[numAdded > 0 || numRemoved > 0 ? LocaleKeys.RyujinxConfirm : LocaleKeys.RyujinxInfo],
-                        msg, 
-                        string.Empty, 
-                        string.Empty, 
-                        string.Empty, 
-                        LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                        msg,
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
+                        LocaleManager.Instance[LocaleKeys.InputDialogOk],
                         (int)Symbol.Checkmark);
                 });
             }
@@ -1388,7 +1384,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 return;
             }
-            
+
             OpenHelper.OpenFolder(screenshotsDir);
         }
 
@@ -1578,15 +1574,11 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool InitializeUserConfig(ApplicationData application)
         {
-            // Code where conditions will be met before loading the user configuration (Global Config)      
-            BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
+            // Code where conditions will be met before loading the user configuration (Global Config)
             string BackendThreadingInit = Program.BackendThreadingArg;
 
-            if (BackendThreadingInit is null)
-            {
-                BackendThreadingInit = ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
-            }
-            
+            BackendThreadingInit ??= ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
+
             // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
             string idGame = application.IdBaseString;
             if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(idGame), out ConfigurationFileFormat configurationFileFormat))
@@ -1599,13 +1591,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() != BackendThreadingInit)
             {
 
-                List<string> Arguments = new List<string>
+                List<string> Arguments = new()
                 {
                     "--bt", ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() // BackendThreading
                 };
 
                 Rebooter.RebootAppWithGame(application.Path, Arguments);
- 
+
                 return true;
             }
 
@@ -1635,7 +1627,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
-         
+
             Logger.RestartTime();
 
             SelectedIcon ??= ApplicationLibrary.GetApplicationIcon(application.Path, ConfigurationState.Instance.System.Language, application.Id);
@@ -1680,7 +1672,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Thread gameThread = new(InitializeGame) { Name = "GUI.WindowThread" };
             gameThread.Start();
-            
+
         }
 
         public void SwitchToRenderer(bool startFullscreen) =>
@@ -1800,7 +1792,6 @@ namespace Ryujinx.Ava.UI.ViewModels
                 }
             }
         }
-
 
         public void ToggleFullscreen()
         {
@@ -1963,7 +1954,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         #endregion
 
         #region Context Menu commands
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> RunApplication { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 viewModel => viewModel.LoadApplication(viewModel.SelectedApplication));
@@ -1982,7 +1973,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     viewModel.RefreshView();
                 }
             );
-        
+
         public static RelayCommand<MainWindowViewModel> CreateApplicationShortcut { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 viewModel => ShortcutHelper.CreateAppShortcut(
@@ -1991,7 +1982,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     viewModel.SelectedApplication.IdString,
                     viewModel.SelectedApplication.Icon
                 ));
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> EditGameConfiguration { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 async viewModel =>
@@ -2058,7 +2049,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                         viewModel.SelectedApplication.Path
                     )
                 ));
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> OpenModManager { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 viewModel => ModManagerView.Show(
@@ -2086,11 +2077,11 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                     OpenHelper.OpenFolder(titleModsPath);
                 });
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> TrimXci { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 viewModel => viewModel.TrimXCIFile(viewModel.SelectedApplication.Path));
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> PurgePtcCache { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 async viewModel =>
@@ -2280,7 +2271,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                     OpenHelper.OpenFolder(shaderCacheDir);
                 });
-        
+
         public static AsyncRelayCommand<MainWindowViewModel> ExtractApplicationExeFs { get; } =
             Commands.CreateConditional<MainWindowViewModel>(vm => vm?.SelectedApplication != null,
                 async viewModel =>
@@ -2350,7 +2341,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                     png.SaveTo(fileStream);
                 });
-        
+
         #endregion
     }
 }

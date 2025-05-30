@@ -102,7 +102,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
         private static string GetNamespaceName(SyntaxNode syntaxNode)
         {
-            while (syntaxNode != null && !(syntaxNode is NamespaceDeclarationSyntax))
+            while (syntaxNode is not null and not NamespaceDeclarationSyntax)
             {
                 syntaxNode = syntaxNode.Parent;
             }
@@ -162,7 +162,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                                         arg = $"new CommandArg({bufferFlags})";
                                     }
                                 }
-                                else if (argType == CommandArgType.InArgument || argType == CommandArgType.OutArgument)
+                                else if (argType is CommandArgType.InArgument or CommandArgType.OutArgument)
                                 {
                                     string alignment = GetTypeAlignmentExpression(compilation, parameter.Type);
 
@@ -353,6 +353,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                                 value = $"CommandSerialization.GetRef<{canonicalTypeName}>(processor.GetBufferRange({index}))";
                                 isNonSpanBuffer = true;
                             }
+
                             break;
                     }
 
@@ -470,7 +471,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
             {
                 if (outObjectsCount != 0)
                 {
-                    generator.AppendLine($"processor.SetOutObjects(ref context, {ResponseVariableName}, {OutObjectsVariableName});");
+                    generator.AppendLine($"HipcCommandProcessor.SetOutObjects(ref context, {ResponseVariableName}, {OutObjectsVariableName});");
                 }
 
                 if (buffersCount != 0)

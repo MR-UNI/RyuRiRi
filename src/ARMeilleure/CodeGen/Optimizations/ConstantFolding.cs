@@ -37,6 +37,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x + y);
                     }
+
                     break;
 
                 case Instruction.BitwiseAnd:
@@ -48,6 +49,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x & y);
                     }
+
                     break;
 
                 case Instruction.BitwiseExclusiveOr:
@@ -59,6 +61,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x ^ y);
                     }
+
                     break;
 
                 case Instruction.BitwiseNot:
@@ -70,6 +73,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => ~x);
                     }
+
                     break;
 
                 case Instruction.BitwiseOr:
@@ -81,6 +85,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x | y);
                     }
+
                     break;
 
                 case Instruction.ConvertI64ToI32:
@@ -88,6 +93,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI32(operation, (x) => x);
                     }
+
                     break;
 
                 case Instruction.Compare:
@@ -129,6 +135,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                                 break;
                         }
                     }
+
                     break;
 
                 case Instruction.Copy:
@@ -140,6 +147,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => x);
                     }
+
                     break;
 
                 case Instruction.Divide:
@@ -151,6 +159,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => y != 0 ? x / y : 0);
                     }
+
                     break;
 
                 case Instruction.DivideUI:
@@ -162,6 +171,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => y != 0 ? (long)((ulong)x / (ulong)y) : 0);
                     }
+
                     break;
 
                 case Instruction.Multiply:
@@ -173,6 +183,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x * y);
                     }
+
                     break;
 
                 case Instruction.Negate:
@@ -184,6 +195,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => -x);
                     }
+
                     break;
 
                 case Instruction.ShiftLeft:
@@ -195,6 +207,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x << (int)y);
                     }
+
                     break;
 
                 case Instruction.ShiftRightSI:
@@ -206,6 +219,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x >> (int)y);
                     }
+
                     break;
 
                 case Instruction.ShiftRightUI:
@@ -217,6 +231,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => (long)((ulong)x >> (int)y));
                     }
+
                     break;
 
                 case Instruction.SignExtend16:
@@ -228,6 +243,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (short)x);
                     }
+
                     break;
 
                 case Instruction.SignExtend32:
@@ -239,6 +255,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (int)x);
                     }
+
                     break;
 
                 case Instruction.SignExtend8:
@@ -250,6 +267,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (sbyte)x);
                     }
+
                     break;
 
                 case Instruction.ZeroExtend16:
@@ -261,6 +279,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (ushort)x);
                     }
+
                     break;
 
                 case Instruction.ZeroExtend32:
@@ -272,6 +291,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (uint)x);
                     }
+
                     break;
 
                 case Instruction.ZeroExtend8:
@@ -283,6 +303,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateUnaryI64(operation, (x) => (byte)x);
                     }
+
                     break;
 
                 case Instruction.Subtract:
@@ -294,6 +315,7 @@ namespace ARMeilleure.CodeGen.Optimizations
                     {
                         EvaluateBinaryI64(operation, (x, y) => x - y);
                     }
+
                     break;
             }
         }

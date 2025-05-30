@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -59,9 +59,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             switch (maxTxSize)
             {
-                case TxSize.Tx8X8: return fc.Tx8x8Prob[ctx].AsSpan();
-                case TxSize.Tx16X16: return fc.Tx16x16Prob[ctx].AsSpan();
-                case TxSize.Tx32X32: return fc.Tx32x32Prob[ctx].AsSpan();
+                case TxSize.Tx8X8:
+                    return fc.Tx8x8Prob[ctx].AsSpan();
+                case TxSize.Tx16X16:
+                    return fc.Tx16x16Prob[ctx].AsSpan();
+                case TxSize.Tx32X32:
+                    return fc.Tx32x32Prob[ctx].AsSpan();
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
                     return ReadOnlySpan<byte>.Empty;
@@ -72,9 +75,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             switch (maxTxSize)
             {
-                case TxSize.Tx8X8: return counts.Tx8x8[ctx].AsSpan();
-                case TxSize.Tx16X16: return counts.Tx16x16[ctx].AsSpan();
-                case TxSize.Tx32X32: return counts.Tx32x32[ctx].AsSpan();
+                case TxSize.Tx8X8:
+                    return counts.Tx8x8[ctx].AsSpan();
+                case TxSize.Tx16X16:
+                    return counts.Tx16x16[ctx].AsSpan();
+                case TxSize.Tx32X32:
+                    return counts.Tx32x32[ctx].AsSpan();
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
                     return Span<uint>.Empty;
@@ -129,13 +135,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
             }
 
-            Debug.Assert(segmentId >= 0 && segmentId < Constants.MaxSegments);
+            Debug.Assert(segmentId is >= 0 and < Constants.MaxSegments);
             return segmentId;
         }
 
         private static void SetSegmentId(ref Vp9Common cm, int miOffset, int xMis, int yMis, int segmentId)
         {
-            Debug.Assert(segmentId >= 0 && segmentId < Constants.MaxSegments);
+            Debug.Assert(segmentId is >= 0 and < Constants.MaxSegments);
 
             for (int y = 0; y < yMis; y++)
             {
@@ -412,7 +418,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             BlockSize bsize = mi.SbType;
 
-
             switch (bsize)
             {
                 case BlockSize.Block4X4:
@@ -494,7 +499,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         ZeroPair(ref mv);
                         break;
                     }
-                default: return false;
+                default:
+                    return false;
             }
 
             return ret;
@@ -609,7 +615,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             bool earlyBreak = mode != PredictionMode.NearMv;
 
             // Blank the reference vector list
-            mvRefList.Slice(0, Constants.MaxMvRefCandidates).Fill(new Mv());
+            mvRefList[..Constants.MaxMvRefCandidates].Clear();
 
             i = 0;
             if (isSub8X8 != 0)
@@ -760,7 +766,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 refmvCount = 1;
             }
 
-            Done:
+        Done:
             // Clamp vectors
             for (i = 0; i < refmvCount; ++i)
             {
@@ -950,7 +956,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         int j = (idy * 2) + idx;
                         bMode = ReadInterMode(ref cm, ref xd, ref r, interModeCtx);
 
-                        if (bMode == PredictionMode.NearestMv || bMode == PredictionMode.NearMv)
+                        if (bMode is PredictionMode.NearestMv or PredictionMode.NearMv)
                         {
                             for (refr = 0; refr < 1 + isCompound; ++refr)
                             {
@@ -1018,7 +1024,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static PredictionMode LeftBlockMode(Ptr<ModeInfo> curMi, Ptr<ModeInfo> leftMi, int b)
         {
-            if (b == 0 || b == 2)
+            if (b is 0 or 2)
             {
                 if (leftMi.IsNull || leftMi.Value.IsInterBlock())
                 {
@@ -1028,13 +1034,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 return leftMi.Value.GetYMode(b + 1);
             }
 
-            Debug.Assert(b == 1 || b == 3);
+            Debug.Assert(b is 1 or 3);
             return curMi.Value.Bmi[b - 1].Mode;
         }
 
         private static PredictionMode AboveBlockMode(Ptr<ModeInfo> curMi, Ptr<ModeInfo> aboveMi, int b)
         {
-            if (b == 0 || b == 1)
+            if (b is 0 or 1)
             {
                 if (aboveMi.IsNull || aboveMi.Value.IsInterBlock())
                 {
@@ -1044,7 +1050,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 return aboveMi.Value.GetYMode(b + 2);
             }
 
-            Debug.Assert(b == 2 || b == 3);
+            Debug.Assert(b is 2 or 3);
             return curMi.Value.Bmi[b - 2].Mode;
         }
 

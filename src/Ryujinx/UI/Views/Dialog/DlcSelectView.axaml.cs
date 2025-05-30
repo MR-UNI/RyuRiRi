@@ -1,10 +1,10 @@
-﻿using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.Systems.AppLibrary;
 using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Views.Dialog

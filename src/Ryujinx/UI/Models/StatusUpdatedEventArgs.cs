@@ -23,10 +23,10 @@ namespace Ryujinx.Ava.UI.Models
             ShaderCount = shaderCount;
         }
 
-
         public override bool Equals(object obj)
         {
-            if (obj is not StatusUpdatedEventArgs suea) return false;
+            if (obj is not StatusUpdatedEventArgs suea)
+                return false;
             return
                 VSyncMode == suea.VSyncMode &&
                 VolumeStatus == suea.VolumeStatus &&
@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.UI.Models
                 ShaderCount == suea.ShaderCount;
         }
 
-        public override int GetHashCode() 
+        public override int GetHashCode()
             => HashCode.Combine(VSyncMode, VolumeStatus, AspectRatio, DockedMode, FifoStatus, GameStatus, ShaderCount);
     }
 }

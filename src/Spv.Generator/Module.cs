@@ -208,11 +208,11 @@ namespace Spv.Generator
 
         private void AddConstant(Instruction constant)
         {
-            Debug.Assert(constant.Opcode == Op.OpConstant ||
-                         constant.Opcode == Op.OpConstantFalse ||
-                         constant.Opcode == Op.OpConstantTrue ||
-                         constant.Opcode == Op.OpConstantNull ||
-                         constant.Opcode == Op.OpConstantComposite);
+            Debug.Assert(constant.Opcode is Op.OpConstant or
+                         Op.OpConstantFalse or
+                         Op.OpConstantTrue or
+                         Op.OpConstantNull or
+                         Op.OpConstantComposite);
 
             ConstantKey key = new(constant);
 
@@ -337,7 +337,7 @@ namespace Spv.Generator
             declarations.AddRange(_typeDeclarationsList);
             declarations.AddRange(_globals);
             declarations.AddRange(_constants.Values);
-            declarations.Sort((Instruction x, Instruction y) => x.Id.CompareTo(y.Id));
+            declarations.Sort((x, y) => x.Id.CompareTo(y.Id));
 
             // 9.
             foreach (Instruction declaration in declarations)

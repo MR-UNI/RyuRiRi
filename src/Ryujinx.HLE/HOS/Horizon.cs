@@ -345,6 +345,7 @@ namespace Ryujinx.HLE.HOS
                 VirtualAmiibo.ApplicationBytes = [];
                 VirtualAmiibo.InputBin = string.Empty;
             }
+
             if (NfpDevices[nfpDeviceId].State == NfpDeviceState.SearchingForTag)
             {
                 NfpDevices[nfpDeviceId].State = NfpDeviceState.TagFound;
@@ -359,6 +360,7 @@ namespace Ryujinx.HLE.HOS
             {
                 VirtualAmiibo.ApplicationBytes = [];
             }
+
             byte[] encryptedData = File.ReadAllBytes(path);
             VirtualAmiiboFile newFile = AmiiboBinReader.ReadBinFile(encryptedData);
             if (SearchingForAmiibo(out int nfpDeviceId))
@@ -495,6 +497,7 @@ namespace Ryujinx.HLE.HOS
                     TickSource.Resume();
                 }
             }
+
             IsPaused = pause;
         }
     }

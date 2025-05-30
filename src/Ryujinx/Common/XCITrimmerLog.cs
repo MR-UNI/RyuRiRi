@@ -23,7 +23,7 @@ namespace Ryujinx.Ava.Common
                 });
             }
         }
-        
+
         internal class TrimmerWindow : Ryujinx.Common.Logging.XCIFileTrimmerLog
         {
             private readonly XciTrimmerViewModel _viewModel;

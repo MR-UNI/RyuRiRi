@@ -1,4 +1,4 @@
-﻿using Ryujinx.Graphics.Nvdec.Vp9.Common;
+using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -114,8 +114,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 op[1] = WrapLow(b1);
                 op[2] = WrapLow(c1);
                 op[3] = WrapLow(d1);
-                ip = ip.Slice(4);
-                op = op.Slice(4);
+                ip = ip[4..];
+                op = op[4..];
             }
 
             Span<int> ip2 = output;
@@ -137,8 +137,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[stride * 2] = ClipPixelAdd(dest[stride * 2], WrapLow(c1));
                 dest[stride * 3] = ClipPixelAdd(dest[stride * 3], WrapLow(d1));
 
-                ip2 = ip2.Slice(1);
-                dest = dest.Slice(1);
+                ip2 = ip2[1..];
+                dest = dest[1..];
             }
         }
 
@@ -165,8 +165,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[stride * 1] = ClipPixelAdd(dest[stride * 1], e1);
                 dest[stride * 2] = ClipPixelAdd(dest[stride * 2], e1);
                 dest[stride * 3] = ClipPixelAdd(dest[stride * 3], e1);
-                ip2 = ip2.Slice(1);
-                dest = dest.Slice(1);
+                ip2 = ip2[1..];
+                dest = dest[1..];
             }
         }
 
@@ -180,7 +180,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             if ((x0 | x1 | x2 | x3) == 0)
             {
-                output.Slice(0, 4).Clear();
+                output[..4].Clear();
                 return;
             }
 
@@ -244,8 +244,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 Idct4(input, outptr);
-                input = input.Slice(4);
-                outptr = outptr.Slice(4);
+                input = input[4..];
+                outptr = outptr[4..];
             }
 
             // Columns
@@ -279,7 +279,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[1] = ClipPixelAdd(dest[1], a1);
                 dest[2] = ClipPixelAdd(dest[2], a1);
                 dest[3] = ClipPixelAdd(dest[3], a1);
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -297,7 +297,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             if ((x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7) == 0)
             {
-                output.Slice(0, 8).Clear();
+                output[..8].Clear();
                 return;
             }
 
@@ -430,8 +430,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 Idct8(input, outptr);
-                input = input.Slice(8);
-                outptr = outptr.Slice(8);
+                input = input[8..];
+                outptr = outptr[8..];
             }
 
             // Then transform columns
@@ -466,8 +466,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 Idct8(input, outptr);
-                input = input.Slice(8);
-                outptr = outptr.Slice(8);
+                input = input[8..];
+                outptr = outptr[8..];
             }
 
             // Then transform columns
@@ -501,7 +501,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = ClipPixelAdd(dest[i], a1);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -528,7 +528,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             if ((x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | x10 | x11 | x12 | x13 | x14 | x15) == 0)
             {
-                output.Slice(0, 16).Clear();
+                output[..16].Clear();
                 return;
             }
 
@@ -854,8 +854,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 16; ++i)
             {
                 Idct16(input, outptr);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -890,8 +890,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 Idct16(input, outptr);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -926,8 +926,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 Idct16(input, outptr);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -961,7 +961,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = ClipPixelAdd(dest[i], a1);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -1358,11 +1358,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 }
                 else
                 {
-                    outptr.Slice(0, 32).Clear();
+                    outptr[..32].Clear();
                 }
 
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -1397,8 +1397,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 16; ++i)
             {
                 Idct32(input, outptr);
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -1433,8 +1433,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 Idct32(input, outptr);
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -1469,7 +1469,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = ClipPixelAdd(dest[i], a1);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -1501,8 +1501,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 op[1] = HighbdWrapLow(b1, bd);
                 op[2] = HighbdWrapLow(c1, bd);
                 op[3] = HighbdWrapLow(d1, bd);
-                ip = ip.Slice(4);
-                op = op.Slice(4);
+                ip = ip[4..];
+                op = op[4..];
             }
 
             ReadOnlySpan<int> ip2 = output;
@@ -1524,8 +1524,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[stride * 2] = HighbdClipPixelAdd(dest[stride * 2], HighbdWrapLow(c1, bd), bd);
                 dest[stride * 3] = HighbdClipPixelAdd(dest[stride * 3], HighbdWrapLow(d1, bd), bd);
 
-                ip2 = ip2.Slice(1);
-                dest = dest.Slice(1);
+                ip2 = ip2[1..];
+                dest = dest[1..];
             }
         }
 
@@ -1552,8 +1552,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[stride * 1] = HighbdClipPixelAdd(dest[stride * 1], e1, bd);
                 dest[stride * 2] = HighbdClipPixelAdd(dest[stride * 2], e1, bd);
                 dest[stride * 3] = HighbdClipPixelAdd(dest[stride * 3], e1, bd);
-                ip2 = ip2.Slice(1);
-                dest = dest.Slice(1);
+                ip2 = ip2[1..];
+                dest = dest[1..];
             }
         }
 
@@ -1568,13 +1568,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 4) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 4).Clear();
+                output[..4].Clear();
                 return;
             }
 
             if ((x0 | x1 | x2 | x3) == 0)
             {
-                output.Slice(0, 4).Clear();
+                output[..4].Clear();
                 return;
             }
 
@@ -1611,7 +1611,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 4) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 4).Clear();
+                output[..4].Clear();
                 return;
             }
 
@@ -1644,8 +1644,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 HighbdIdct4(input, outptr, bd);
-                input = input.Slice(4);
-                outptr = outptr.Slice(4);
+                input = input[4..];
+                outptr = outptr[4..];
             }
 
             // Columns
@@ -1679,7 +1679,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 dest[1] = HighbdClipPixelAdd(dest[1], a1, bd);
                 dest[2] = HighbdClipPixelAdd(dest[2], a1, bd);
                 dest[3] = HighbdClipPixelAdd(dest[3], a1, bd);
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -1698,13 +1698,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 8) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 8).Clear();
+                output[..8].Clear();
                 return;
             }
 
             if ((x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7) == 0)
             {
-                output.Slice(0, 8).Clear();
+                output[..8].Clear();
                 return;
             }
 
@@ -1777,7 +1777,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 8) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 8).Clear();
+                output[..8].Clear();
                 return;
             }
 
@@ -1835,8 +1835,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 HighbdIdct8(input, outptr, bd);
-                input = input.Slice(8);
-                outptr = outptr.Slice(8);
+                input = input[8..];
+                outptr = outptr[8..];
             }
 
             // Then transform columns
@@ -1871,8 +1871,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 HighbdIdct8(input, outptr, bd);
-                input = input.Slice(8);
-                outptr = outptr.Slice(8);
+                input = input[8..];
+                outptr = outptr[8..];
             }
 
             // Then transform columns
@@ -1906,7 +1906,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = HighbdClipPixelAdd(dest[i], a1, bd);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -1933,13 +1933,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 16) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 16).Clear();
+                output[..16].Clear();
                 return;
             }
 
             if ((x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | x10 | x11 | x12 | x13 | x14 | x15) == 0)
             {
-                output.Slice(0, 16).Clear();
+                output[..16].Clear();
                 return;
             }
 
@@ -2095,7 +2095,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 16) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 16).Clear();
+                output[..16].Clear();
                 return;
             }
 
@@ -2272,8 +2272,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 16; ++i)
             {
                 HighbdIdct16(input, outptr, bd);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -2308,8 +2308,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 HighbdIdct16(input, outptr, bd);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -2325,7 +2325,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 for (int j = 0; j < 16; ++j)
                 {
                     destT[i] = HighbdClipPixelAdd(destT[i], BitUtils.RoundPowerOfTwo(tempOut[j], 6), bd);
-                    destT = destT.Slice(stride);
+                    destT = destT[stride..];
                 }
             }
         }
@@ -2345,8 +2345,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 4; ++i)
             {
                 HighbdIdct16(input, outptr, bd);
-                input = input.Slice(16);
-                outptr = outptr.Slice(16);
+                input = input[16..];
+                outptr = outptr[16..];
             }
 
             // Then transform columns
@@ -2380,7 +2380,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = HighbdClipPixelAdd(dest[i], a1, bd);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
 
@@ -2394,7 +2394,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (DetectInvalidHighbdInput(input, 32) != 0)
             {
                 Debug.Assert(false, "invalid highbd txfm input");
-                output.Slice(0, 32).Clear();
+                output[..32].Clear();
                 return;
             }
 
@@ -2784,11 +2784,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 }
                 else
                 {
-                    outptr.Slice(0, 32).Clear();
+                    outptr[..32].Clear();
                 }
 
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -2823,8 +2823,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 16; ++i)
             {
                 HighbdIdct32(input, outptr, bd);
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -2840,7 +2840,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 for (int j = 0; j < 32; ++j)
                 {
                     destT[i] = HighbdClipPixelAdd(destT[i], BitUtils.RoundPowerOfTwo(tempOut[j], 6), bd);
-                    destT = destT.Slice(stride);
+                    destT = destT[stride..];
                 }
             }
         }
@@ -2860,8 +2860,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             for (int i = 0; i < 8; ++i)
             {
                 HighbdIdct32(input, outptr, bd);
-                input = input.Slice(32);
-                outptr = outptr.Slice(32);
+                input = input[32..];
+                outptr = outptr[32..];
             }
 
             // Columns
@@ -2896,7 +2896,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dest[i] = HighbdClipPixelAdd(dest[i], a1, bd);
                 }
 
-                dest = dest.Slice(stride);
+                dest = dest[stride..];
             }
         }
     }

@@ -34,7 +34,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 if (!_processesByPid.TryGetValue(_latestPid, out ProcessResult value))
                     throw new RyujinxException(
                         $"The HLE Process map did not have a process with ID {_latestPid}. Are you missing firmware?");
-                
+
                 return value;
             }
         }
@@ -159,7 +159,7 @@ namespace Ryujinx.HLE.Loaders.Processes
 
             return false;
         }
-        
+
         public bool LoadNxo(string path)
         {
             BlitStruct<ApplicationControlProperty> nacpData = new(1);
@@ -172,7 +172,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             // Load executable.
             IExecutable executable;
 
-            if (Path.GetExtension(path).ToLower() == ".nro")
+            if (Path.GetExtension(path).Equals(".nro", StringComparison.OrdinalIgnoreCase))
             {
                 FileStream input = new(path, FileMode.Open);
                 NroExecutable nro = new(input.AsStorage());

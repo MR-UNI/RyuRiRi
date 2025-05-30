@@ -280,6 +280,7 @@ namespace Ryujinx.Common.Configuration
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to resolve the symlink for Ryujinx application data: {symlinkException}. Follow the symlink at {correctApplicationDataDirectoryPath} and move your data back to the Application Support folder.");
                     }
+
                     return;
                 }
 
@@ -304,6 +305,7 @@ namespace Ryujinx.Common.Configuration
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to resolve the symlink for Ryujinx application data: {symlinkException}. Follow the symlink at {correctApplicationDataDirectoryPath} and move your data back to the Application Support folder.");
                     }
+
                     return;
                 }
 

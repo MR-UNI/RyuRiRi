@@ -77,7 +77,6 @@ namespace Ryujinx.Graphics.GAL.Multithreading
         {
             // Blocks until the handle is available.
 
-
             lock (_bufferMap)
             {
                 if (_bufferMap.TryGetValue(handle, out BufferHandle result))

@@ -28,13 +28,13 @@ namespace Ryujinx.Common.Utilities
                 ReadCommentHandling = JsonCommentHandling.Skip
             };
 
-        public static string Serialize<T>(T value, JsonTypeInfo<T> typeInfo) 
+        public static string Serialize<T>(T value, JsonTypeInfo<T> typeInfo)
             => JsonSerializer.Serialize(value, typeInfo);
 
-        public static T Deserialize<T>(string value, JsonTypeInfo<T> typeInfo) 
+        public static T Deserialize<T>(string value, JsonTypeInfo<T> typeInfo)
             => JsonSerializer.Deserialize(value, typeInfo);
 
-        public static T Deserialize<T>(ReadOnlySpan<byte> utf8Value, JsonTypeInfo<T> typeInfo) 
+        public static T Deserialize<T>(ReadOnlySpan<byte> utf8Value, JsonTypeInfo<T> typeInfo)
             => JsonSerializer.Deserialize<T>(utf8Value, typeInfo);
 
         public static void SerializeToFile<T>(string filePath, T value, JsonTypeInfo<T> typeInfo)

@@ -25,6 +25,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                     {
                         TryEliminateBinaryOpCommutative(operation, 0);
                     }
+
                     break;
 
                 case Instruction.BitwiseOr:

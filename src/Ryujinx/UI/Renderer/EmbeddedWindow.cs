@@ -115,7 +115,7 @@ namespace Ryujinx.Ava.UI.Renderer
         }
 
         [SupportedOSPlatform("linux")]
-        private IPlatformHandle CreateLinux(IPlatformHandle control)
+        private PlatformHandle CreateLinux(IPlatformHandle control)
         {
             if (ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.Vulkan)
             {
@@ -134,7 +134,7 @@ namespace Ryujinx.Ava.UI.Renderer
         }
 
         [SupportedOSPlatform("windows")]
-        IPlatformHandle CreateWin32(IPlatformHandle control)
+        PlatformHandle CreateWin32(IPlatformHandle control)
         {
             _className = "NativeWindow-" + Guid.NewGuid();
 
@@ -171,7 +171,7 @@ namespace Ryujinx.Ava.UI.Renderer
         }
 
         [SupportedOSPlatform("macos")]
-        IPlatformHandle CreateMacOS()
+        PlatformHandle CreateMacOS()
         {
             // Create a new CAMetalLayer.
             ObjectiveC.Object layerObject = new("CAMetalLayer");
@@ -215,11 +215,9 @@ namespace Ryujinx.Ava.UI.Renderer
         }
 
         [SupportedOSPlatform("macos")]
-#pragma warning disable CA1822 // Mark member as static
-        void DestroyMacOS()
+        static void DestroyMacOS()
         {
             // TODO
         }
-#pragma warning restore CA1822
     }
 }

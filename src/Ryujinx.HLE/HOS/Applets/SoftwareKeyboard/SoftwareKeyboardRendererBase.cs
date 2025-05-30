@@ -198,6 +198,7 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
             {
                 return;
             }
+
             SKCanvas canvas = _surface.Canvas;
 
             canvas.Clear(SKColors.Transparent);

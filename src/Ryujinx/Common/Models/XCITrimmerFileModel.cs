@@ -34,8 +34,8 @@ namespace Ryujinx.Ava.Common.Models
         {
             get
             {
-                return ProcessingOutcome != XCIFileTrimmer.OperationOutcome.Undetermined &&
-                    ProcessingOutcome != XCIFileTrimmer.OperationOutcome.Successful;
+                return ProcessingOutcome is not XCIFileTrimmer.OperationOutcome.Undetermined and
+                    not XCIFileTrimmer.OperationOutcome.Successful;
             }
         }
 
@@ -43,10 +43,10 @@ namespace Ryujinx.Ava.Common.Models
         {
             if (obj == null)
                 return false;
-            
+
             return this.Path == obj.Path;
         }
-        
+
         public override int GetHashCode()
         {
             return this.Path.GetHashCode();

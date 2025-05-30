@@ -16,6 +16,17 @@ tab_width = 4
 # New line preferences
 end_of_line = lf
 insert_final_newline = true
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_explicit_tuple_names = true:suggestion
 
 # Markdown, JSON, YAML, props and csproj files
 [*.{md,json,yml,props,csproj}]
@@ -106,7 +117,7 @@ csharp_style_conditional_delegate_call = true:suggestion
 csharp_prefer_static_local_function = true:suggestion
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:silent
 csharp_style_prefer_readonly_struct = true
-csharp_style_prefer_method_group_conversion = true
+csharp_style_prefer_method_group_conversion = true:silent
 
 # Code-block preferences
 csharp_prefer_braces = true:silent
@@ -177,9 +188,9 @@ csharp_preserve_single_line_statements = false
 
 # Naming rules
 
-dotnet_naming_rule.interfaces_should_be_prefixed_with_I.severity = suggestion
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = suggestion
 dotnet_naming_rule.interfaces_should_be_prefixed_with_I.symbols = interface
-dotnet_naming_rule.interfaces_should_be_prefixed_with_I.style = IPascalCase
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = IPascalCase
 
 dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
@@ -236,28 +247,22 @@ dotnet_naming_style.IPascalCase.required_suffix =
 dotnet_naming_style.IPascalCase.word_separator =
 dotnet_naming_style.IPascalCase.capitalization = pascal_case
 
-# TODO:
-# .NET 8 migration (new warnings are caused by the NET 8 C# compiler and analyzer)
-# The following info messages might need to be fixed in the source code instead of hiding the actual message
-# Without the following lines, dotnet format would fail
-# Disable "Collection initialization can be simplified"
+# Other settings
+csharp_style_prefer_top_level_statements = true:suggestion
+csharp_style_prefer_primary_constructors = false:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+
+
+# Analyzers
+dotnet_diagnostic.CA1069.severity = none  # CA1069: Enums values should not be duplicated
+# Disable Collection initialization can be simplified
 dotnet_diagnostic.IDE0028.severity = none
 dotnet_diagnostic.IDE0300.severity = none
 dotnet_diagnostic.IDE0301.severity = none
 dotnet_diagnostic.IDE0302.severity = none
 dotnet_diagnostic.IDE0305.severity = none
-# Disable "'new' expression can be simplified"
-dotnet_diagnostic.IDE0090.severity = none
-# Disable "Use primary constructor"
-dotnet_diagnostic.IDE0290.severity = none
-# Disable "Member '' does not access instance data and can be marked as static"
-dotnet_diagnostic.CA1822.severity = none
-# Disable "Change type of field '' from '' to '' for improved performance"
-dotnet_diagnostic.CA1859.severity = none
-# Disable "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array"
-dotnet_diagnostic.CA1861.severity = none
-# Disable "Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison, but keep in mind that this might cause subtle changes in behavior, so make sure to conduct thorough testing after applying the suggestion, or if culturally sensitive comparison is not required, consider using 'StringComparison.OrdinalIgnoreCase'"
-dotnet_diagnostic.CA1862.severity = none
+dotnet_diagnostic.CS9113.severity = none  # CS9113: Parameter 'value' is unread
+dotnet_diagnostic.IDE0130.severity = none  # IDE0130: Namespace does not match folder structure
 
 [src/Ryujinx/UI/ViewModels/**.cs]
 # Disable "mark members as static" rule for ViewModels

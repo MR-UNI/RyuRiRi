@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Logging;
 using System;
@@ -71,14 +71,12 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 return AddSpec(transform(GameSpec.Create(tids)));
 
             Logger.Notice.PrintMsg(LogClass.Application,
-                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{
-                    tids.FormatCollection(
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{tids.FormatCollection(
                         x => x,
                         separator: ", ",
                         prefix: "[",
                         suffix: "]"
-                    )
-                }'");
+                    )}'");
             return this;
         }
 
@@ -95,14 +93,12 @@ namespace Ryujinx.Ava.Systems.PlayReport
                 return AddSpec(GameSpec.Create(tids).Apply(transform));
 
             Logger.Notice.PrintMsg(LogClass.Application,
-                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{
-                    tids.FormatCollection(
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{tids.FormatCollection(
                         x => x,
                         separator: ", ",
                         prefix: "[",
                         suffix: "]"
-                    )
-                }'");
+                    )}'");
             return this;
         }
 
@@ -116,7 +112,6 @@ namespace Ryujinx.Ava.Systems.PlayReport
             _specs.Add(spec);
             return this;
         }
-
 
         /// <summary>
         /// Runs the configured <see cref="FormatterSpec"/> for the specified game title ID.
@@ -133,7 +128,7 @@ namespace Ryujinx.Ava.Systems.PlayReport
         {
             if (!playReport.ReportData.IsDictionary)
                 return FormattedValue.Unhandled;
-            
+
             if (!TryGetSpec(runningGameId, out GameSpec spec))
                 return FormattedValue.Unhandled;
 

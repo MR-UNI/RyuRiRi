@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Humanizer;
 using nietras.SeparatedValues;
 using Ryujinx.Ava.Common.Locale;
@@ -28,26 +28,26 @@ namespace Ryujinx.Ava.Systems
                 .Enumerate(row => new CompatibilityEntry(ref columnIndices, row))
                 .OrderBy(it => it.GameName)
                 .ToArray();
-            
+
             Logger.Debug?.Print(LogClass.UI, "Compatibility CSV loaded.", "LoadCompatibility");
         }
 
         private static CompatibilityEntry[] _entries;
-        
-        public static CompatibilityEntry[] Entries 
+
+        public static CompatibilityEntry[] Entries
         {
             get
             {
                 if (_entries == null)
                     Load();
-                
+
                 return _entries;
             }
         }
 
         public static CompatibilityEntry Find(string titleId)
             => Entries.FirstOrDefault(x => x.TitleId.HasValue && x.TitleId.Value.EqualsIgnoreCase(titleId));
-        
+
         public static CompatibilityEntry Find(ulong titleId)
             => Find(titleId.ToString("X16"));
     }
@@ -57,10 +57,10 @@ namespace Ryujinx.Ava.Systems
         public CompatibilityEntry(ref ColumnIndices indices, SepReader.Row row)
         {
             string titleIdRow = ColStr(row[indices.TitleId]);
-            TitleId = !string.IsNullOrEmpty(titleIdRow) 
-                ? titleIdRow 
+            TitleId = !string.IsNullOrEmpty(titleIdRow)
+                ? titleIdRow
                 : default(Optional<string>);
-            
+
             GameName = ColStr(row[indices.GameName]);
 
             Labels = ColStr(row[indices.Labels]).Split(';');
@@ -78,10 +78,10 @@ namespace Ryujinx.Ava.Systems
                 LastUpdated = dt;
 
             return;
-            
-            string ColStr(SepReader.Col col) => col.ToString().Trim('"');
+
+            static string ColStr(SepReader.Col col) => col.ToString().Trim('"');
         }
-        
+
         public string GameName { get; }
         public Optional<string> TitleId { get; }
         public string[] Labels { get; }
@@ -97,12 +97,12 @@ namespace Ryujinx.Ava.Systems
                 LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
                 _ => null
             };
-        
+
         public DateTime LastUpdated { get; }
 
         public string LocalizedLastUpdated =>
             LocaleManager.FormatDynamicValue(LocaleKeys.CompatibilityListLastUpdated, LastUpdated.Humanize());
-        
+
         public string LocalizedStatus => LocaleManager.Instance[Status!.Value];
         public string LocalizedStatusDescription => LocaleManager.Instance[StatusDescription!.Value];
         public string FormattedTitleId => TitleId
@@ -117,9 +117,7 @@ namespace Ryujinx.Ava.Systems
             new StringBuilder("CompatibilityEntry: {")
                 .Append($"{nameof(GameName)}=\"{GameName}\", ")
                 .Append($"{nameof(TitleId)}={TitleId}, ")
-                .Append($"{nameof(Labels)}={
-                    Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")
-                }, ")
+                .Append($"{nameof(Labels)}={Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")}, ")
                 .Append($"{nameof(Status)}=\"{Status}\", ")
                 .Append($"{nameof(LastUpdated)}=\"{LastUpdated}\"")
                 .Append('}')
@@ -169,7 +167,7 @@ namespace Ryujinx.Ava.Systems
             _ => null
         };
     }
-    
+
     public struct ColumnIndices(Func<ReadOnlySpan<char>, int> getIndex)
     {
         private const string TitleIdCol = "\"title_id\"";
@@ -177,7 +175,7 @@ namespace Ryujinx.Ava.Systems
         private const string LabelsCol = "\"labels\"";
         private const string StatusCol = "\"status\"";
         private const string LastUpdatedCol = "\"last_updated\"";
-        
+
         public readonly int TitleId = getIndex(TitleIdCol);
         public readonly int GameName = getIndex(GameNameCol);
         public readonly int Labels = getIndex(LabelsCol);

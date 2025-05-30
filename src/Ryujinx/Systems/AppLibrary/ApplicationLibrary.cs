@@ -12,9 +12,9 @@ using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.Systems.Configuration.System;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
@@ -151,7 +151,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
             if (!DownloadableContents.Keys.FindFirst(x => x.TitleId == id).TryGet(out DownloadableContentModel dlcData))
                 return id.ToString("X16");
-            
+
             string name = Path.GetFileNameWithoutExtension(dlcData.FileName)!;
             int idx = name.IndexOf('[');
             if (idx != -1)
@@ -167,28 +167,28 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
             return appData.HasValue;
         }
-        
+
         public bool FindUpdate(ulong id, out TitleUpdateModel foundData)
         {
-            Gommon.Optional<TitleUpdateModel> appData = 
+            Gommon.Optional<TitleUpdateModel> appData =
                 TitleUpdates.Keys.FindFirst(x => x.TitleId == id);
             foundData = appData.HasValue ? appData.Value : null;
 
             return appData.HasValue;
         }
-        
+
         public TitleUpdateModel[] FindUpdatesFor(ulong id)
             => TitleUpdates.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
-        
+
         public (TitleUpdateModel TitleUpdate, bool IsSelected)[] FindUpdateConfigurationFor(ulong id)
             => TitleUpdates.Items.Where(x => x.TitleUpdate.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
-        
+
         public DownloadableContentModel[] FindDlcsFor(ulong id)
             => DownloadableContents.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
-        
+
         public (DownloadableContentModel Dlc, bool IsEnabled)[] FindDlcConfigurationFor(ulong id)
             => DownloadableContents.Items.Where(x => x.Dlc.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
-        
+
         public bool HasDlcs(ulong id)
             => DownloadableContents.Keys.Any(x => x.TitleIdBase == (id & ~0x1FFFUL));
 
@@ -260,8 +260,8 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                 }
             }
 
-            return isExeFs 
-                ? GetApplicationFromExeFs(pfs, filePath) 
+            return isExeFs
+                ? GetApplicationFromExeFs(pfs, filePath)
                 : null;
         }
 
@@ -529,7 +529,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                 if (data.Id != 0)
                 {
                     ApplicationMetadata appMetadata = LoadAndSaveMetaData(data.IdString, appMetadata =>
-                    {                        
+                    {
                         appMetadata.Title = data.Name;
 
                         // Only do the migration if time_played has a value and timespan_played hasn't been updated yet.
@@ -550,10 +550,9 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                                 // Migration successful: deleting last_played from the metadata file.
                                 appMetadata.LastPlayedOld = default;
                             }
-
                         }
                     });
-            
+
                     data.Favorite = appMetadata.Favorite;
                     data.TimePlayed = appMetadata.TimePlayed;
                     data.LastPlayed = appMetadata.LastPlayed;
@@ -788,7 +787,6 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                     }
                 }
 
-
                 // Loops through applications list, creating a struct and then firing an event containing the struct for each application
                 foreach (string applicationPath in applicationPaths)
                 {
@@ -848,9 +846,9 @@ namespace Ryujinx.Ava.Systems.AppLibrary
         public Task RefreshTotalTimePlayedAsync()
         {
             TotalTimePlayed = Gommon.Optional<TimeSpan>.None;
-            
+
             TimeSpan temporary = TimeSpan.Zero;
-            
+
             foreach (var installedApplication in Applications.Items)
             {
                 temporary += LoadAndSaveMetaData(installedApplication.IdString).TimePlayed;
@@ -872,7 +870,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                     {
                         ldnWebHost = SharedConstants.DefaultLanPlayWebHost;
                     }
-                    
+
                     using HttpClient httpClient = new();
                     string ldnGameDataArrayString = await httpClient.GetStringAsync($"https://{ldnWebHost}/api/public_games");
                     LdnGameData[] ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData).ToArray();
@@ -884,7 +882,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                     Logger.Warning?.Print(LogClass.Application, $"Failed to fetch the public games JSON from the API. Player and game count in the game list will be unavailable.\n{ex.Message}");
                 }
             }
-            
+
             LdnGameDataReceived?.Invoke(LdnGameDataReceivedEventArgs.Empty);
         }
 
@@ -1148,7 +1146,8 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
         private bool AddAndAutoSelectUpdate(TitleUpdateModel update)
         {
-            if (update == null) return false;
+            if (update == null)
+                return false;
 
             DynamicData.Kernel.Optional<(TitleUpdateModel TitleUpdate, bool IsSelected)> currentlySelected = TitleUpdates.Items.FirstOrOptional(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);
@@ -1157,7 +1156,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                                 currentlySelected.Value.TitleUpdate.Version < update.Version;
 
             _titleUpdates.AddOrUpdate((update, shouldSelect));
-            
+
             if (currentlySelected.HasValue && shouldSelect)
             {
                 _titleUpdates.AddOrUpdate((currentlySelected.Value.TitleUpdate, false));
@@ -1557,7 +1556,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                         if (!savedUpdateLookup.Contains(update))
                         {
                             bool shouldSelect = false;
-                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Item1.Version < update.Version)
+                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Update.Version < update.Version)
                             {
                                 shouldSelect = true;
                                 if (selectedUpdate.HasValue)

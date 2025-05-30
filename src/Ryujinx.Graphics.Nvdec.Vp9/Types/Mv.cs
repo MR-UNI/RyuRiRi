@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Video;
 using System;
 using System.Diagnostics;
@@ -44,7 +44,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             9, 9, 9, 9, 9, 9, 9, 9, 9, 10
         ];
 
-        public bool UseHp()
+        public readonly bool UseHp()
         {
             const int KMvRefThresh = 64; // Threshold for use of high-precision 1/8 mv
             return Math.Abs(Row) < KMvRefThresh && Math.Abs(Col) < KMvRefThresh;
@@ -52,12 +52,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public static bool JointVertical(MvJointType type)
         {
-            return type == MvJointType.Hzvnz || type == MvJointType.Hnzvnz;
+            return type is MvJointType.Hzvnz or MvJointType.Hnzvnz;
         }
 
         public static bool JointHorizontal(MvJointType type)
         {
-            return type == MvJointType.Hnzvz || type == MvJointType.Hnzvnz;
+            return type is MvJointType.Hnzvz or MvJointType.Hnzvnz;
         }
 
         private static int ClassBase(MvClassType c)
@@ -110,7 +110,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public MvJointType GetJoint()
+        public readonly MvJointType GetJoint()
         {
             if (Row == 0)
             {
@@ -120,7 +120,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return Col == 0 ? MvJointType.Hzvnz : MvJointType.Hnzvnz;
         }
 
-        internal void Inc(Ptr<Vp9BackwardUpdates> counts)
+        internal readonly void Inc(Ptr<Vp9BackwardUpdates> counts)
         {
             if (!counts.IsNull)
             {
@@ -173,7 +173,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             }
         }
 
-        public bool IsValid()
+        public readonly bool IsValid()
         {
             return Row is > Constants.MvLow and < Constants.MvUpp &&
                    Col is > Constants.MvLow and < Constants.MvUpp;

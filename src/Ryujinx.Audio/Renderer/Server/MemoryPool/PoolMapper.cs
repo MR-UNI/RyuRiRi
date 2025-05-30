@@ -257,7 +257,7 @@ namespace Ryujinx.Audio.Renderer.Server.MemoryPool
 
             const uint PageSize = 0x1000;
 
-            if (inputState != MemoryPoolUserState.RequestAttach && inputState != MemoryPoolUserState.RequestDetach)
+            if (inputState is not MemoryPoolUserState.RequestAttach and not MemoryPoolUserState.RequestDetach)
             {
                 return UpdateResult.Success;
             }

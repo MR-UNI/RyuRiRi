@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
@@ -67,12 +67,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             private set
             {
                 Rainbow.Reset();
-                
+
                 _selectedGamepad = value;
 
                 if (ConfigViewModel is ControllerInputViewModel { Config.UseRainbowLed: true })
                     Rainbow.Updated += (ref Color color) => _selectedGamepad.SetLed((uint)color.ToArgb());
-                
+
                 OnPropertiesChanged(nameof(HasLed), nameof(CanClearLed));
             }
         }
@@ -101,7 +101,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsModified
         {
             get => _isModified;
-            set 
+            set
             {
                 _isModified = value;
                 OnPropertyChanged();
@@ -149,11 +149,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             set
             {
                 if (IsModified)
-                {                 
+                {
                     _playerIdChoose = value;
                     return;
                 }
-             
+
                 IsModified = false;
                 _playerId = value;
                 _isChangeTrackingActive = false;
@@ -163,6 +163,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     _playerId = PlayerIndex.Player1;
 
                 }
+
                 _isLoaded = false;
                 LoadConfiguration();
                 LoadDevice();
@@ -216,11 +217,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                             IsLeft = false;
                             break;
                     }
-                    
+
                     LoadInputDriver();
                     LoadProfiles();
                 }
-       
+
                 OnPropertyChanged();
                 NotifyChanges();
             }
@@ -287,7 +288,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-
         public InputConfig Config { get; set; }
 
         public InputViewModel(UserControl owner) : this()
@@ -348,7 +348,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig), VisualStick);
             }
-
         }
 
         private void FindPairedDeviceInConfigFile()
@@ -356,7 +355,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             // This function allows you to output a message about the device configuration found in the file
             // NOTE: if the configuration is found, we display the message "Waiting for controller connection",
             // but only if the id gamepad belongs to the selected player
-            
+
             NotificationIsVisible = Config != null && Devices.FirstOrDefault(d => d.Id == Config.Id).Id != Config.Id && Config.PlayerIndex == PlayerId;
             if (NotificationIsVisible)
             {
@@ -369,9 +368,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     NotificationText = $"{LocaleManager.Instance[LocaleKeys.ControllerSettingsWaitingConnectDevice].Format(Config.Name, Config.Id)}";
                 }
             }
-            
         }
-
 
         private void MarkAsChanged()
         {
@@ -383,7 +380,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-
         public void UnlinkDevice()
         {
             // "Disabled" mode is available after unbinding the device
@@ -391,7 +387,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             NotificationIsVisible = false;
             IsModified = true;
         }
-
 
         public void LoadDevice()
         {
@@ -479,10 +474,10 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             LoadDevices();
 
             IsModified = true;
-            RevertChanges();                  
+            RevertChanges();
 
             _isChangeTrackingActive = true;// Enable configuration change tracking
-  
+
         }
 
         private string GetCurrentGamepadId()
@@ -557,6 +552,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 return $"{GetShortGamepadName(gamepad.Name)} ({controllerNumber})";
             }
+
             string GetUniqueGamepadName(IGamepad gamepad, ref int controllerNumber)
             {
                 string name = GetGamepadName(gamepad, controllerNumber);
@@ -565,6 +561,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     controllerNumber++;
                     name = GetGamepadName(gamepad, controllerNumber);
                 }
+
                 return name;
             }
 
@@ -790,7 +787,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public void LoadProfileButton()
-        { 
+        {
             LoadProfile();
             IsModified = true;
         }
@@ -824,6 +821,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     {
                         ProfilesList.RemoveAt(index);
                     }
+
                     return;
                 }
 
@@ -860,58 +858,57 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public async void SaveProfile()
         {
-           
-           if (Device == 0)
-           {
-               return;
-           }
-           
-           if (ConfigViewModel == null)
-           {
-               return;
-           }
-         
-           if (ProfileName == LocaleManager.Instance[LocaleKeys.ControllerSettingsProfileDefault])
-           {
-               await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileDefaultProfileOverwriteErrorMessage]);
 
-               return;
-           }
-           else
-           {
-               bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
+            if (Device == 0)
+            {
+                return;
+            }
 
-               if (validFileName)
-               {
-                   string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
+            if (ConfigViewModel == null)
+            {
+                return;
+            }
 
-                   InputConfig config = null;
+            if (ProfileName == LocaleManager.Instance[LocaleKeys.ControllerSettingsProfileDefault])
+            {
+                await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileDefaultProfileOverwriteErrorMessage]);
 
-                   if (IsKeyboard)
-                   {
-                       config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
-                   }
-                   else if (IsController)
-                   {
-                       config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
-                   }
+                return;
+            }
+            else
+            {
+                bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
 
-                   config.ControllerType = Controllers[_controller].Type;
+                if (validFileName)
+                {
+                    string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
 
-                   string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
+                    InputConfig config = null;
 
-                   await File.WriteAllTextAsync(path, jsonString);
+                    if (IsKeyboard)
+                    {
+                        config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
+                    }
+                    else if (IsController)
+                    {
+                        config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
+                    }
 
-                   LoadProfiles();
+                    config.ControllerType = Controllers[_controller].Type;
 
-                   ProfileChoose = ProfileName; // Show new profile
-               }
-               else
-               {
-                   await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
-               }
-           }
-           
+                    string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
+
+                    await File.WriteAllTextAsync(path, jsonString);
+
+                    LoadProfiles();
+
+                    ProfileChoose = ProfileName; // Show new profile
+                }
+                else
+                {
+                    await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
+                }
+            }
         }
 
         public async void RemoveProfile()
@@ -947,7 +944,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             LoadConfiguration(); // configuration preload is required if the paired gamepad was disconnected but was changed to another gamepad
             Device = Devices.ToList().FindIndex(d => d.Id == RevertDeviceId);
-  
+
             LoadDevice();
             LoadConfiguration();
 
@@ -957,7 +954,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public void Save()
         {
-            
+
             if (!IsModified)
             {
                 return; //If the input settings were not touched, then do nothing
@@ -967,7 +964,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             RevertDeviceId = Devices[Device].Id; // Remember selected device after saving
 
-            List <InputConfig> newConfig = [];
+            List<InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 

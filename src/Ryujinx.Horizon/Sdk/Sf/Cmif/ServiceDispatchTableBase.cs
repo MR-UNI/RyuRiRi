@@ -62,8 +62,8 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             Result commandResult = commandHandler.Invoke(ref outHeader, ref context, inMessageRawData);
 
-            if (commandResult.Module == SfResult.ModuleId ||
-                commandResult.Module == HipcResult.ModuleId)
+            if (commandResult.Module is SfResult.ModuleId or
+                HipcResult.ModuleId)
             {
                 Logger.Warning?.Print(LogClass.KernelIpc, $"{commandHandler.MethodName} returned error {commandResult}");
             }

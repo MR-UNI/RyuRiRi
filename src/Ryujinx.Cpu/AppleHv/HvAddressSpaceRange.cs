@@ -359,7 +359,7 @@ namespace Ryujinx.Cpu.AppleHv
 
         private static void ValidateEntriesCount(int count)
         {
-            Debug.Assert(count >= 0 && count <= LevelCount, $"Entries count {count} is invalid.");
+            Debug.Assert(count is >= 0 and <= LevelCount, $"Entries count {count} is invalid.");
         }
 
         public void Dispose()

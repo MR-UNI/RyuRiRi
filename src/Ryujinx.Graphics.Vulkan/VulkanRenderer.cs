@@ -360,11 +360,11 @@ namespace Ryujinx.Graphics.Vulkan
             IsAmdWindows = Vendor == Vendor.Amd && OperatingSystem.IsWindows();
             IsIntelWindows = Vendor == Vendor.Intel && OperatingSystem.IsWindows();
             IsTBDR =
-                Vendor == Vendor.Apple ||
-                Vendor == Vendor.Qualcomm ||
-                Vendor == Vendor.ARM ||
-                Vendor == Vendor.Broadcom ||
-                Vendor == Vendor.ImgTec;
+                Vendor is Vendor.Apple or
+                Vendor.Qualcomm or
+                Vendor.ARM or
+                Vendor.Broadcom or
+                Vendor.ImgTec;
 
             GpuVendor = VendorUtils.GetNameFromId(properties.VendorID);
             GpuDriver = hasDriverProperties && !OperatingSystem.IsMacOS() ?
@@ -378,7 +378,7 @@ namespace Ryujinx.Graphics.Vulkan
             GpuVersion = $"Vulkan v{ParseStandardVulkanVersion(properties.ApiVersion)}, Driver v{ParseDriverVersion(ref properties)}";
 
             IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && Patterns.AmdGcn.IsMatch(GpuRenderer);
-            
+
             IsAmdRdna3 = Vendor == Vendor.Amd && (Patterns.AmdRdna3.IsMatch(GpuRenderer)
                                                   // ROG Ally (X) Device IDs
                                                   || properties.DeviceID is 0x15BF or 0x15C8);
@@ -903,7 +903,7 @@ namespace Ryujinx.Graphics.Vulkan
                 gpuInfoMessage = gpuInfoMessage.Prepend(GpuVendor);
 
             Logger.Notice.Print(LogClass.Gpu, gpuInfoMessage);
-            
+
             Logger.Notice.Print(LogClass.Gpu, $"GPU Memory: {GetTotalGPUMemory() / (1024 * 1024)} MiB");
         }
 

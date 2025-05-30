@@ -85,7 +85,6 @@ namespace Ryujinx.Tests.Audio.Renderer.Server
                 memoryPoolStateArray[i].SetCpuAddress(CpuAddress + (ulong)i * CpuSize, CpuSize);
             }
 
-
             AddressInfo addressInfo = AddressInfo.Create();
 
             PoolMapper poolMapper = new(DummyProcessHandle, true);

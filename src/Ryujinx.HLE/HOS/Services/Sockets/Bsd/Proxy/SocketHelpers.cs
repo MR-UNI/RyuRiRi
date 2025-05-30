@@ -36,7 +36,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Proxy
                             throw new NotImplementedException();
                     }
                 });
-            };
+            }
 
             FilterSockets(readEvents, readDefault, (socket) => socket.Readable);
             FilterSockets(writeEvents, writeDefault, (socket) => socket.Writable);
@@ -77,6 +77,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Proxy
             {
                 Logger.Info?.PrintMsg(LogClass.ServiceBsd, $"Opening socket using host networking stack");
             }
+
             return new DefaultSocket(domain, type, protocol, lanInterfaceId);
         }
     }

@@ -51,7 +51,7 @@ namespace ARMeilleure.Common
             {
                 SparseMemoryBlock block = new(size, pageInit, null);
 
-                _trackingEvent = (ulong address, ulong size, bool write) =>
+                _trackingEvent = (address, size, write) =>
                 {
                     ulong pointer = (ulong)block.Block.Pointer + address;
                     ensureMapped((IntPtr)pointer);
@@ -181,7 +181,7 @@ namespace ARMeilleure.Common
         public static AddressTable<TEntry> CreateForArm(bool for64Bits, MemoryManagerType type)
         {
             // Assume software memory means that we don't want to use any signal handlers.
-            bool sparse = type != MemoryManagerType.SoftwareMmu && type != MemoryManagerType.SoftwarePageTable;
+            bool sparse = type is not MemoryManagerType.SoftwareMmu and not MemoryManagerType.SoftwarePageTable;
 
             return new AddressTable<TEntry>(AddressTablePresets.GetArmPreset(for64Bits, sparse), sparse);
         }

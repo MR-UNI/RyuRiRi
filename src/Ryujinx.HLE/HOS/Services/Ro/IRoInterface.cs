@@ -259,6 +259,7 @@ namespace Ryujinx.HLE.HOS.Services.Ro
                     return baseAddress + size + GuardPagesSize <= memInfo.Address + memInfo.Size;
                 }
             }
+
             return false;
         }
 
@@ -313,7 +314,7 @@ namespace Ryujinx.HLE.HOS.Services.Ro
             return ResultCode.Success;
         }
 
-        private Result SetNroMemoryPermissions(KProcess process, IExecutable relocatableObject, ulong baseAddress)
+        private Result SetNroMemoryPermissions(KProcess process, NroExecutable relocatableObject, ulong baseAddress)
         {
             ulong textStart = baseAddress + relocatableObject.TextOffset;
             ulong roStart = baseAddress + relocatableObject.RoOffset;

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Threading;
 
 namespace Ryujinx.Tests.Memory
@@ -57,8 +58,8 @@ namespace Ryujinx.Tests.Memory
         {
             // Create a translator, as one is needed to register the signal handler or emit methods.
             _translator ??= new Translator(
-                new JitMemoryAllocator(), 
-                new MockMemoryManager(), 
+                new JitMemoryAllocator(),
+                new MockMemoryManager(),
                 AddressTable<ulong>.CreateForArm(true, MemoryManagerType.SoftwarePageTable));
         }
 
@@ -289,7 +290,7 @@ namespace Ryujinx.Tests.Memory
         [Test]
         // Only test in Windows, as this is only used on Windows and uses Windows APIs for trimming.
         [Platform("Win")]
-        [SuppressMessage("Interoperability", "CA1416: Validate platform compatibility")]
+        [SupportedOSPlatform("windows")]
         public void ThreadLocalMap()
         {
             PartialUnmapState.Reset();

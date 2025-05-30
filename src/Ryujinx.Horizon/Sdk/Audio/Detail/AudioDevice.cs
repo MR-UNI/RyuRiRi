@@ -121,7 +121,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
 
             if (!_isUsbDeviceSupported && device.IsUsbDevice())
             {
-                device = _registry.DefaultDevice;
+                device = VirtualDeviceSessionRegistry.DefaultDevice;
             }
 
             if (name.Length > 0)
@@ -147,7 +147,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
 
             if (!_isUsbDeviceSupported && device.IsUsbDevice())
             {
-                device = _registry.DefaultDevice;
+                device = VirtualDeviceSessionRegistry.DefaultDevice;
             }
 
             channelCount = (int)device.ChannelCount;

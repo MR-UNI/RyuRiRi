@@ -110,6 +110,7 @@ namespace Ryujinx.Memory.Tracking
             {
                 splitLow.RegisterAction(signal);
             }
+
             _handles[handleIndex] = splitLow;
 
             RegionHandle splitHigh = _tracking.BeginTracking(address + size, handle.Size - size, _id);
@@ -118,6 +119,7 @@ namespace Ryujinx.Memory.Tracking
             {
                 splitHigh.RegisterAction(signal);
             }
+
             _handles[splitIndex] = splitHigh;
         }
 
@@ -136,6 +138,7 @@ namespace Ryujinx.Memory.Tracking
                         SplitHandle(i, startHandle);
                         return; // The remainer of this handle should be filled in later on.
                     }
+
                     break;
                 }
             }
@@ -201,6 +204,7 @@ namespace Ryujinx.Memory.Tracking
                         modifiedAction(rgStart, rgSize);
                         rgSize = 0;
                     }
+
                     rgStart = handle.EndAddress;
                 }
 
@@ -255,6 +259,7 @@ namespace Ryujinx.Memory.Tracking
                         modifiedAction(rgStart, rgSize);
                         rgSize = 0;
                     }
+
                     rgStart = handle.EndAddress;
                 }
 

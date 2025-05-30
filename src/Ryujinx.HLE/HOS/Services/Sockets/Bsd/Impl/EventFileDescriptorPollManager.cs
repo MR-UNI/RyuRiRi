@@ -45,6 +45,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
 
                     isValidEvent = true;
                 }
+
                 if (evnt.Data.InputEvents.HasFlag(PollEventTypeMask.Output))
                 {
                     waiters.Add(socket.WriteEvent);
@@ -90,7 +91,6 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
                     {
                         outputEvents |= PollEventTypeMask.Output;
                     }
-
 
                     if (outputEvents != 0)
                     {

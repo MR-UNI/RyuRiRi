@@ -207,8 +207,8 @@ namespace Ryujinx.Graphics.Gpu.Image
                 return false; // Flushing this format is not supported, as it may have been converted to another host format.
             }
 
-            if (info.Target == Target.Texture2DMultisample ||
-                info.Target == Target.Texture2DMultisampleArray)
+            if (info.Target is Target.Texture2DMultisample or
+                Target.Texture2DMultisampleArray)
             {
                 return false; // Flushing multisample textures is not supported, the host does not allow getting their data.
             }
@@ -758,43 +758,45 @@ namespace Ryujinx.Graphics.Gpu.Image
             {
                 case Target.Texture1D:
                 case Target.Texture1DArray:
-                    result = rhs.Target == Target.Texture1D ||
-                             rhs.Target == Target.Texture1DArray;
+                    result = rhs.Target is Target.Texture1D or
+                             Target.Texture1DArray;
                     break;
 
                 case Target.Texture2D:
-                    result = rhs.Target == Target.Texture2D ||
-                             rhs.Target == Target.Texture2DArray;
+                    result = rhs.Target is Target.Texture2D or
+                             Target.Texture2DArray;
                     break;
 
                 case Target.Texture2DArray:
-                    result = rhs.Target == Target.Texture2D ||
-                             rhs.Target == Target.Texture2DArray;
+                    result = rhs.Target is Target.Texture2D or
+                             Target.Texture2DArray;
 
-                    if (rhs.Target == Target.Cubemap || rhs.Target == Target.CubemapArray)
+                    if (rhs.Target is Target.Cubemap or Target.CubemapArray)
                     {
                         return caps.SupportsCubemapView ? TextureViewCompatibility.Full : TextureViewCompatibility.CopyOnly;
                     }
+
                     break;
                 case Target.Cubemap:
                 case Target.CubemapArray:
-                    result = rhs.Target == Target.Cubemap ||
-                             rhs.Target == Target.CubemapArray;
+                    result = rhs.Target is Target.Cubemap or
+                             Target.CubemapArray;
 
-                    if (rhs.Target == Target.Texture2D || rhs.Target == Target.Texture2DArray)
+                    if (rhs.Target is Target.Texture2D or Target.Texture2DArray)
                     {
                         return caps.SupportsCubemapView ? TextureViewCompatibility.Full : TextureViewCompatibility.CopyOnly;
                     }
+
                     break;
                 case Target.Texture2DMultisample:
                 case Target.Texture2DMultisampleArray:
-                    if (rhs.Target == Target.Texture2D || rhs.Target == Target.Texture2DArray)
+                    if (rhs.Target is Target.Texture2D or Target.Texture2DArray)
                     {
                         return TextureViewCompatibility.CopyOnly;
                     }
 
-                    result = rhs.Target == Target.Texture2DMultisample ||
-                             rhs.Target == Target.Texture2DMultisampleArray;
+                    result = rhs.Target is Target.Texture2DMultisample or
+                             Target.Texture2DMultisampleArray;
                     break;
 
                 case Target.Texture3D:

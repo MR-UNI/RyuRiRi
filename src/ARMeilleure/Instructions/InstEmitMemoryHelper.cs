@@ -59,7 +59,7 @@ namespace ARMeilleure.Instructions
             {
                 Operand value = GetInt(context, rt);
 
-                if (ext == Extension.Sx32 || ext == Extension.Sx64)
+                if (ext is Extension.Sx32 or Extension.Sx64)
                 {
                     OperandType destType = ext == Extension.Sx64 ? OperandType.I64 : OperandType.I32;
 
@@ -123,9 +123,9 @@ namespace ARMeilleure.Instructions
 
         private static bool IsSimd(ArmEmitterContext context)
         {
-            return context.CurrOp is IOpCodeSimd &&
-                 !(context.CurrOp is OpCodeSimdMemMs ||
-                   context.CurrOp is OpCodeSimdMemSs);
+            return context.CurrOp is IOpCodeSimd and
+                 not (OpCodeSimdMemMs or
+                   OpCodeSimdMemSs);
         }
 
         public static Operand EmitReadInt(ArmEmitterContext context, Operand address, int size)
@@ -717,7 +717,7 @@ namespace ARMeilleure.Instructions
             };
         }
 
-        private static Exception InvalidOpCodeType(OpCode opCode)
+        private static InvalidOperationException InvalidOpCodeType(OpCode opCode)
         {
             return new InvalidOperationException($"Invalid OpCode type \"{opCode?.GetType().Name ?? "null"}\".");
         }
@@ -768,6 +768,7 @@ namespace ARMeilleure.Instructions
                         {
                             m = InstEmitAluHelper.GetRrxC(context, m, setCarry);
                         }
+
                         break;
                 }
             }

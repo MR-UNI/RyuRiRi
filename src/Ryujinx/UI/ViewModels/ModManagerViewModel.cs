@@ -5,9 +5,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
-using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
@@ -131,12 +131,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Filter(Filter)
                 .Bind(out ReadOnlyObservableCollection<ModModel> view).AsObservableList();
 
-#pragma warning disable MVVMTK0034 // Event to update is fired below
-            _views.Clear();
-            _views.AddRange(view);
-#pragma warning restore MVVMTK0034
+            Views.Clear();
+            Views.AddRange(view);
 
-            SelectedMods = new(Views.Where(x => x.Enabled));
+            SelectedMods = [.. Views.Where(x => x.Enabled)];
 
             OnPropertyChanged(nameof(ModCount));
             OnPropertyChanged(nameof(Views));
@@ -147,7 +145,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is ModModel content)
             {
-                return string.IsNullOrWhiteSpace(_search) || content.Name.ToLower().Contains(_search.ToLower());
+                return string.IsNullOrWhiteSpace(_search) || content.Name.Contains(_search, StringComparison.OrdinalIgnoreCase);
             }
 
             return false;
@@ -215,6 +213,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 Mods.Remove(model);
                 OnPropertyChanged(nameof(ModCount));
             }
+
             Sort();
         }
 
@@ -312,7 +311,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void EnableAll()
         {
-            SelectedMods = new(Mods);
+            SelectedMods = [.. Mods];
         }
 
         public void DisableAll()

@@ -9,12 +9,12 @@ using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
 using Ryujinx.Audio.Backends.SoundIo;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.UI.Models.Input;
-using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.Systems.Configuration.System;
 using Ryujinx.Ava.Systems.Configuration.UI;
+using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.UI.Models.Input;
+using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.GraphicsDriver;
@@ -72,10 +72,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public SettingsHacksViewModel DirtyHacks { get; }
 
         private readonly bool _isGameRunning;
-        private Bitmap _gameIcon;
-        private string _gameTitle;
-        private string _gamePath;
-        private string _gameId;
+        private readonly Bitmap _gameIcon;
+        private readonly string _gameTitle;
+        private readonly string _gamePath;
+        private readonly string _gameId;
         public bool IsGameRunning => _isGameRunning;
         public Bitmap GameIcon => _gameIcon;
         public string GamePath => _gamePath;
@@ -142,9 +142,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
         public bool DisableInputWhenOutOfFocus { get; set; }
-        
+
         public int FocusLostActionType { get; set; }
-        
+
         public VSyncMode VSyncMode
         {
             get => _vSyncMode;
@@ -188,6 +188,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     VSyncMode = VSyncMode.Custom;
                 }
+
                 OnPropertyChanged();
             }
         }
@@ -201,15 +202,15 @@ namespace Ryujinx.Ava.UI.ViewModels
                 int newPercent = (int)((value / 60f) * 100);
                 _customVSyncIntervalPercentageProxy = newPercent;
                 OnPropertiesChanged(
-                    nameof(CustomVSyncIntervalPercentageProxy), 
+                    nameof(CustomVSyncIntervalPercentageProxy),
                     nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
             }
         }
         public bool EnablePptc { get; set; }
         public bool EnableLowPowerPptc { get; set; }
-        
-        
+
+
         public long TurboMultiplier
         {
             get => _turboModeMultiplier;
@@ -218,13 +219,13 @@ namespace Ryujinx.Ava.UI.ViewModels
                 if (_turboModeMultiplier != value)
                 {
                     _turboModeMultiplier = value;
-                    
+
                     OnPropertyChanged();
                     OnPropertyChanged((nameof(TurboMultiplierPercentageText)));
                 }
             }
         }
-        
+
         public string TurboMultiplierPercentageText => $"{TurboMultiplier}%";
 
         public bool EnableInternetAccess { get; set; }
@@ -345,7 +346,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AvaloniaList<string> NetworkInterfaceList
         {
-            get => new(_networkInterfaces.Keys);
+            get => [.. _networkInterfaces.Keys];
         }
 
         public HotkeyConfig KeyboardHotkey { get; set; }
@@ -374,39 +375,37 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
-            
+
             if (Program.PreviewerDetached)
             {
                 Task.Run(LoadTimeZones);
-                
+
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
 
         public SettingsViewModel(
-            VirtualFileSystem virtualFileSystem, 
+            VirtualFileSystem virtualFileSystem,
             ContentManager contentManager,
             bool gameRunning,
             string gamePath,
-            string gameName, 
-            string gameId, 
-            byte[] gameIconData, 
+            string gameName,
+            string gameId,
+            byte[] gameIconData,
             bool enableToLoadCustomConfig) : this(enableToLoadCustomConfig)
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
-  
+
             if (gameIconData != null && gameIconData.Length > 0)
             {
-                using (var ms = new MemoryStream(gameIconData))
-                {
-                    _gameIcon = new Bitmap(ms);
-                }
+                using var ms = new MemoryStream(gameIconData);
+                _gameIcon = new Bitmap(ms);
             }
 
             _isGameRunning = gameRunning;
             _gamePath = gamePath;
-            _gameTitle = gameName;           
+            _gameTitle = gameName;
             _gameId = gameId;
 
             if (enableToLoadCustomConfig) // During the game. If there is no user config, then load the global config window
@@ -414,7 +413,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 string gameDir = Program.GetDirGameUserConfig(gameId, false, true);
                 if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
                 {
-                    ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);                 
+                    ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);
                 }
 
                 LoadCurrentConfiguration(); // Needed to load custom configuration
@@ -443,8 +442,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadAvailableGpus);
 
-               // if (!noLoadGlobalConfig)// Default is false, but loading custom config avoids double call
-                    LoadCurrentConfiguration();
+                // if (!noLoadGlobalConfig)// Default is false, but loading custom config avoids double call
+                LoadCurrentConfiguration();
 
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
@@ -811,7 +810,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void DeleteConfigGame()
         {
-            string gameDir = Program.GetDirGameUserConfig(GameId,false,false);
+            string gameDir = Program.GetDirGameUserConfig(GameId, false, false);
 
             if (File.Exists(gameDir))
             {
@@ -839,8 +838,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AsyncRelayCommand ResetButton => Commands.Create(async () =>
         {
-            if (!WantsToReset) return;
-            
+            if (!WantsToReset)
+                return;
+
             CloseWindow?.Invoke();
             ConfigurationState.Instance.LoadDefault();
             ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);

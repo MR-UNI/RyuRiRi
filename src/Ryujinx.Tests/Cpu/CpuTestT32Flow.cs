@@ -100,6 +100,7 @@ namespace Ryujinx.Tests.Cpu
             {
                 ThumbOpcode(0xe7fe);
             }
+
             ThumbOpcode(0x4670); // label: MOV R0, LR
             ThumbOpcode(0x2100); //        MOVS R1, #0
             ThumbOpcode(0x468e); //        MOV LR, R1

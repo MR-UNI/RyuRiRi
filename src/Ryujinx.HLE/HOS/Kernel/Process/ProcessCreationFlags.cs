@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace Ryujinx.HLE.HOS.Kernel.Process
 {
     [Flags]
-    [SuppressMessage("Design", "CA1069: Enums values should not be duplicated")]
     enum ProcessCreationFlags
     {
         Is64Bit = 1 << 0,

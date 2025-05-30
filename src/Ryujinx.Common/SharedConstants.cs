@@ -1,4 +1,4 @@
-﻿namespace Ryujinx.Common
+namespace Ryujinx.Common
 {
     public static class SharedConstants
     {

@@ -1,14 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text.Json;
+using System.Linq;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Ryujinx.BuildValidationTasks
 {
     public class LocalesValidationTask : IValidationTask
     {
+        static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            WriteIndented = true,
+            NewLine = "\n",
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+
         public LocalesValidationTask() { }
 
         public bool Execute(string projectPath, bool isGitRunner)
@@ -37,8 +44,6 @@ namespace Ryujinx.BuildValidationTasks
             {
                 throw new JsonException(e.Message); //shorter and easier stacktrace
             }
-
-
 
             bool encounteredIssue = false;
 
@@ -83,14 +88,7 @@ namespace Ryujinx.BuildValidationTasks
             if (isGitRunner && encounteredIssue)
                 throw new JsonException("1 or more locales are invalid!");
 
-            JsonSerializerOptions jsonOptions = new()
-            {
-                WriteIndented = true,
-                NewLine = "\n",
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            };
-
-            string jsonString = JsonSerializer.Serialize(json, jsonOptions);
+            string jsonString = JsonSerializer.Serialize(json, _jsonOptions);
 
             using (StreamWriter sw = new(path))
             {

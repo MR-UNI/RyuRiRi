@@ -129,7 +129,6 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
                                           delayFeedbackCrossGain, 0.0f, delayFeedbackBaseGain, delayFeedbackCrossGain,
                                           0.0f, delayFeedbackCrossGain, delayFeedbackCrossGain, delayFeedbackBaseGain);
 
-
             for (int i = 0; i < sampleCount; i++)
             {
                 Vector4 channelInput = new()

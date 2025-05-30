@@ -27,19 +27,19 @@ namespace Ryujinx.Common
             !ConfigFileName.StartsWith("%%");
 
         public static bool IsCanaryBuild => IsValid && ReleaseChannelName.Equals(CanaryChannel);
-        
+
         public static bool IsReleaseBuild => IsValid && ReleaseChannelName.Equals(ReleaseChannel);
 
         public static string Version => IsValid ? BuildVersion : Assembly.GetEntryAssembly()!.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
         public static string GetChangelogUrl(Version currentVersion, Version newVersion, ReleaseChannels.Channel releaseChannel) =>
-            IsCanaryBuild 
+            IsCanaryBuild
                 ? $"https://git.ryujinx.app/ryubing/ryujinx/-/compare/Canary-{currentVersion}...Canary-{newVersion}"
                 : GetChangelogForVersion(newVersion, releaseChannel);
-        
+
         public static string GetChangelogForVersion(Version version, ReleaseChannels.Channel releaseChannel) =>
             $"https://github.com/{releaseChannel}/releases/{version}";
-        
+
         public static async Task<ReleaseChannels> GetReleaseChannelsAsync(HttpClient httpClient)
         {
             ReleaseChannelPair releaseChannelPair = await httpClient.GetFromJsonAsync("https://ryujinx.app/api/release-channels", ReleaseChannelPairContext.Default.ReleaseChannelPair);
@@ -57,7 +57,7 @@ namespace Ryujinx.Common
 
         public readonly Channel Stable;
         public readonly Channel Canary;
-        
+
         public readonly struct Channel
         {
             public Channel(string raw)
@@ -66,7 +66,7 @@ namespace Ryujinx.Common
                 Owner = parts[0];
                 Repo = parts[1];
             }
-            
+
             public readonly string Owner;
             public readonly string Repo;
 
@@ -76,7 +76,7 @@ namespace Ryujinx.Common
                 $"https://api.github.com/repos/{ToString()}/releases/latest";
         }
     }
-    
+
     [JsonSerializable(typeof(ReleaseChannelPair))]
     partial class ReleaseChannelPairContext : JsonSerializerContext;
 

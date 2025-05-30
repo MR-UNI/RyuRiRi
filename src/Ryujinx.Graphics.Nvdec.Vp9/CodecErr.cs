@@ -1,4 +1,4 @@
-﻿namespace Ryujinx.Graphics.Nvdec.Vp9
+namespace Ryujinx.Graphics.Nvdec.Vp9
 {
     internal enum CodecErr
     {
@@ -49,18 +49,18 @@
         /// </remarks>
         UnsupFeature,
 
-         /// <summary>
-         /// The coded data for this stream is corrupt or incomplete.
-         /// </summary>
-         /// <remarks>
-         /// There was a problem decoding the current frame.<br/>
-         /// This return code should only be used
-         /// for failures that prevent future pictures from being properly decoded.<br/>
-         /// <br/>
-         /// This error MAY be treated as fatal to the stream or MAY be treated as fatal to the current GOP.<br/>
-         /// If decoding is continued for the current GOP, artifacts may be present.
-         /// </remarks>
-         CorruptFrame,
+        /// <summary>
+        /// The coded data for this stream is corrupt or incomplete.
+        /// </summary>
+        /// <remarks>
+        /// There was a problem decoding the current frame.<br/>
+        /// This return code should only be used
+        /// for failures that prevent future pictures from being properly decoded.<br/>
+        /// <br/>
+        /// This error MAY be treated as fatal to the stream or MAY be treated as fatal to the current GOP.<br/>
+        /// If decoding is continued for the current GOP, artifacts may be present.
+        /// </remarks>
+        CorruptFrame,
 
         /// <summary>
         /// An application-supplied parameter is not valid.

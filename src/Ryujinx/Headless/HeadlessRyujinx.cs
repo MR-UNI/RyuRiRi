@@ -86,23 +86,23 @@ namespace Ryujinx.Headless
                 .WithNotParsed(errors =>
                 {
                     Logger.Error?.PrintMsg(LogClass.Application, "Error parsing command-line arguments:");
-                    
+
                     errors.ForEach(err => Logger.Error?.PrintMsg(LogClass.Application, $" - {err.Tag}"));
                 });
         }
-        
+
         public static void ReloadConfig(string customConfigPath = null)
         {
             string localConfigurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ReleaseInformation.ConfigName);
             string appDataConfigurationPath = Path.Combine(AppDataManager.BaseDirPath, ReleaseInformation.ConfigName);
 
             string configurationPath = null;
-            
+
             // Now load the configuration as the other subsystems are now registered
             if (customConfigPath != null && File.Exists(customConfigPath))
             {
                 configurationPath = customConfigPath;
-            } 
+            }
             else if (File.Exists(localConfigurationPath))
             {
                 configurationPath = localConfigurationPath;
@@ -150,10 +150,10 @@ namespace Ryujinx.Headless
             }
 
             AppDataManager.Initialize(option.BaseDataDir);
-            
+
             if (useLastUsedProfile && AccountSaveDataManager.GetLastUsedUser().TryGet(out UserProfile profile))
                 option.UserProfile = profile.Name;
-            
+
             // Check if keys exists.
             if (!File.Exists(Path.Combine(AppDataManager.KeysDirPath, "prod.keys")))
             {
@@ -162,12 +162,12 @@ namespace Ryujinx.Headless
                     Logger.Error?.Print(LogClass.Application, "Keys not found");
                 }
             }
-            
+
             ReloadConfig();
 
             if (!option.DisableMainInputConfig)
                 option.InheritMainConfigInput(originalArgs, ConfigurationState.Instance);
-            
+
             _virtualFileSystem = VirtualFileSystem.CreateInstance();
             _libHacHorizonManager = new LibHacHorizonManager();
 
@@ -228,9 +228,9 @@ namespace Ryujinx.Headless
             _inputConfiguration ??= [];
             _enableKeyboard = option.EnableKeyboard;
             _enableMouse = option.EnableMouse;
-            
+
             LoadPlayerConfiguration(option.InputProfile1Name, option.InputId1, PlayerIndex.Player1);
-            LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2); 
+            LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2);
             LoadPlayerConfiguration(option.InputProfile3Name, option.InputId3, PlayerIndex.Player3);
             LoadPlayerConfiguration(option.InputProfile4Name, option.InputId4, PlayerIndex.Player4);
             LoadPlayerConfiguration(option.InputProfile5Name, option.InputId5, PlayerIndex.Player5);
@@ -238,7 +238,7 @@ namespace Ryujinx.Headless
             LoadPlayerConfiguration(option.InputProfile7Name, option.InputId7, PlayerIndex.Player7);
             LoadPlayerConfiguration(option.InputProfile8Name, option.InputId8, PlayerIndex.Player8);
             LoadPlayerConfiguration(option.InputProfileHandheldName, option.InputIdHandheld, PlayerIndex.Handheld);
-            
+
             if (_inputConfiguration.Count == 0)
             {
                 return;
@@ -286,7 +286,7 @@ namespace Ryujinx.Headless
             GraphicsConfig.EnableMacroHLE = !option.DisableMacroHLE;
 
             DriverUtilities.InitDriverConfig(option.BackendThreading == BackendThreading.Off);
-            
+
             if (_inputConfiguration.OfType<StandardControllerInputConfig>()
                 .Any(ic => ic?.Led?.UseRainbow ?? false))
                 Rainbow.Enable();
@@ -306,10 +306,11 @@ namespace Ryujinx.Headless
             try
             {
                 _inputManager.Dispose();
-            } catch {}
+            }
+            catch { }
 
             return;
-            
+
             void LoadPlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
             {
                 if (index == PlayerIndex.Handheld && _inputConfiguration.Count > 0)
@@ -317,7 +318,7 @@ namespace Ryujinx.Headless
                     Logger.Info?.Print(LogClass.Configuration, "Skipping handheld configuration as there are already other players configured.");
                     return;
                 }
-                
+
                 InputConfig inputConfig = option.InheritedInputConfigs[index] ?? HandlePlayerConfiguration(inputProfileName, inputId, index);
 
                 if (inputConfig != null)
@@ -454,6 +455,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     case ".nca":
                         Logger.Info?.Print(LogClass.Application, "Loading as NCA.");
@@ -464,6 +466,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     case ".nsp":
                     case ".pfs0":
@@ -475,6 +478,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     default:
                         Logger.Info?.Print(LogClass.Application, "Loading as Homebrew.");
@@ -495,6 +499,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                 }
             }

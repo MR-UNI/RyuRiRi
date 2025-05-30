@@ -12,15 +12,13 @@ namespace Ryujinx.Tests.Cpu
 {
     internal class EnvironmentTests
     {
-#pragma warning disable IDE0052 // Remove unread private member
         private static Translator _translator;
-#pragma warning restore IDE0052
 
         private static void EnsureTranslator()
         {
             // Create a translator, as one is needed to register the signal handler or emit methods.
             _translator ??= new Translator(
-                new JitMemoryAllocator(), 
+                new JitMemoryAllocator(),
                 new MockMemoryManager(),
                 AddressTable<ulong>.CreateForArm(true, MemoryManagerType.SoftwarePageTable));
         }

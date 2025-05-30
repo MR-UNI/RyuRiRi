@@ -20,6 +20,7 @@ namespace ARMeilleure.Decoders
                 Instruction = InstDescriptor.Undefined;
                 return;
             }
+
             Q = ((opCode >> 21) & 0x1) != 0;
 
             RegisterSize = Q ? RegisterSize.Simd128 : RegisterSize.Simd64;

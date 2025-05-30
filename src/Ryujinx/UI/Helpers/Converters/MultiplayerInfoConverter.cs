@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.UI.Helpers
         {
             if (value is not ApplicationData { HasLdnGames: true } applicationData)
                 return "";
-            
+
             return new StringBuilder()
                 .AppendLine(
                     LocaleManager.Instance[LocaleKeys.GameListHeaderHostedGames]

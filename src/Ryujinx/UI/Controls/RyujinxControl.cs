@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Gommon;
 using Ryujinx.Ava.UI.ViewModels;
 using System;

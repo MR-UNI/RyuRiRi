@@ -1,9 +1,9 @@
 using DiscordRPC;
 using Gommon;
-using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.Systems.PlayReport;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
@@ -42,7 +42,8 @@ namespace Ryujinx.Ava.Systems
             {
                 Assets = new Assets
                 {
-                    LargeImageKey = "ryujinx", LargeImageText = TruncateToByteLength(_description)
+                    LargeImageKey = "ryujinx",
+                    LargeImageText = TruncateToByteLength(_description)
                 },
                 Details = "Main Menu",
                 State = "Idling",
@@ -122,14 +123,18 @@ namespace Ryujinx.Ava.Systems
 
         private static void HandlePlayReport(Horizon.Prepo.Types.PlayReport playReport)
         {
-            if (_discordClient is null) return;
-            if (!TitleIDs.CurrentApplication.Value.HasValue) return;
-            if (_discordPresencePlaying is null) return;
+            if (_discordClient is null)
+                return;
+            if (!TitleIDs.CurrentApplication.Value.HasValue)
+                return;
+            if (_discordPresencePlaying is null)
+                return;
 
             FormattedValue formattedValue =
                 PlayReports.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
 
-            if (!formattedValue.Handled) return;
+            if (!formattedValue.Handled)
+                return;
 
             _discordPresencePlaying.Details = TruncateToByteLength(
                 formattedValue.Reset

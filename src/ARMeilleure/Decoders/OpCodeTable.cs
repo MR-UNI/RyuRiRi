@@ -1381,6 +1381,7 @@ namespace ARMeilleure.Decoders
             {
                 thumbEncoding = $"1110{thumbEncoding.AsSpan(4)}";
             }
+
             SetT32(thumbEncoding, name, emitter, makeOpT32);
         }
 
@@ -1409,6 +1410,7 @@ namespace ARMeilleure.Decoders
             {
                 throw new ArgumentException("Invalid ASIMD instruction encoding");
             }
+
             SetT32(thumbEncoding, name, emitter, makeOpT32);
         }
 

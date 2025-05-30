@@ -392,7 +392,7 @@ namespace Ryujinx.HLE.FileSystem
 
         private static Result CreateSaveDataDirectory(HorizonClient hos, in SaveDataInfo info)
         {
-            if (info.SpaceId != SaveDataSpaceId.User && info.SpaceId != SaveDataSpaceId.System)
+            if (info.SpaceId is not SaveDataSpaceId.User and not SaveDataSpaceId.System)
             {
                 return Result.Success;
             }

@@ -24,6 +24,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 // Keep waiting while the fence is not signaled.
             }
+
             result.ThrowOnError();
         }
     }

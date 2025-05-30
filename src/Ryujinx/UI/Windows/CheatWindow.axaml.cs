@@ -1,8 +1,8 @@
 using Avalonia.Collections;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.UI.Models;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace Ryujinx.Ava.UI.Windows
         {
             MinWidth = 500;
             MinHeight = 650;
-            
+
             LoadedCheats = [];
 
             Heading = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.CheatWindowHeading, titleName, titleId.ToUpper());

@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace Ryujinx.Graphics.Shader.Translation
 {
     [Flags]
-    [SuppressMessage("Design", "CA1069: Enums values should not be duplicated")]
     enum AggregateType
     {
         Invalid,

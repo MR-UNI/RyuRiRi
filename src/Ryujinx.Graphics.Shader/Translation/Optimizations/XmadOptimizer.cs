@@ -9,7 +9,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
         {
             for (LinkedListNode<INode> node = block.Operations.First; node != null; node = node.Next)
             {
-                if (!(node.Value is Operation operation))
+                if (node.Value is not Operation operation)
                 {
                     continue;
                 }
@@ -56,14 +56,14 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             Operand src1 = operation.GetSource(0);
             Operand src2 = operation.GetSource(1);
 
-            if (!(src2.AsgOp is Operation addOp) || addOp.Inst != Instruction.Add)
+            if (src2.AsgOp is not Operation addOp || addOp.Inst != Instruction.Add)
             {
                 return false;
             }
 
             Operand lowTimesLowResult = GetCopySource(addOp.GetSource(0));
 
-            if (!(lowTimesLowResult.AsgOp is Operation lowTimesLowOp))
+            if (lowTimesLowResult.AsgOp is not Operation lowTimesLowOp)
             {
                 return false;
             }
@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             Operand lowTimesHighResult = GetCopySource(GetShifted16Source(addOp.GetSource(1), Instruction.ShiftLeft));
 
-            if (!(lowTimesHighResult.AsgOp is Operation lowTimesHighOp))
+            if (lowTimesHighResult.AsgOp is not Operation lowTimesHighOp)
             {
                 return false;
             }
@@ -85,7 +85,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                 return false;
             }
 
-            if (!(src1.AsgOp is Operation highTimesHighOp))
+            if (src1.AsgOp is not Operation highTimesHighOp)
             {
                 return false;
             }
@@ -114,7 +114,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             Operand lowTimesLowResult = GetCopySource(src2);
 
-            if (!(lowTimesLowResult.AsgOp is Operation lowTimesLowOp))
+            if (lowTimesLowResult.AsgOp is not Operation lowTimesLowOp)
             {
                 return false;
             }
@@ -126,7 +126,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             Operand highTimesLowResult = src1;
 
-            if (!(highTimesLowResult.AsgOp is Operation highTimesLowOp))
+            if (highTimesLowResult.AsgOp is not Operation highTimesLowOp)
             {
                 return false;
             }
@@ -151,7 +151,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             if (operation.Inst == Instruction.Add)
             {
-                if (!(operation.GetSource(0).AsgOp is Operation mulOp))
+                if (operation.GetSource(0).AsgOp is not Operation mulOp)
                 {
                     return false;
                 }
@@ -200,7 +200,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             mulResult = GetCopySource(mulResult);
 
-            if (!(mulResult.AsgOp is Operation mulOp) || mulOp.Inst != Instruction.Multiply)
+            if (mulResult.AsgOp is not Operation mulOp || mulOp.Inst != Instruction.Multiply)
             {
                 return false;
             }
@@ -237,7 +237,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             Operand mulResult = operation.GetSource(0);
 
-            if (!(mulResult.AsgOp is Operation mulOp) || mulOp.Inst != Instruction.Multiply)
+            if (mulResult.AsgOp is not Operation mulOp || mulOp.Inst != Instruction.Multiply)
             {
                 return false;
             }
@@ -271,7 +271,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             Operand mulResult = operation.GetSource(0);
 
-            if (!(mulResult.AsgOp is Operation mulOp) || mulOp.Inst != Instruction.Multiply)
+            if (mulResult.AsgOp is not Operation mulOp || mulOp.Inst != Instruction.Multiply)
             {
                 return false;
             }
@@ -291,7 +291,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
         private static Operand GetMasked16Source(Operand value)
         {
-            if (!(value.AsgOp is Operation maskOp))
+            if (value.AsgOp is not Operation maskOp)
             {
                 return null;
             }
@@ -306,7 +306,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
         private static Operand GetShifted16Source(Operand value, Instruction shiftInst)
         {
-            if (!(value.AsgOp is Operation shiftOp))
+            if (value.AsgOp is not Operation shiftOp)
             {
                 return null;
             }

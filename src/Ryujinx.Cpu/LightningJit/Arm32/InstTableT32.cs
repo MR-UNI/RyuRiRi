@@ -526,7 +526,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
                 new(0x00000041, 0x00000041)
             ];
 
-            List<InstInfoForTable> insts = 
+            List<InstInfoForTable> insts =
             [
                 new(0xF1400000, 0xFBE08000, InstName.AdcI, T.AdcIT1, IsaVersion.v80, InstFlags.Rd),
                 new(0xEB400000, 0xFFE08000, InstName.AdcR, T.AdcRT2, IsaVersion.v80, InstFlags.Rd),

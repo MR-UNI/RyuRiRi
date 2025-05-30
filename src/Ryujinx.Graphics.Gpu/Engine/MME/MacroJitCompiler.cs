@@ -290,6 +290,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
                             _ilGen.Emit(OpCodes.Shl);
                             break;
                     }
+
                     break;
 
                 case AluOperation.ReadImmediate:

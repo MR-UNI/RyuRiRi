@@ -24,7 +24,7 @@ namespace Ryujinx.Headless
 
             if (NeedsOverride(nameof(EnableKeyboard)))
                 EnableKeyboard = configurationState.Hid.EnableKeyboard;
-            
+
             if (NeedsOverride(nameof(EnableMouse)))
                 EnableMouse = configurationState.Hid.EnableMouse;
 
@@ -39,40 +39,40 @@ namespace Ryujinx.Headless
 
             if (NeedsOverride(nameof(DisableFsIntegrityChecks)))
                 DisableFsIntegrityChecks = !configurationState.System.EnableFsIntegrityChecks;
-            
+
             if (NeedsOverride(nameof(FsGlobalAccessLogMode)))
                 FsGlobalAccessLogMode = configurationState.System.FsGlobalAccessLogMode;
-            
+
             if (NeedsOverride(nameof(VSyncMode)))
                 VSyncMode = configurationState.Graphics.VSyncMode;
-            
+
             if (NeedsOverride(nameof(CustomVSyncInterval)))
                 CustomVSyncInterval = configurationState.Graphics.CustomVSyncInterval;
-            
+
             if (NeedsOverride(nameof(DisableShaderCache)))
                 DisableShaderCache = !configurationState.Graphics.EnableShaderCache;
 
             if (NeedsOverride(nameof(EnableTextureRecompression)))
                 EnableTextureRecompression = configurationState.Graphics.EnableTextureRecompression;
-            
+
             if (NeedsOverride(nameof(DisableDockedMode)))
                 DisableDockedMode = !configurationState.System.EnableDockedMode;
 
             if (NeedsOverride(nameof(SystemLanguage)))
                 SystemLanguage = configurationState.System.Language.Value.ToHLE();
-            
+
             if (NeedsOverride(nameof(SystemRegion)))
                 SystemRegion = configurationState.System.Region.Value.ToHLE();
-            
+
             if (NeedsOverride(nameof(SystemTimeZone)))
                 SystemTimeZone = configurationState.System.TimeZone;
-            
+
             if (NeedsOverride(nameof(SystemTimeOffset)))
                 SystemTimeOffset = configurationState.System.SystemTimeOffset;
-            
+
             if (NeedsOverride(nameof(MemoryManagerMode)))
                 MemoryManagerMode = configurationState.System.MemoryManagerMode;
-            
+
             if (NeedsOverride(nameof(AudioVolume)))
                 AudioVolume = configurationState.System.AudioVolume;
 
@@ -81,28 +81,28 @@ namespace Ryujinx.Headless
 
             if (NeedsOverride(nameof(MultiplayerLanInterfaceId)))
                 MultiplayerLanInterfaceId = configurationState.Multiplayer.LanInterfaceId;
-            
+
             if (NeedsOverride(nameof(DisableFileLog)))
                 DisableFileLog = !configurationState.Logger.EnableFileLog;
-            
+
             if (NeedsOverride(nameof(LoggingEnableDebug)))
                 LoggingEnableDebug = configurationState.Logger.EnableDebug;
-            
+
             if (NeedsOverride(nameof(LoggingDisableStub)))
                 LoggingDisableStub = !configurationState.Logger.EnableStub;
-            
+
             if (NeedsOverride(nameof(LoggingDisableInfo)))
                 LoggingDisableInfo = !configurationState.Logger.EnableInfo;
-            
+
             if (NeedsOverride(nameof(LoggingDisableWarning)))
                 LoggingDisableWarning = !configurationState.Logger.EnableWarn;
-            
+
             if (NeedsOverride(nameof(LoggingDisableError)))
                 LoggingDisableError = !configurationState.Logger.EnableError;
-            
+
             if (NeedsOverride(nameof(LoggingEnableTrace)))
                 LoggingEnableTrace = configurationState.Logger.EnableTrace;
-            
+
             if (NeedsOverride(nameof(LoggingDisableGuest)))
                 LoggingDisableGuest = !configurationState.Logger.EnableGuest;
 
@@ -114,40 +114,40 @@ namespace Ryujinx.Headless
 
             if (NeedsOverride(nameof(ResScale)))
                 ResScale = configurationState.Graphics.ResScale;
-            
+
             if (NeedsOverride(nameof(MaxAnisotropy)))
                 MaxAnisotropy = configurationState.Graphics.MaxAnisotropy;
-            
+
             if (NeedsOverride(nameof(AspectRatio)))
                 AspectRatio = configurationState.Graphics.AspectRatio;
-            
+
             if (NeedsOverride(nameof(BackendThreading)))
                 BackendThreading = configurationState.Graphics.BackendThreading;
-            
+
             if (NeedsOverride(nameof(DisableMacroHLE)))
                 DisableMacroHLE = !configurationState.Graphics.EnableMacroHLE;
-            
+
             if (NeedsOverride(nameof(GraphicsShadersDumpPath)))
                 GraphicsShadersDumpPath = configurationState.Graphics.ShadersDumpPath;
-            
+
             if (NeedsOverride(nameof(GraphicsBackend)))
                 GraphicsBackend = configurationState.Graphics.GraphicsBackend;
-            
+
             if (NeedsOverride(nameof(AntiAliasing)))
                 AntiAliasing = configurationState.Graphics.AntiAliasing;
-            
+
             if (NeedsOverride(nameof(ScalingFilter)))
                 ScalingFilter = configurationState.Graphics.ScalingFilter;
-            
+
             if (NeedsOverride(nameof(ScalingFilterLevel)))
                 ScalingFilterLevel = configurationState.Graphics.ScalingFilterLevel;
 
             if (NeedsOverride(nameof(DramSize)))
                 DramSize = configurationState.System.DramSize;
-            
+
             if (NeedsOverride(nameof(IgnoreMissingServices)))
                 IgnoreMissingServices = configurationState.System.IgnoreMissingServices;
-            
+
             if (NeedsOverride(nameof(IgnoreControllerApplet)))
                 IgnoreControllerApplet = configurationState.System.IgnoreControllerApplet;
 
@@ -155,7 +155,7 @@ namespace Ryujinx.Headless
                 SkipUserProfilesManager = configurationState.System.SkipUserProfilesManager;
 
             return;
-            
+
             bool NeedsOverride(string argKey) => originalArgs.None(arg => arg.TrimStart('-').EqualsIgnoreCase(OptionName(argKey)));
         }
 
@@ -182,18 +182,18 @@ namespace Ryujinx.Headless
             }
 
             return;
-            
+
             bool NeedsOverride(string argKey) => originalArgs.None(arg => arg.TrimStart('-').EqualsIgnoreCase(OptionName(argKey)));
         }
 
         private static string OptionName(string propertyName) =>
             typeof(Options)!.GetProperty(propertyName)!.GetCustomAttribute<OptionAttribute>()!.LongName;
-        
+
         // General
-        
+
         [Option("use-main-config", Required = false, Default = false, HelpText = "Use the settings from what was configured via the UI.")]
         public bool InheritConfig { get; set; }
-        
+
         [Option("disable-main-input-config", Required = false, Default = false, HelpText = "Do not use the input-related settings from what was configured via the UI.")]
         public bool DisableMainInputConfig { get; set; }
 
@@ -416,7 +416,7 @@ namespace Ryujinx.Headless
 
         [Option("ignore-missing-services", Required = false, Default = false, HelpText = "Enable ignoring missing services.")]
         public bool IgnoreMissingServices { get; set; }
-        
+
         [Option("ignore-controller-applet", Required = false, Default = false, HelpText = "Enable ignoring the controller applet when your game loses connection to your controller.")]
         public bool IgnoreControllerApplet { get; set; }
 

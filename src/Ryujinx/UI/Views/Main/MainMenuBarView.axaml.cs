@@ -6,14 +6,14 @@ using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Systems.AppLibrary;
-using Ryujinx.Ava.Systems.Configuration;
-using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Utilities;
@@ -52,13 +52,13 @@ namespace Ryujinx.Ava.UI.Views.Main
 
             UpdateMenuItem.Command = MainWindowViewModel.UpdateCommand;
 
-            FaqMenuItem.Command = 
-                SetupGuideMenuItem.Command = 
+            FaqMenuItem.Command =
+                SetupGuideMenuItem.Command =
                     LdnGuideMenuItem.Command = Commands.Create<string>(OpenHelper.OpenUrl);
-            
-            WindowSize720PMenuItem.Command = 
-                WindowSize1080PMenuItem.Command = 
-                    WindowSize1440PMenuItem.Command = 
+
+            WindowSize720PMenuItem.Command =
+                WindowSize1080PMenuItem.Command =
+                    WindowSize1440PMenuItem.Command =
                         WindowSize2160PMenuItem.Command = Commands.Create<string>(ChangeWindowSize);
         }
 
@@ -95,7 +95,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 {
                     string tr = locales.Locales[index].Translations[language];
                     languageName = string.IsNullOrEmpty(tr)
-                        ? language 
+                        ? language
                         : tr;
                 }
 
@@ -134,7 +134,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 await StyleableAppWindow.ShowAsync(Window.SettingsWindow);
             }
             else
-            { 
+            {
                 bool customConfigExists = File.Exists(Program.GetDirGameUserConfig(ViewModel.SelectedApplication.IdString));
 
                 if (!ViewModel.IsGameRunning || !customConfigExists)
@@ -157,12 +157,12 @@ namespace Ryujinx.Ava.UI.Views.Main
         }
 
         public AppletMetadata MiiApplet => new(ViewModel.ContentManager, "miiEdit", 0x0100000000001009);
-        
+
         public async Task OpenMiiApplet()
         {
-            if (!MiiApplet.CanStart(out ApplicationData appData, out BlitStruct<ApplicationControlProperty> nacpData)) 
+            if (!MiiApplet.CanStart(out ApplicationData appData, out BlitStruct<ApplicationControlProperty> nacpData))
                 return;
-            
+
             await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
         }
 
@@ -217,7 +217,7 @@ namespace Ryujinx.Ava.UI.Views.Main
         private void ChangeWindowSize(string resolution)
         {
             (int resolutionWidth, int resolutionHeight) = resolution.Split(' ', 2)
-                .Into(parts => 
+                .Into(parts =>
                     (int.Parse(parts[0]), int.Parse(parts[1]))
                 );
 
@@ -237,6 +237,6 @@ namespace Ryujinx.Ava.UI.Views.Main
         }
 
         public void CloseWindow() => Window.Close();
-        
+
     }
 }

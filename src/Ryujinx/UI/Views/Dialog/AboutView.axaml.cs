@@ -22,7 +22,7 @@ namespace Ryujinx.Ava.UI.Views.Dialog
         public static async Task Show()
         {
             using AboutWindowViewModel viewModel = new();
-            
+
             ContentDialog contentDialog = new()
             {
                 PrimaryButtonText = string.Empty,

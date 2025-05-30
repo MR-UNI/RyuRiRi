@@ -91,7 +91,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                 return functionId;
             }
 
-            public bool TryGetFunctionId(Operation baseOp, bool isMultiTarget, IReadOnlyList<uint> targetCbs, out int functionId)
+            public bool TryGetFunctionId(Operation baseOp, bool isMultiTarget, List<uint> targetCbs, out int functionId)
             {
                 foreach (Entry entry in _entries)
                 {
@@ -281,19 +281,19 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
         private static bool IsGlobalMemory(StorageKind storageKind)
         {
-            return storageKind == StorageKind.GlobalMemory ||
-                   storageKind == StorageKind.GlobalMemoryS8 ||
-                   storageKind == StorageKind.GlobalMemoryS16 ||
-                   storageKind == StorageKind.GlobalMemoryU8 ||
-                   storageKind == StorageKind.GlobalMemoryU16;
+            return storageKind is StorageKind.GlobalMemory or
+                   StorageKind.GlobalMemoryS8 or
+                   StorageKind.GlobalMemoryS16 or
+                   StorageKind.GlobalMemoryU8 or
+                   StorageKind.GlobalMemoryU16;
         }
 
         private static bool IsSmallInt(StorageKind storageKind)
         {
-            return storageKind == StorageKind.GlobalMemoryS8 ||
-                   storageKind == StorageKind.GlobalMemoryS16 ||
-                   storageKind == StorageKind.GlobalMemoryU8 ||
-                   storageKind == StorageKind.GlobalMemoryU16;
+            return storageKind is StorageKind.GlobalMemoryS8 or
+                   StorageKind.GlobalMemoryS16 or
+                   StorageKind.GlobalMemoryU8 or
+                   StorageKind.GlobalMemoryU16;
         }
 
         private static LinkedListNode<INode> ReplaceGlobalMemoryWithStorage(
@@ -865,6 +865,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                                 return context.IMaximumS32(memValue, value);
                             });
                         }
+
                         break;
                     case Instruction.AtomicMaxU32:
                         resultValue = context.AtomicMaxU32(StorageKind.StorageBuffer, binding, Const(0), wordOffset, value);
@@ -881,6 +882,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                                 return context.IMinimumS32(memValue, value);
                             });
                         }
+
                         break;
                     case Instruction.AtomicMinU32:
                         resultValue = context.AtomicMinU32(StorageKind.StorageBuffer, binding, Const(0), wordOffset, value);
@@ -1100,7 +1102,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
         {
             baseOffset = null;
 
-            if (operation.Inst == Instruction.Load || operation.Inst == Instruction.Store)
+            if (operation.Inst is Instruction.Load or Instruction.Store)
             {
                 if (operation.StorageKind == StorageKind.SharedMemory)
                 {

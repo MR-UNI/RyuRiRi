@@ -110,8 +110,8 @@ namespace Ryujinx.Graphics.Shader
                     samplerHandle = samplerWordOffset;
                 }
 
-                if (handleType == TextureHandleType.SeparateSamplerId ||
-                    handleType == TextureHandleType.SeparateConstantSamplerHandle)
+                if (handleType is TextureHandleType.SeparateSamplerId or
+                    TextureHandleType.SeparateConstantSamplerHandle)
                 {
                     samplerHandle <<= 20;
                 }

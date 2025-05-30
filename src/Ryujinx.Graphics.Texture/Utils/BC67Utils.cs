@@ -1172,7 +1172,7 @@ namespace Ryujinx.Graphics.Texture.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RgbaColor32 Interpolate(RgbaColor32 color1, RgbaColor32 color2, int weightIndex, int indexBitCount)
         {
-            Debug.Assert(indexBitCount >= 2 && indexBitCount <= 4);
+            Debug.Assert(indexBitCount is >= 2 and <= 4);
 
             int weight = (((weightIndex << 7) / ((1 << indexBitCount) - 1)) + 1) >> 1;
 
@@ -1191,8 +1191,8 @@ namespace Ryujinx.Graphics.Texture.Utils
             int colorIndexBitCount,
             int alphaIndexBitCount)
         {
-            Debug.Assert(colorIndexBitCount >= 2 && colorIndexBitCount <= 4);
-            Debug.Assert(alphaIndexBitCount >= 2 && alphaIndexBitCount <= 4);
+            Debug.Assert(colorIndexBitCount is >= 2 and <= 4);
+            Debug.Assert(alphaIndexBitCount is >= 2 and <= 4);
 
             int colorWeight = BC67Tables.Weights[colorIndexBitCount - 2][colorWeightIndex];
             int alphaWeight = BC67Tables.Weights[alphaIndexBitCount - 2][alphaWeightIndex];

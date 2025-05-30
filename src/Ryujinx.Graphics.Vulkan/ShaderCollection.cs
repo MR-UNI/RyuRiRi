@@ -182,7 +182,7 @@ namespace Ryujinx.Graphics.Vulkan
                     return false;
                 }
             }
-            
+
             //Prevent the sum of descriptors from exceeding MaxPushDescriptors
             int totalDescriptors = 0;
             foreach (ResourceDescriptor desc in layout.Sets.First().Descriptors)
@@ -190,6 +190,7 @@ namespace Ryujinx.Graphics.Vulkan
                 if (!reserved.Contains(desc.Binding))
                     totalDescriptors += desc.Count;
             }
+
             if (totalDescriptors > gd.Capabilities.MaxPushDescriptors)
                 return false;
 
@@ -391,7 +392,7 @@ namespace Ryujinx.Graphics.Vulkan
             return templates;
         }
 
-        private PipelineStageFlags GetPipelineStages(ResourceStages stages)
+        private static PipelineStageFlags GetPipelineStages(ResourceStages stages)
         {
             PipelineStageFlags result = 0;
 
@@ -428,7 +429,7 @@ namespace Ryujinx.Graphics.Vulkan
             return result;
         }
 
-        private (PipelineStageFlags Buffer, PipelineStageFlags Texture) BuildIncoherentStages(ReadOnlyCollection<ResourceUsageCollection> setUsages)
+        private static (PipelineStageFlags Buffer, PipelineStageFlags Texture) BuildIncoherentStages(ReadOnlyCollection<ResourceUsageCollection> setUsages)
         {
             PipelineStageFlags buffer = PipelineStageFlags.None;
             PipelineStageFlags texture = PipelineStageFlags.None;

@@ -26,6 +26,7 @@ namespace Ryujinx.UI.LocaleGenerator
                 {
                     enumSourceBuilder.AppendLine($"    {line},");
                 }
+
                 enumSourceBuilder.AppendLine("}");
 
                 spc.AddSource("LocaleKeys", enumSourceBuilder.ToString());

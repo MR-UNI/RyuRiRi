@@ -66,6 +66,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertCallCopies(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.ConvertToFPUI:
@@ -81,6 +82,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 nextNode = PreAllocatorSystemV.InsertLoadArgumentCopy(cctx, ref buffer, block.Operations, preservedArgs, node);
                             }
+
                             break;
 
                         case Instruction.Negate:
@@ -88,6 +90,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 GenerateNegate(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Return:
@@ -99,6 +102,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertReturnCopy(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Tailcall:
@@ -110,6 +114,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertTailcallCopies(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.VectorInsert8:
@@ -117,6 +122,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 GenerateVectorInsert8(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Extended:
@@ -132,6 +138,7 @@ namespace ARMeilleure.CodeGen.X86
 
                                 node.SetSources([Const(stackOffset)]);
                             }
+
                             break;
                     }
                 }
@@ -312,9 +319,9 @@ namespace ARMeilleure.CodeGen.X86
 
                 case Instruction.Extended:
                     {
-                        bool isBlend = node.Intrinsic == Intrinsic.X86Blendvpd ||
-                                   node.Intrinsic == Intrinsic.X86Blendvps ||
-                                   node.Intrinsic == Intrinsic.X86Pblendvb;
+                        bool isBlend = node.Intrinsic is Intrinsic.X86Blendvpd or
+                                   Intrinsic.X86Blendvps or
+                                   Intrinsic.X86Pblendvb;
 
                         // BLENDVPD, BLENDVPS, PBLENDVB last operand is always implied to be XMM0 when VEX is not supported.
                         // SHA256RNDS2 always has an implied XMM0 as a last operand.
@@ -513,8 +520,8 @@ namespace ARMeilleure.CodeGen.X86
             Operand dest = node.Destination;
             Operand source = node.GetSource(0);
 
-            Debug.Assert(dest.Type == OperandType.FP32 ||
-                         dest.Type == OperandType.FP64, $"Invalid destination type \"{dest.Type}\".");
+            Debug.Assert(dest.Type is OperandType.FP32 or
+                         OperandType.FP64, $"Invalid destination type \"{dest.Type}\".");
 
             Operation currentNode = node;
 
@@ -761,7 +768,7 @@ namespace ARMeilleure.CodeGen.X86
 
                         Comparison compType = (Comparison)comp.AsInt32();
 
-                        return compType == Comparison.Equal || compType == Comparison.NotEqual;
+                        return compType is Comparison.Equal or Comparison.NotEqual;
                     }
             }
 

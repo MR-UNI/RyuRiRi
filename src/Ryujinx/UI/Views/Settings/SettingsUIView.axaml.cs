@@ -32,7 +32,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path) && !directories.Contains(path))
             {
                 directories.Add(path);
-                
+
                 addDirBox.Clear();
 
                 ViewModel.GameListNeedsRefresh = true;
@@ -44,7 +44,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
                 if (folder.HasValue)
                 {
                     directories.Add(folder.Value.Path.LocalPath);
-                        
+
                     ViewModel.GameListNeedsRefresh = true;
                 }
             }

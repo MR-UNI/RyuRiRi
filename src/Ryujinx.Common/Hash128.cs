@@ -528,7 +528,7 @@ namespace Ryujinx.Common
 
         private static Hash128 Xxh3Len1To3128b(ReadOnlySpan<byte> input, ReadOnlySpan<byte> secret, ulong seed)
         {
-            Debug.Assert(1 <= input.Length && input.Length <= 3);
+            Debug.Assert(input.Length is >= 1 and <= 3);
 
             byte c1 = input[0];
             byte c2 = input[input.Length >> 1];
@@ -550,7 +550,7 @@ namespace Ryujinx.Common
 
         private static Hash128 Xxh3Len4To8128b(ReadOnlySpan<byte> input, ReadOnlySpan<byte> secret, ulong seed)
         {
-            Debug.Assert(4 <= input.Length && input.Length <= 8);
+            Debug.Assert(input.Length is >= 4 and <= 8);
 
             seed ^= BinaryPrimitives.ReverseEndianness((uint)seed) << 32;
 
@@ -575,7 +575,7 @@ namespace Ryujinx.Common
 
         private static Hash128 Xxh3Len9To16128b(ReadOnlySpan<byte> input, ReadOnlySpan<byte> secret, ulong seed)
         {
-            Debug.Assert(9 <= input.Length && input.Length <= 16);
+            Debug.Assert(input.Length is >= 9 and <= 16);
 
             ulong bitFlipL = (BinaryPrimitives.ReadUInt64LittleEndian(secret[32..]) ^ BinaryPrimitives.ReadUInt64LittleEndian(secret[40..])) - seed;
             ulong bitFlipH = (BinaryPrimitives.ReadUInt64LittleEndian(secret[48..]) ^ BinaryPrimitives.ReadUInt64LittleEndian(secret[56..])) + seed;
@@ -647,7 +647,7 @@ namespace Ryujinx.Common
         private static Hash128 Xxh3Len17To128128b(ReadOnlySpan<byte> input, ReadOnlySpan<byte> secret, ulong seed)
         {
             Debug.Assert(secret.Length >= SecretSizeMin);
-            Debug.Assert(16 < input.Length && input.Length <= 128);
+            Debug.Assert(input.Length is > 16 and <= 128);
 
             Hash128 acc = new()
             {
@@ -663,10 +663,13 @@ namespace Ryujinx.Common
                     {
                         acc = Xxh128Mix32b(acc, input[48..], input[^64..], secret[96..], seed);
                     }
+
                     acc = Xxh128Mix32b(acc, input[32..], input[^48..], secret[64..], seed);
                 }
+
                 acc = Xxh128Mix32b(acc, input[16..], input[^32..], secret[32..], seed);
             }
+
             acc = Xxh128Mix32b(acc, input, input[^16..], secret, seed);
 
             Hash128 h128 = new()
@@ -683,7 +686,7 @@ namespace Ryujinx.Common
         private static Hash128 Xxh3Len129To240128b(ReadOnlySpan<byte> input, ReadOnlySpan<byte> secret, ulong seed)
         {
             Debug.Assert(secret.Length >= SecretSizeMin);
-            Debug.Assert(128 < input.Length && input.Length <= 240);
+            Debug.Assert(input.Length is > 128 and <= 240);
 
             Hash128 acc = new();
 

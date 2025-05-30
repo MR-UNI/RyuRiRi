@@ -6,7 +6,7 @@ namespace Ryujinx.Common.Configuration
         Unbounded,
         Custom
     }
-    
+
     public static class VSyncModeExtensions
     {
         public static VSyncMode Next(this VSyncMode vsync, bool customEnabled = false) =>

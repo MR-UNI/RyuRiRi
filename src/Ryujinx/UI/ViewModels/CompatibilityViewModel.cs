@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Ava.Systems;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System;
@@ -19,15 +19,15 @@ namespace Ryujinx.Ava.UI.ViewModels
                 x.TitleId.Check(tid => _ownedGameTitleIds.ContainsIgnoreCase(tid)))
             : _currentEntries;
 
-        public CompatibilityViewModel() {}
-        
+        public CompatibilityViewModel() { }
+
         private void AppCountUpdated(object _, ApplicationCountUpdatedEventArgs __)
             => _ownedGameTitleIds = _appLibrary.Applications.Keys.Select(x => x.ToString("X16")).ToArray();
 
         public CompatibilityViewModel(ApplicationLibrary appLibrary)
         {
             _appLibrary = appLibrary;
-            
+
             AppCountUpdated(null, null);
 
             _appLibrary.ApplicationCountUpdated += AppCountUpdated;
@@ -38,7 +38,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             GC.SuppressFinalize(this);
             _appLibrary.ApplicationCountUpdated -= AppCountUpdated;
         }
-        
+
         private bool _onlyShowOwnedGames = true;
 
         public bool OnlyShowOwnedGames
@@ -69,9 +69,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void SetEntries(IEnumerable<CompatibilityEntry> entries)
         {
-#pragma warning disable MVVMTK0034
             _currentEntries = entries.ToList();
-#pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(CurrentEntries));
         }
     }

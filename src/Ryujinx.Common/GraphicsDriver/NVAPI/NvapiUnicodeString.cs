@@ -22,7 +22,7 @@ namespace Ryujinx.Common.GraphicsDriver.NVAPI
                 int index = text.IndexOf('\0');
                 if (index > -1)
                 {
-                    text = text.Remove(index);
+                    text = text[..index];
                 }
 
                 return text;

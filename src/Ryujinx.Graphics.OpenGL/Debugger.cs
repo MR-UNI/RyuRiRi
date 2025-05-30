@@ -84,6 +84,7 @@ namespace Ryujinx.Graphics.OpenGL
                     {
                         Logger.Debug?.Print(LogClass.Gpu, $"{type} {severity}: {msg}", "GLDEBUG");
                     }
+
                     break;
             }
         }

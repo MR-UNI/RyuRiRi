@@ -36,7 +36,6 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
             }
         }
 
-
         private static bool TryLoadWhitelistedLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath, out nint handle)
         {
             handle = nint.Zero;

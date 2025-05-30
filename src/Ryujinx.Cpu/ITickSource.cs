@@ -9,12 +9,12 @@ namespace Ryujinx.Cpu
     public interface ITickSource : ICounter
     {
         public const long RealityTickScalar = 100;
-        
+
         /// <summary>
         /// Time elapsed since the counter was created.
         /// </summary>
         TimeSpan ElapsedTime { get; }
-        
+
         /// <summary>
         /// Clock tick scalar, in percent points (100 = 1.0).
         /// </summary>

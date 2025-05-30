@@ -52,6 +52,7 @@ namespace Ryujinx.Graphics.Texture.Astc
             {
                 totalBits += (numberVals * 7 + 2) / 3;
             }
+
             return totalBits;
         }
 

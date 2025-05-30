@@ -15,19 +15,20 @@ namespace Ryujinx.Ava.UI.Helpers
 
     internal class LoggerAdapter : ILogSink
     {
-        private static bool _avaloniaLogsEnabled = ConfigurationState.Instance.Logger.EnableAvaloniaLog; 
-        
+        private static bool _avaloniaLogsEnabled = ConfigurationState.Instance.Logger.EnableAvaloniaLog;
+
         public static void Register()
         {
             AvaLogger.Sink = new LoggerAdapter();
-            ConfigurationState.Instance.Logger.EnableAvaloniaLog.Event 
+            ConfigurationState.Instance.Logger.EnableAvaloniaLog.Event
                 += (_, e) => _avaloniaLogsEnabled = e.NewValue;
         }
 
         private static RyuLogger.Log? GetLog(AvaLogLevel level, string area)
         {
-            if (!_avaloniaLogsEnabled) return null;
-            
+            if (!_avaloniaLogsEnabled)
+                return null;
+
             return level switch
             {
                 AvaLogLevel.Verbose => RyuLogger.Debug,
