@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Configuration.Hid;
+using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
 using System;
@@ -212,7 +212,8 @@ namespace Ryujinx.Input.SDL2
                 Vector3 value = _joyConType switch
                 {
                     JoyConType.Left => new Vector3(-values[2], values[1], values[0]),
-                    JoyConType.Right => new Vector3(values[2], values[1], -values[0])
+                    JoyConType.Right => new Vector3(values[2], values[1], -values[0]),
+                    _ => throw new NotSupportedException($"Unsupported JoyCon type: {_joyConType}")
                 };
 
                 return inputId switch

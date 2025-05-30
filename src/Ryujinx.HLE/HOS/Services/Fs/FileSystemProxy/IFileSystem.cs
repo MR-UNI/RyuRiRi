@@ -134,7 +134,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
             ref readonly Path name = ref FileSystemProxyHelper.GetSfPath(context);
             using SharedRef<LibHac.FsSrv.Sf.IDirectory> dir = new();
 
-            Result result = _fileSystem.Get.OpenDirectory(ref dir.Ref, name, mode);
+            Result result = _fileSystem.Get.OpenDirectory(ref dir.Ref, in name, mode);
 
             if (result.IsSuccess())
             {

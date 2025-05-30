@@ -131,8 +131,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Filter(Filter)
                 .Bind(out ReadOnlyObservableCollection<ModModel> view).AsObservableList();
 
-            _views.Clear();
-            _views.AddRange(view);
+            Views.Clear();
+            Views.AddRange(view);
 
             SelectedMods = new(Views.Where(x => x.Enabled));
 

@@ -43,8 +43,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .Bind(out ReadOnlyObservableCollection<SaveModel> view).AsObservableList();
 
-            _views.Clear();
-            _views.AddRange(view);
+            Views.Clear();
+            Views.AddRange(view);
             OnPropertyChanged(nameof(Views));
         }
 

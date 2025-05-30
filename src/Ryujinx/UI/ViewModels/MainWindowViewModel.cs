@@ -333,10 +333,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _listSelectedApplication = value;
 
-                if (_listSelectedApplication != null && _listAppContextMenu == null)
+                if (_listSelectedApplication != null && ListAppContextMenu == null)
 
                     ListAppContextMenu = new ApplicationContextMenu();
-                else if (_listSelectedApplication == null && _listAppContextMenu != null)
+                else if (_listSelectedApplication == null && ListAppContextMenu != null)
                     ListAppContextMenu = null!;
 
                 OnPropertyChanged();
@@ -350,9 +350,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _gridSelectedApplication = value;
 
-                if (_gridSelectedApplication != null && _gridAppContextMenu == null)
+                if (_gridSelectedApplication != null && GridAppContextMenu == null)
                     GridAppContextMenu = new ApplicationContextMenu();
-                else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
+                else if (_gridSelectedApplication == null && GridAppContextMenu != null)
                     GridAppContextMenu = null!;
 
                 OnPropertyChanged();
@@ -785,14 +785,15 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void RefreshGrid()
         {
-            Applications.ToObservableChangeSet()
+            var appsList = Applications.ToObservableChangeSet()
                 .Filter(Filter)
                 .Sort(GetComparer())
-                .Bind(out _appsObservableList)
+                .Bind(out var apps)
                 .AsObservableList();
 
-            OnPropertyChanged(nameof(AppsObservableList));
+            AppsObservableList = apps;
         }
+
 
         private bool Filter(object arg)
         {
