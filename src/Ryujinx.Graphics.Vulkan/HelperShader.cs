@@ -874,57 +874,42 @@ namespace Ryujinx.Graphics.Vulkan
 
         public unsafe void ConvertIndexBuffer(VulkanRenderer gd,
             CommandBufferScoped cbs,
-            BufferHolder src,
-            BufferHolder dst,
+            BufferHolder srcIndexBuffer,
+            BufferHolder dstIndexBuffer,
             IndexBufferPattern pattern,
             int indexSize,
             int srcOffset,
             int indexCount)
         {
             // TODO: Support conversion with primitive restart enabled.
-            // TODO: Convert with a compute shader?
 
+            int primitiveCount = pattern.GetPrimitiveCount(indexCount);
             int convertedCount = pattern.GetConvertedCount(indexCount);
             int outputIndexSize = 4;
+            
+            Buffer dstBuffer = dstIndexBuffer.GetBuffer().Get(cbs, 0, convertedCount * outputIndexSize).Value;
 
-            Buffer srcBuffer = src.GetBuffer().Get(cbs, srcOffset, indexCount * indexSize).Value;
-            Buffer dstBuffer = dst.GetBuffer().Get(cbs, 0, convertedCount * outputIndexSize).Value;
+            const int ParamsBufferSize = 16 * sizeof(int);
 
-            gd.Api.CmdFillBuffer(cbs.CommandBuffer, dstBuffer, 0, Vk.WholeSize, 0);
+            Span<int> shaderParams = stackalloc int[ParamsBufferSize / sizeof(int)];
 
-            List<BufferCopy> bufferCopy = [];
-            int outputOffset = 0;
+            shaderParams[8] = pattern.PrimitiveVertices;
+            shaderParams[9] = pattern.PrimitiveVerticesOut;
+            shaderParams[10] = indexSize;
+            shaderParams[11] = outputIndexSize;
+            shaderParams[12] = pattern.BaseIndex;
+            shaderParams[13] = pattern.IndexStride;
+            shaderParams[14] = srcOffset;
+            shaderParams[15] = primitiveCount;
 
-            // Try to merge copies of adjacent indices to reduce copy count.
-            int sequenceStart = 0;
-            int sequenceLength = 0;
+            pattern.OffsetIndex.CopyTo(shaderParams[..pattern.OffsetIndex.Length]);
 
-            foreach (int index in pattern.GetIndexMapping(indexCount))
-            {
-                if (sequenceLength > 0)
-                {
-                    if (index == sequenceStart + sequenceLength && indexSize == outputIndexSize)
-                    {
-                        sequenceLength++;
-                        continue;
-                    }
+            using var patternScoped = gd.BufferManager.ReserveOrCreate(gd, cbs, ParamsBufferSize);
+            var patternBuffer = patternScoped.Holder;
 
-                    // Commit the copy so far.
-                    bufferCopy.Add(new BufferCopy((ulong)(srcOffset + sequenceStart * indexSize), (ulong)outputOffset, (ulong)(indexSize * sequenceLength)));
-                    outputOffset += outputIndexSize * sequenceLength;
-                }
+            patternBuffer.SetDataUnchecked<int>(patternScoped.Offset, shaderParams);
 
-                sequenceStart = index;
-                sequenceLength = 1;
-            }
-
-            if (sequenceLength > 0)
-            {
-                // Commit final pending copy.
-                bufferCopy.Add(new BufferCopy((ulong)(srcOffset + sequenceStart * indexSize), (ulong)outputOffset, (ulong)(indexSize * sequenceLength)));
-            }
-
-            BufferCopy[] bufferCopyArray = bufferCopy.ToArray();
+            _pipeline.SetCommandBuffer(cbs);
 
             BufferHolder.InsertBufferBarrier(
                 gd,
@@ -937,10 +922,11 @@ namespace Ryujinx.Graphics.Vulkan
                 0,
                 convertedCount * outputIndexSize);
 
-            fixed (BufferCopy* pBufferCopy = bufferCopyArray)
-            {
-                gd.Api.CmdCopyBuffer(cbs.CommandBuffer, srcBuffer, dstBuffer, (uint)bufferCopyArray.Length, pBufferCopy);
-            }
+            _pipeline.SetUniformBuffers([new BufferAssignment(0, new BufferRange(patternScoped.Handle, patternScoped.Offset, ParamsBufferSize))]);
+            _pipeline.SetStorageBuffers(1, new[] { srcIndexBuffer.GetBuffer(), dstIndexBuffer.GetBuffer() });
+
+            _pipeline.SetProgram(_programConvertIndexBuffer);
+            _pipeline.DispatchCompute(BitUtils.DivRoundUp(primitiveCount, 16), 1, 1);
 
             BufferHolder.InsertBufferBarrier(
                 gd,
@@ -952,6 +938,8 @@ namespace Ryujinx.Graphics.Vulkan
                 PipelineStageFlags.AllCommandsBit,
                 0,
                 convertedCount * outputIndexSize);
+
+            _pipeline.Finish(gd, cbs);
         }
 
         public void CopyIncompatibleFormats(
