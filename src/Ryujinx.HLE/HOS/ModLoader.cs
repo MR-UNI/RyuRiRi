@@ -653,7 +653,7 @@ namespace Ryujinx.HLE.HOS
                             using (MD5 md5 = MD5.Create())
                             {
                                 stream.Seek(0, SeekOrigin.Begin);
-                                tempHash += BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+                                tempHash += Convert.ToHexStringLower(md5.ComputeHash(stream));
                             }
                         }
                     }
@@ -691,7 +691,7 @@ namespace Ryujinx.HLE.HOS
             {
                 using (MD5 md5 = MD5.Create())
                 {
-                    modLoadResult.Hash += BitConverter.ToString(md5.ComputeHash(tempHash.ToBytes())).Replace("-", string.Empty).ToLowerInvariant();
+                    modLoadResult.Hash += Convert.ToHexStringLower(md5.ComputeHash(tempHash.ToBytes()));
                 }
             }
 
