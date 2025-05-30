@@ -253,6 +253,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
                         AliasRegionExtraSize = addrSpaceEnd / 8;
                         aliasRegion.Size += AliasRegionExtraSize;
                     }
+
                     break;
 
                 default:

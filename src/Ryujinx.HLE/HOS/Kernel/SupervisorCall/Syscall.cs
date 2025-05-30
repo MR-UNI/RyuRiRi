@@ -2009,6 +2009,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                                 {
                                     value = process.MemoryManager.GetMmUsedPages() * KPageTableBase.PageSize;
                                 }
+
                                 break;
 
                             case InfoType.ProgramId:
@@ -2040,12 +2041,14 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                                 {
                                     value = 0;
                                 }
+
                                 break;
 
                             case InfoType.AliasRegionExtraSize:
                                 value = process.MemoryManager.AliasRegionExtraSize;
                                 break;
                         }
+
                         break;
                     }
 
@@ -2093,6 +2096,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
                             value = (uint)resLimHandle;
                         }
+
                         break;
                     }
 
@@ -2174,6 +2178,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
                             value = (ulong)KTimeManager.ConvertHostTicksToTicks(totalTimeRunning);
                         }
+
                         break;
                     }
 

@@ -865,6 +865,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                                 return context.IMaximumS32(memValue, value);
                             });
                         }
+
                         break;
                     case Instruction.AtomicMaxU32:
                         resultValue = context.AtomicMaxU32(StorageKind.StorageBuffer, binding, Const(0), wordOffset, value);
@@ -881,6 +882,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                                 return context.IMinimumS32(memValue, value);
                             });
                         }
+
                         break;
                     case Instruction.AtomicMinU32:
                         resultValue = context.AtomicMinU32(StorageKind.StorageBuffer, binding, Const(0), wordOffset, value);

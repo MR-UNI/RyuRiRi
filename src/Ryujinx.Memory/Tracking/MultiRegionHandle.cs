@@ -282,6 +282,7 @@ namespace Ryujinx.Memory.Tracking
                         modifiedAction(rgStart, rgSize);
                         rgSize = 0;
                     }
+
                     rgStart = handle.RealAddress;
                 }
 

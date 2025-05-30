@@ -183,7 +183,6 @@ namespace Ryujinx.Common.Utilities
                     {
                         CloseReaders();
                     }
-
                 }
                 else
                 {
@@ -511,6 +510,7 @@ namespace Ryujinx.Common.Utilities
                 Log?.Write(LogType.Error, $"The source file doesn't look like an XCI file as the Cartridge Size is incorrect (0x{cartSizeId:X2})");
                 return false;
             }
+
             _cartSizeB = cartSizeNGB * XCIFileTrimmer.CartSizeMBinFormattedGB * XCIFileTrimmer.BytesInAMegabyte;
 
             // Read data size

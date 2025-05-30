@@ -54,6 +54,7 @@ namespace Ryujinx.Ava.UI.Views.User
                         {
                             _parent.GoBack();
                         }
+
                         break;
                 }
             }

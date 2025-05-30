@@ -190,6 +190,7 @@ namespace Ryujinx.Graphics.Vulkan
                 if (!reserved.Contains(desc.Binding))
                     totalDescriptors += desc.Count;
             }
+
             if (totalDescriptors > gd.Capabilities.MaxPushDescriptors)
                 return false;
 

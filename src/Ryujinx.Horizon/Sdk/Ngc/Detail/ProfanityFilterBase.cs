@@ -140,6 +140,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                             step = SignFilterStep.DetectEmailUserAtSign;
                             matchStart = index;
                         }
+
                         break;
                     case SignFilterStep.DetectEmailUserAtSign:
                         bool hasMatch = false;
@@ -203,6 +204,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                         {
                             index = domainIndex - 1;
                         }
+
                         break;
                 }
             }

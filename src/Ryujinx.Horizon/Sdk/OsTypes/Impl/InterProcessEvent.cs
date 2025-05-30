@@ -33,6 +33,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
                 {
                     InterProcessEventImpl.Close(ipEvent.ReadableHandle);
                 }
+
                 ipEvent.ReadableHandleManaged = false;
             }
 
@@ -42,6 +43,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
                 {
                     InterProcessEventImpl.Close(ipEvent.WritableHandle);
                 }
+
                 ipEvent.WritableHandleManaged = false;
             }
         }

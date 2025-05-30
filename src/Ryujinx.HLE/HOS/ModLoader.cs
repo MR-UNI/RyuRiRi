@@ -500,6 +500,7 @@ namespace Ryujinx.HLE.HOS
                 {
                     AddFiles(fs, mod.Name, mod.Path.FullName, fileSet, builder);
                 }
+
                 count++;
             }
 
@@ -516,6 +517,7 @@ namespace Ryujinx.HLE.HOS
                 {
                     AddFiles(fs, mod.Name, mod.Path.FullName, fileSet, builder);
                 }
+
                 count++;
             }
 

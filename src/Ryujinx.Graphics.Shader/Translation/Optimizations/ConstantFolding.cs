@@ -167,6 +167,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                             operation.TurnIntoCopy(Cbuf(cbufSlot, cbufOffset));
                         }
                     }
+
                     break;
 
                 case Instruction.Maximum:

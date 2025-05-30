@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
 using System.Diagnostics;
@@ -11,7 +11,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         /* Symbols for coding which components are zero jointly */
         public const int Joints = 4;
-
 
         public static readonly sbyte[] JointTree =
         [

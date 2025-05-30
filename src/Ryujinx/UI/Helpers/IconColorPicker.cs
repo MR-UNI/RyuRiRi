@@ -31,7 +31,6 @@ namespace Ryujinx.Ava.UI.Helpers
         {
             SKColor color = GetColor(image);
 
-
             // We don't want colors that are too dark.
             // If the color is too dark, make it brighter by reducing the range
             // and adding a constant color.

@@ -385,6 +385,7 @@ namespace ARMeilleure.Instructions
                     {
                         res = context.AddIntrinsic(Intrinsic.X86Cvtsd2ss, context.VectorZero(), res);
                     }
+
                     res = context.AddIntrinsic(Intrinsic.X86Vcvtps2ph, res, Const(X86GetRoundControl(FPRoundingMode.ToNearest)));
                     res = context.VectorExtract16(res, 0);
                     InsertScalar16(context, op.Vd, op.T, res);
@@ -397,6 +398,7 @@ namespace ARMeilleure.Instructions
                     {
                         res = context.AddIntrinsic(Intrinsic.X86Cvtss2sd, context.VectorZero(), res);
                     }
+
                     res = context.VectorExtract(op.Size == 1 ? OperandType.I64 : OperandType.I32, res, 0);
                     InsertScalar(context, op.Vd, res);
                 }

@@ -467,7 +467,6 @@ namespace Ryujinx.Audio.Renderer.Server
             }
         }
 
-
         /// <summary>
         /// Generate a new <see cref="DelayCommand"/>.
         /// </summary>

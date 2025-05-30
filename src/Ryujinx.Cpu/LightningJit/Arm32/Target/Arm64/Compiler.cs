@@ -745,6 +745,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
                             InstEmitSystem.WriteUdf(context.Writer, context.RegisterAllocator, context.TailMerger, context.GetReservedStackOffset(), pc, imm);
                             break;
                     }
+
                     context.LoadFromContext();
                     break;
                 case BranchType.ReadCntpct:

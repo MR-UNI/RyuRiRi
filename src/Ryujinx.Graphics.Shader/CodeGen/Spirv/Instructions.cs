@@ -1695,6 +1695,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                         varType = context.Properties.SharedMemories[bindingId.Value].Type & AggregateType.ElementTypeMask;
                         baseObj = context.SharedMemories[bindingId.Value];
                     }
+
                     break;
 
                 case StorageKind.Input:

@@ -98,6 +98,7 @@ namespace Ryujinx.Memory.Tracking
                     return result;
                 }
             }
+
             return result;
         }
 

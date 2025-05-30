@@ -109,6 +109,7 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
                     }
                 }
             }
+
             VirtualAmiibo.UpdateNickName(amiiboId, newName);
         }
 

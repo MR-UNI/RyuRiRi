@@ -545,6 +545,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                             context.GetReservedStackOffset(),
                             isTail: true);
                     }
+
                     break;
 
                 case InstName.Ret:
@@ -565,6 +566,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
 
                         context.TailMerger.AddUnconditionalReturn(writer, asm);
                     }
+
                     break;
 
                 case InstName.BCond:
@@ -709,6 +711,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                         writer.WriteInstructionAt(movedBranchIndex, (encoding & ~(branchMask << 5)) | (uint)((delta & branchMask) << 5));
                         WriteTailCallConstant(context, ref asm, blockIndex, targetAddress);
                     }
+
                     break;
 
                 default:

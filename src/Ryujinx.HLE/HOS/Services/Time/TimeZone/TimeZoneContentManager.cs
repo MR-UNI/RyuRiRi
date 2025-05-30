@@ -152,7 +152,6 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 
                     TimeZone.ParseTimeZoneBinary(ref tzRule, tzif.Get.AsStream());
 
-
                     TimeTypeInfo ttInfo;
                     if (tzRule.TimeCount > 0) // Find the current transition period
                     {
@@ -164,6 +163,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                                 fin = i;
                             }
                         }
+
                         ttInfo = tzRule.Ttis[tzRule.Types[fin]];
                     }
                     else if (tzRule.TypeCount >= 1) // Otherwise, use the first offset in TTInfo

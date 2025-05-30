@@ -122,14 +122,18 @@ namespace Ryujinx.Ava.Systems
 
         private static void HandlePlayReport(Horizon.Prepo.Types.PlayReport playReport)
         {
-            if (_discordClient is null) return;
-            if (!TitleIDs.CurrentApplication.Value.HasValue) return;
-            if (_discordPresencePlaying is null) return;
+            if (_discordClient is null)
+                return;
+            if (!TitleIDs.CurrentApplication.Value.HasValue)
+                return;
+            if (_discordPresencePlaying is null)
+                return;
 
             FormattedValue formattedValue =
                 PlayReports.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
 
-            if (!formattedValue.Handled) return;
+            if (!formattedValue.Handled)
+                return;
 
             _discordPresencePlaying.Details = TruncateToByteLength(
                 formattedValue.Reset

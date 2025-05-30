@@ -1096,6 +1096,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                                     {
                                         ipAddress = Dns.GetHostEntry(ldnServer).AddressList[0];
                                     }
+
                                     NetworkClient = new LdnMasterProxyClient(ipAddress.ToString(), SharedConstants.LanPlayPort, context.Device.Configuration);
                                 }
                                 catch (Exception ex)
@@ -1104,6 +1105,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                                     Logger.Error?.Print(LogClass.ServiceLdn, ex.Message);
                                     NetworkClient = new LdnDisabledClient();
                                 }
+
                                 break;
                             case MultiplayerMode.LdnMitm:
                                 NetworkClient = new LdnMitmClient(context.Device.Configuration);

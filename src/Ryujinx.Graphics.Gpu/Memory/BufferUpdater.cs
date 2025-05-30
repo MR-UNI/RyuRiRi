@@ -76,7 +76,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                         BufferRange range = new(_handle, 0, data.Length);
                         _renderer.Pipeline.SetUniformBuffers([new BufferAssignment(0, range)]);
                     }
-                };
+                }
 
                 _renderer.SetBufferData(_handle, _startOffset, data[_startOffset.._endOffset]);
 

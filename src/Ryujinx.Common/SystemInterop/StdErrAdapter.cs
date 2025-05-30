@@ -99,6 +99,5 @@ namespace Ryujinx.Common.SystemInterop
                 FileAccess.ReadWrite
             );
         }
-
     }
 }

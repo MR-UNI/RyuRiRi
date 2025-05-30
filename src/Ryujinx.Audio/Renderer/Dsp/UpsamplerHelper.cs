@@ -27,6 +27,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
                 {
                     return 1.0f;
                 }
+
                 return (MathF.Sin(MathF.PI * x) / (MathF.PI * x));
             }
 
@@ -141,6 +142,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
 
                         state.Phase = (state.Phase + 1) % 6;
                     }
+
                     break;
                 case 3.0f:
                     for (int i = 0; i < outputSampleCount; i++)
@@ -161,6 +163,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
 
                         state.Phase = (state.Phase + 1) % 3;
                     }
+
                     break;
                 case 1.5f:
                     // Upsample by 3 then decimate by 2.
@@ -183,6 +186,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
 
                         state.Phase = (state.Phase + 1) % 3;
                     }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state.Scale, null);

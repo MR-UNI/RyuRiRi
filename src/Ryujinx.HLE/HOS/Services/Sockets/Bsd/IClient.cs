@@ -38,6 +38,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 {
                     Logger.Warning?.Print(LogClass.ServiceBsd, $"Operation failed with error {errorCode}.");
                 }
+
                 result = -1;
             }
 
@@ -1056,7 +1057,6 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             return WriteBsdResult(context, newSockFd, errno);
         }
-
 
         [CommandCmif(29)] // 7.0.0+
         // RecvMMsg(u32 fd, u32 vlen, u32 flags, u32 reserved, nn::socket::TimeVal timeout) -> (i32 ret, u32 bsd_errno, buffer<bytes, 6> message);

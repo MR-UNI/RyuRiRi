@@ -259,6 +259,7 @@ namespace Ryujinx.HLE.HOS.Services.Ro
                     return baseAddress + size + GuardPagesSize <= memInfo.Address + memInfo.Size;
                 }
             }
+
             return false;
         }
 

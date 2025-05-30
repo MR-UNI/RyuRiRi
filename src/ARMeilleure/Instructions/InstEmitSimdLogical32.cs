@@ -268,6 +268,7 @@ namespace ARMeilleure.Instructions
                     {
                         m = context.BitwiseNot(m);
                     }
+
                     return context.BitwiseExclusiveOr(
                         context.BitwiseAnd(m,
                         context.BitwiseExclusiveOr(d, n)), d);

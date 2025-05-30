@@ -305,6 +305,7 @@ namespace Ryujinx.Memory.Tracking
                 {
                     OnDirty?.Invoke();
                 }
+
                 Parent?.SignalWrite();
             }
         }

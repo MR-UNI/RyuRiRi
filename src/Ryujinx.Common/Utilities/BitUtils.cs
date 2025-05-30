@@ -52,6 +52,7 @@ namespace Ryujinx.Common
                 retVal <<= bitFields[f]; // we shift the previous value
                 retVal += values[f];// and add our current value
             }
+
             return retVal;
         }
 
@@ -68,6 +69,7 @@ namespace Ryujinx.Common
                 int leftShift = 64 - curPos; // we figure how much left shift we gotta apply for the other numbers to overflow into oblivion
                 retArr[f] = (uint)((packed << leftShift) >> leftShift + lastEnd); // we do magic
             }
+
             return retArr;
         }
     }

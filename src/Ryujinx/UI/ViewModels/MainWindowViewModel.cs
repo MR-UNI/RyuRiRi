@@ -410,6 +410,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = newInterval;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged((nameof(CustomVSyncInterval)));
                 OnPropertyChanged((nameof(CustomVSyncIntervalPercentageText)));
             }
@@ -441,6 +442,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     AppHost.Device.CustomVSyncInterval = value;
                     AppHost.Device.UpdateVSyncInterval();
                 }
+
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageProxy));
                 OnPropertyChanged(nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
@@ -794,7 +796,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             AppsObservableList = apps;
         }
 
-
         private bool Filter(object arg)
         {
             if (arg is ApplicationData app)
@@ -1047,6 +1048,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     case ShaderCacheLoadingState shaderCacheState:
                         CacheLoadStatus = $"{current} / {total}";
@@ -1067,6 +1069,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 CacheLoadStatus = string.Empty;
                                 break;
                         }
+
                         break;
                     default:
                         throw new ArgumentException($"Unknown Progress Handler type {typeof(T)}");
@@ -1793,7 +1796,6 @@ namespace Ryujinx.Ava.UI.ViewModels
                 }
             }
         }
-
 
         public void ToggleFullscreen()
         {

@@ -5,7 +5,6 @@ using Ryujinx.Ava.UI.ViewModels;
 using System;
 using System.Linq;
 
-
 namespace Ryujinx.Ava.UI.Windows
 {
     public partial class GameSpecificSettingsWindow : StyleableAppWindow
@@ -37,7 +36,6 @@ namespace Ryujinx.Ava.UI.Windows
         {
             InputPage.InputView?.SaveCurrentProfile();
         }
-
 
         private void Load()
         {

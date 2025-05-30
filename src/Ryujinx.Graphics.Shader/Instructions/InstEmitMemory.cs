@@ -221,6 +221,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Min:
                     if (type == AtomSize.S32)
@@ -235,6 +236,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Max:
                     if (type == AtomSize.S32)
@@ -249,6 +251,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.And:
                     if (type == AtomSize.S32 || type == AtomSize.U32)
@@ -259,6 +262,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Or:
                     if (type == AtomSize.S32 || type == AtomSize.U32)
@@ -269,6 +273,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Xor:
                     if (type == AtomSize.S32 || type == AtomSize.U32)
@@ -279,6 +284,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 case AtomOp.Exch:
                     if (type == AtomSize.S32 || type == AtomSize.U32)
@@ -289,6 +295,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         context.TranslatorContext.GpuAccessor.Log($"Invalid reduction type: {type}.");
                     }
+
                     break;
                 default:
                     context.TranslatorContext.GpuAccessor.Log($"Invalid atomic operation: {op}.");

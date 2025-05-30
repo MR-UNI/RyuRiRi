@@ -260,6 +260,7 @@ namespace ARMeilleure.Diagnostics
                             DumpOperand(source);
                         }
                     }
+
                     break;
             }
 

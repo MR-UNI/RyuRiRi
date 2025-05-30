@@ -454,6 +454,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     case ".nca":
                         Logger.Info?.Print(LogClass.Application, "Loading as NCA.");
@@ -464,6 +465,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     case ".nsp":
                     case ".pfs0":
@@ -475,6 +477,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                     default:
                         Logger.Info?.Print(LogClass.Application, "Loading as Homebrew.");
@@ -495,6 +498,7 @@ namespace Ryujinx.Headless
 
                             return false;
                         }
+
                         break;
                 }
             }

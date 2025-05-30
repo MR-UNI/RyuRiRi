@@ -365,6 +365,7 @@ namespace Ryujinx.HLE.HOS.Applets
                             }
                         }
                     }
+
                     _interactiveSession.Push(InlineResponses.ReleasedUserWordInfo(_backgroundState));
                     break;
                 case InlineKeyboardRequest.SetCustomizeDic:
@@ -378,6 +379,7 @@ namespace Ryujinx.HLE.HOS.Applets
                     {
                         _keyboardBackgroundDic = reader.ReadStruct<SoftwareKeyboardCustomizeDic>();
                     }
+
                     break;
                 case InlineKeyboardRequest.SetCustomizedDictionaries:
                     // Read the custom dictionaries data.
@@ -390,6 +392,7 @@ namespace Ryujinx.HLE.HOS.Applets
                     {
                         _keyboardBackgroundDictSet = reader.ReadStruct<SoftwareKeyboardDictSet>();
                     }
+
                     break;
                 case InlineKeyboardRequest.Calc:
                     // The Calc request is used to communicate configuration changes and commands to the keyboard.

@@ -318,6 +318,7 @@ namespace ARMeilleure.Instructions
                         {
                             m = GetRrxC(context, m, setCarry);
                         }
+
                         break;
                 }
             }

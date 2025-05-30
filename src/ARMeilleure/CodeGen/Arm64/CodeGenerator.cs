@@ -1499,6 +1499,7 @@ namespace ARMeilleure.CodeGen.Arm64
                     return false;
                 }
             }
+
             if (memOp.Index != default)
             {
                 return false;

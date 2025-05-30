@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Common.Helper;
 using System;
 using System.Drawing;
@@ -124,6 +124,7 @@ namespace Ryujinx.Common.Utilities
                         break;
                 }
             }
+
             return Color.FromArgb(Convert.ToByte(255), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b));
         }
     }

@@ -40,6 +40,7 @@ namespace Ryujinx.HLE.HOS.Applets
             {
                 _normalSession.Push(BuildResponse(selected));
             }
+
             AppletStateChanged?.Invoke(this, null);
 
             _system.ReturnFocus();

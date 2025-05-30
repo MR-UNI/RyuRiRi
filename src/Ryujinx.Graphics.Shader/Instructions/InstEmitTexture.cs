@@ -504,6 +504,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
                             sourcesList.Add(ConstF(0));
                         }
+
                         break;
 
                     case TldsTarget.Texture1DLodLevel:
@@ -1143,6 +1144,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                             context.Copy(d, context.TextureQuerySize(type, flags, setAndBinding, compIndex, sources));
                         }
                     }
+
                     break;
 
                 case TexQuery.TexHeaderTextureType:
@@ -1174,6 +1176,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                             context.Copy(d, context.TextureQuerySamples(type, flags, setAndBinding, sources));
                         }
                     }
+
                     break;
 
                 default:

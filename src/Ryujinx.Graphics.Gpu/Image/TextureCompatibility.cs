@@ -775,6 +775,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                     {
                         return caps.SupportsCubemapView ? TextureViewCompatibility.Full : TextureViewCompatibility.CopyOnly;
                     }
+
                     break;
                 case Target.Cubemap:
                 case Target.CubemapArray:
@@ -785,6 +786,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                     {
                         return caps.SupportsCubemapView ? TextureViewCompatibility.Full : TextureViewCompatibility.CopyOnly;
                     }
+
                     break;
                 case Target.Texture2DMultisample:
                 case Target.Texture2DMultisampleArray:

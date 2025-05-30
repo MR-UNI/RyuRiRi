@@ -104,7 +104,8 @@ namespace Ryujinx.Input.SDL2
 
         public void SetLed(uint packedRgb)
         {
-            if (!Features.HasFlag(GamepadFeaturesFlag.Led)) return;
+            if (!Features.HasFlag(GamepadFeaturesFlag.Led))
+                return;
 
             byte red = packedRgb > 0 ? (byte)(packedRgb >> 16) : (byte)0;
             byte green = packedRgb > 0 ? (byte)(packedRgb >> 8) : (byte)0;
@@ -290,7 +291,6 @@ namespace Ryujinx.Input.SDL2
                 if (_buttonsUserMapping.Count == 0)
                     return rawState;
 
-
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                 foreach (ButtonMappingEntry entry in _buttonsUserMapping)
                 {
@@ -336,6 +336,7 @@ namespace Ryujinx.Input.SDL2
                     else
                         return _configuration.RightJoyconStick;
             }
+
             return null;
         }
 

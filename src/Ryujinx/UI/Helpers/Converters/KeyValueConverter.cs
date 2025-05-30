@@ -150,6 +150,7 @@ namespace Ryujinx.Ava.UI.Helpers
                     {
                         keyString = key.ToString();
                     }
+
                     break;
                 case GamepadInputId gamepadInputId:
                     if (_gamepadInputIdMap.TryGetValue(gamepadInputId, out localeKey))
@@ -160,6 +161,7 @@ namespace Ryujinx.Ava.UI.Helpers
                     {
                         keyString = gamepadInputId.ToString();
                     }
+
                     break;
                 case StickInputId stickInputId:
                     if (_stickInputIdMap.TryGetValue(stickInputId, out localeKey))
@@ -170,6 +172,7 @@ namespace Ryujinx.Ava.UI.Helpers
                     {
                         keyString = stickInputId.ToString();
                     }
+
                     break;
             }
 

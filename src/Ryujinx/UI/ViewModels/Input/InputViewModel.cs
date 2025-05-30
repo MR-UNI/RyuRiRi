@@ -163,6 +163,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     _playerId = PlayerIndex.Player1;
 
                 }
+
                 _isLoaded = false;
                 LoadConfiguration();
                 LoadDevice();
@@ -287,7 +288,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-
         public InputConfig Config { get; set; }
 
         public InputViewModel(UserControl owner) : this()
@@ -348,7 +348,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig), VisualStick);
             }
-
         }
 
         private void FindPairedDeviceInConfigFile()
@@ -369,9 +368,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     NotificationText = $"{LocaleManager.Instance[LocaleKeys.ControllerSettingsWaitingConnectDevice].Format(Config.Name, Config.Id)}";
                 }
             }
-            
         }
-
 
         private void MarkAsChanged()
         {
@@ -383,7 +380,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-
         public void UnlinkDevice()
         {
             // "Disabled" mode is available after unbinding the device
@@ -391,7 +387,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             NotificationIsVisible = false;
             IsModified = true;
         }
-
 
         public void LoadDevice()
         {
@@ -557,6 +552,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 return $"{GetShortGamepadName(gamepad.Name)} ({controllerNumber})";
             }
+
             string GetUniqueGamepadName(IGamepad gamepad, ref int controllerNumber)
             {
                 string name = GetGamepadName(gamepad, controllerNumber);
@@ -565,6 +561,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     controllerNumber++;
                     name = GetGamepadName(gamepad, controllerNumber);
                 }
+
                 return name;
             }
 
@@ -824,6 +821,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     {
                         ProfilesList.RemoveAt(index);
                     }
+
                     return;
                 }
 
@@ -911,7 +909,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                    await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
                }
            }
-           
         }
 
         public async void RemoveProfile()

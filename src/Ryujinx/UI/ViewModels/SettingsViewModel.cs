@@ -188,6 +188,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     VSyncMode = VSyncMode.Custom;
                 }
+
                 OnPropertyChanged();
             }
         }
@@ -839,7 +840,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AsyncRelayCommand ResetButton => Commands.Create(async () =>
         {
-            if (!WantsToReset) return;
+            if (!WantsToReset)
+                return;
             
             CloseWindow?.Invoke();
             ConfigurationState.Instance.LoadDefault();

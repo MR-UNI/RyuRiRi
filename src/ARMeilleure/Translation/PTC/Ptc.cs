@@ -835,8 +835,6 @@ namespace ARMeilleure.Translation.PTC
                 return;
             }
 
-
-
             int degreeOfParallelism = Environment.ProcessorCount;
 
             if (Optimizations.LowPower)
@@ -896,7 +894,6 @@ namespace ARMeilleure.Translation.PTC
                 }
             }
 
-
             List<Thread> threads = Enumerable.Range(0, degreeOfParallelism)
                 .Select(idx => 
                     new Thread(TranslateFuncs)
@@ -912,6 +909,7 @@ namespace ARMeilleure.Translation.PTC
             {
                 thread.Start();
             }
+
             foreach (Thread thread in threads)
             {
                 thread.Join();

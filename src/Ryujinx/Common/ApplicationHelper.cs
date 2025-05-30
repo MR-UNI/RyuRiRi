@@ -416,11 +416,11 @@ namespace Ryujinx.Ava.Common
                 Title = LocaleManager.Instance[LocaleKeys.FolderDialogExtractTitle]
             });
 
-            if (!result.HasValue) return;
+            if (!result.HasValue)
+                return;
             
             ExtractAoc(result.Value.Path.LocalPath, updateFilePath, updateName);
         }
-
 
         public static async Task ExtractSection(IStorageProvider storageProvider, NcaSectionType ncaSectionType, string titleFilePath, string titleName, int programIndex = 0)
         {
@@ -429,7 +429,8 @@ namespace Ryujinx.Ava.Common
                 Title = LocaleManager.Instance[LocaleKeys.FolderDialogExtractTitle]
             });
 
-            if (!result.HasValue) return;
+            if (!result.HasValue)
+                return;
 
             ExtractSection(result.Value.Path.LocalPath, ncaSectionType, titleFilePath, titleName, programIndex);
         }

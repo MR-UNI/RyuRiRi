@@ -205,7 +205,6 @@ namespace ARMeilleure.Translation.Cache
             return allocOffsetNew;
         }
 
-
         private static int AlignCodeSize(int codeSize)
         {
             return checked(codeSize + (CodeAlignment - 1)) & ~(CodeAlignment - 1);

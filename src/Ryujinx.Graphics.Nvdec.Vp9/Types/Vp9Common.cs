@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Video;
@@ -428,7 +428,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public void ReadFrameReferenceModeProbs(ref Reader r)
         {
             ref Vp9EntropyProbs fc = ref Fc.Value;
-
 
             if (ReferenceMode == ReferenceMode.Select)
             {

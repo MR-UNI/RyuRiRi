@@ -66,6 +66,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostCtrl
                         {
                             configArgument.CopyTo(arguments);
                         }
+
                         break;
                     case 0x1c:
                         result = CallIoctlMethod<uint>(EventSignal, arguments);
@@ -224,7 +225,6 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostCtrl
 
                 return result;
             }
-
         }
 
         private NvInternalResult EventUnregister(ref uint userEventId)

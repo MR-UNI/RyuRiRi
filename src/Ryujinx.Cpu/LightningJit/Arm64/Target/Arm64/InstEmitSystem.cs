@@ -283,6 +283,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                                 isTail);
                         }
                     }
+
                     break;
 
                 default:

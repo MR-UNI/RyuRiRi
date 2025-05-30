@@ -153,6 +153,7 @@ namespace Ryujinx.HLE.HOS.Services.Mii
             {
                 _mountCounter++;
             }
+
             return result;
         }
 

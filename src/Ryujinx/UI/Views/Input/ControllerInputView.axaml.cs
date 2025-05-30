@@ -83,7 +83,6 @@ namespace Ryujinx.Ava.UI.Views.Input
             }
         }
 
-
         private void Button_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton button)
@@ -239,6 +238,7 @@ namespace Ryujinx.Ava.UI.Views.Input
             {
                 gamepad?.ClearLed();
             }
+
             _currentAssigner?.Cancel();
             _currentAssigner = null;
         }

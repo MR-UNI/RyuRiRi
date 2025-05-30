@@ -112,6 +112,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                     {
                         src = Const(0);
                     }
+
                     break;
 
                 case SReg.TId:

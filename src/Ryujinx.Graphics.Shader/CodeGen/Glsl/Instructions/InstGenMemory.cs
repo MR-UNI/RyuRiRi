@@ -595,6 +595,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
                             varName = $"gl_out[{expr}].{varName}";
                         }
                     }
+
                     break;
 
                 default:

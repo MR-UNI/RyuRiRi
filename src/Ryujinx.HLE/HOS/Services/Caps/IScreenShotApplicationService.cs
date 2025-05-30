@@ -60,7 +60,6 @@ namespace Ryujinx.HLE.HOS.Services.Caps
             ulong screenshotDataPosition = context.Request.SendBuff[1].Position;
             ulong screenshotDataSize = context.Request.SendBuff[1].Size;
 
-
             // TODO: Parse the application data: At 0x00 it's UserData (Size of 0x400), at 0x404 it's a uint UserDataSize (Always empty for now).
             _ = context.Memory.GetSpan(applicationDataPosition, (int)applicationDataSize).ToArray();
 
@@ -88,7 +87,6 @@ namespace Ryujinx.HLE.HOS.Services.Caps
 
             ulong screenshotDataPosition = context.Request.SendBuff[1].Position;
             ulong screenshotDataSize = context.Request.SendBuff[1].Size;
-
 
             // TODO: Parse the UserIdList.
             _ = context.Memory.GetSpan(userIdListPosition, (int)userIdListSize).ToArray();

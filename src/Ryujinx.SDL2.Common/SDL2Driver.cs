@@ -38,7 +38,6 @@ namespace Ryujinx.SDL2.Common
         
         public event Action<int, SDL_JoystickPowerLevel> OnJoyBatteryUpdated;
 
-
         private ConcurrentDictionary<uint, Action<SDL_Event>> _registeredWindowHandlers;
 
         private readonly Lock _lock = new();
@@ -65,7 +64,6 @@ namespace Ryujinx.SDL2.Common
                 SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED, "0");
                 SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS, "1");
                 SDL_SetHint(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, "1");
-
 
                 // NOTE: As of SDL2 2.24.0, joycons are combined by default but the motion source only come from one of them.
                 // We disable this behavior for now.

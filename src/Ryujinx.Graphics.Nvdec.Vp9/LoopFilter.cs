@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
@@ -444,7 +444,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             const ulong AboveBorder = 0x000000ff000000ffUL;
             const ushort LeftBorderUv = 0x1111;
             const ushort AboveBorderUv = 0x000f;
-
 
             // The largest loopfilter we have is 16x16 so we use the 16x16 mask
             // for 32x32 transforms also.
@@ -1347,7 +1346,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             Span<int> mask4X4 = stackalloc int[Constants.MiBlockSize];
             Span<int> mask4X4Int = stackalloc int[Constants.MiBlockSize];
             Span<byte> lfl = stackalloc byte[Constants.MiBlockSize * Constants.MiBlockSize];
-
 
             for (int r = 0; r < Constants.MiBlockSize && miRow + r < cm.MiRows; r += rowStep)
             {

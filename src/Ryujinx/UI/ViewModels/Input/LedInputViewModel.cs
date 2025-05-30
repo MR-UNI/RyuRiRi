@@ -1,4 +1,4 @@
-﻿using Avalonia.Media;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Humanizer;
@@ -14,7 +14,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         
         public RelayCommand LedDisabledChanged => Commands.Create(() =>
         {
-            if (!EnableLedChanging) return;
+            if (!EnableLedChanging)
+                return;
 
             if (TurnOffLed)
                 ParentModel.SelectedGamepad.ClearLed();

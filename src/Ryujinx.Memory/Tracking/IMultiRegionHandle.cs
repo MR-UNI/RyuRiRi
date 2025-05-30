@@ -23,7 +23,6 @@ namespace Ryujinx.Memory.Tracking
         /// <param name="modifiedAction">Action to perform for modified regions</param>
         void QueryModified(Action<ulong, ulong> modifiedAction);
 
-
         /// <summary>
         /// Check if part of the region has been modified within a given range, and perform an action for each.
         /// The range is aligned to the level of granularity of the contained handles.

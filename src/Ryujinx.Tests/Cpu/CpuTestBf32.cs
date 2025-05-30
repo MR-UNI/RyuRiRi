@@ -65,6 +65,7 @@ namespace Ryujinx.Tests.Cpu
             {
                 widthm1 -= (lsb + widthm1) - 31;
             }
+
             uint opcode = 0xe7e00050u; // UBFX R0, R0, #0, #1
             opcode |= ((rd & 0xf) << 12);
             opcode |= ((rn & 0xf) << 0);
@@ -90,6 +91,7 @@ namespace Ryujinx.Tests.Cpu
             {
                 widthm1 -= (lsb + widthm1) - 31;
             }
+
             uint opcode = 0xe7a00050u; // SBFX R0, R0, #0, #1
             opcode |= ((rd & 0xf) << 12);
             opcode |= ((rn & 0xf) << 0);

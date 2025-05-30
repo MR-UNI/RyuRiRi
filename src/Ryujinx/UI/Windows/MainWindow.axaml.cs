@@ -330,6 +330,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to change vm.max_map_count. Process exited with code: {rc}");
                     }
+
                     break;
                 case UserResult.No:
                     rc = LinuxHelper.RunPkExec($"echo \"vm.max_map_count = {LinuxHelper.RecommendedVmMaxMapCount}\" > {LinuxHelper.SysCtlConfigPath} && sysctl -p {LinuxHelper.SysCtlConfigPath}");
@@ -341,6 +342,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Logger.Error?.Print(LogClass.Application, $"Unable to write new value for vm.max_map_count to config. Process exited with code: {rc}");
                     }
+
                     break;
             }
         }
@@ -421,6 +423,7 @@ namespace Ryujinx.Ava.UI.Windows
                     {
                         Dispatcher.UIThread.Post(() => RyujinxApp.MainWindow.ViewModel.UpdateAvailable = versions.Current < versions.Incoming);
                     }
+
                     break;
             }
         }
@@ -761,7 +764,8 @@ namespace Ryujinx.Ava.UI.Windows
 
         public static async Task ShowIntelMacWarningAsync()
         {
-            if (_intelMacWarningShown) return;
+            if (_intelMacWarningShown)
+                return;
             
             await Dispatcher.UIThread.InvokeAsync(async () => await ContentDialogHelper.CreateWarningDialog(
                 "Intel Mac Warning",
@@ -769,10 +773,11 @@ namespace Ryujinx.Ava.UI.Windows
 
             _intelMacWarningShown = true;
         }
-        
+
         private void InputElement_OnGotFocus(object sender, GotFocusEventArgs e)
         {
-            if (ViewModel.AppHost is null) return;
+            if (ViewModel.AppHost is null)
+                return;
             
             if (!_focusLoss.Active) 
                 return;
@@ -830,7 +835,7 @@ namespace Ryujinx.Ava.UI.Windows
                     }
             }
         }
-        
+
         private (FocusLostType Type, bool Active) _focusLoss;
 
         private void InputElement_OnLostFocus(object sender, RoutedEventArgs e)
@@ -838,7 +843,8 @@ namespace Ryujinx.Ava.UI.Windows
             if (ConfigurationState.Instance.FocusLostActionType.Value is FocusLostType.DoNothing)
                 return;
 
-            if (ViewModel.AppHost is null) return;
+            if (ViewModel.AppHost is null)
+                return;
 
             switch (ConfigurationState.Instance.FocusLostActionType.Value)
             {

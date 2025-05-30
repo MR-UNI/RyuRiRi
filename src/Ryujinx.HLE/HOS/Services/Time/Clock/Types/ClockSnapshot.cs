@@ -26,7 +26,6 @@ namespace Ryujinx.HLE.HOS.Services.Time.Clock
         public byte Type;
         public ushort Unknown;
 
-
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = Size)]
         private struct LocationNameStorageHolder
         {

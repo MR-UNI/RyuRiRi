@@ -440,12 +440,14 @@ namespace Ryujinx.Graphics.Shader.Decoders
                                     {
                                         context.SetUsedFeature(FeatureFlags.RtLayer);
                                     }
+
                                     break;
                                 case AttributeConsts.ViewportIndex:
                                     if (definitions.Stage != ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.ViewportIndex);
                                     }
+
                                     break;
                                 case AttributeConsts.ClipDistance0:
                                 case AttributeConsts.ClipDistance1:
@@ -459,12 +461,14 @@ namespace Ryujinx.Graphics.Shader.Decoders
                                     {
                                         context.SetClipDistanceWritten((attr - AttributeConsts.ClipDistance0) / 4);
                                     }
+
                                     break;
                                 case AttributeConsts.ViewportMask:
                                     if (definitions.Stage != ShaderStage.Fragment)
                                     {
                                         context.SetUsedFeature(FeatureFlags.ViewportMask);
                                     }
+
                                     break;
                             }
                         }
@@ -478,12 +482,14 @@ namespace Ryujinx.Graphics.Shader.Decoders
                                     {
                                         context.SetUsedFeature(FeatureFlags.FragCoordXY);
                                     }
+
                                     break;
                                 case AttributeConsts.InstanceId:
                                     if (definitions.Stage == ShaderStage.Vertex)
                                     {
                                         context.SetUsedFeature(FeatureFlags.InstanceId);
                                     }
+
                                     break;
                             }
                         }

@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 using System.Buffers.Binary;
@@ -149,6 +149,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 value <<= shift;
                 count -= shift;
             }
+
             Value = value;
             Count = count;
             Range = range;
@@ -208,6 +209,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     value <<= shift;
                     count -= shift;
                 }
+
                 return 1;
             }
 
@@ -218,6 +220,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 value <<= shift;
                 count -= shift;
             }
+
             return 0;
         }
 

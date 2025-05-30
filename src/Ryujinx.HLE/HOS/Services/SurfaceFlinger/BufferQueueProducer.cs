@@ -636,6 +636,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
                             status = Status.Success;
                         }
+
                         break;
                 }
             }
@@ -758,7 +759,6 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
                     return Status.BadValue;
                 }
 
-
                 if (maxBufferCount < Core.MaxBufferCountCached)
                 {
                     for (int slot = maxBufferCount; slot < Core.MaxBufferCountCached; slot++)
@@ -791,6 +791,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
                             {
                                 freeSlot = slot;
                             }
+
                             break;
                         default:
                             break;

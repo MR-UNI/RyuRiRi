@@ -181,7 +181,8 @@ namespace Ryujinx.Ava.Systems
 
             Optional<(Version, Version)> versionTuple = await CheckVersionAsync(showVersionUpToDate);
 
-            if (_running is false || !versionTuple.HasValue) return;
+            if (_running is false || !versionTuple.HasValue)
+                return;
 
             (Version currentVersion, Version newVersion) = versionTuple.Value;
 

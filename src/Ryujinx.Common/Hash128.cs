@@ -663,10 +663,13 @@ namespace Ryujinx.Common
                     {
                         acc = Xxh128Mix32b(acc, input[48..], input[^64..], secret[96..], seed);
                     }
+
                     acc = Xxh128Mix32b(acc, input[32..], input[^48..], secret[64..], seed);
                 }
+
                 acc = Xxh128Mix32b(acc, input[16..], input[^32..], secret[32..], seed);
             }
+
             acc = Xxh128Mix32b(acc, input, input[^16..], secret, seed);
 
             Hash128 h128 = new()

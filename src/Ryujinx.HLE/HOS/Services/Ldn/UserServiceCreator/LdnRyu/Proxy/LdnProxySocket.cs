@@ -115,7 +115,6 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
                         return _receiveQueue.Count > 0;
                     }
                 }
-
             }
         }
         public bool Writable => Connected || ProtocolType == ProtocolType.Udp;
@@ -256,6 +255,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
             {
                 _proxy.ReturnEphemeralPort(ProtocolType, (ushort)((IPEndPoint)LocalEndPoint).Port);
             }
+
             IPEndPoint asIPEndpoint = (IPEndPoint)localEP;
             if (asIPEndpoint.Port == 0)
             {

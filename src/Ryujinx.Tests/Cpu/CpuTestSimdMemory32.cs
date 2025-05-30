@@ -267,6 +267,7 @@ namespace Ryujinx.Tests.Cpu
                 opcode |= ((sd & 0x10) << 18);
                 opcode |= ((sd & 0xf) << 12);
             }
+
             opcode |= imm & 0xff;
 
             SingleOpcode(opcode, r0: _testOffset);
@@ -302,6 +303,7 @@ namespace Ryujinx.Tests.Cpu
                 opcode |= ((sd & 0x10) << 18);
                 opcode |= ((sd & 0xf) << 12);
             }
+
             opcode |= imm & 0xff;
 
             (V128 vec1, V128 vec2, _, _) = GenerateTestVectors();

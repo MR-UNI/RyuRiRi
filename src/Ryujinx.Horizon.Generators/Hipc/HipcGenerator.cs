@@ -353,6 +353,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                                 value = $"CommandSerialization.GetRef<{canonicalTypeName}>(processor.GetBufferRange({index}))";
                                 isNonSpanBuffer = true;
                             }
+
                             break;
                     }
 

@@ -367,6 +367,7 @@ namespace Ryujinx.Input.Motion.CemuHook
                             RemoveClient(clientId);
                         }
                     }
+
                     break;
             }
         }

@@ -66,6 +66,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertCallCopies(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.ConvertToFPUI:
@@ -81,6 +82,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 nextNode = PreAllocatorSystemV.InsertLoadArgumentCopy(cctx, ref buffer, block.Operations, preservedArgs, node);
                             }
+
                             break;
 
                         case Instruction.Negate:
@@ -88,6 +90,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 GenerateNegate(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Return:
@@ -99,6 +102,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertReturnCopy(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Tailcall:
@@ -110,6 +114,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 PreAllocatorSystemV.InsertTailcallCopies(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.VectorInsert8:
@@ -117,6 +122,7 @@ namespace ARMeilleure.CodeGen.X86
                             {
                                 GenerateVectorInsert8(block.Operations, node);
                             }
+
                             break;
 
                         case Instruction.Extended:
@@ -132,6 +138,7 @@ namespace ARMeilleure.CodeGen.X86
 
                                 node.SetSources([Const(stackOffset)]);
                             }
+
                             break;
                     }
                 }

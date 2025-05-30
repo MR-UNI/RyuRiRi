@@ -26,7 +26,8 @@ namespace Ryujinx.Ava.UI.Helpers
 
         private static RyuLogger.Log? GetLog(AvaLogLevel level, string area)
         {
-            if (!_avaloniaLogsEnabled) return null;
+            if (!_avaloniaLogsEnabled)
+                return null;
             
             return level switch
             {

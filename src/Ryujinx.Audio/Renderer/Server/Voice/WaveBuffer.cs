@@ -20,7 +20,6 @@ namespace Ryujinx.Audio.Renderer.Server.Voice
         /// <remarks>Only used by <see cref="Common.SampleFormat.Adpcm"/>.</remarks>
         public AddressInfo ContextAddressInfo;
 
-
         /// <summary>
         /// First sample to play of the wavebuffer.
         /// </summary>

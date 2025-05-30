@@ -157,6 +157,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                 {
                     _cpuMemory.GetSpan(currentRange.Address, size, tracked).CopyTo(data.Slice(offset, size));
                 }
+
                 offset += size;
             }
 
@@ -204,6 +205,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                     {
                         GetSpan(currentRange.Address, size).CopyTo(memorySpan.Slice(offset, size));
                     }
+
                     offset += size;
                 }
 
@@ -339,6 +341,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                     {
                         writeCallback(currentRange.Address, data.Slice(offset, size));
                     }
+
                     offset += size;
                 }
             }

@@ -213,6 +213,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 Mods.Remove(model);
                 OnPropertyChanged(nameof(ModCount));
             }
+
             Sort();
         }
 

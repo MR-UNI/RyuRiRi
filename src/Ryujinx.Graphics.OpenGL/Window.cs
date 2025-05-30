@@ -340,6 +340,7 @@ namespace Ryujinx.Graphics.OpenGL
                             _antiAliasing?.Dispose();
                             _antiAliasing = new SmaaPostProcessingEffect(_renderer, quality);
                         }
+
                         break;
                 }
             }
@@ -371,6 +372,7 @@ namespace Ryujinx.Graphics.OpenGL
                             _scalingFilter?.Dispose();
                             _scalingFilter = new FsrScalingFilter(_renderer);
                         }
+
                         _isLinear = false;
                         _scalingFilter.Level = _scalingFilterLevel;
 
@@ -382,6 +384,7 @@ namespace Ryujinx.Graphics.OpenGL
                             _scalingFilter?.Dispose();
                             _scalingFilter = new AreaScalingFilter(_renderer);
                         }
+
                         _isLinear = false;
 
                         RecreateUpscalingTexture();

@@ -129,7 +129,6 @@ namespace Ryujinx.Input.SDL2
                 return null;
             }
 
-
             return new SDL2JoyConPair(new SDL2JoyCon(leftGamepadHandle, gamepadsIds[leftIndex]),
                 new SDL2JoyCon(rightGamepadHandle, gamepadsIds[rightIndex]));
         }

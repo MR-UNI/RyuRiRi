@@ -179,8 +179,6 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
             _error.Set();
         }
 
-
-
         private void HandleInitialize(LdnHeader header, InitializeMessage initialize)
         {
             InitializeMemory = initialize;

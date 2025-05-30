@@ -550,7 +550,6 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                                 // Migration successful: deleting last_played from the metadata file.
                                 appMetadata.LastPlayedOld = default;
                             }
-
                         }
                     });
             
@@ -787,7 +786,6 @@ namespace Ryujinx.Ava.Systems.AppLibrary
                         Logger.Warning?.Print(LogClass.Application, $"Failed to get access to directory: \"{appDir}\"");
                     }
                 }
-
 
                 // Loops through applications list, creating a struct and then firing an event containing the struct for each application
                 foreach (string applicationPath in applicationPaths)
@@ -1148,7 +1146,8 @@ namespace Ryujinx.Ava.Systems.AppLibrary
 
         private bool AddAndAutoSelectUpdate(TitleUpdateModel update)
         {
-            if (update == null) return false;
+            if (update == null)
+                return false;
 
             DynamicData.Kernel.Optional<(TitleUpdateModel TitleUpdate, bool IsSelected)> currentlySelected = TitleUpdates.Items.FirstOrOptional(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);

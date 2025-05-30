@@ -163,6 +163,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             return null;
         }
 
@@ -313,6 +314,7 @@ namespace Ryujinx.Common.Collections
                     return node;
                 }
             }
+
             IntervalTreeNode<TKey, TValue> newNode = new(start, end, value, parent);
             if (newNode.Parent == null)
             {

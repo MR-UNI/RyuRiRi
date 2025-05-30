@@ -18,12 +18,9 @@ namespace Ryujinx.Cpu
         
         public long TickScalar { get; set; }
 
-
         private static long _acumElapsedTicks;
 
-
         private static long _lastElapsedTicks;
-
 
         private long ElapsedTicks
         {

@@ -155,7 +155,6 @@ namespace Ryujinx.Input.SDL2
             Dispose(true);
         }
 
-
         public void SetTriggerThreshold(float triggerThreshold)
         {
 
@@ -241,7 +240,6 @@ namespace Ryujinx.Input.SDL2
                 _stickUserMapping[(int)StickInputId.Left] = (StickInputId)_configuration.LeftJoyconStick.Joystick;
                 _stickUserMapping[(int)StickInputId.Right] = (StickInputId)_configuration.RightJoyconStick.Joystick;
 
-
                 switch (_joyConType)
                 {
                     case JoyConType.Left:
@@ -295,7 +293,6 @@ namespace Ryujinx.Input.SDL2
                 if (_buttonsUserMapping.Count == 0)
                     return rawState;
 
-
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                 foreach (ButtonMappingEntry entry in _buttonsUserMapping)
                 {
@@ -318,7 +315,6 @@ namespace Ryujinx.Input.SDL2
 
             return result;
         }
-
 
         private static float ConvertRawStickValue(short value)
         {
@@ -348,7 +344,6 @@ namespace Ryujinx.Input.SDL2
 
             return null;
         }
-
 
         public (float, float) GetStick(StickInputId inputId)
         {

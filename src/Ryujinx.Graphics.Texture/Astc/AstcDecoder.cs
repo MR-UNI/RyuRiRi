@@ -480,6 +480,7 @@ namespace Ryujinx.Graphics.Texture.Astc
             {
                 Debug.Assert(colorEndpointMode[i] < 16);
             }
+
             Debug.Assert(bitStream.BitsLeft == texelParams.GetPackedBitSize());
 
             // Decode both color data and texel weight data
@@ -1032,7 +1033,6 @@ namespace Ryujinx.Graphics.Texture.Astc
                         break;
                     }
 
-
                 case 1:
                     {
                         Span<uint> val = ReadUintColorValues(2, colorValues, ref colorValuesPosition);
@@ -1295,7 +1295,6 @@ namespace Ryujinx.Graphics.Texture.Astc
                                         break;
                                     }
 
-
                                 case 4:
                                     {
                                         c = 22;
@@ -1389,6 +1388,7 @@ namespace Ryujinx.Graphics.Texture.Astc
                                 default:
                                     throw new AstcDecoderException("Unsupported quint encoding for color values.");
                             }
+
                             break;
                         }
                 }

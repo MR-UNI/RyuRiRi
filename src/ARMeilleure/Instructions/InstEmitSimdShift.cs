@@ -1813,6 +1813,7 @@ namespace ARMeilleure.Instructions
                     ? EmitSignedSrcSatQ(context, shl, size, signedDst: true)
                     : EmitUnsignedSrcSatQ(context, shl, size, signedDst: false));
             }
+
             context.Branch(lblEnd);
 
             context.MarkLabel(lblEnd);
@@ -1850,6 +1851,7 @@ namespace ARMeilleure.Instructions
                 {
                     context.Copy(res, sar);
                 }
+
                 context.Branch(lblEnd);
 
                 context.MarkLabel(lblEnd);
@@ -1906,6 +1908,7 @@ namespace ARMeilleure.Instructions
                     Operand right = context.BitwiseOr(shr, context.ShiftRightUI(oneShl63UL, context.Subtract(shift, one)));
                     context.Copy(res, context.ConditionalSelect(isEqual, oneUL, right));
                 }
+
                 context.Branch(lblEnd);
 
                 context.MarkLabel(lblEnd);

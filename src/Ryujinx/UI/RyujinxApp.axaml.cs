@@ -48,7 +48,6 @@ namespace Ryujinx.Ava
         public static void SetTaskbarProgressValue(ulong current, ulong total) => MainWindow.PlatformFeatures.SetTaskBarProgressBarValue(current, total);
         public static void SetTaskbarProgressValue(long current, long total) => SetTaskbarProgressValue(Convert.ToUInt64(current), Convert.ToUInt64(total));
 
-
         public override void Initialize()
         {
             Name = FormatTitle();

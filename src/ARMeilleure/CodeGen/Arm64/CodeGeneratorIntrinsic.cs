@@ -509,7 +509,6 @@ namespace ARMeilleure.CodeGen.Arm64
 
                 context.Assembler.WriteInstruction(instruction, rd, rn);
             }
-
         }
 
         private static void GenerateScalarTernary(

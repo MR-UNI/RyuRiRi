@@ -210,7 +210,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             return true;
         }
 
-
         //   <class-enum-type> ::= <name>     # non-dependent type name, dependent type name, or dependent typename-specifier
         //                     ::= Ts <name>  # dependent elaborated type specifier using 'struct' or 'class'
         //                     ::= Tu <name>  # dependent elaborated type specifier using 'union'
@@ -570,6 +569,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         default:
                             return null;
                     }
+
                     break;
                 case 'F':
                     result = ParseFunctionType();
@@ -604,6 +604,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                         result = new NameTypeWithTemplateArguments(result, templateArguments);
                     }
+
                     break;
                 case 'P':
                     _position++;
@@ -680,6 +681,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             result = new NameTypeWithTemplateArguments(substitution, templateArgument);
                             break;
                         }
+
                         return substitution;
                     }
                     else
@@ -691,6 +693,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                     result = ParseClassEnumType();
                     break;
             }
+
             if (result != null)
             {
                 _substitutionList.Add(result);
@@ -723,6 +726,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                     return new SpecialName("guard variable for ", name);
                 }
+
                 return null;
             }
 
@@ -848,10 +852,12 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             {
                 qualifiers |= Cv.Restricted;
             }
+
             if (ConsumeIf("V"))
             {
                 qualifiers |= Cv.Volatile;
             }
+
             if (ConsumeIf("K"))
             {
                 qualifiers |= Cv.Const;
@@ -859,7 +865,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
             return qualifiers;
         }
-
 
         // <ref-qualifier>      ::= R              # & ref-qualifier
         // <ref-qualifier>      ::= O              # && ref-qualifier
@@ -874,6 +879,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             {
                 result = Reference.LValue;
             }
+
             return new SimpleReferenceType(result, null);
         }
 
@@ -1131,6 +1137,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         _position += 2;
                         return new NameType("operator[]");
                     }
+
                     return null;
                 case 'l':
                     switch (Peek(1))
@@ -1244,6 +1251,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         _position += 2;
                         return new NameType("operator?");
                     }
+
                     return null;
                 case 'r':
                     switch (Peek(1))
@@ -1269,6 +1277,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         _position += 2;
                         return new NameType("operator<=>");
                     }
+
                     return null;
                 case 'v':
                     // TODO: ::= v <digit> <source-name>    # vendor extended operator
@@ -1311,6 +1320,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 // TODO: ABI Tags
                 // throw new Exception("ABI Tags not implemented");
             }
+
             return result;
         }
 
@@ -1568,7 +1578,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             return new FoldExpression(isLeftFold, operatorName, new PackedTemplateParameterExpansion(expression), initializer);
         }
 
-
         //                ::= cv <type> <expression>                               # type (expression), conversion with one argument
         //                ::= cv <type> _ <expression>* E                          # type (expr-list), conversion with other than one argument
         private BaseNode ParseConversionExpression()
@@ -1643,7 +1652,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
             return new PrefixExpression(name, expression);
         }
-
 
         // <braced-expression> ::= <expression>
         //                     ::= di <field source-name> <braced-expression>    # .name = expr
@@ -1771,7 +1779,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             return new NewExpression(new NodeArray(expressions), typeNode, new NodeArray(initializers), isGlobal, isArray);
         }
 
-
         // <expression> ::= <unary operator-name> <expression>
         //              ::= <binary operator-name> <expression> <expression>
         //              ::= <ternary operator-name> <expression> <expression> <expression>
@@ -1872,6 +1879,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                             return new EnclosedExpression("alignof (", expression, ")");
                     }
+
                     return null;
                 case 'c':
                     switch (Peek(1))
@@ -1910,6 +1918,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                                 names.Add(expression);
                             }
+
                             return new CallExpression(callee, names);
                         case 'm':
                             _position += 2;
@@ -1920,6 +1929,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         case 'v':
                             return ParseConversionExpression();
                     }
+
                     return null;
                 case 'd':
                     BaseNode leftNode;
@@ -2001,6 +2011,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression("/=");
                     }
+
                     return null;
                 case 'e':
                     switch (Peek(1))
@@ -2015,6 +2026,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression("==");
                     }
+
                     return null;
                 case 'g':
                     switch (Peek(1))
@@ -2026,6 +2038,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression(">");
                     }
+
                     return null;
                 case 'i':
                     switch (Peek(1))
@@ -2059,8 +2072,10 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                                 bracedExpressions.Add(expression);
                             }
+
                             return new InitListExpression(null, bracedExpressions);
                     }
+
                     return null;
                 case 'l':
                     switch (Peek(1))
@@ -2078,6 +2093,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression("<");
                     }
+
                     return null;
                 case 'm':
                     switch (Peek(1))
@@ -2109,6 +2125,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                             return new PostfixExpression(expression, "--");
                     }
+
                     return null;
                 case 'n':
                     switch (Peek(1))
@@ -2136,6 +2153,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                             return new EnclosedExpression("noexcept (", expression, ")");
                     }
+
                     return null;
                 case 'o':
                     switch (Peek(1))
@@ -2152,6 +2170,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression("|=");
                     }
+
                     return null;
                 case 'p':
                     switch (Peek(1))
@@ -2196,6 +2215,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                             return new MemberExpression(leftNode, "->", rightNode);
                     }
+
                     return null;
                 case 'q':
                     if (Peek(1) == 'u')
@@ -2221,6 +2241,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                         return new ConditionalExpression(condition, leftNode, rightNode);
                     }
+
                     return null;
                 case 'r':
                     switch (Peek(1))
@@ -2253,6 +2274,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             _position += 2;
                             return ParseBinaryExpression(">>=");
                     }
+
                     return null;
                 case 's':
                     switch (Peek(1))
@@ -2324,6 +2346,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                                     return new EnclosedExpression("sizeof...(", sizeofParamNode, ")");
                             }
+
                             return null;
                         case 'P':
                             _position += 2;
@@ -2338,8 +2361,10 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                                 arguments.Add(argument);
                             }
+
                             return new EnclosedExpression("sizeof...(", new NodeArray(arguments), ")");
                     }
+
                     return null;
                 case 't':
                     switch (Peek(1))
@@ -2379,6 +2404,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                                 bracedExpressions.Add(expression);
                             }
+
                             return new InitListExpression(typeNode, bracedExpressions);
                         case 'r':
                             _position += 2;
@@ -2393,6 +2419,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                             return new ThrowExpression(expression);
                     }
+
                     return null;
             }
 
@@ -2499,6 +2526,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             return encoding;
                         }
                     }
+
                     return null;
                 case 'T':
                     return null;
@@ -2579,6 +2607,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 _forwardTemplateReferenceList.Add(forwardTemplateReference);
                 return forwardTemplateReference;
             }
+
             if (index >= _templateParamList.Count)
             {
                 return null;
@@ -2618,6 +2647,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                     {
                         templateArgument = new PackedTemplateParameter(((NodeArray)templateArgument).Nodes);
                     }
+
                     _templateParamList.Add(templateArgument);
                 }
                 else
@@ -2631,9 +2661,9 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                     args.Add(templateArgument);
                 }
             }
+
             return new TemplateArguments(args);
         }
-
 
         // <template-arg> ::= <type>                                             # type or template
         //                ::= X <expression> E                                   # expression
@@ -2670,6 +2700,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                         templateArguments.Add(templateArgument);
                     }
+
                     return new NodeArray(templateArguments, NodeType.PackedTemplateArgument);
                 // <type>
                 default:
@@ -2684,7 +2715,6 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             public bool FinishWithTemplateArguments;
             public bool CtorDtorConversion;
         }
-
 
         //   <unresolved-type> ::= <template-param> [ <template-args> ]            # T:: or T<X,Y>::
         //                     ::= <decltype>                                      # decltype(p)::
@@ -2713,6 +2743,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 _substitutionList.Add(declType);
                 return declType;
             }
+
             return ParseSubstitution();
         }
 
@@ -2735,6 +2766,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                 return new NameTypeWithTemplateArguments(sourceName, templateArguments);
             }
+
             return sourceName;
         }
 
@@ -2751,6 +2783,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             {
                 node = ParseUnresolvedType();
             }
+
             if (node == null)
             {
                 return null;
@@ -2794,6 +2827,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                 return new NameTypeWithTemplateArguments(operatorName, templateArguments);
             }
+
             return operatorName;
         }
 
@@ -2955,6 +2989,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                 return new StdQualifiedName(unresolvedName);
             }
+
             return ParseUnresolvedName(context);
         }
 
@@ -2998,6 +3033,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
                     continue;
                 }
+
                 char c = Peek();
 
                 // TODO: template args
@@ -3098,10 +3134,12 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 {
                     return null;
                 }
+
                 result = CreateNameNode(result, unqualifiedName, context);
 
                 _substitutionList.Add(result);
             }
+
             if (result == null || _substitutionList.Count == 0)
             {
                 return null;
@@ -3127,6 +3165,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 {
                     Consume();
                 }
+
                 ConsumeIf("_");
             }
         }
@@ -3329,6 +3368,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 {
                     return encoding;
                 }
+
                 return null;
             }
             else
@@ -3338,6 +3378,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 {
                     return type;
                 }
+
                 return null;
             }
         }

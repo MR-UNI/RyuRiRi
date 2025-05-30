@@ -296,7 +296,6 @@ namespace Ryujinx.HLE.HOS.Services.Ssl.SslService
 
             using WritableRegion region = context.Memory.GetWritableRegion(context.Request.ReceiveBuff[0].Position, (int)context.Request.ReceiveBuff[0].Size);
 
-
             // TODO: Better error management.
             result = _connection.Peek(out int peekCount, region.Memory);
 

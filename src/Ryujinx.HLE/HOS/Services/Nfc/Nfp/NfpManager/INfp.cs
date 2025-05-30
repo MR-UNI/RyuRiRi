@@ -145,6 +145,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     break;
                 }
             }
+
             _cancelTokenSource = new CancellationTokenSource();
             Task.Run(() =>
             {
@@ -196,6 +197,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     break;
                 }
             }
+
             return ResultCode.Success;
         }
 
@@ -877,6 +879,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     return ResultCode.Success;
                 }
             }
+
             return ResultCode.DeviceNotFound;
         }
 

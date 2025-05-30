@@ -610,7 +610,6 @@ namespace Ryujinx.Ava.Systems
             if (Device.Processes != null)
                 MainWindowViewModel.UpdateGameMetadata(Device.Processes.ActiveApplication.ProgramIdText);
 
-
             ConfigurationState.Instance.System.IgnoreMissingServices.Event -= UpdateIgnoreMissingServicesState;
             ConfigurationState.Instance.Graphics.AspectRatio.Event -= UpdateAspectRatioState;
             ConfigurationState.Instance.System.EnableDockedMode.Event -= UpdateDockedModeState;
@@ -1250,6 +1249,7 @@ namespace Ryujinx.Ava.Systems
                             {
                                 Device.ToggleTurbo();
                             }
+
                             break;
                         case KeyboardHotkeyState.Screenshot:
                             ScreenshotRequested = true;
@@ -1266,6 +1266,7 @@ namespace Ryujinx.Ava.Systems
                             {
                                 Pause();
                             }
+
                             break;
                         case KeyboardHotkeyState.ToggleMute:
                             if (Device.IsAudioMuted())

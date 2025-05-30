@@ -1,4 +1,4 @@
-﻿using MsgPack;
+using MsgPack;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,6 @@ namespace Ryujinx.Ava.Systems.PlayReport
         }
         
         public List<FormatterSpecBase> ValueFormatters { get; } = [];
-
 
         /// <summary>
         /// Add a value formatter to the current <see cref="GameSpec"/>

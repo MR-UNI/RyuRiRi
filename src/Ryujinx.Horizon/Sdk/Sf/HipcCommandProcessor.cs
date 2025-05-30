@@ -82,6 +82,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                                 _outMapAliasBuffersCount++;
                             }
                         }
+
                         break;
                     case CommandArgType.InCopyHandle:
                         _inCopyHandlesCount++;

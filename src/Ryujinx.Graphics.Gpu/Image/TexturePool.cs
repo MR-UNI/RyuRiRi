@@ -454,6 +454,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                                 // If this is null, a request was already queued to decrement reference.
                                 texture.DecrementReferenceCount(this, request.ID);
                             }
+
                             continue;
                         }
                     }

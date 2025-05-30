@@ -136,6 +136,7 @@ namespace Ryujinx.Common.Helper
                     {
                         return true;
                     }
+
                     Logger.Debug?.Print(LogClass.Application, $"Removing type association {ext}");
                     Registry.CurrentUser.DeleteSubKeyTree(keyString);
                     Logger.Debug?.Print(LogClass.Application, $"Removed type association {ext}");

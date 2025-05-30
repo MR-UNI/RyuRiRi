@@ -49,6 +49,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             {
                 extract[i] = 0x00;
             }
+
             seed.AddRange(extract.Take(append));
 
             // Add the magic bytes
@@ -70,6 +71,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             {
                 paddedUser[i] = (byte)(user[i] ^ key.XorPad[i]);
             }
+
             seed.AddRange(paddedUser);
 
             byte[] seedBytes = seed.ToArray();

@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Dsp;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -411,7 +411,6 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         private static void ReadIntraBlockModeInfo(ref Vp9Common cm, ref MacroBlockD xd, ref ModeInfo mi, ref Reader r)
         {
             BlockSize bsize = mi.SbType;
-
 
             switch (bsize)
             {

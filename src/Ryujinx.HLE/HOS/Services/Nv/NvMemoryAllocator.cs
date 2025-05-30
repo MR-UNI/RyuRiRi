@@ -124,6 +124,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
                             {
                                 targetPrevAddress = InvalidAddress;
                             }
+
                             node = node.Previous;
                             _tree.Remove(prevAddress);
                             _list.Remove(_dictionary[prevAddress]);
@@ -151,6 +152,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
                             {
                                 targetNextAddress = InvalidAddress;
                             }
+
                             _tree.Remove(nextAddress);
                             _list.Remove(_dictionary[nextAddress]);
                             _dictionary.Remove(nextAddress);
@@ -212,6 +214,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
                             Logger.Debug?.Print(LogClass.ServiceNv, $"Target address was invalid, set to ceiling of 0x{address:X}; resulted in 0x{targetAddress:X}");
                         }
                     }
+
                     while (address < AddressSpaceSize)
                     {
                         if (targetAddress != InvalidAddress)
@@ -278,6 +281,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
                         }
                     }
                 }
+
                 Logger.Debug?.Print(LogClass.ServiceNv, $"No suitable address range found; returning: 0x{InvalidAddress:X}.");
                 freeAddressStartPosition = InvalidAddress;
             }
@@ -303,6 +307,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
                     return !(gpuVa >= floorAddress && ((gpuVa + size) <= _tree.Get(floorAddress)));
                 }
             }
+
             return true;
         }
         #endregion

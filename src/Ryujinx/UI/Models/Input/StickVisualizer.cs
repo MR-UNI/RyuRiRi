@@ -158,14 +158,17 @@ namespace Ryujinx.Ava.UI.Models.Input
                             {
                                 leftBuffer.Item1 += 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.LeftStickLeft))
                             {
                                 leftBuffer.Item1 -= 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.LeftStickUp))
                             {
                                 leftBuffer.Item2 += 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.LeftStickDown))
                             {
                                 leftBuffer.Item2 -= 1;
@@ -175,14 +178,17 @@ namespace Ryujinx.Ava.UI.Models.Input
                             {
                                 rightBuffer.Item1 += 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.RightStickLeft))
                             {
                                 rightBuffer.Item1 -= 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.RightStickUp))
                             {
                                 rightBuffer.Item2 += 1;
                             }
+
                             if (snapshot.IsPressed((Key)KeyboardConfig.RightStickDown))
                             {
                                 rightBuffer.Item2 -= 1;
@@ -191,6 +197,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                             UiStickLeft = leftBuffer;
                             UiStickRight = rightBuffer;
                         }
+
                         break;
 
                     case DeviceType.Controller:
@@ -201,6 +208,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                             leftBuffer = controller.GetStick((StickInputId)GamepadConfig.LeftJoystick);
                             rightBuffer = controller.GetStick((StickInputId)GamepadConfig.RightJoystick);
                         }
+
                         break;
 
                     case DeviceType.None:

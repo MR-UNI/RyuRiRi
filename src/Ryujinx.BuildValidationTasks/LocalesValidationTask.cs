@@ -38,8 +38,6 @@ namespace Ryujinx.BuildValidationTasks
                 throw new JsonException(e.Message); //shorter and easier stacktrace
             }
 
-
-
             bool encounteredIssue = false;
 
             for (int i = 0; i < json.Locales.Count; i++)

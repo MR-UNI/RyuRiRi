@@ -461,7 +461,6 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             Result result = Result.Success;
 
-
             if (_fullTlsPages.TryGetValue(tlsPageAddr, out KTlsPageInfo pageInfo))
             {
                 // TLS page was full, free slot and move to free pages tree.

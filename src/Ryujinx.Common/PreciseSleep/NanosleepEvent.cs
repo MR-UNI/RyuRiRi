@@ -54,6 +54,7 @@ namespace Ryujinx.Common.PreciseSleep
                     // Too many threads on the pool.
                     return false;
                 }
+
                 _waitEvent.WaitOne(1);
                 _pool.IgnoreSignal();
 

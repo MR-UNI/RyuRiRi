@@ -544,6 +544,7 @@ namespace Ryujinx.Graphics.Vulkan
                             _effect?.Dispose();
                             _effect = new SmaaPostProcessingEffect(_gd, _device, quality);
                         }
+
                         break;
                 }
             }
@@ -575,6 +576,7 @@ namespace Ryujinx.Graphics.Vulkan
                             _scalingFilter?.Dispose();
                             _scalingFilter = new AreaScalingFilter(_gd, _device);
                         }
+
                         break;
                 }
             }

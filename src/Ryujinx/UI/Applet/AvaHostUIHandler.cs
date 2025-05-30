@@ -220,7 +220,6 @@ namespace Ryujinx.Ava.UI.Applet
             dialogCloseEvent.WaitOne();
         }
 
-
         public void ExecuteProgram(Switch device, ProgramSpecifyKind kind, ulong value)
         {
             device.Configuration.UserChannelPersistence.ExecuteProgram(kind, value);

@@ -198,6 +198,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
                     {
                         return; // If not blocking, then return when we encounter an event that is not ready yet.
                     }
+
                     _events.Dequeue();
                 }
             }

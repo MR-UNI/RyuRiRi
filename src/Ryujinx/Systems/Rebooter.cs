@@ -15,7 +15,6 @@ namespace Ryujinx.Ava.Systems
 
         private static readonly string _updateDir = Path.Combine(Path.GetTempPath(), "Ryujinx", "update");
 
-
         public static void RebootAppWithGame(string gamePath, List<string> args)
         {
             _ = Reboot(gamePath, args);

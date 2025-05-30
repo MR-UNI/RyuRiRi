@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Logging;
 using System;
@@ -116,7 +116,6 @@ namespace Ryujinx.Ava.Systems.PlayReport
             _specs.Add(spec);
             return this;
         }
-
 
         /// <summary>
         /// Runs the configured <see cref="FormatterSpec"/> for the specified game title ID.

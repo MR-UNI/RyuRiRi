@@ -118,7 +118,6 @@ namespace Ryujinx.Ava
                 => ProcessUnhandledException(sender, e.Exception, false); 
             AppDomain.CurrentDomain.ProcessExit += (_, _) => Exit();
 
-
             
             // Setup base data directory.
             AppDataManager.Initialize(CommandLineState.BaseDirPathArg);
@@ -191,7 +190,6 @@ namespace Ryujinx.Ava
             string localConfigurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ReleaseInformation.ConfigName);
             string appDataConfigurationPath = Path.Combine(AppDataManager.BaseDirPath, ReleaseInformation.ConfigName);
 
-
             // Now load the configuration as the other subsystems are now registered
             if (File.Exists(localConfigurationPath))
             {
@@ -256,7 +254,6 @@ namespace Ryujinx.Ava
             // Check if docked mode was overriden.
             if (CommandLineState.OverrideDockedMode.HasValue)
                 ConfigurationState.Instance.System.EnableDockedMode.Value = CommandLineState.OverrideDockedMode.Value;
-
 
             // Check if HideCursor was overridden.
             if (CommandLineState.OverrideHideCursor is not null)

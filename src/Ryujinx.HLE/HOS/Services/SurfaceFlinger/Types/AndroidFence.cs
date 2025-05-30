@@ -49,7 +49,6 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
                 Logger.Error?.Print(LogClass.SurfaceFlinger, "Android fence didn't signal in 3000 ms");
                 Wait(gpuContext, Timeout.InfiniteTimeSpan);
             }
-
         }
 
         public bool Wait(GpuContext gpuContext, TimeSpan timeout)

@@ -111,10 +111,12 @@ namespace Ryujinx.HLE.FileSystem
                     {
                         continue;
                     }
+
                     if (!ContentPath.TryGetRealPath(contentPathString, out string contentDirectory))
                     {
                         continue;
                     }
+
                     string registeredDirectory = Path.Combine(contentDirectory, "registered");
 
                     Directory.CreateDirectory(registeredDirectory);
@@ -464,6 +466,7 @@ namespace Ryujinx.HLE.FileSystem
                     {
                         InstallFromZip(archive, temporaryDirectory);
                     }
+
                     break;
                 case ".xci":
                     Xci xci = new(_virtualFileSystem.KeySet, file.AsStorage());
@@ -505,6 +508,7 @@ namespace Ryujinx.HLE.FileSystem
                     {
                         InstallKeysFromZip(archive, installDirectory);
                     }
+
                     break;
                 case ".keys":
                     VerifyKeysFile(keysSource);
@@ -522,6 +526,7 @@ namespace Ryujinx.HLE.FileSystem
             {
                 Directory.Delete(temporaryDirectory, true);
             }
+
             Directory.CreateDirectory(temporaryDirectory);
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
@@ -541,6 +546,7 @@ namespace Ryujinx.HLE.FileSystem
                     }
                 }
             }
+
             Directory.Delete(temporaryDirectory, true);
         }
 
@@ -1046,6 +1052,7 @@ namespace Ryujinx.HLE.FileSystem
                     default:
                         throw new FormatException($"Keys file name \"{fileName}\" not supported. Only \"prod.keys\", \"title.keys\", \"console.keys\", \"dev.keys\" are supported.");
                 }
+
                 if (!verified)
                 {
                     throw new FormatException($"Invalid \"{filePath}\" file format.");
@@ -1066,6 +1073,7 @@ namespace Ryujinx.HLE.FileSystem
                         return false;
                     }
                 }
+
                 return true;
             }
         }
@@ -1080,6 +1088,7 @@ namespace Ryujinx.HLE.FileSystem
                     return true;
                 }
             }
+
             return false;
         }
     }

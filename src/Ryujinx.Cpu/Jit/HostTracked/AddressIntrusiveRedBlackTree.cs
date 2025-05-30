@@ -29,6 +29,7 @@ namespace Ryujinx.Cpu.Jit.HostTracked
                     return node;
                 }
             }
+
             return null;
         }
     }

@@ -97,6 +97,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                                 newNode = CopyMasked(context.ResourceManager, newNode, location, component, dest, temp);
                             }
                         }
+
                         break;
                     case IoVariable.GlobalId:
                     case IoVariable.SubgroupEqMask:

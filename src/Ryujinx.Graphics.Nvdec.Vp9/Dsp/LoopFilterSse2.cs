@@ -1,4 +1,4 @@
-﻿using Ryujinx.Common.Memory;
+using Ryujinx.Common.Memory;
 using System;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
@@ -1262,6 +1262,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 flat = Sse2.CompareEqual(flat, zero);
                 flat = Sse2.And(flat, mask);
             }
+
             {
                 Vector128<short> four = Vector128.Create((short)4);
                 ArrayPtr<byte> src = s;

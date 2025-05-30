@@ -409,7 +409,11 @@ namespace Ryujinx.Tests.Memory
             PreparePages(granular, 3, PageSize * 3);
 
             // Add a precise action to the second and third handle in the multiregion.
-            granular.RegisterPreciseAction(PageSize * 4, PageSize * 2, (_, _, _) => { actionTriggered = true; return true; });
+            granular.RegisterPreciseAction(PageSize * 4, PageSize * 2, (_, _, _) =>
+            {
+                actionTriggered = true;
+                return true;
+            });
 
             // Precise write to first handle in the multiregion.
             _tracking.VirtualMemoryEvent(PageSize * 3, PageSize, true, precise: true);

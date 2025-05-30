@@ -768,6 +768,7 @@ namespace ARMeilleure.Instructions
                         {
                             m = InstEmitAluHelper.GetRrxC(context, m, setCarry);
                         }
+
                         break;
                 }
             }

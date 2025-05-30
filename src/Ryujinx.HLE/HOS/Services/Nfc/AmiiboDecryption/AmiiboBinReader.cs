@@ -145,6 +145,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             {
                 VirtualAmiibo.ApplicationBytes = applicationAreas;
             }
+
             VirtualAmiibo.NickName = nickName;
             return virtualAmiiboFile;
         }
@@ -161,6 +162,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, $"Error reading file: {ex.Message}");
                 return false;
             }
+
             string keyRetailBinPath = GetKeyRetailBinPath();
             if (string.IsNullOrEmpty(keyRetailBinPath))
             {
@@ -207,6 +209,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Failed to encrypt data correctly.");
                 return false;
             }
+
             inputFile = inputFile.Replace("_modified", string.Empty);
             // Save the encrypted data to file or return it for saving externally
             string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFile), Path.GetFileNameWithoutExtension(inputFile) + "_modified.bin");
@@ -235,6 +238,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, $"Error reading file: {ex.Message}");
                 return false;
             }
+
             string keyRetailBinPath = GetKeyRetailBinPath();
             if (string.IsNullOrEmpty(keyRetailBinPath))
             {
@@ -259,6 +263,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Invalid tag data length. Expected 540 bytes.");
                 return false;
             }
+
             byte[] encryptedData = amiiboDecryptor.EncryptAmiiboDump(oldData).GetData();
 
             if (encryptedData == null || encryptedData.Length != readBytes.Length)
@@ -266,6 +271,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Logger.Error?.Print(LogClass.ServiceNfp, "Failed to encrypt data correctly.");
                 return false;
             }
+
             inputFile = inputFile.Replace("_modified", string.Empty);
             // Save the encrypted data to file or return it for saving externally
             string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFile), Path.GetFileNameWithoutExtension(inputFile) + "_modified.bin");
@@ -316,6 +322,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                     else
                         crc >>= 1;
                 }
+
                 table[i] = crc;
             }
 
@@ -325,6 +332,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 byte index = (byte)((result & 0xFF) ^ b);
                 result = (result >> 8) ^ table[index];
             }
+
             return ~result;
         }
 
