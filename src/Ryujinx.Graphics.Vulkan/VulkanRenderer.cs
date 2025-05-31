@@ -1,8 +1,10 @@
 using Gommon;
+using Gommon;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
+using Ryujinx.Graphics.Gpu;
 using Ryujinx.Graphics.Shader;
 using Ryujinx.Graphics.Shader.Translation;
 using Ryujinx.Graphics.Vulkan.MoltenVK;
@@ -463,7 +465,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             BackgroundResources = new BackgroundResources(this, _device);
 
-            BufferManager = new BufferManager(this, _device);
+            BufferManager = new BufferManager(this, _device, IsMoltenVk, Ryujinx.Graphics.Gpu.GraphicsConfig.PreferMetalOptimizations, IsSharedMemory);
 
             SyncManager = new SyncManager(this, _device);
             _pipeline = new PipelineFull(this, _device);
@@ -598,7 +600,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         internal TextureStorage CreateTextureStorage(TextureCreateInfo info)
         {
-            return new TextureStorage(this, _device, info);
+            return new TextureStorage(this, _device, info, null, IsMoltenVk, Ryujinx.Graphics.Gpu.GraphicsConfig.PreferMetalOptimizations, IsSharedMemory);
         }
 
         public void DeleteBuffer(BufferHandle buffer)

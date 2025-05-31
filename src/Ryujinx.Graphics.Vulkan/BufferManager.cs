@@ -1,6 +1,5 @@
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
-using Ryujinx.Graphics.Gpu;
 using Silk.NET.Vulkan;
 using System;
 using System.Runtime.CompilerServices;
@@ -77,6 +76,9 @@ namespace Ryujinx.Graphics.Vulkan
             BufferUsageFlags.TransferDstBit;
 
         private readonly Device _device;
+        private readonly bool _isMoltenVk;
+        private readonly bool _preferMetalOptimizations;
+        private readonly bool _isSharedMemory;
 
         private readonly IdList<BufferHolder> _buffers;
 
@@ -86,9 +88,13 @@ namespace Ryujinx.Graphics.Vulkan
 
         public MemoryRequirements HostImportedBufferMemoryRequirements { get; }
 
-        public BufferManager(VulkanRenderer gd, Device device)
+        public BufferManager(VulkanRenderer gd, Device device, bool isMoltenVk, bool preferMetalOptimizations, bool isSharedMemory)
         {
             _device = device;
+            _isMoltenVk = isMoltenVk;
+            _preferMetalOptimizations = preferMetalOptimizations;
+            _isSharedMemory = isSharedMemory;
+
             _buffers = new IdList<BufferHolder>();
             StagingBuffer = new StagingBuffer(gd, this);
 
@@ -361,9 +367,9 @@ namespace Ryujinx.Graphics.Vulkan
                     _ => DefaultBufferMemoryFlags,
                 };
 
-                if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations)
+                if (_isMoltenVk && _preferMetalOptimizations)
                 {
-                    if (gd.IsSharedMemory) // UMA (Apple Silicon)
+                    if (_isSharedMemory) // UMA (Apple Silicon)
                     {
                         // For UMA, prefer host visible/coherent/cached for DeviceLocal or DeviceLocalMapped requests
                         // to ensure MoltenVK treats them as shared.

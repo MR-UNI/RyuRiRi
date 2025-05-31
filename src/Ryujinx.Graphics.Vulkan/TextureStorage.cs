@@ -1,6 +1,5 @@
 using Ryujinx.Common;
 using Ryujinx.Graphics.GAL;
-using Ryujinx.Graphics.Gpu;
 using Silk.NET.Vulkan;
 using System;
 using System.Collections.Generic;
@@ -40,6 +39,9 @@ namespace Ryujinx.Graphics.Vulkan
         private readonly VulkanRenderer _gd;
 
         private readonly Device _device;
+        private readonly bool _isMoltenVk;
+        private readonly bool _preferMetalOptimizations;
+        private readonly bool _isSharedMemory;
 
         private TextureCreateInfo _info;
 
@@ -72,10 +74,16 @@ namespace Ryujinx.Graphics.Vulkan
             VulkanRenderer gd,
             Device device,
             TextureCreateInfo info,
-            Auto<MemoryAllocation> foreignAllocation = null)
+            Auto<MemoryAllocation> foreignAllocation = null,
+            bool isMoltenVk = false,
+            bool preferMetalOptimizations = false,
+            bool isSharedMemory = false)
         {
             _gd = gd;
             _device = device;
+            _isMoltenVk = isMoltenVk;
+            _preferMetalOptimizations = preferMetalOptimizations;
+            _isSharedMemory = isSharedMemory;
             _info = info;
 
             bool isMsImageStorageSupported = gd.Capabilities.SupportsShaderStorageImageMultisample || !info.Target.IsMultisample();
@@ -136,9 +144,9 @@ namespace Ryujinx.Graphics.Vulkan
 
                 MemoryPropertyFlags textureMemoryFlags = DefaultImageMemoryFlags;
 
-                if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations)
+                if (_isMoltenVk && _preferMetalOptimizations)
                 {
-                    if (gd.IsSharedMemory) // UMA (Apple Silicon)
+                    if (_isSharedMemory) // UMA (Apple Silicon)
                     {
                         // For UMA, prefer host visible/coherent for textures to ensure MoltenVK treats them as shared.
                         // HostCachedBit can also be considered, similar to BufferManager.DefaultBufferMemoryFlags.
@@ -159,7 +167,7 @@ namespace Ryujinx.Graphics.Vulkan
                 if (allocation.Memory.Handle == 0UL)
                 {
                     // Fallback for UMA if cached allocation failed
-                    if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations && gd.IsSharedMemory && (textureMemoryFlags & MemoryPropertyFlags.HostCachedBit) != 0)
+                    if (_isMoltenVk && _preferMetalOptimizations && _isSharedMemory && (textureMemoryFlags & MemoryPropertyFlags.HostCachedBit) != 0)
                     {
                         textureMemoryFlags = MemoryPropertyFlags.HostVisibleBit | MemoryPropertyFlags.HostCoherentBit;
                         allocation = gd.MemoryAllocator.AllocateDeviceMemory(requirements, textureMemoryFlags, false);
@@ -220,7 +228,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 TextureCreateInfo info = NewCreateInfoWith(ref _info, format, _info.BytesPerPixel);
 
-                storage = new TextureStorage(_gd, _device, info, _allocationAuto);
+                storage = new TextureStorage(_gd, _device, info, _allocationAuto, _isMoltenVk, _preferMetalOptimizations, _isSharedMemory);
 
                 _aliasedStorages.Add(format, storage);
             }

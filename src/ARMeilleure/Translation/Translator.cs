@@ -181,7 +181,7 @@ namespace ARMeilleure.Translation
 
             address = func.Execute(Stubs.ContextWrapper, context);
 
-            EnqueueForDeletion(address, func);
+            EnqueueForDeletionStatic(_oldFuncs, address, func);
 
             return address;
         }
@@ -294,19 +294,14 @@ namespace ARMeilleure.Translation
             while (_threadCount != 0 && Queue.TryDequeue(out RejitRequest request))
             {
                 TranslatedFunction func = Translate(request.Address, request.Mode, highCq: true);
-                TranslatedFunction currentFunc = func; // Capture func for lambda
+                TranslatedFunction newFunc = func; // Capture func for lambda
+                var localOldFuncsQueue = _oldFuncs; // Capture _oldFuncs for lambda
 
-                Functions.AddOrUpdate(
-                    request.Address,
-                    // addValueFactory: Func<TKey, TArg, TValue>
-                    (key, queueArgument) => currentFunc, // queueArgument is _oldFuncs, not used in add factory
-                    // updateValueFactory: Func<TKey, TValue, TArg, TValue>
-                    (key, oldFuncVal, queueArgument) =>
-                    {
-                        queueArgument.Enqueue(new KeyValuePair<ulong, TranslatedFunction>(key, oldFuncVal));
-                        return currentFunc;
-                    },
-                    _oldFuncs); // Pass _oldFuncs as the factoryArgument
+                Functions.AddOrUpdate(request.Address, newFunc.GuestSize, newFunc, (key, oldFunc) =>
+                {
+                    EnqueueForDeletionStatic(localOldFuncsQueue, key, oldFunc);
+                    return newFunc;
+                });
 
                 if (_ptc.Profiler.Enabled)
                 {
@@ -512,7 +507,7 @@ namespace ARMeilleure.Translation
                 {
                     Functions.Remove(overlapAddress);
                     Volatile.Write(ref FunctionTable.GetValue(overlapAddress), FunctionTable.Fill);
-                    EnqueueForDeletion(overlapAddress, overlap);
+                    EnqueueForDeletionStatic(_oldFuncs, overlapAddress, overlap);
                 }
             }
 
@@ -525,9 +520,12 @@ namespace ARMeilleure.Translation
             Queue.Enqueue(guestAddress, mode);
         }
 
-        private void EnqueueForDeletion(ulong guestAddress, TranslatedFunction func)
+        private static void EnqueueForDeletionStatic(
+            ConcurrentQueue<KeyValuePair<ulong, TranslatedFunction>> oldFuncsQueue,
+            ulong guestAddress,
+            TranslatedFunction func)
         {
-            _oldFuncs.Enqueue(new(guestAddress, func));
+            oldFuncsQueue.Enqueue(new KeyValuePair<ulong, TranslatedFunction>(guestAddress, func));
         }
 
         private void ClearJitCache()
