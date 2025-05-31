@@ -294,12 +294,19 @@ namespace ARMeilleure.Translation
             while (_threadCount != 0 && Queue.TryDequeue(out RejitRequest request))
             {
                 TranslatedFunction func = Translate(request.Address, request.Mode, highCq: true);
+                TranslatedFunction currentFunc = func; // Capture func for lambda
 
-                Functions.AddOrUpdate(request.Address, func.GuestSize, func, (key, oldFunc) =>
-                {
-                    EnqueueForDeletion(key, oldFunc);
-                    return func;
-                });
+                Functions.AddOrUpdate(
+                    request.Address,
+                    // addValueFactory: Func<TKey, TArg, TValue>
+                    (key, queueArgument) => currentFunc, // queueArgument is _oldFuncs, not used in add factory
+                    // updateValueFactory: Func<TKey, TValue, TArg, TValue>
+                    (key, oldFuncVal, queueArgument) =>
+                    {
+                        queueArgument.Enqueue(new KeyValuePair<ulong, TranslatedFunction>(key, oldFuncVal));
+                        return currentFunc;
+                    },
+                    _oldFuncs); // Pass _oldFuncs as the factoryArgument
 
                 if (_ptc.Profiler.Enabled)
                 {

@@ -1,5 +1,6 @@
 using Ryujinx.Common;
 using Ryujinx.Graphics.GAL;
+using Ryujinx.Graphics.Gpu;
 using Silk.NET.Vulkan;
 using System;
 using System.Collections.Generic;
@@ -132,12 +133,43 @@ namespace Ryujinx.Graphics.Vulkan
             if (foreignAllocation == null)
             {
                 gd.Api.GetImageMemoryRequirements(device, _image, out MemoryRequirements requirements);
-                MemoryAllocation allocation = gd.MemoryAllocator.AllocateDeviceMemory(requirements, DefaultImageMemoryFlags);
+
+                MemoryPropertyFlags textureMemoryFlags = DefaultImageMemoryFlags;
+
+                if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations)
+                {
+                    if (gd.IsSharedMemory) // UMA (Apple Silicon)
+                    {
+                        // For UMA, prefer host visible/coherent for textures to ensure MoltenVK treats them as shared.
+                        // HostCachedBit can also be considered, similar to BufferManager.DefaultBufferMemoryFlags.
+                        textureMemoryFlags = MemoryPropertyFlags.HostVisibleBit | MemoryPropertyFlags.HostCoherentBit | MemoryPropertyFlags.HostCachedBit;
+
+                        // Fallback if HostCachedBit is not supported (similar to BufferManager logic but simplified here)
+                        // This might require trying allocation and catching failure to switch flags,
+                        // or checking memory type availability beforehand. For simplicity, we'll try with cached first.
+                        // A more robust solution would involve checking heap properties or handling allocation failure.
+                    }
+                    // else dGPU:
+                    // For dGPU, DefaultImageMemoryFlags (DeviceLocalBit) is generally fine for a first pass.
+                    // More complex logic based on info.UsageFlags could be added for MTLStorageModeManaged if needed.
+                }
+
+                MemoryAllocation allocation = gd.MemoryAllocator.AllocateDeviceMemory(requirements, textureMemoryFlags, false);
 
                 if (allocation.Memory.Handle == 0UL)
                 {
-                    gd.Api.DestroyImage(device, _image, null);
-                    throw new Exception("Image initialization failed.");
+                    // Fallback for UMA if cached allocation failed
+                    if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations && gd.IsSharedMemory && (textureMemoryFlags & MemoryPropertyFlags.HostCachedBit) != 0)
+                    {
+                        textureMemoryFlags = MemoryPropertyFlags.HostVisibleBit | MemoryPropertyFlags.HostCoherentBit;
+                        allocation = gd.MemoryAllocator.AllocateDeviceMemory(requirements, textureMemoryFlags, false);
+                    }
+
+                    if (allocation.Memory.Handle == 0UL)
+                    {
+                        gd.Api.DestroyImage(device, _image, null);
+                        throw new Exception($"Image initialization failed. Flags: {textureMemoryFlags}");
+                    }
                 }
 
                 _size = requirements.Size;

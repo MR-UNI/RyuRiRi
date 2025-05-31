@@ -1,5 +1,6 @@
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
+using Ryujinx.Graphics.Gpu;
 using Silk.NET.Vulkan;
 using System;
 using System.Runtime.CompilerServices;
@@ -359,6 +360,25 @@ namespace Ryujinx.Graphics.Vulkan
                     BufferAllocationType.DeviceLocalMapped => DeviceLocalMappedBufferMemoryFlags,
                     _ => DefaultBufferMemoryFlags,
                 };
+
+                if (gd.IsMoltenVk && GraphicsConfig.PreferMetalOptimizations)
+                {
+                    if (gd.IsSharedMemory) // UMA (Apple Silicon)
+                    {
+                        // For UMA, prefer host visible/coherent/cached for DeviceLocal or DeviceLocalMapped requests
+                        // to ensure MoltenVK treats them as shared.
+                        if (type == BufferAllocationType.DeviceLocal || type == BufferAllocationType.DeviceLocalMapped)
+                        {
+                            allocateFlags = DefaultBufferMemoryFlags;
+                            // Attempt DefaultBufferMemoryNoCacheFlags if DefaultBufferMemoryFlags fails due to HostCachedBit.
+                            // This is implicitly handled by the fallback loop, but we can be explicit if needed.
+                        }
+                    }
+                    // else dGPU:
+                    // For DeviceLocalMapped on dGPU, ensure flags are appropriate.
+                    // The default switch case already handles DeviceLocalMappedBufferMemoryFlags.
+                    // More advanced logic for specific usage patterns could be added here if needed.
+                }
 
                 // If an allocation with this memory type fails, fall back to the previous one.
                 try
