@@ -100,6 +100,7 @@ namespace Ryujinx.Graphics.Vulkan
         internal bool IsMoltenVk { get; private set; }
         internal bool IsTBDR { get; private set; }
         internal bool IsSharedMemory { get; private set; }
+        private readonly bool _preferMetalOptimizationsConfig;
 
         public string GpuVendor { get; private set; }
         public string GpuDriver { get; private set; }
@@ -110,10 +111,11 @@ namespace Ryujinx.Graphics.Vulkan
 
         public event EventHandler<ScreenCaptureImageInfo> ScreenCaptured;
 
-        public VulkanRenderer(Vk api, Func<Instance, Vk, SurfaceKHR> getSurface, Func<string[]> requiredExtensionsFunc, string preferredGpuId)
+        public VulkanRenderer(Vk api, Func<Instance, Vk, SurfaceKHR> getSurface, Func<string[]> requiredExtensionsFunc, string preferredGpuId, bool preferMetalOptimizationsConfigValue)
         {
             _getSurface = getSurface;
             _getRequiredExtensions = requiredExtensionsFunc;
+            _preferMetalOptimizationsConfig = preferMetalOptimizationsConfigValue;
             _preferredGpuId = preferredGpuId;
             Api = api;
             Shaders = [];
@@ -128,8 +130,9 @@ namespace Ryujinx.Graphics.Vulkan
         public static VulkanRenderer Create(
             string preferredGpuId,
             Func<Instance, Vk, SurfaceKHR> getSurface,
-            Func<string[]> getRequiredExtensions
-        ) => new(Vk.GetApi(), getSurface, getRequiredExtensions, preferredGpuId);
+            Func<string[]> getRequiredExtensions,
+            bool preferMetalOptimizationsConfigValue
+        ) => new(Vk.GetApi(), getSurface, getRequiredExtensions, preferredGpuId, preferMetalOptimizationsConfigValue);
 
         private unsafe void LoadFeatures(uint maxQueueCount, uint queueFamilyIndex)
         {
@@ -465,7 +468,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             BackgroundResources = new BackgroundResources(this, _device);
 
-            BufferManager = new BufferManager(this, _device, IsMoltenVk, Ryujinx.Graphics.Gpu.GraphicsConfig.PreferMetalOptimizations, IsSharedMemory);
+            BufferManager = new BufferManager(this, _device, IsMoltenVk, _preferMetalOptimizationsConfig, IsSharedMemory);
 
             SyncManager = new SyncManager(this, _device);
             _pipeline = new PipelineFull(this, _device);
@@ -600,7 +603,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         internal TextureStorage CreateTextureStorage(TextureCreateInfo info)
         {
-            return new TextureStorage(this, _device, info, null, IsMoltenVk, Ryujinx.Graphics.Gpu.GraphicsConfig.PreferMetalOptimizations, IsSharedMemory);
+            return new TextureStorage(this, _device, info, null, IsMoltenVk, _preferMetalOptimizationsConfig, IsSharedMemory);
         }
 
         public void DeleteBuffer(BufferHandle buffer)
