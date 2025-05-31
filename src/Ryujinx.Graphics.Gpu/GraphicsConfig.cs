@@ -77,12 +77,7 @@ namespace Ryujinx.Graphics.Gpu
         /// Enables or suggests optimizations specifically for the Metal graphics backend on macOS.
         /// The effect of this flag depends on specific optimizations implemented within the renderer.
         /// </summary>
-        public static bool PreferMetalOptimizations;
-
-        static GraphicsConfig()
-        {
-            PreferMetalOptimizations = Ryujinx.Ava.Systems.Configuration.ConfigurationState.Instance.Graphics.PreferMetalOptimizations.Value;
-        }
+        public static bool PreferMetalOptimizations = false;
     }
 #pragma warning restore CA2211
 }
