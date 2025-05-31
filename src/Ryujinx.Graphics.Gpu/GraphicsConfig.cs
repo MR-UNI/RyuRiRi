@@ -72,6 +72,17 @@ namespace Ryujinx.Graphics.Gpu
         /// Enables or disables color space passthrough, if available.
         /// </summary>
         public static bool EnableColorSpacePassthrough = false;
+
+        /// <summary>
+        /// Enables or suggests optimizations specifically for the Metal graphics backend on macOS.
+        /// The effect of this flag depends on specific optimizations implemented within the renderer.
+        /// </summary>
+        public static bool PreferMetalOptimizations;
+
+        static GraphicsConfig()
+        {
+            PreferMetalOptimizations = Ryujinx.Ava.Systems.Configuration.ConfigurationState.Instance.Graphics.PreferMetalOptimizations.Value;
+        }
     }
 #pragma warning restore CA2211
 }

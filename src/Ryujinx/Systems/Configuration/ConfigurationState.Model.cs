@@ -405,6 +405,13 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// </summary>
             public ReactiveObject<bool> UseHypervisor { get; private set; }
 
+            /// <summary>
+            /// Maximum number of non-ephemeral VCPUs to keep in the Apple Hypervisor pool.
+            /// Higher values may reduce VCPU creation/destruction overhead for thread-heavy games but consume more resources.
+            /// Only affects macOS with Apple Hypervisor.
+            /// </summary>
+            public ReactiveObject<int> HypervisorMaxActiveVcpus { get; private set; }
+
             public SystemSection()
             {
                 Language = new ReactiveObject<Language>();
@@ -456,6 +463,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                 AudioVolume.LogChangesToValue(nameof(AudioVolume));
                 UseHypervisor = new ReactiveObject<bool>();
                 UseHypervisor.LogChangesToValue(nameof(UseHypervisor));
+                HypervisorMaxActiveVcpus = new ReactiveObject<int>(4);
+                HypervisorMaxActiveVcpus.LogChangesToValue(nameof(HypervisorMaxActiveVcpus));
             }
         }
 
@@ -603,6 +612,12 @@ namespace Ryujinx.Ava.Systems.Configuration
             /// </summary>
             public ReactiveObject<string> PreferredGpu { get; private set; }
 
+            /// <summary>
+            /// Enables or suggests optimizations specifically for the Metal graphics backend on macOS.
+            /// The effect of this flag depends on specific optimizations implemented within the renderer.
+            /// </summary>
+            public ReactiveObject<bool> PreferMetalOptimizations { get; private set; }
+
             public GraphicsSection()
             {
                 BackendThreading = new ReactiveObject<BackendThreading>();
@@ -640,6 +655,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                 ScalingFilter.LogChangesToValue(nameof(ScalingFilter));
                 ScalingFilterLevel = new ReactiveObject<int>();
                 ScalingFilterLevel.LogChangesToValue(nameof(ScalingFilterLevel));
+                PreferMetalOptimizations = new ReactiveObject<bool>(OperatingSystem.IsMacOS());
+                PreferMetalOptimizations.LogChangesToValue(nameof(PreferMetalOptimizations));
             }
         }
 

@@ -1,6 +1,8 @@
 using System;
+using System;
 using System.Runtime.Versioning;
 using System.Threading;
+using Ryujinx.Ava.Systems;
 
 namespace Ryujinx.Cpu.AppleHv
 {
@@ -17,17 +19,17 @@ namespace Ryujinx.Cpu.AppleHv
         // VCPUs for threads that are not running frequently "ephemeral", but this is
         // complicated because VCPUs can only be destroyed by the same thread that created them.
 
-        private const int MaxActiveVcpus = 4;
-
         public static readonly HvVcpuPool Instance = new();
 
         private int _totalVcpus;
         private readonly int _maxVcpus;
+        private readonly int _configuredMaxActiveVcpus;
 
         public HvVcpuPool()
         {
             HvApi.hv_vm_get_max_vcpu_count(out uint maxVcpuCount).ThrowOnError();
             _maxVcpus = (int)maxVcpuCount;
+            _configuredMaxActiveVcpus = Configuration.ConfigurationState.Instance.System.HypervisorMaxActiveVcpus.Value;
         }
 
         public HvVcpu Create(HvAddressSpace addressSpace, IHvExecutionContext shadowContext, Action<IHvExecutionContext> swapContext)
@@ -68,7 +70,7 @@ namespace Ryujinx.Cpu.AppleHv
         private unsafe HvVcpu CreateNew(HvAddressSpace addressSpace, IHvExecutionContext shadowContext)
         {
             int newCount = IncrementVcpuCount();
-            bool isEphemeral = newCount > _maxVcpus - MaxActiveVcpus;
+            bool isEphemeral = newCount > _maxVcpus - _configuredMaxActiveVcpus;
 
             // Create VCPU.
             HvVcpuExit* exitInfo = null;
